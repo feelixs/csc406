@@ -8,48 +8,35 @@
 #include "dolphin.hpp"
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <string>
+#include <cstring>
+#include <cstdlib>
 
 void loadShape(float** shapePoints, const char* filename) {
-    // Open the file for reading
-    std::ifstream inputFile(filename);
-
-    if (!inputFile.is_open()) {
-        std::cerr << "Error: Unable to open file " << filename << std::endl;
+    FILE *file_data;
+    long sizeb;
+    char * buff;
+    size_t size;
+    
+    file_data = fopen(filename, "rb");
+    
+    if (file_data == nullptr) {
+        std::cout << "Error: Unable to open file " << filename << std::endl;
         return;
     }
-
-    std::string line;
-    int pointIndex = 0;
-
-    // Read and process each line in the file
-    while (std::getline(inputFile, line)) {
-        std::istringstream iss(line);
-        std::string token;
-
-        while (std::getline(iss, token, ',')) {
-            if (pointIndex >= 2) {
-                std::cerr << "Error: Too many values in the file." << std::endl;
-                inputFile.close();
-                return;
-            }
-
-            try {
-                float value = std::stof(token);
-                shapePoints[pointIndex][pointIndex] = value;
-                pointIndex++;
-            } catch (const std::invalid_argument& e) {
-                std::cerr << "Error: Invalid float value in the file." << std::endl;
-                inputFile.close();
-                return;
-            }
-        }
+    
+    fseek(file_data , 0 , SEEK_END);
+    sizeb = ftell(file_data);
+    rewind (file_data);
+    buff = (char*) malloc (sizeof(char)*sizeb);
+    size = fread (buff,1,sizeb,file_data);
+    
+    for (int i = 0; i < size; i++) {
+        std::cout << buff[i];
     }
-
-    // Close the file
-    inputFile.close();
+    
+    fclose(file_data);
 }
+
 
 
 void initShape(float** shapePoints) {

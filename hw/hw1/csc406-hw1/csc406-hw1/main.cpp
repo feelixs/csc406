@@ -242,7 +242,8 @@ void myInit(void)
        circlePts[k][0] = cosf(theta);
        circlePts[k][1] = sinf(theta);
    }
-    
+    loadShape(shapePntBuff, "/Users/michaelfelix/Documents/GitHub/csc406/hw/hw1/csc406-hw1/csc406-hw1/shapeCoords.txt");
+    exit(0);
     initShape(shapePntBuff);
 }
 

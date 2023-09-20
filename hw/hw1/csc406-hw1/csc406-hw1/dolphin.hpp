@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 
+void loadShape(float** shapePoints, const char* filename);
 void initShape(float** shapePoints);
 
 #endif /* dolphin_hpp */
