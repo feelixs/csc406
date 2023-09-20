@@ -10,6 +10,7 @@
 #include <cmath>
 #include <cstdio>
 #include <unistd.h>
+#include <iostream>
 #include "glPlatform.h"
 #include "dolphin.hpp"
 
@@ -51,10 +52,20 @@ void drawDolphin(float centerX, float centerY, float angle, float radiusX, float
     glScalef(radiusX, radiusY, 1.f);
     
     glColor3f(r, g, b);
+    
+    /*
     glBegin(GL_POLYGON);
-           for (int k=0; k<numCirclePts; k++)
-               glVertex2f(circlePts[k][0],
-                          circlePts[k][1]);
+    for (int k=0; k<numCirclePts; k++) {
+        //cout << circlePts[k][0] << ", " << circlePts[k][1] << endl;
+        glVertex2f(circlePts[k][0], circlePts[k][1]);
+    }
+     */
+
+    glBegin(GL_POLYGON);
+    for (int k=0; k<numShapePoints; k++) {
+        //cout << circlePts[k][0] << ", " << circlePts[k][1] << endl;
+        glVertex2f(shapePntBuff[k][0], shapePntBuff[k][1]);
+    }
     
     glEnd();
     glPopMatrix();
