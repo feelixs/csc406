@@ -47,16 +47,14 @@ void drawDolphin(float centerX, float centerY, float angle, float radiusX, float
     glPushMatrix();
     glTranslatef(centerX, centerY, 0.f);
     
-    
     glRotatef(angle, 0.f, 0.f, 1.f);
-    
     glScalef(radiusX, radiusY, 1.f);
     
     glColor3f(r, g, b);
     glBegin(GL_POLYGON);
-           for (int k=0; k<numShapePoints; k++)
-               glVertex2f(shapePntBuff[k][0],
-                          shapePntBuff[k][1]);
+           for (int k=0; k<numCirclePts; k++)
+               glVertex2f(circlePts[k][0],
+                          circlePts[k][1]);
     
     glEnd();
     glPopMatrix();
