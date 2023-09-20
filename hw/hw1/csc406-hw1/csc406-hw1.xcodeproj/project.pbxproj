@@ -26,6 +26,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA4BE2232ABB4F100009A929 /* shapeCoords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = shapeCoords.txt; sourceTree = "<group>"; };
 		AAC8DEE02ABB2202003FFBCB /* csc406-hw1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "csc406-hw1"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAC8DEE32ABB2202003FFBCB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AAC8DEEB2ABB220D003FFBCB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -68,6 +69,7 @@
 		AAC8DEE22ABB2202003FFBCB /* csc406-hw1 */ = {
 			isa = PBXGroup;
 			children = (
+				AA4BE2232ABB4F100009A929 /* shapeCoords.txt */,
 				AAC8DEEF2ABB222F003FFBCB /* glPlatform.h */,
 				AAC8DEE32ABB2202003FFBCB /* main.cpp */,
 				AAC8DEF02ABB2F44003FFBCB /* dolphin.cpp */,
