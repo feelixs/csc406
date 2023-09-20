@@ -11,21 +11,20 @@
 #include <cstdio>
 #include <unistd.h>
 #include "glPlatform.h"
-
+#include "dolphin.hpp"
 
 using namespace std;
 
-void glutDisplay(void);
-void glutInit(void);
-void glutIdle(void);
+void myDisplay(void);
+void myInit(void);
+void myIdle(void);
 void mouseHandler(int b, int s, int x, int y);
 void keyHandler(unsigned char c, int x, int y);
 void menuHandler(int value);
 void submenuHandler(int colorIndex);
 void timerBg(int val);
 void resizeFunc(int w, int h);
-void drawDisk(float centerX, float centerY, float radius, float r, float g, float b);
-void drawEllipse(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b);
+void drawDolphin(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b);
 
 
 const int QUIT = 0, ESC = 27;
@@ -41,27 +40,10 @@ const char* DISPLAY_TITLE = "CSC406 Homework 1";
 const int numCirclePts = 24;
 float circlePts[numCirclePts][2];
 
+const int numShapePoints = 3;
+float* shapePntBuff[numShapePoints];
 
-void drawDisk(float centerX, float centerY, float radius, float r, float g, float b)
-{
-    //first save the current coord orientation (origin, axis, scale)
-    glPushMatrix();
-    
-    glTranslatef(centerX, centerY, 0.f);  // change the origin by however much x, y, z
-    glScalef(radius, radius, 1.f); // scale the coord graph by the specified x y z
-   glColor3f(r, g, b);
-   glBegin(GL_POLYGON);
-           for (int k=0; k<numCirclePts; k++)
-               glVertex2f(circlePts[k][0],
-                          circlePts[k][1]);
-    
-   glEnd();
-
-    // restore original pushed matrix
-    glPopMatrix();
-}
-
-void drawEllipse(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b) {
+void drawDolphin(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b) {
     glPushMatrix();
     glTranslatef(centerX, centerY, 0.f);
     
@@ -72,9 +54,9 @@ void drawEllipse(float centerX, float centerY, float angle, float radiusX, float
     
     glColor3f(r, g, b);
     glBegin(GL_POLYGON);
-           for (int k=0; k<numCirclePts; k++)
-               glVertex2f(circlePts[k][0],
-                          circlePts[k][1]);
+           for (int k=0; k<numShapePoints; k++)
+               glVertex2f(shapePntBuff[k][0],
+                          shapePntBuff[k][1]);
     
     glEnd();
     glPopMatrix();
@@ -90,7 +72,7 @@ void drawEllipse(float centerX, float centerY, float angle, float radiusX, float
 //    we want, and that in fact we can have different display functions and change during
 //    the execution of the program the current display function used by glut.
 //
-void glutDisplay(void)
+void myDisplay(void)
 {
    //    This clears the buffer(s) we draw into.  We will see later this
    //    semester what this really means
@@ -107,7 +89,7 @@ void glutDisplay(void)
    //    basic drawing code
    //--------------------------
 
-    drawEllipse(400, 400, 12, 200, 100, 0.f, 1.f, 1.f);
+    drawDolphin(400, 400, 12, 200, 100, 0.f, 1.f, 1.f);
     
    //    We were drawing into the back buffer, now it should be brought
    //    to the forefront.
@@ -189,7 +171,7 @@ void keyHandler(unsigned char c, int x, int y)
 }
 
 
-void glutIdle(void)
+void myIdle(void)
 {
    //  possibly I do something to update the scene
    
@@ -234,7 +216,7 @@ void submenuHandler(int choice)
    }
 }
 
-void glutInit(void)
+void myInit(void)
 {
    // Create Menus
    int myMenu;
@@ -251,6 +233,8 @@ void glutInit(void)
        circlePts[k][0] = cosf(theta);
        circlePts[k][1] = sinf(theta);
    }
+    
+    initShape(shapePntBuff);
 }
 
 
@@ -265,17 +249,17 @@ int main(int argc, char** argv)
    glutCreateWindow(DISPLAY_TITLE);
    
    //    set up the callbacks
-   glutDisplayFunc(glutDisplay);
+   glutDisplayFunc(myDisplay);
    glutReshapeFunc(resizeFunc);
    glutMouseFunc(mouseHandler);
    glutKeyboardFunc(keyHandler);
-   glutIdleFunc(glutIdle);
+   glutIdleFunc(myIdle);
    glutTimerFunc(10,    timerBg,        0);
    //              time        name of        value to pass
    //              in ms        function    to the func
    
    //    Now we can do application-level
-   glutInit();
+   myInit();
 
    //    Now we enter the main loop of the program and to a large extend
    //    "lose control" over its execution.  The callback functions that

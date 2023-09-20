@@ -10,6 +10,7 @@
 		AAC8DEE42ABB2202003FFBCB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAC8DEE32ABB2202003FFBCB /* main.cpp */; };
 		AAC8DEEC2ABB220D003FFBCB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC8DEEB2ABB220D003FFBCB /* OpenGL.framework */; };
 		AAC8DEEE2ABB2212003FFBCB /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC8DEED2ABB2212003FFBCB /* GLUT.framework */; };
+		AAC8DEF22ABB2F44003FFBCB /* dolphin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAC8DEF02ABB2F44003FFBCB /* dolphin.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +31,8 @@
 		AAC8DEEB2ABB220D003FFBCB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		AAC8DEED2ABB2212003FFBCB /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		AAC8DEEF2ABB222F003FFBCB /* glPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glPlatform.h; sourceTree = "<group>"; };
+		AAC8DEF02ABB2F44003FFBCB /* dolphin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dolphin.cpp; sourceTree = "<group>"; };
+		AAC8DEF12ABB2F44003FFBCB /* dolphin.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = dolphin.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,8 @@
 			children = (
 				AAC8DEEF2ABB222F003FFBCB /* glPlatform.h */,
 				AAC8DEE32ABB2202003FFBCB /* main.cpp */,
+				AAC8DEF02ABB2F44003FFBCB /* dolphin.cpp */,
+				AAC8DEF12ABB2F44003FFBCB /* dolphin.hpp */,
 			);
 			path = "csc406-hw1";
 			sourceTree = "<group>";
@@ -137,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAC8DEF22ABB2F44003FFBCB /* dolphin.cpp in Sources */,
 				AAC8DEE42ABB2202003FFBCB /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
