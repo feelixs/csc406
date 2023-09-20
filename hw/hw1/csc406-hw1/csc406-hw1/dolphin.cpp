@@ -9,9 +9,11 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <string>
 #include <cstdlib>
 
-void loadShape(float** shapePoints, const char* filename) {
+int loadShape(float** shapePoints, const char* filename) {
+    // returns the amount of vertices in the loaded file
     FILE *file_data;
     long sizeb;
     char * buff;
@@ -21,7 +23,7 @@ void loadShape(float** shapePoints, const char* filename) {
     
     if (file_data == nullptr) {
         std::cout << "Error: Unable to open file " << filename << std::endl;
-        return;
+        return 0;
     }
     
     fseek(file_data , 0 , SEEK_END);
@@ -30,11 +32,37 @@ void loadShape(float** shapePoints, const char* filename) {
     buff = (char*) malloc (sizeof(char)*sizeb);
     size = fread (buff,1,sizeb,file_data);
     
+    std::string tempVal = "";
+    std::string curX = "";
+    
+    int totalShapes = 0;
     for (int i = 0; i < size; i++) {
-        std::cout << buff[i];
+        //std::cout << totalShapes << std::endl;
+        const char letter = buff[i];
+        if (letter == *" ")
+            // ignore spaces
+            continue;
+        if (letter == *"\n") {
+            // newlines mean that two new points have been read from the file
+            shapePoints[totalShapes] = new float[2];
+            shapePoints[totalShapes][0] = std::stof(curX); // stof --> string to float
+            shapePoints[totalShapes][1] = std::stof(tempVal);
+            totalShapes++;
+            tempVal = "";
+        } else if (letter == *",") {
+            // commas mean that we just read an X, and the next value will be a Y
+            curX = tempVal;
+            tempVal = "";
+        } else {
+            tempVal += letter;
+        }
+        //std::cout << std::endl << curX << std::endl;
     }
     
     fclose(file_data);
+    free(buff);
+    
+    return totalShapes;
 }
 
 

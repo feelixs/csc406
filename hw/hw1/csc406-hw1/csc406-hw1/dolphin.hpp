@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 
-void loadShape(float** shapePoints, const char* filename);
+int loadShape(float** shapePoints, const char* filename); // returns the amount of vertices in the loaded file
 void initShape(float** shapePoints);
 
 #endif /* dolphin_hpp */

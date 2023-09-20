@@ -41,7 +41,8 @@ const char* DISPLAY_TITLE = "CSC406 Homework 1";
 const int numCirclePts = 24;
 float circlePts[numCirclePts][2];
 
-const int numShapePoints = 3;
+static int totalLoadedPts = 0;
+const int numShapePoints = 25;
 float* shapePntBuff[numShapePoints];
 
 void drawDolphin(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b) {
@@ -63,7 +64,11 @@ void drawDolphin(float centerX, float centerY, float angle, float radiusX, float
 
     glBegin(GL_POLYGON);
     for (int k=0; k<numShapePoints; k++) {
-        //cout << circlePts[k][0] << ", " << circlePts[k][1] << endl;
+        if (k >= totalLoadedPts)
+            // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
+            break;
+        cout << k << "; " << shapePntBuff[k][0] << ", " << shapePntBuff[k][1]<< endl;
+        
         glVertex2f(shapePntBuff[k][0], shapePntBuff[k][1]);
     }
     
@@ -227,24 +232,22 @@ void submenuHandler(int choice)
 
 void myInit(void)
 {
-   // Create Menus
-   int myMenu;
-   myMenu = glutCreateMenu(menuHandler);
-   glutAddMenuEntry("Quit", QUIT);
-
-   glutAttachMenu(GLUT_RIGHT_BUTTON);
-
-   //    Initialize the array of coordinates of the disk or radius 1 centered at (0, 0)
-   float angleStep = 2.f*M_PI/numCirclePts;
-   for (int k=0; k<numCirclePts; k++)
-   {
-       float theta = k*angleStep;
-       circlePts[k][0] = cosf(theta);
-       circlePts[k][1] = sinf(theta);
-   }
-    loadShape(shapePntBuff, "/Users/michaelfelix/Documents/GitHub/csc406/hw/hw1/csc406-hw1/csc406-hw1/shapeCoords.txt");
-    exit(0);
-    initShape(shapePntBuff);
+    // Create Menus
+    int myMenu;
+    myMenu = glutCreateMenu(menuHandler);
+    glutAddMenuEntry("Quit", QUIT);
+    
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
+    
+    //    Initialize the array of coordinates of the disk or radius 1 centered at (0, 0)
+    float angleStep = 2.f*M_PI/numCirclePts;
+    for (int k=0; k<numCirclePts; k++)
+    {
+        float theta = k*angleStep;
+        circlePts[k][0] = cosf(theta);
+        circlePts[k][1] = sinf(theta);
+    }
+    totalLoadedPts = loadShape(shapePntBuff, "/Users/michaelfelix/Documents/GitHub/csc406/hw/hw1/csc406-hw1/csc406-hw1/shapeCoords.txt");
 }
 
 
