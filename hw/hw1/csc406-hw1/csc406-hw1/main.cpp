@@ -67,7 +67,7 @@ void drawDolphin(float centerX, float centerY, float angle, float radiusX, float
         if (k >= totalLoadedPts)
             // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
             break;
-        cout << k << "; " << shapePntBuff[k][0] << ", " << shapePntBuff[k][1]<< endl;
+        //cout << k << "; " << shapePntBuff[k][0] << ", " << shapePntBuff[k][1]<< endl;
         
         glVertex2f(shapePntBuff[k][0], shapePntBuff[k][1]);
     }
