@@ -8,6 +8,7 @@
 
 // "pure" C++ headers
 #include <string>
+#include <vector>
 // C++ wrappers around C headers
 #include <cstdlib>
 #include <cmath>
@@ -17,6 +18,7 @@
 #include <unistd.h>
 //    User headers
 #include "glPlatform.h"
+
 
 using namespace std;
 
