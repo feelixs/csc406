@@ -49,7 +49,11 @@ int loadShape(float** shapePoints, const char* filename) {
                 curX = "";
                 tempVal =  "";
                 continue;
+            } else if ((curX == "-") & (tempVal == "-")) {
+                // -,- in text file will exit early
+                break;
             }
+            
             shapePoints[totalShapes] = new float[2];
             shapePoints[totalShapes][0] = std::stof(curX); // stof --> string to float
             shapePoints[totalShapes][1] = std::stof(tempVal);
