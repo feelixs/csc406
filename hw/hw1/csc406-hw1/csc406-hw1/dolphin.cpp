@@ -44,11 +44,18 @@ int loadShape(float** shapePoints, const char* filename) {
             continue;
         if (letter == *"\n") {
             // newlines mean that two new points have been read from the file
+            if ((curX == "") | (tempVal == "")) {
+                // if there's an incorrectly parsed line in the text file
+                curX = "";
+                tempVal =  "";
+                continue;
+            }
             shapePoints[totalShapes] = new float[2];
             shapePoints[totalShapes][0] = std::stof(curX); // stof --> string to float
             shapePoints[totalShapes][1] = std::stof(tempVal);
             totalShapes++;
             tempVal = "";
+
         } else if (letter == *",") {
             // commas mean that we just read an X, and the next value will be a Y
             curX = tempVal;
