@@ -1,41 +1,47 @@
 //
 //  Ellipse.hpp
-//  CSC406-inclass
+//  Prog 02
 //
-//  Created by Michael Felix on 9/14/23.
+//  Created by Jean-Yves Hervé on 2023-09-14.
 //
 
-#ifndef Ellipse_hpp  // prevent duplicate loading of this header
-#define Ellipse_hpp
+#ifndef ELLIPSE_HPP
+#define ELLIPSE_HPP
 
 #include <stdio.h>
 
+class Ellipse
+{
+    friend bool initEllipseFunc();
+    
+    private:
+    
+        float centerX_, centerY_, radiusX_, radiusY_, angle_;
+        float red_, green_, blue_;
+            
+        static const int numCirclePts_;
+        static float** circlePts_;
 
-class Ellipse {
-friend bool ellipseInit();
-private:
-    
-    float _centerX, _centerY, _radiusX, _radiusY, _angle;
-    float _red, _green, _blue;
 
-    static const int _numCirclePts;
-    static float** _circlePts;
-public:
-    Ellipse(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b);
-    ~Ellipse() = default;
+    public:
     
-    void draw() const; // const = this function is unable to modify the parent object
-    
-    //disabled constructors & operators
-            Ellipse() = delete;
-            Ellipse(const Ellipse& obj) = delete;    // copy
-            Ellipse(Ellipse&& obj) = delete;        // move
-            Ellipse& operator = (const Ellipse& obj) = delete;    // copy operator
-            Ellipse& operator = (Ellipse&& obj) = delete;        // move operator
+        Ellipse(float centerX, float centerY, float angle, float radiusX, float radiusY,
+                float r, float g, float b);
+        Ellipse(float centerX, float centerY, float radius,
+                float r, float g, float b);
+        ~Ellipse();
+        
+        void draw() const;
 
-    
+        //disabled constructors & operators
+        Ellipse() = delete;
+        Ellipse(const Ellipse& obj) = delete;    // copy
+        Ellipse(Ellipse&& obj) = delete;        // move
+        Ellipse& operator = (const Ellipse& obj) = delete;    // copy operator
+        Ellipse& operator = (Ellipse&& obj) = delete;        // move operator
+
 };
 
-bool ellipseInit();
+bool initEllipseFunc();
 
-#endif /* Ellipse_hpp */
+#endif // ELLIPSE_HPP

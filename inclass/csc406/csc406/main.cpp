@@ -9,10 +9,10 @@
 // "pure" C++ headers
 #include <string>
 #include <vector>
+#include <memory>
 // C++ wrappers around C headers
 #include <cstdlib>
 #include <cmath>
-#include <iostream>
 #include <cstdio>    //     cstdio.h       stdio.h
 //                                        C header
 // C system headers
@@ -20,6 +20,7 @@
 //    User headers
 #include "glPlatform.h"
 
+#include "Ellipse.hpp"
 
 using namespace std;
 
@@ -35,8 +36,6 @@ void mySubmenuHandler(int colorIndex);
 void myInit(void);
 void myIdle(void);
 void myTimerFunc(int val);
-void drawDisk(float centerX, float centerY, float radius, float r, float g, float b);
-void drawEllipse(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b);
 
 //--------------------------------------
 //  Interface constants
@@ -77,47 +76,8 @@ const float vertArray[][2] = {{400.f, 100.f},
                              {400.f, 200.f},
                              {300.f, 200.f},
                              {200.f, 150.f}};
-const int numCirclePts = 24;
-float circlePts[numCirclePts][2];
 
-
-void drawDisk(float centerX, float centerY, float radius, float r, float g, float b)
-{
-    //first save the current coord orientation (origin, axis, scale)
-    glPushMatrix();
-    
-    glTranslatef(centerX, centerY, 0.f);  // change the origin by however much x, y, z
-    glScalef(radius, radius, 1.f); // scale the coord graph by the specified x y z
-   glColor3f(r, g, b);
-   glBegin(GL_POLYGON);
-           for (int k=0; k<numCirclePts; k++)
-               glVertex2f(circlePts[k][0],
-                          circlePts[k][1]);
-    
-   glEnd();
-
-    // restore original pushed matrix
-    glPopMatrix();
-}
-
-void drawEllipse(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b) {
-    glPushMatrix();
-    glTranslatef(centerX, centerY, 0.f);
-    
-    
-    glRotatef(angle, 0.f, 0.f, 1.f);
-    
-    glScalef(radiusX, radiusY, 1.f);
-    
-    glColor3f(r, g, b);
-    glBegin(GL_POLYGON);
-           for (int k=0; k<numCirclePts; k++)
-               glVertex2f(circlePts[k][0],
-                          circlePts[k][1]);
-    
-    glEnd();
-    glPopMatrix();
-}
+vector<shared_ptr<Ellipse>> ellipseList;
 
 
 //    This is the function that does the actual scene drawing
@@ -154,19 +114,11 @@ void myDisplayFunc(void)
                glVertex2f(vertArray[k][0], vertArray[k][1]);
    glEnd();
 
-
-   //    Draw a red disk of center (x=600, y=500), radius = 150
-   //    Version 4
-    
-    drawEllipse(400, 400, 12, 200, 100, 0.f, 1.f, 1.f);
-    
-   drawDisk(600, 500, 150, 1.f, 0.f, 0.f);
-   
-   drawDisk(200, 700, 50, 0.f, 0.f, 1.f);
-
-   drawDisk(700, 200, 50, 1.f, 1.f, 1.f);
-    
-    
+   for (auto obj : ellipseList)
+   {
+       if (obj != nullptr)
+           obj->draw();
+   }
 
    //    We were drawing into the back buffer, now it should be brought
    //    to the forefront.
@@ -206,6 +158,8 @@ void myResizeFunc(int w, int h)
 //
 void myMouseHandler(int button, int state, int x, int y)
 {
+static int clickCount = 0;
+
    // silence the warning
    (void) x;
    (void) y;
@@ -219,7 +173,11 @@ void myMouseHandler(int button, int state, int x, int y)
            }
            else if (state == GLUT_UP)
            {
-               exit(0);
+               // create a new disk
+               ellipseList.push_back(make_shared<Ellipse>(x, winHeight-y, 30, 1.f, 1.f, 0.f));
+
+               if (clickCount < 4)
+                   ellipseList[clickCount++] = nullptr;
            }
            break;
            
@@ -239,6 +197,7 @@ void myKeyHandler(unsigned char c, int x, int y)
    switch (c)
    {
        case 'q':
+       case 27:
            exit(0);
            break;
            
@@ -311,7 +270,7 @@ void mySubmenuHandler(int choice)
 void myInit(void)
 {
    // Create Menus
-   int myMenu, mySubmenu;
+   int myMenu;
    
    //    Submenu for changing keyboard handling function
 //    mySubmenu = glutCreateMenu(mySubmenuHandler);
@@ -329,18 +288,10 @@ void myInit(void)
 //    glutAddSubMenu("Submenu example", mySubmenu);
    glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-   //    Initialize the array of coordinates of the disk or radius 1 centered at (0, 0)
-   float angleStep = 2.f*M_PI/numCirclePts;
-   for (int k=0; k<numCirclePts; k++)
-   {
-       float theta = k*angleStep;
-       circlePts[k][0] = cosf(theta);
-       circlePts[k][1] = sinf(theta);
-   }
-
-   
-   
-//    myDisplayFunc();
+   ellipseList.push_back(make_shared<Ellipse>(400, 400, 30, 200, 100, 0.f, 1.f, 1.f));
+   ellipseList.push_back(make_shared<Ellipse>(700, 200, 0, 50, 50, 1.f, 1.f, 1.f));
+   ellipseList.push_back(make_shared<Ellipse>(200, 700, 0, 50, 50, 0.f, 0.f, 1.f));
+   ellipseList.push_back(make_shared<Ellipse>(600, 500, 0, 150, 150, 1.f, 0.f, 0.f));
 }
 
 
