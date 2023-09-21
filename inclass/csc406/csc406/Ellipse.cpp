@@ -8,6 +8,7 @@
 #include "Ellipse.hpp"
 #include <cmath>
 #include <cstdio>
+#include <iostream>
 #include "glPlatform.h"
 
 const int Ellipse::_numCirclePts = 24;
@@ -54,23 +55,24 @@ void Ellipse::draw() const {
     glEnd();
     glPopMatrix();
 }
+/*
+ Ellipse::~Ellipse() {
+ std::cout << "Ellipse at " << _centerX << ", " << _centerY << " deleted" << std::endl;
+ }
+ */
+ bool ellipseInit() {
+     Ellipse::_circlePts = new float*[Ellipse::_numCirclePts];
+     for (int k=0; k<Ellipse::_numCirclePts; k++)
+     Ellipse::_circlePts[k] = new float[2];
+     
+     //    Initialize the array of coordinates of the disk or radius 1 centered at (0, 0)
+     float angleStep = 2.f*M_PI/Ellipse::_numCirclePts;
+     for (int k=0; k<Ellipse::_numCirclePts; k++)
+     {
+     float theta = k*angleStep;
+     Ellipse::_circlePts[k][0] = cosf(theta);
+     Ellipse::_circlePts[k][1] = sinf(theta);
+     }
+     return true;
+ }
 
-Ellipse::~Ellipse() {
-    std::cout << "Ellipse at " << _centerX << ", " << _centerY << " deleted" << std::endl;
-}
-
-bool ellipseInit() {
-    Ellipse::_circlePts = new float*[Ellipse::_numCirclePts];
-    for (int k=0; k<Ellipse::_numCirclePts; k++)
-        Ellipse::_circlePts[k] = new float[2];
-        
-    //    Initialize the array of coordinates of the disk or radius 1 centered at (0, 0)
-    float angleStep = 2.f*M_PI/Ellipse::_numCirclePts;
-    for (int k=0; k<Ellipse::_numCirclePts; k++)
-    {
-        float theta = k*angleStep;
-        Ellipse::_circlePts[k][0] = cosf(theta);
-        Ellipse::_circlePts[k][1] = sinf(theta);
-    }
-    return true;
-}

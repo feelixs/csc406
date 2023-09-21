@@ -12,6 +12,7 @@
 // C++ wrappers around C headers
 #include <cstdlib>
 #include <cmath>
+#include <iostream>
 #include <cstdio>    //     cstdio.h       stdio.h
 //                                        C header
 // C system headers
