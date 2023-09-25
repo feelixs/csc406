@@ -213,7 +213,7 @@ void myInit(void)
     glutAttachMenu(GLUT_RIGHT_BUTTON);
     
     loadShape("/Users/michaelfelix/Documents/GitHub/csc406/hw/hw1/csc406-hw1/csc406-hw1/shapeCoords.txt");
-    shapeList.push_back(make_shared<Dolphin>(0.1, 0.1, 0, 1, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<Dolphin>(400, 400, 12, 200, 100, 0.f, 1.f, 1.f));
 }
 
 
