@@ -131,9 +131,8 @@ void Dolphin::draw() const
         //cout << k << "; " << shapePntBuff[k][0] << ", " << shapePntBuff[k][1]<< endl;
         
         glVertex2f(shapePntBuff[k][0], shapePntBuff[k][1]);
-        std::cout << shapePntBuff[k][0] << ", " << shapePntBuff[k][1] << std::endl;
+        //std::cout << shapePntBuff[k][0] << ", " << shapePntBuff[k][1] << std::endl;
     }
-    exit(0);
     glEnd();
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
