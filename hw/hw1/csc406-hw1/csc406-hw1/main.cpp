@@ -46,6 +46,8 @@ const int numShapePoints = 25;
 float* shapePntBuff[numShapePoints];
 
 void drawDolphin(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b) {
+    //drawDolphin(400, 400, 12, 200, 100, 0.f, 1.f, 1.f)
+    
     glPushMatrix();
     glTranslatef(centerX, centerY, 0.f);
     
