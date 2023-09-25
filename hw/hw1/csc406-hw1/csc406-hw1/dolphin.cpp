@@ -89,11 +89,12 @@ void loadShape(const char* filename) {
 }
 
 
-Dolphin::Dolphin(float centerX, float centerY, float angle, float scale, float red, float green, float blue)
+Dolphin::Dolphin(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
     :    centerX_(centerX),
         centerY_(centerY),
         angle_(angle),
-        scale_(scale),
+        scaleX_(scaleX),
+        scaleY_(scaleY),
         red_(red),
         green_(green),
         blue_(blue)
@@ -119,7 +120,7 @@ void Dolphin::draw() const
     glRotatef(angle_, 0.f, 0.f, 1.f);
     
     //    apply the radius as a scale
-    glScalef(scale_, scale_, 1.f);
+    glScalef(scaleX_, scaleY_, 1.f);
     
     glColor3f(red_, green_, blue_);
     

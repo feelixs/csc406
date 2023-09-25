@@ -17,7 +17,7 @@ class Dolphin
     friend int loadShape();
     
     private:
-        float centerX_, centerY_, scale_, angle_;
+        float centerX_, centerY_, scaleX_, scaleY_, angle_;
         float red_, green_, blue_;
             
         static const int numShapePnts_;
@@ -25,7 +25,7 @@ class Dolphin
 
 
     public:
-        Dolphin(float centerX, float centerY, float angle, float scale, float r, float g, float b);
+        Dolphin(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         ~Dolphin();
         
         void draw() const;
