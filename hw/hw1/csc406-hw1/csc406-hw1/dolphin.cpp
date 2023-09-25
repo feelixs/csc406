@@ -11,9 +11,19 @@
 #include <cstring>
 #include <string>
 #include <cstdlib>
+#include "glPlatform.h"
 
-int loadShape(float** shapePoints, const char* filename) {
+
+static int totalLoadedPts = 0;
+const int numShapePoints = 25;
+float* shapePntBuff[numShapePoints];
+
+
+void loadShape(const char* filename) {
     // returns the amount of vertices in the loaded file
+    
+    float** shapePoints = shapePntBuff;
+    
     FILE *file_data;
     long sizeb;
     char * buff;
@@ -23,7 +33,7 @@ int loadShape(float** shapePoints, const char* filename) {
     
     if (file_data == nullptr) {
         std::cout << "Error: Unable to open file " << filename << std::endl;
-        return 0;
+     //   return 0;
     }
     
     fseek(file_data , 0 , SEEK_END);
@@ -73,63 +83,58 @@ int loadShape(float** shapePoints, const char* filename) {
     fclose(file_data);
     free(buff);
     
-    return totalShapes;
+    
+    totalLoadedPts = totalShapes;
+    //return totalShapes;
+}
+
+
+Dolphin::Dolphin(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
+    :    centerX_(centerX),
+        centerY_(centerY),
+        angle_(angle),
+        scaleX_(scaleX),
+        scaleY_(scaleY),
+        red_(red),
+        green_(green),
+        blue_(blue)
+{
+}
+
+Dolphin::~Dolphin()
+{
+    std::cout << "Dolphin at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
 }
 
 
 
-void initShape(float** shapePoints) {
-    shapePoints[0] = new float[2];
-    shapePoints[0][0] = 1;
-    shapePoints[0][1] = 0;
+void Dolphin::draw() const
+{
+    //    save the current coordinate system (origin, axes, scale)
+    glPushMatrix();
     
-    shapePoints[1] = new float[2];
-    shapePoints[1][0] = 0.965926;
-    shapePoints[1][1] = 0.258819;
+    //    move to the center of the disk
+    glTranslatef(centerX_, centerY_, 0.f);
+        
+    // apply rotation
+    glRotatef(angle_, 0.f, 0.f, 1.f);
     
-    shapePoints[2] = new float[2];
-    shapePoints[2][0] = 0.866025;
-    shapePoints[2][1] = 0.5;
+    //    apply the radius as a scale
+    glScalef(scaleX_, scaleY_, 1.f);
     
-    shapePoints[2] = new float[2];
-    shapePoints[2][0] = 0.707107;
-    shapePoints[2][1] = 0.707107;
+    glColor3f(red_, green_, blue_);
     
-    shapePoints[2] = new float[2];
-    shapePoints[2][0] = 0.5;
-    shapePoints[2][1] = 0.866025;
-    
-    shapePoints[2] = new float[2];
-    shapePoints[2][0] = 0.258819;
-    shapePoints[2][1] = 0.965926;
-    
-    /*
-     circle pts
-     
-     1, 0
-     0.965926, 0.258819
-     0.866025, 0.5
-     0.707107, 0.707107
-     0.5, 0.866025
-     0.258819, 0.965926
-     -4.37114e-08, 1
-     -0.258819, 0.965926
-     
-     -0.5, 0.866025
-     -0.707107, 0.707107
-     -0.866025, 0.5
-     -0.965926, 0.258819
-     -1, -8.74228e-08
-     -0.965926, -0.258819
-     -0.866025, -0.5
-     -0.707107, -0.707107
-     -0.5, -0.866025
-     -0.258819, -0.965926
-     1.19249e-08, -1
-     0.258819, -0.965926
-     0.5, -0.866025
-     0.707107, -0.707107
-     0.866026, -0.5
-     0.965926, -0.258819
-     */
+    glBegin(GL_POLYGON);
+    for (int k=0; k<numShapePoints; k++) {
+        if (k >= totalLoadedPts)
+            // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
+            break;
+        //cout << k << "; " << shapePntBuff[k][0] << ", " << shapePntBuff[k][1]<< endl;
+        
+        glVertex2f(shapePntBuff[k][0], shapePntBuff[k][1]);
+        //std::cout << shapePntBuff[k][0] << ", " << shapePntBuff[k][1] << std::endl;
+    }
+    glEnd();
+    //    restore the original coordinate system (origin, axes, scale)
+    glPopMatrix();
 }

@@ -25,8 +25,9 @@ void menuHandler(int value);
 void submenuHandler(int colorIndex);
 void timerBg(int val);
 void resizeFunc(int w, int h);
-void drawDolphin(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b);
 
+
+vector<shared_ptr<Dolphin>> shapeList;
 
 const int QUIT = 0, ESC = 27;
 const int RENDER_EVERY = 10;  // how many ms to wait between renders?
@@ -40,43 +41,6 @@ const char* DISPLAY_TITLE = "CSC406 Homework 1";
 
 const int numCirclePts = 24;
 float circlePts[numCirclePts][2];
-
-static int totalLoadedPts = 0;
-const int numShapePoints = 25;
-float* shapePntBuff[numShapePoints];
-
-void drawDolphin(float centerX, float centerY, float angle, float radiusX, float radiusY, float r, float g, float b) {
-    //drawDolphin(400, 400, 12, 200, 100, 0.f, 1.f, 1.f)
-    
-    glPushMatrix();
-    glTranslatef(centerX, centerY, 0.f);
-    
-    glRotatef(angle, 0.f, 0.f, 1.f);
-    glScalef(radiusX, radiusY, 1.f);
-    
-    glColor3f(r, g, b);
-    
-    /*
-    glBegin(GL_POLYGON);
-    for (int k=0; k<numCirclePts; k++) {
-        //cout << circlePts[k][0] << ", " << circlePts[k][1] << endl;
-        glVertex2f(circlePts[k][0], circlePts[k][1]);
-    }
-     */
-
-    glBegin(GL_POLYGON);
-    for (int k=0; k<numShapePoints; k++) {
-        if (k >= totalLoadedPts)
-            // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
-            break;
-        //cout << k << "; " << shapePntBuff[k][0] << ", " << shapePntBuff[k][1]<< endl;
-        
-        glVertex2f(shapePntBuff[k][0], shapePntBuff[k][1]);
-    }
-    
-    glEnd();
-    glPopMatrix();
-}
 
 
 //    This is the function that does the actual scene drawing
@@ -105,8 +69,11 @@ void myDisplay(void)
    //    basic drawing code
    //--------------------------
 
-    drawDolphin(400, 400, 12, 200, 100, 0.f, 1.f, 1.f);
-    
+    for (auto obj : shapeList)
+    {
+        if (obj != nullptr)
+            obj->draw();
+    }
    //    We were drawing into the back buffer, now it should be brought
    //    to the forefront.
    glutSwapBuffers();
@@ -146,6 +113,7 @@ void resizeFunc(int w, int h)
 void mouseHandler(int button, int state, int x, int y)
 {
    // silence the warning
+   static int clickCount = 0;
    (void) x;
    (void) y;
    
@@ -158,7 +126,10 @@ void mouseHandler(int button, int state, int x, int y)
            }
            else if (state == GLUT_UP)
            {
-               exit(0);
+              // shapeList.push_back(make_shared<Dolphin>(x, DISPLAY_HEIGHT-y, 0, 1, 1.f, 1.f, 0.f));
+
+               if (clickCount < 4)
+                   shapeList[clickCount++] = nullptr;
            }
            break;
            
@@ -241,15 +212,8 @@ void myInit(void)
     
     glutAttachMenu(GLUT_RIGHT_BUTTON);
     
-    //    Initialize the array of coordinates of the disk or radius 1 centered at (0, 0)
-    float angleStep = 2.f*M_PI/numCirclePts;
-    for (int k=0; k<numCirclePts; k++)
-    {
-        float theta = k*angleStep;
-        circlePts[k][0] = cosf(theta);
-        circlePts[k][1] = sinf(theta);
-    }
-    totalLoadedPts = loadShape(shapePntBuff, "/Users/michaelfelix/Documents/GitHub/csc406/hw/hw1/csc406-hw1/csc406-hw1/shapeCoords.txt");
+    loadShape("/Users/michaelfelix/Documents/GitHub/csc406/hw/hw1/csc406-hw1/csc406-hw1/shapeCoords.txt");
+    shapeList.push_back(make_shared<Dolphin>(400, 400, 12, 200, 100, 0.f, 1.f, 1.f));
 }
 
 
