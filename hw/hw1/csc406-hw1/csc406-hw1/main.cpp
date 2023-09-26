@@ -126,8 +126,7 @@ void mouseHandler(int button, int state, int x, int y)
            }
            else if (state == GLUT_UP)
            {
-              // shapeList.push_back(make_shared<Dolphin>(x, DISPLAY_HEIGHT-y, 0, 1, 1.f, 1.f, 0.f));
-
+               shapeList.push_back(make_shared<Dolphin>(x, DISPLAY_HEIGHT-y, 0, 200, 100, 0.f, 1.f, 1.f));
                if (clickCount < 4)
                    shapeList[clickCount++] = nullptr;
            }
@@ -213,7 +212,9 @@ void myInit(void)
     glutAttachMenu(GLUT_RIGHT_BUTTON);
     
     loadShape("/Users/michaelfelix/Documents/GitHub/csc406/hw/hw1/csc406-hw1/csc406-hw1/shapeCoords.txt");
-    shapeList.push_back(make_shared<Dolphin>(400, 400, 12, 200, 100, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<Dolphin>(420, 400, 12, 200, 100, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<Dolphin>(420, 400, 0, 200, 100, 0.f, 1.f, 1.f));
+    //shapeList.push_back(make_shared<Dolphin>(280, 300, 12, 200, 100, 0.f, 1.f, 1.f));
 }
 
 
