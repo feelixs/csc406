@@ -63,7 +63,7 @@ void loadShape(const char* filename) {
                 // -,- in text file will exit early
                 break;
             }
-            
+            std::cout << totalShapes << std::endl;
             shapePoints[totalShapes] = new float[2];
             shapePoints[totalShapes][0] = std::stof(curX); // stof --> string to float
             shapePoints[totalShapes][1] = std::stof(tempVal);
