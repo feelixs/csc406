@@ -19,10 +19,6 @@ class Dolphin
     private:
         float centerX_, centerY_, scaleX_, scaleY_, angle_;
         float red_, green_, blue_;
-            
-        static const int numShapePnts_;
-        static float** shapePnts_;
-
 
     public:
         Dolphin(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
