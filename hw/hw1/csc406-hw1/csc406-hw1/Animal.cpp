@@ -20,10 +20,10 @@ const int Animal::_maxLoadedPnts = 25;
 float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
 const int Animal::_numCirPoints = 12;
-const bool animalInitted = initAnimal();
 
-bool initAnimal() {
+bool initAnimal(const char* coordFile) {
     bool mainCircle = initCircle();
+    loadShape(coordFile);
     return mainCircle;
 }
 
@@ -57,10 +57,9 @@ void loadShape(const char* filename) {
     size_t size;
     
     file_data = fopen(filename, "rb");
-    
     if (file_data == nullptr) {
         std::cout << "Error: Unable to open file " << filename << std::endl;
-     //   return 0;
+        exit(1);
     }
     
     fseek(file_data , 0 , SEEK_END);
@@ -90,7 +89,7 @@ void loadShape(const char* filename) {
                 // -,- in text file will exit early
                 break;
             }
-            std::cout << totalShapes << std::endl;
+            //std::cout << totalShapes << std::endl;
             Animal::_loadedShapePnts[totalShapes] = new float[2];
             Animal::_loadedShapePnts[totalShapes][0] = std::stof(curX); // stof --> string to float
             Animal::_loadedShapePnts[totalShapes][1] = std::stof(tempVal);
@@ -128,15 +127,13 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
 {
 }
 
-Animal::~Animal()
-{
+Animal::~Animal() {
     std::cout << "Animal at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
 }
 
 
 
-void Animal::draw() const
-{
+void Animal::draw() const {
     //    save the current coordinate system (origin, axes, scale)
     glPushMatrix();
     
@@ -156,10 +153,7 @@ void Animal::draw() const
         if (k >= Animal::_numLoadedPnts)
             // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
             break;
-        //cout << k << "; " << shapePntBuff[k][0] << ", " << shapePntBuff[k][1]<< endl;
-        
         glVertex2f(Animal::_loadedShapePnts[k][0], Animal::_loadedShapePnts[k][1]);
-        //std::cout << shapePntBuff[k][0] << ", " << shapePntBuff[k][1] << std::endl;
     }
     glEnd();
     //    restore the original coordinate system (origin, axes, scale)

@@ -10,8 +10,8 @@
 
 #include <stdio.h>
 
-void loadShape(const char* filename); // returns the amount of vertices in the loaded file
-bool initAnimal();
+void loadShape(const char* filename);
+bool initAnimal(const char* coordFile);
 bool initCircle();
 
 
