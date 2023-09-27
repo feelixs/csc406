@@ -1,11 +1,11 @@
 //
-//  dolphin.cpp
+//  Animal.cpp
 //  csc406-hw1
 //
 //  Created by Michael Felix on 9/20/23.
 //
 
-#include "dolphin.hpp"
+#include "Animal.hpp"
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -92,7 +92,7 @@ void loadShape(const char* filename) {
 }
 
 
-Dolphin::Dolphin(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
+Animal::Animal(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
     :    centerX_(centerX),
         centerY_(centerY),
         angle_(angle),
@@ -104,14 +104,14 @@ Dolphin::Dolphin(float centerX, float centerY, float angle, float scaleX, float 
 {
 }
 
-Dolphin::~Dolphin()
+Animal::~Animal()
 {
-    std::cout << "Dolphin at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
+    std::cout << "Animal at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
 }
 
 
 
-void Dolphin::draw() const
+void Animal::draw() const
 {
     //    save the current coordinate system (origin, axes, scale)
     glPushMatrix();
