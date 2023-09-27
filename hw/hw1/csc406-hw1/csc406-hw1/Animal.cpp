@@ -14,9 +14,33 @@
 #include "glPlatform.h"
 
 
-static int totalLoadedPts = 0;
-const int numShapePoints = 25;
-float* shapePntBuff[numShapePoints];
+int Animal::_numLoadedPnts = 0;
+const int Animal::_maxLoadedPnts = 25;
+
+float** Animal::_loadedShapePnts;
+float** Animal::_circlePoints;
+const int Animal::_numCirPoints = 12;
+const bool animalInitted = initAnimal();
+
+bool initAnimal() {
+    bool mainCircle = initCircle();
+    return mainCircle;
+}
+
+bool initCircle() {
+    Animal::_circlePoints = new float*[Animal::_numCirPoints];
+    for (int k=0; k<Animal::_numCirPoints; k++) {
+        Animal::_circlePoints[k] = new float[2];
+    }
+    float angleStep = 2.f*M_PI/Animal::_numCirPoints;
+    float theta;
+    for (int k=0; k<Animal::_numCirPoints; k++) {
+        theta = k*angleStep;
+        Animal::_circlePoints[k][0] = cosf(theta);
+        Animal::_circlePoints[k][1] = sinf(theta);
+    }
+    return true;
+}
 
 
 void loadShape(const char* filename) {
@@ -25,7 +49,7 @@ void loadShape(const char* filename) {
     //   x2, y2
     //   ...
     
-    float** shapePoints = shapePntBuff;
+    Animal::_loadedShapePnts = new float*[Animal::_maxLoadedPnts];
     
     FILE *file_data;
     long sizeb;
@@ -67,9 +91,9 @@ void loadShape(const char* filename) {
                 break;
             }
             std::cout << totalShapes << std::endl;
-            shapePoints[totalShapes] = new float[2];
-            shapePoints[totalShapes][0] = std::stof(curX); // stof --> string to float
-            shapePoints[totalShapes][1] = std::stof(tempVal);
+            Animal::_loadedShapePnts[totalShapes] = new float[2];
+            Animal::_loadedShapePnts[totalShapes][0] = std::stof(curX); // stof --> string to float
+            Animal::_loadedShapePnts[totalShapes][1] = std::stof(tempVal);
             totalShapes++;
             tempVal = "";
 
@@ -87,7 +111,7 @@ void loadShape(const char* filename) {
     free(buff);
     
     
-    totalLoadedPts = totalShapes;
+    Animal::_numLoadedPnts = totalShapes;
     //return totalShapes;
 }
 
@@ -128,13 +152,13 @@ void Animal::draw() const
     glColor3f(red_, green_, blue_);
     
     glBegin(GL_POLYGON);
-    for (int k=0; k<numShapePoints; k++) {
-        if (k >= totalLoadedPts)
+    for (int k=0; k<Animal::_maxLoadedPnts; k++) {
+        if (k >= Animal::_numLoadedPnts)
             // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
             break;
         //cout << k << "; " << shapePntBuff[k][0] << ", " << shapePntBuff[k][1]<< endl;
         
-        glVertex2f(shapePntBuff[k][0], shapePntBuff[k][1]);
+        glVertex2f(Animal::_loadedShapePnts[k][0], Animal::_loadedShapePnts[k][1]);
         //std::cout << shapePntBuff[k][0] << ", " << shapePntBuff[k][1] << std::endl;
     }
     glEnd();
