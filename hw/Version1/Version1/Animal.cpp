@@ -17,7 +17,12 @@
 
 float** Animal::_pointList;
 const int Animal::_numCirPoints = 12;
-const bool inint = initCircle();
+const bool animalInitted = initAnimal();
+
+bool initAnimal() {
+    bool mainCircle = initCircle();
+    return mainCircle;
+}
 
 bool initCircle() {
     Animal::_pointList = new float*[Animal::_numCirPoints];

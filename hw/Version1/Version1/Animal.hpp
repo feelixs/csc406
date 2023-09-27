@@ -10,8 +10,8 @@
 
 #include <stdio.h>
 
+bool initAnimal();
 bool initCircle();
-
 
 class Animal
 {
