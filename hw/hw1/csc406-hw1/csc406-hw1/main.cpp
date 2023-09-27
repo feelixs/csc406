@@ -27,6 +27,7 @@ void timerBg(int val);
 void resizeFunc(int w, int h);
 
 
+const char* shape_cords = "/Users/michaelfelix/Documents/GitHub/csc406/hw/hw1/csc406-hw1/csc406-hw1/shapeCoords.txt";
 vector<shared_ptr<Animal>> shapeList;
 
 const int QUIT = 0, ESC = 27;
@@ -212,7 +213,7 @@ void myInit(void)
     glutAttachMenu(GLUT_RIGHT_BUTTON);
     
     // the provided txt file is a list of x y coords for vertices, and will draw a test shape on screen
-    loadShape("/Users/michaelfelix/Documents/GitHub/csc406/hw/hw1/csc406-hw1/csc406-hw1/shapeCoords.txt");
+    loadShape(shape_cords);
     shapeList.push_back(make_shared<Animal>(420, 400, 12, 200, 100, 0.f, 1.f, 1.f));
     shapeList.push_back(make_shared<Animal>(420, 400, 0, 200, 100, 0.f, 1.f, 1.f));
     //shapeList.push_back(make_shared<Animal>(280, 300, 12, 200, 100, 0.f, 1.f, 1.f));
