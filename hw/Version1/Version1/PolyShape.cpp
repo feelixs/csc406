@@ -27,7 +27,7 @@ PolyShape::~PolyShape() {
     //    delete[] _loadedShapePnts[i];
     //}
     //delete[] _loadedShapePnts;
-    std::cout << "PolyShape at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
+//    std::cout << "PolyShape at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
 }
 
 

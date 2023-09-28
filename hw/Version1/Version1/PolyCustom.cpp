@@ -7,8 +7,9 @@
 
 #include "PolyCustom.hpp"
 #include "glPlatform.h"
+#include <fstream>
 #include <iostream>
-
+#include <string>
 
 int PolyCustom::_numLoadedPnts = 0;
 const int PolyCustom::_maxLoadedPnts = 25;
@@ -26,69 +27,60 @@ PolyCustom::PolyCustom(const char* filepath, float centerX, float centerY, float
     
     PolyCustom::_loadedShapePnts = new float*[PolyCustom::_maxLoadedPnts];
     
-    FILE *file_data;
-    long sizeb;
-    char * buff;
-    size_t size;
-    
-    file_data = fopen(_myLoadedFilepath, "rb");
-    if (file_data == nullptr) {
+    std::ifstream file_data(filepath);
+
+    if (!file_data.is_open()) {
         std::cout << "Error: Unable to open file " << _myLoadedFilepath << std::endl;
+        exit(1);
     }
-    
-    fseek(file_data , 0 , SEEK_END);
-    sizeb = ftell(file_data);
-    rewind (file_data);
-    buff = (char*) malloc (sizeof(char)*sizeb);
-    size = fread (buff,1,sizeb,file_data);
     
     std::string tempVal = "";
     std::string curX = "";
-    
+    std::string line;
+    char letter;
     int totalShapes = 0;
-    for (int i = 0; i < size; i++) {
+    while (std::getline(file_data, line)) {
         //std::cout << totalShapes << std::endl;
-        const char letter = buff[i];
-        if (letter == *" ")
-            // ignore spaces
-            continue;
-        if (letter == *"\n") {
-            // newlines mean that two new points have been read from the file
-            if ((curX == "") | (tempVal == "")) {
-                // if there's an incorrectly parsed line in the text file
-                curX = "";
-                tempVal =  "";
+        for (int i = 0; i < line.size(); i++) {
+            letter = line.at(i);
+            if (letter == *" ")
+                // ignore spaces
                 continue;
-            } else if ((curX == "-") & (tempVal == "-")) {
-                // -,- in text file will exit early
-                break;
+            if (letter == *"\n") {
+                // newlines mean that two new points have been read from the file
+                if ((curX == "") | (tempVal == "")) {
+                    // if there's an incorrectly parsed line in the text file
+                    curX = "";
+                    tempVal =  "";
+                    continue;
+                } else if ((curX == "-") & (tempVal == "-")) {
+                    // -,- in text file will exit early
+                    break;
+                }
+                //std::cout << totalShapes << std::endl;
+                PolyCustom::_loadedShapePnts[totalShapes] = new float[2];
+                PolyCustom::_loadedShapePnts[totalShapes][0] = std::stof(curX); // stof --> string to float
+                PolyCustom::_loadedShapePnts[totalShapes][1] = std::stof(tempVal);
+                totalShapes++;
+                tempVal = "";
+                
+            } else if (letter == *",") {
+                // commas mean that we just read an X, and the next value will be a Y
+                curX = tempVal;
+                tempVal = "";
+            } else {
+                tempVal += letter;
             }
-            //std::cout << totalShapes << std::endl;
-            PolyCustom::_loadedShapePnts[totalShapes] = new float[2];
-            PolyCustom::_loadedShapePnts[totalShapes][0] = std::stof(curX); // stof --> string to float
-            PolyCustom::_loadedShapePnts[totalShapes][1] = std::stof(tempVal);
-            totalShapes++;
-            tempVal = "";
-
-        } else if (letter == *",") {
-            // commas mean that we just read an X, and the next value will be a Y
-            curX = tempVal;
-            tempVal = "";
-        } else {
-            tempVal += letter;
+            //std::cout << std::endl << curX << std::endl;
         }
-        //std::cout << std::endl << curX << std::endl;
     }
-    
-    fclose(file_data);
-    free(buff);
 
     PolyCustom::_numLoadedPnts = totalShapes;
 }
 
 
 PolyCustom::~PolyCustom() {
-    std::cout << "Custom polygon at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
+   // std::cout << "Custom polygon at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
     //PolyShape::~PolyShape();
 }
 

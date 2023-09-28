@@ -40,7 +40,7 @@ PolyTriangle::~PolyTriangle() {
     //    delete[] _loadedShapePnts[i];
     //}
     //delete[] _loadedShapePnts;
-    std::cout << "Triangle at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
+ //   std::cout << "Triangle at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
 }
 
 

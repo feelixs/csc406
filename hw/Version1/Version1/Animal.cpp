@@ -12,10 +12,6 @@
 #include "PolyTriangle.hpp"
 #include "PolyCircle.hpp"
 #include <iostream>
-#include <fstream>
-#include <cstring>
-#include <string>
-#include <cstdlib>
 #include "glPlatform.h"
 
 
