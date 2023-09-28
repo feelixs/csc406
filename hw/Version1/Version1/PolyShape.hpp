@@ -11,15 +11,15 @@
 #include <stdio.h>
 
 
-
-
 class PolyShape
+/// base class for all shapes
 {
     friend class PolyCircle;
     friend class PolyLine;
     friend class PolyCustom;
     
     private:
+        // all children share these attributes
         float centerX_, centerY_, scaleX_, scaleY_, angle_;
         float red_, green_, blue_;
     
@@ -27,7 +27,7 @@ class PolyShape
         PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         ~PolyShape();
         
-        virtual void draw() const;
+        virtual void draw() const; // children will override this function
 
         //disabled constructors & operators
         PolyShape() = delete;
