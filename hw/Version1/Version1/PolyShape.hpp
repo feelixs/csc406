@@ -18,6 +18,7 @@ bool initStraightLine();
 
 class PolyShape
 {
+    friend class PolyCircle;
     friend bool loadPolyShape(const char* filename);
     friend bool initCircle();
     friend bool initStraightLine();
