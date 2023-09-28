@@ -18,29 +18,12 @@ int PolyShape::_numLoadedPnts = 0;
 const int PolyShape::_maxLoadedPnts = 25;
 
 float** PolyShape::_loadedShapePnts;
-float** PolyShape::_circlePoints;
 float** PolyShape::_straightLinePoints;
-const int PolyShape::_numCirPoints = 12;
+
 
 bool initPolyShape(const char* coordFile) {
-    bool mainCircle = initCircle();
     bool shapeInitted = loadPolyShape(coordFile);
-    return mainCircle & shapeInitted;
-}
-
-bool initCircle() {
-    PolyShape::_circlePoints = new float*[PolyShape::_numCirPoints];
-    for (int k=0; k<PolyShape::_numCirPoints; k++) {
-        PolyShape::_circlePoints[k] = new float[2];
-    }
-    float angleStep = 2.f*M_PI/PolyShape::_numCirPoints;
-    float theta;
-    for (int k=0; k<PolyShape::_numCirPoints; k++) {
-        theta = k*angleStep;
-        PolyShape::_circlePoints[k][0] = cosf(theta);
-        PolyShape::_circlePoints[k][1] = sinf(theta);
-    }
-    return true;
+    return shapeInitted;
 }
 
 bool initStraightLine() {

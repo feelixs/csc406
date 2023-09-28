@@ -12,12 +12,15 @@
 #include <stdio.h>
 
 class PolyCircle: public PolyShape {
+private:
+    // shape points of circle calculated in constructor
+    static float** _circlePoints; // Nx2 float
+    static const int _numCirPoints;
+    
 public:
     PolyCircle(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
     ~PolyCircle();
     
-    void draw() const;
-
     //disabled constructors & operators
     PolyCircle() = delete;
     PolyCircle(const PolyCircle& obj) = delete;    // copy
