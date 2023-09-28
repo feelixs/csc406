@@ -57,7 +57,6 @@ void myDisplay(void)
 {
    //    This clears the buffer(s) we draw into.  We will see later this
    //    semester what this really means
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
    //    There are two "matrix modes" in OpenGL: "projection", which sets up the
    //    camera, and "model view" which we have to be in to do any drawing
@@ -127,7 +126,7 @@ void mouseHandler(int button, int state, int x, int y)
            }
            else if (state == GLUT_UP)
            {
-               shapeList.push_back(make_shared<Animal>(x, DISPLAY_HEIGHT-y, 0, 200, 100, 0.f, 1.f, 1.f));
+               shapeList.push_back(make_shared<Animal>(x, DISPLAY_HEIGHT-y, 0, 100, 100, 0.f, 1.f, 1.f));
                if (clickCount < 4)
                    shapeList[clickCount++] = nullptr;
            }
@@ -206,6 +205,8 @@ void submenuHandler(int choice)
 void myInit(void)
 {
     // Create Menus
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     int myMenu;
     myMenu = glutCreateMenu(menuHandler);
     glutAddMenuEntry("Quit", QUIT);
