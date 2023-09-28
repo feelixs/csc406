@@ -7,6 +7,8 @@
 
 #include "Animal.hpp"
 #include "PolyShape.hpp"
+#include "PolyCustom.hpp"
+#include "PolyCircle.hpp"
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -35,10 +37,10 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
         green_(green),
         blue_(blue)
 {
-    initPolyShape(animalShapeFilePath);
+    Animal::_myShapes.push_back(std::make_shared<PolyCustom>(animalShapeFilePath, this->centerX_, this->centerY_, this->angle_, this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
     // this is where we will programatically draw the animal
-    Animal::_myShapes.push_back(std::make_shared<PolyShape>(this->centerX_, this->centerY_, this->angle_, this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
-    Animal::_myShapes.push_back(std::make_shared<PolyShape>(this->centerX_, this->centerY_, this->angle_,  this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
+    Animal::_myShapes.push_back(std::make_shared<PolyCircle>(this->centerX_, this->centerY_, this->angle_, this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
+    Animal::_myShapes.push_back(std::make_shared<PolyCircle>(this->centerX_, this->centerY_, this->angle_,  this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
     
     std::cout << "Animal was created at " << centerX_ << ", " << centerY_ << std::endl;
 }

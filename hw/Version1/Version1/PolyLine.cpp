@@ -7,6 +7,7 @@
 
 #include "PolyLine.hpp"
 #include "PolyShape.hpp"
+#include "glPlatform.h"
 #include <iostream>
 
 
@@ -24,5 +25,10 @@ PolyLine::~PolyLine() {
     }
     delete[] _straightLinePoints;
     std::cout << "Line at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
-    PolyShape::~PolyShape();
+    //PolyShape::~PolyShape();
+}
+
+
+void PolyLine::draw() const {
+    std::cout << "line draw" << std::endl;
 }

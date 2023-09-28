@@ -10,31 +10,24 @@
 
 #include <stdio.h>
 
-bool loadPolyShape(const char* filename);
-bool initPolyShape(const char* coordFile);
+
 
 
 class PolyShape
 {
     friend class PolyCircle;
     friend class PolyLine;
-    friend bool loadPolyShape(const char* filename);
-    friend bool initStraightLine();
+    friend class PolyCustom;
     
     private:
         float centerX_, centerY_, scaleX_, scaleY_, angle_;
         float red_, green_, blue_;
     
-        // shape points loaded from file shapeCoords.txt in loadShape()
-        static int _numLoadedPnts;
-        static const int _maxLoadedPnts;
-        static float** _loadedShapePnts; // Nx2 float
-    
     public:
         PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         ~PolyShape();
         
-        void draw() const;
+        virtual void draw() const = 0;
 
         //disabled constructors & operators
         PolyShape() = delete;

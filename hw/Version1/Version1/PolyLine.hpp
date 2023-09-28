@@ -21,6 +21,8 @@ public:
     PolyLine(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
     ~PolyLine();
     
+    void draw() const override;
+    
     //disabled constructors & operators
     PolyLine() = delete;
     PolyLine(const PolyLine& obj) = delete;    // copy
