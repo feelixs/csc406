@@ -23,8 +23,6 @@ float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
 
 
-static bool mainShapeInitted = false;
-
 const char* animalShapeFilePath = "/Users/michaelfelix/Documents/GitHub/csc406/hw/Version1/Version1/shapeCoords.txt";
 
 
