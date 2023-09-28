@@ -35,10 +35,7 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
         green_(green),
         blue_(blue)
 {
-    if (!mainShapeInitted) {
-        mainShapeInitted = initPolyShape(animalShapeFilePath);
-    }
-    
+    initPolyShape(animalShapeFilePath);
     // this is where we will programatically draw the animal
     Animal::_myShapes.push_back(std::make_shared<PolyShape>(this->centerX_, this->centerY_, this->angle_, this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
     Animal::_myShapes.push_back(std::make_shared<PolyShape>(this->centerX_, this->centerY_, this->angle_,  this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
