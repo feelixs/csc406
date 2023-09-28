@@ -12,9 +12,6 @@
 #include <stdio.h>
 
 class PolyCircle: public PolyShape {
-private:
-    float centerX_, centerY_, scaleX_, scaleY_, angle_;
-    float red_, green_, blue_;
 public:
     PolyCircle(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
     ~PolyCircle();

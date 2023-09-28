@@ -11,15 +11,7 @@
 #include <math.h>
 
 
-PolyCircle::PolyCircle(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue): PolyShape(centerX, centerY, angle, scaleX, scaleY, red, green, blue),
-    centerX_(centerX),
-    centerY_(centerY),
-    angle_(angle),
-    scaleX_(scaleX),
-    scaleY_(scaleY),
-    red_(red),
-    green_(green),
-    blue_(blue) {
+PolyCircle::PolyCircle(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue): PolyShape(centerX, centerY, angle, scaleX, scaleY, red, green, blue) {
     PolyCircle::_circlePoints = new float*[PolyCircle::_numCirPoints];
     for (int k=0; k<PolyCircle::_numCirPoints; k++) {
         PolyCircle::_circlePoints[k] = new float[2];
