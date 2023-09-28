@@ -21,18 +21,18 @@ PolyTriangle::PolyTriangle(float centerX, float centerY, float angle, float scal
     }
     
     // calc the points for an equilateral triangle
-    float halfSize = 10.f / 2.0f;
-    float height = halfSize * sqrt(3.0f);
+    float width = 5.f;
+    float height = width * sqrt(3.f);
 
     // vertex 1
     _trianPoints[0][0] = 0;
-    _trianPoints[0][1] = height / 2.0f;
+    _trianPoints[0][1] = height / 2.f;
     // vertex 2
-    _trianPoints[1][0] =  -halfSize;
-    _trianPoints[1][1] = -height / 2.0f;
+    _trianPoints[1][0] =  -width;
+    _trianPoints[1][1] = -height / 2.f;
     // vertex 3
-    _trianPoints[2][0] = halfSize;
-    _trianPoints[2][1] = -height / 2.0f;
+    _trianPoints[2][0] = width;
+    _trianPoints[2][1] = -height / 2.f;
 }
 
 PolyTriangle::~PolyTriangle() {
