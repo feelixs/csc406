@@ -10,14 +10,14 @@
 
 #include <stdio.h>
 
-void loadShape(const char* filename);
+bool loadShape(const char* filename);
 bool initAnimal(const char* coordFile);
 bool initCircle();
 
 
 class Animal
 {
-    friend void loadShape(const char* filename);
+    friend bool loadShape(const char* filename);
     friend bool initCircle();
     
     private:

@@ -23,8 +23,8 @@ const int Animal::_numCirPoints = 12;
 
 bool initAnimal(const char* coordFile) {
     bool mainCircle = initCircle();
-    loadShape(coordFile);
-    return mainCircle;
+    bool shapeInitted = loadShape(coordFile);
+    return mainCircle & shapeInitted;
 }
 
 bool initCircle() {
@@ -43,7 +43,7 @@ bool initCircle() {
 }
 
 
-void loadShape(const char* filename) {
+bool loadShape(const char* filename) {
     // loads a shape from a file in format:
     //   x1, y1
     //   x2, y2
@@ -59,7 +59,7 @@ void loadShape(const char* filename) {
     file_data = fopen(filename, "rb");
     if (file_data == nullptr) {
         std::cout << "Error: Unable to open file " << filename << std::endl;
-        exit(1);
+        return false;
     }
     
     fseek(file_data , 0 , SEEK_END);
@@ -108,10 +108,9 @@ void loadShape(const char* filename) {
     
     fclose(file_data);
     free(buff);
-    
-    
+
     Animal::_numLoadedPnts = totalShapes;
-    //return totalShapes;
+    return true;
 }
 
 
