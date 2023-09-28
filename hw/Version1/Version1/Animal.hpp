@@ -10,17 +10,17 @@
 
 #include <stdio.h>
 
-bool loadShape(const char* filename);
+bool loadAnimal(const char* filename);
 bool initAnimal(const char* coordFile);
-bool initCircle();
-bool initStraightLine();
+bool initACircle();
+bool initAStraightLine();
 
 
 class Animal
 {
-    friend bool loadShape(const char* filename);
-    friend bool initCircle();
-    friend bool initStraightLine();
+    friend bool loadAnimal(const char* filename);
+    friend bool initACircle();
+    friend bool initAStraightLine();
     
     private:
         float centerX_, centerY_, scaleX_, scaleY_, angle_;

@@ -1,11 +1,11 @@
 //
-//  Animal.cpp
-//  csc406-hw1
+//  PolyShape.cpp
+//  Version1
 //
-//  Created by Michael Felix on 9/20/23.
+//  Created by Michael Felix on 9/28/23.
 //
 
-#include "Animal.hpp"
+#include "PolyShape.hpp"
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -14,50 +14,50 @@
 #include "glPlatform.h"
 
 
-int Animal::_numLoadedPnts = 0;
-const int Animal::_maxLoadedPnts = 25;
+int PolyShape::_numLoadedPnts = 0;
+const int PolyShape::_maxLoadedPnts = 25;
 
-float** Animal::_loadedShapePnts;
-float** Animal::_circlePoints;
-float** Animal::_straightLinePoints;
-const int Animal::_numCirPoints = 12;
+float** PolyShape::_loadedShapePnts;
+float** PolyShape::_circlePoints;
+float** PolyShape::_straightLinePoints;
+const int PolyShape::_numCirPoints = 12;
 
-bool initAnimal(const char* coordFile) {
-    bool mainCircle = initACircle();
-    bool shapeInitted = loadAnimal(coordFile);
+bool initPolyShape(const char* coordFile) {
+    bool mainCircle = initCircle();
+    bool shapeInitted = loadPolyShape(coordFile);
     return mainCircle & shapeInitted;
 }
 
-bool initACircle() {
-    Animal::_circlePoints = new float*[Animal::_numCirPoints];
-    for (int k=0; k<Animal::_numCirPoints; k++) {
-        Animal::_circlePoints[k] = new float[2];
+bool initCircle() {
+    PolyShape::_circlePoints = new float*[PolyShape::_numCirPoints];
+    for (int k=0; k<PolyShape::_numCirPoints; k++) {
+        PolyShape::_circlePoints[k] = new float[2];
     }
-    float angleStep = 2.f*M_PI/Animal::_numCirPoints;
+    float angleStep = 2.f*M_PI/PolyShape::_numCirPoints;
     float theta;
-    for (int k=0; k<Animal::_numCirPoints; k++) {
+    for (int k=0; k<PolyShape::_numCirPoints; k++) {
         theta = k*angleStep;
-        Animal::_circlePoints[k][0] = cosf(theta);
-        Animal::_circlePoints[k][1] = sinf(theta);
+        PolyShape::_circlePoints[k][0] = cosf(theta);
+        PolyShape::_circlePoints[k][1] = sinf(theta);
     }
     return true;
 }
 
-bool initAStraightLine() {
-    Animal::_straightLinePoints = new float*[2];
-    // Animal::_straightLinePoints[0][0] = // x1
-    // Animal::_straightLinePoints[0][1] = // y1
+bool initStraightLine() {
+    PolyShape::_straightLinePoints = new float*[2];
+    // PolyShape::_straightLinePoints[0][0] = // x1
+    // PolyShape::_straightLinePoints[0][1] = // y1
     return true;
 }
 
 
-bool loadAnimal(const char* filename) {
+bool loadPolyShape(const char* filename) {
     // loads a shape from a file in format:
     //   x1, y1
     //   x2, y2
     //   ...
     
-    Animal::_loadedShapePnts = new float*[Animal::_maxLoadedPnts];
+    PolyShape::_loadedShapePnts = new float*[PolyShape::_maxLoadedPnts];
     
     FILE *file_data;
     long sizeb;
@@ -98,9 +98,9 @@ bool loadAnimal(const char* filename) {
                 break;
             }
             //std::cout << totalShapes << std::endl;
-            Animal::_loadedShapePnts[totalShapes] = new float[2];
-            Animal::_loadedShapePnts[totalShapes][0] = std::stof(curX); // stof --> string to float
-            Animal::_loadedShapePnts[totalShapes][1] = std::stof(tempVal);
+            PolyShape::_loadedShapePnts[totalShapes] = new float[2];
+            PolyShape::_loadedShapePnts[totalShapes][0] = std::stof(curX); // stof --> string to float
+            PolyShape::_loadedShapePnts[totalShapes][1] = std::stof(tempVal);
             totalShapes++;
             tempVal = "";
 
@@ -117,12 +117,12 @@ bool loadAnimal(const char* filename) {
     fclose(file_data);
     free(buff);
 
-    Animal::_numLoadedPnts = totalShapes;
+    PolyShape::_numLoadedPnts = totalShapes;
     return true;
 }
 
 
-Animal::Animal(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
+PolyShape::PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
     :    centerX_(centerX),
         centerY_(centerY),
         angle_(angle),
@@ -134,13 +134,13 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
 {
 }
 
-Animal::~Animal() {
-    std::cout << "Animal at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
+PolyShape::~PolyShape() {
+    std::cout << "PolyShape at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
 }
 
 
 
-void Animal::draw() const {
+void PolyShape::draw() const {
     //    save the current coordinate system (origin, axes, scale)
     glPushMatrix();
     
@@ -156,11 +156,11 @@ void Animal::draw() const {
     glColor3f(red_, green_, blue_);
     
     glBegin(GL_POLYGON);
-    for (int k=0; k<Animal::_maxLoadedPnts; k++) {
-        if (k >= Animal::_numLoadedPnts)
+    for (int k=0; k<PolyShape::_maxLoadedPnts; k++) {
+        if (k >= PolyShape::_numLoadedPnts)
             // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
             break;
-        glVertex2f(Animal::_loadedShapePnts[k][0], Animal::_loadedShapePnts[k][1]);
+        glVertex2f(PolyShape::_loadedShapePnts[k][0], PolyShape::_loadedShapePnts[k][1]);
     }
     glEnd();
     //    restore the original coordinate system (origin, axes, scale)

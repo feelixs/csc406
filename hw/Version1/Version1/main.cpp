@@ -12,7 +12,7 @@
 #include <unistd.h>
 #include <iostream>
 #include "glPlatform.h"
-#include "Animal.hpp"
+#include "PolyShape.hpp"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ void resizeFunc(int w, int h);
 
 
 const char* shape_cords = "/Users/michaelfelix/Documents/GitHub/csc406/hw/Version1/Version1/shapeCoords.txt";
-vector<shared_ptr<Animal>> shapeList;
+vector<shared_ptr<PolyShape>> shapeList;
 
 const int QUIT = 0, ESC = 27;
 const int RENDER_EVERY = 10;  // how many ms to wait between renders?
@@ -127,7 +127,7 @@ void mouseHandler(int button, int state, int x, int y)
            }
            else if (state == GLUT_UP)
            {
-               shapeList.push_back(make_shared<Animal>(x, DISPLAY_HEIGHT-y, 0, 200, 100, 0.f, 1.f, 1.f));
+               shapeList.push_back(make_shared<PolyShape>(x, DISPLAY_HEIGHT-y, 0, 200, 100, 0.f, 1.f, 1.f));
                if (clickCount < 4)
                    shapeList[clickCount++] = nullptr;
            }
@@ -212,12 +212,12 @@ void myInit(void)
     
     glutAttachMenu(GLUT_RIGHT_BUTTON);
     
-    // the provided txt file is a list of x y coords for vertices, and will load the coords into the Animal class
-    initAnimal(shape_cords);
+    // the provided txt file is a list of x y coords for vertices, and will load the coords into the PolyShape class
+    initPolyShape(shape_cords);
     
-    shapeList.push_back(make_shared<Animal>(420, 400, 12, 100, 100, 0.f, 1.f, 1.f));
-    shapeList.push_back(make_shared<Animal>(420, 400, 0, 100, 100, 0.f, 1.f, 1.f));
-    //shapeList.push_back(make_shared<Animal>(280, 300, 12, 200, 100, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<PolyShape>(420, 400, 12, 100, 100, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<PolyShape>(420, 400, 0, 100, 100, 0.f, 1.f, 1.f));
+    //shapeList.push_back(make_shared<PolyShape>(280, 300, 12, 200, 100, 0.f, 1.f, 1.f));
 }
 
 
