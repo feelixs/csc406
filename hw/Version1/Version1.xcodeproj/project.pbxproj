@@ -14,6 +14,7 @@
 		AA5C226B2AC6039100196AF1 /* PolyCustom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA5C22692AC6039100196AF1 /* PolyCustom.cpp */; };
 		AAB7C45D2AC5DD7800F6A5B3 /* PolyCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAB7C45B2AC5DD7800F6A5B3 /* PolyCircle.cpp */; };
 		AAB7C4602AC5E5E400F6A5B3 /* PolyRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAB7C45E2AC5E5E400F6A5B3 /* PolyRect.cpp */; };
+		AAC9B7832AC6226E006AD1D8 /* PolyTriangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAC9B7812AC6226E006AD1D8 /* PolyTriangle.cpp */; };
 		AAF220A92AC5C5B800562D83 /* PolyShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAF220A72AC5C5B800562D83 /* PolyShape.cpp */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,8 @@
 		AAB7C45C2AC5DD7800F6A5B3 /* PolyCircle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyCircle.hpp; sourceTree = "<group>"; };
 		AAB7C45E2AC5E5E400F6A5B3 /* PolyRect.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyRect.cpp; sourceTree = "<group>"; };
 		AAB7C45F2AC5E5E400F6A5B3 /* PolyRect.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyRect.hpp; sourceTree = "<group>"; };
+		AAC9B7812AC6226E006AD1D8 /* PolyTriangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyTriangle.cpp; sourceTree = "<group>"; };
+		AAC9B7822AC6226E006AD1D8 /* PolyTriangle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyTriangle.hpp; sourceTree = "<group>"; };
 		AAF220A72AC5C5B800562D83 /* PolyShape.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyShape.cpp; sourceTree = "<group>"; };
 		AAF220A82AC5C5B800562D83 /* PolyShape.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyShape.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,6 +97,8 @@
 				AAB7C45F2AC5E5E400F6A5B3 /* PolyRect.hpp */,
 				AA5C22692AC6039100196AF1 /* PolyCustom.cpp */,
 				AA5C226A2AC6039100196AF1 /* PolyCustom.hpp */,
+				AAC9B7812AC6226E006AD1D8 /* PolyTriangle.cpp */,
+				AAC9B7822AC6226E006AD1D8 /* PolyTriangle.hpp */,
 			);
 			path = Version1;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA3F04632AC48AE000D3DA39 /* main.cpp in Sources */,
+				AAC9B7832AC6226E006AD1D8 /* PolyTriangle.cpp in Sources */,
 				AAB7C45D2AC5DD7800F6A5B3 /* PolyCircle.cpp in Sources */,
 				AA3F04712AC48B7900D3DA39 /* Animal.cpp in Sources */,
 				AAB7C4602AC5E5E400F6A5B3 /* PolyRect.cpp in Sources */,
