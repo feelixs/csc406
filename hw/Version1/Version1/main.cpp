@@ -27,6 +27,7 @@ void timerBg(int val);
 void resizeFunc(int w, int h);
 
 
+const char* shape_cords = "/Users/michaelfelix/Documents/GitHub/csc406/hw/hw1/csc406-hw1/csc406-hw1/shapeCoords.txt";
 vector<shared_ptr<Animal>> shapeList;
 
 const int QUIT = 0, ESC = 27;
@@ -39,8 +40,9 @@ int DISPLAY_WIDTH = 1000, DISPLAY_HEIGHT = 1000;
 const char* DISPLAY_TITLE = "CSC406 Homework 1";
 
 
-const int numCPnts = 24;
-float** circlePoints[numCPnts];
+const int numCirclePts = 24;
+float circlePts[numCirclePts][2];
+
 
 //    This is the function that does the actual scene drawing
 //    Typically, you shold almost never have to call this function directly yourself.
@@ -210,9 +212,12 @@ void myInit(void)
     
     glutAttachMenu(GLUT_RIGHT_BUTTON);
     
+    // the provided txt file is a list of x y coords for vertices, and will load the coords into the Animal class
+    initAnimal(shape_cords);
+    
     shapeList.push_back(make_shared<Animal>(420, 400, 12, 200, 100, 0.f, 1.f, 1.f));
     shapeList.push_back(make_shared<Animal>(420, 400, 0, 200, 100, 0.f, 1.f, 1.f));
-    //shapeList.push_back(make_shared<Dolphin>(280, 300, 12, 200, 100, 0.f, 1.f, 1.f));
+    //shapeList.push_back(make_shared<Animal>(280, 300, 12, 200, 100, 0.f, 1.f, 1.f));
 }
 
 
@@ -249,4 +254,3 @@ int main(int argc, char** argv)
    //    callback functions).
    return 0;
 }
-
