@@ -10,9 +10,9 @@
 #include <iostream>
 #include <math.h>
 
-
 float** PolyCircle::_circlePoints;
 const int PolyCircle::_numCirPoints = 12;
+
 
 PolyCircle::PolyCircle(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue): PolyShape(centerX, centerY, angle, scaleX, scaleY, red, green, blue) {
     PolyCircle::_circlePoints = new float*[PolyCircle::_numCirPoints];
@@ -27,6 +27,7 @@ PolyCircle::PolyCircle(float centerX, float centerY, float angle, float scaleX, 
         PolyCircle::_circlePoints[k][1] = sinf(theta);
     }
 }
+
 
 PolyCircle::~PolyCircle() {
     PolyShape::~PolyShape();
