@@ -15,7 +15,7 @@ float** PolyRect::_rectPoints;
 const int numRectPts = 4;
 
 PolyRect::PolyRect(float centerX, float centerY, float angle, float length, float width, float r, float g, float b): PolyShape(centerX, centerY, angle, length, width, r, g, b), width_(width), length_(length) {
-    _rectPoints = new float*[4]; // only need 2 points for a line, but we also want to give it width
+    _rectPoints = new float*[numRectPts]; // only need 2 points for a line, but we also want to give it width
     for (int i = 0; i < numRectPts; i++)
         _rectPoints[i] = new float[2];
     
