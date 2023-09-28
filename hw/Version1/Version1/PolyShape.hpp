@@ -27,7 +27,7 @@ class PolyShape
         PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         ~PolyShape();
         
-        virtual void draw() const = 0;
+        virtual void draw() const;
 
         //disabled constructors & operators
         PolyShape() = delete;
