@@ -12,6 +12,7 @@
 		AA3F046D2AC48B1200D3DA39 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3F046C2AC48B1200D3DA39 /* OpenGL.framework */; };
 		AA3F04712AC48B7900D3DA39 /* Animal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA3F046F2AC48B7900D3DA39 /* Animal.cpp */; };
 		AAB7C45D2AC5DD7800F6A5B3 /* PolyCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAB7C45B2AC5DD7800F6A5B3 /* PolyCircle.cpp */; };
+		AAB7C4602AC5E5E400F6A5B3 /* PolyLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAB7C45E2AC5E5E400F6A5B3 /* PolyLine.cpp */; };
 		AAF220A92AC5C5B800562D83 /* PolyShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAF220A72AC5C5B800562D83 /* PolyShape.cpp */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,8 @@
 		AA3F04702AC48B7900D3DA39 /* Animal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animal.hpp; sourceTree = "<group>"; };
 		AAB7C45B2AC5DD7800F6A5B3 /* PolyCircle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyCircle.cpp; sourceTree = "<group>"; };
 		AAB7C45C2AC5DD7800F6A5B3 /* PolyCircle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyCircle.hpp; sourceTree = "<group>"; };
+		AAB7C45E2AC5E5E400F6A5B3 /* PolyLine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyLine.cpp; sourceTree = "<group>"; };
+		AAB7C45F2AC5E5E400F6A5B3 /* PolyLine.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyLine.hpp; sourceTree = "<group>"; };
 		AAF220A72AC5C5B800562D83 /* PolyShape.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyShape.cpp; sourceTree = "<group>"; };
 		AAF220A82AC5C5B800562D83 /* PolyShape.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyShape.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +85,8 @@
 				AAF220A82AC5C5B800562D83 /* PolyShape.hpp */,
 				AAB7C45B2AC5DD7800F6A5B3 /* PolyCircle.cpp */,
 				AAB7C45C2AC5DD7800F6A5B3 /* PolyCircle.hpp */,
+				AAB7C45E2AC5E5E400F6A5B3 /* PolyLine.cpp */,
+				AAB7C45F2AC5E5E400F6A5B3 /* PolyLine.hpp */,
 			);
 			path = Version1;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 				AA3F04632AC48AE000D3DA39 /* main.cpp in Sources */,
 				AAB7C45D2AC5DD7800F6A5B3 /* PolyCircle.cpp in Sources */,
 				AA3F04712AC48B7900D3DA39 /* Animal.cpp in Sources */,
+				AAB7C4602AC5E5E400F6A5B3 /* PolyLine.cpp in Sources */,
 				AAF220A92AC5C5B800562D83 /* PolyShape.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

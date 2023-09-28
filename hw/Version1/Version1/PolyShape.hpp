@@ -12,12 +12,12 @@
 
 bool loadPolyShape(const char* filename);
 bool initPolyShape(const char* coordFile);
-bool initStraightLine();
 
 
 class PolyShape
 {
     friend class PolyCircle;
+    friend class PolyLine;
     friend bool loadPolyShape(const char* filename);
     friend bool initStraightLine();
     
@@ -30,8 +30,6 @@ class PolyShape
         static const int _maxLoadedPnts;
         static float** _loadedShapePnts; // Nx2 float
     
-        // points for straight line
-        static float** _straightLinePoints; // 2x2 float
     public:
         PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         ~PolyShape();

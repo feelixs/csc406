@@ -18,19 +18,11 @@ int PolyShape::_numLoadedPnts = 0;
 const int PolyShape::_maxLoadedPnts = 25;
 
 float** PolyShape::_loadedShapePnts;
-float** PolyShape::_straightLinePoints;
 
 
 bool initPolyShape(const char* coordFile) {
     bool shapeInitted = loadPolyShape(coordFile);
     return shapeInitted;
-}
-
-bool initStraightLine() {
-    PolyShape::_straightLinePoints = new float*[2];
-    // PolyShape::_straightLinePoints[0][0] = // x1
-    // PolyShape::_straightLinePoints[0][1] = // y1
-    return true;
 }
 
 
