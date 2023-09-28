@@ -6,6 +6,7 @@
 //
 
 #include "Animal.hpp"
+#include "PolyShape.hpp"
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -14,111 +15,19 @@
 #include "glPlatform.h"
 
 
-int Animal::_numLoadedPnts = 0;
-const int Animal::_maxLoadedPnts = 25;
-
+std::vector<std::shared_ptr<PolyShape>> Animal::_myShapes;
 float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
-float** Animal::_straightLinePoints;
-const int Animal::_numCirPoints = 12;
-
-bool initAnimal(const char* coordFile) {
-    bool mainCircle = initACircle();
-    bool shapeInitted = loadAnimal(coordFile);
-    return mainCircle & shapeInitted;
-}
-
-bool initACircle() {
-    Animal::_circlePoints = new float*[Animal::_numCirPoints];
-    for (int k=0; k<Animal::_numCirPoints; k++) {
-        Animal::_circlePoints[k] = new float[2];
-    }
-    float angleStep = 2.f*M_PI/Animal::_numCirPoints;
-    float theta;
-    for (int k=0; k<Animal::_numCirPoints; k++) {
-        theta = k*angleStep;
-        Animal::_circlePoints[k][0] = cosf(theta);
-        Animal::_circlePoints[k][1] = sinf(theta);
-    }
-    return true;
-}
-
-bool initAStraightLine() {
-    Animal::_straightLinePoints = new float*[2];
-    // Animal::_straightLinePoints[0][0] = // x1
-    // Animal::_straightLinePoints[0][1] = // y1
-    return true;
-}
 
 
-bool loadAnimal(const char* filename) {
-    // loads a shape from a file in format:
-    //   x1, y1
-    //   x2, y2
-    //   ...
-    
-    Animal::_loadedShapePnts = new float*[Animal::_maxLoadedPnts];
-    
-    FILE *file_data;
-    long sizeb;
-    char * buff;
-    size_t size;
-    
-    file_data = fopen(filename, "rb");
-    if (file_data == nullptr) {
-        std::cout << "Error: Unable to open file " << filename << std::endl;
-        return false;
-    }
-    
-    fseek(file_data , 0 , SEEK_END);
-    sizeb = ftell(file_data);
-    rewind (file_data);
-    buff = (char*) malloc (sizeof(char)*sizeb);
-    size = fread (buff,1,sizeb,file_data);
-    
-    std::string tempVal = "";
-    std::string curX = "";
-    
-    int totalShapes = 0;
-    for (int i = 0; i < size; i++) {
-        //std::cout << totalShapes << std::endl;
-        const char letter = buff[i];
-        if (letter == *" ")
-            // ignore spaces
-            continue;
-        if (letter == *"\n") {
-            // newlines mean that two new points have been read from the file
-            if ((curX == "") | (tempVal == "")) {
-                // if there's an incorrectly parsed line in the text file
-                curX = "";
-                tempVal =  "";
-                continue;
-            } else if ((curX == "-") & (tempVal == "-")) {
-                // -,- in text file will exit early
-                break;
-            }
-            //std::cout << totalShapes << std::endl;
-            Animal::_loadedShapePnts[totalShapes] = new float[2];
-            Animal::_loadedShapePnts[totalShapes][0] = std::stof(curX); // stof --> string to float
-            Animal::_loadedShapePnts[totalShapes][1] = std::stof(tempVal);
-            totalShapes++;
-            tempVal = "";
 
-        } else if (letter == *",") {
-            // commas mean that we just read an X, and the next value will be a Y
-            curX = tempVal;
-            tempVal = "";
-        } else {
-            tempVal += letter;
-        }
-        //std::cout << std::endl << curX << std::endl;
-    }
-    
-    fclose(file_data);
-    free(buff);
+const char* animalShapeFilePath = "/Users/michaelfelix/Documents/GitHub/csc406/hw/Version1/Version1/shapeCoords.txt";
 
-    Animal::_numLoadedPnts = totalShapes;
-    return true;
+bool initAnimal() {
+    bool mainShapeInitted = initPolyShape(animalShapeFilePath);
+    Animal::_myShapes.push_back(std::make_shared<PolyShape>(420, 400, 12, 100, 100, 0.f, 1.f, 1.f));
+    Animal::_myShapes.push_back(std::make_shared<PolyShape>(420, 400, 0, 100, 100, 0.f, 1.f, 1.f));
+    return mainShapeInitted;
 }
 
 
@@ -141,28 +50,9 @@ Animal::~Animal() {
 
 
 void Animal::draw() const {
-    //    save the current coordinate system (origin, axes, scale)
-    glPushMatrix();
-    
-    //    move to the center of the disk
-    glTranslatef(centerX_, centerY_, 0.f);
-        
-    // apply rotation
-    glRotatef(angle_, 0.f, 0.f, 1.f);
-    
-    //    apply the radius as a scale
-    glScalef(scaleX_, scaleY_, 1.f);
-    
-    glColor3f(red_, green_, blue_);
-    
-    glBegin(GL_POLYGON);
-    for (int k=0; k<Animal::_maxLoadedPnts; k++) {
-        if (k >= Animal::_numLoadedPnts)
-            // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
-            break;
-        glVertex2f(Animal::_loadedShapePnts[k][0], Animal::_loadedShapePnts[k][1]);
+    for (auto obj : _myShapes)
+    {
+        if (obj != nullptr)
+            obj->draw();
     }
-    glEnd();
-    //    restore the original coordinate system (origin, axes, scale)
-    glPopMatrix();
 }
