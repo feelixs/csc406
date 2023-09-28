@@ -16,7 +16,6 @@
 
 int PolyShape::_numLoadedPnts = 0;
 const int PolyShape::_maxLoadedPnts = 25;
-
 float** PolyShape::_loadedShapePnts;
 
 
@@ -110,6 +109,10 @@ PolyShape::PolyShape(float centerX, float centerY, float angle, float scaleX, fl
 }
 
 PolyShape::~PolyShape() {
+    //for (int i = 0; i < _numLoadedPnts; i++) {
+    //    delete[] _loadedShapePnts[i];
+    //}
+    //delete[] _loadedShapePnts;
     std::cout << "PolyShape at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
 }
 
