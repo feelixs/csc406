@@ -18,7 +18,7 @@ private:
     static float** _straightLinePoints; // 2x2 float
     
 public:
-    PolyLine(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+    PolyLine(float centerX, float centerY, float angle, float length, float width, float r, float g, float b);
     ~PolyLine();
     
     void draw() const override;

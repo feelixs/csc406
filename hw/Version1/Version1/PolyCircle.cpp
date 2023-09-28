@@ -36,7 +36,7 @@ PolyCircle::~PolyCircle() {
 //    }
 //    delete[] _circlePoints;
     std::cout << "Cicle at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
-    //PolyShape::~PolyShape();
+    PolyShape::~PolyShape();
 }
 
 

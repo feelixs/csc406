@@ -39,6 +39,7 @@
 		AA3F04702AC48B7900D3DA39 /* Animal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animal.hpp; sourceTree = "<group>"; };
 		AA5C22692AC6039100196AF1 /* PolyCustom.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyCustom.cpp; sourceTree = "<group>"; };
 		AA5C226A2AC6039100196AF1 /* PolyCustom.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyCustom.hpp; sourceTree = "<group>"; };
+		AA5C226C2AC60E1400196AF1 /* shapeCoords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = shapeCoords.txt; sourceTree = "<group>"; };
 		AAB7C45B2AC5DD7800F6A5B3 /* PolyCircle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyCircle.cpp; sourceTree = "<group>"; };
 		AAB7C45C2AC5DD7800F6A5B3 /* PolyCircle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyCircle.hpp; sourceTree = "<group>"; };
 		AAB7C45E2AC5E5E400F6A5B3 /* PolyLine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyLine.cpp; sourceTree = "<group>"; };
@@ -80,6 +81,7 @@
 		AA3F04612AC48AE000D3DA39 /* Version1 */ = {
 			isa = PBXGroup;
 			children = (
+				AA5C226C2AC60E1400196AF1 /* shapeCoords.txt */,
 				AA3F046E2AC48B5300D3DA39 /* glPlatform.h */,
 				AA3F04622AC48AE000D3DA39 /* main.cpp */,
 				AA3F046F2AC48B7900D3DA39 /* Animal.cpp */,

@@ -7,6 +7,7 @@
 
 #include "Animal.hpp"
 #include "PolyShape.hpp"
+#include "PolyLine.hpp"
 #include "PolyCustom.hpp"
 #include "PolyCircle.hpp"
 #include <iostream>
@@ -37,10 +38,26 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
         green_(green),
         blue_(blue)
 {
-    Animal::_myShapes.push_back(std::make_shared<PolyCustom>(animalShapeFilePath, this->centerX_, this->centerY_, this->angle_, this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
-    // this is where we will programatically draw the animal
-    Animal::_myShapes.push_back(std::make_shared<PolyCircle>(this->centerX_, this->centerY_, this->angle_, this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
-    Animal::_myShapes.push_back(std::make_shared<PolyCircle>(this->centerX_, this->centerY_, this->angle_,  this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
+    // this is where we programatically draw the animal
+    
+    // two half-circles at different angles (face)
+    _myShapes.push_back(std::make_shared<PolyCustom>(animalShapeFilePath, centerX_, centerY_, angle_+4.f, scaleX_, scaleY_, red_, green_, blue_));
+    _myShapes.push_back(std::make_shared<PolyCustom>(animalShapeFilePath, centerX_, centerY_, angle_+14.f, scaleX_, scaleY_, red_, green_, blue_));
+    
+//    _myShapes.push_back(std::make_shared<PolyCircle>(centerX_, centerY_, angle_, scaleX_, scaleY_, red_, green_, blue_));
+
+    
+    // left eye
+    _myShapes.push_back(std::make_shared<PolyCircle>(centerX_-(scaleX_/2.4), centerY_+(scaleY_/1.9), angle_, scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f));
+    // right eye
+    _myShapes.push_back(std::make_shared<PolyCircle>(centerX_+(scaleX_/2.4), centerY_+(scaleY_/1.9), angle_, scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f));
+    
+    // nose pt1
+    // float centerX, float centerY, float angle, float length, float width, float r, float g, float b
+    _myShapes.push_back(std::make_shared<PolyLine>(centerX_, centerY_, angle_, scaleX_, (scaleY_), 1.f, 1.f, 1.f));
+    
+    
+
     
     std::cout << "Animal was created at " << centerX_ << ", " << centerY_ << std::endl;
 }
