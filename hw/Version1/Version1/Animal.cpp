@@ -55,7 +55,7 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
    // _myShapes.push_back(std::make_shared<PolyRect>(centerX_-(scaleX_/24.f), centerY_+(scaleY_/2.2), angle_-10.f, scaleX_/20.f, scaleY_/2.4, 0.f, 0.f, 0.f));
    // _myShapes.push_back(std::make_shared<PolyRect>(centerX_+(scaleX_/24.f), centerY_+(scaleY_/2.2), angle_+10.f, scaleX_/20.f, scaleY_/2.4, 0.f, 0.f, 0.f));
     
-    _myShapes.push_back(std::make_shared<PolyTriangle>(centerX_, centerY_, angle_, 2.f, 4.f, 1.f, 1.f, 1.f));
+    _myShapes.push_back(std::make_shared<PolyTriangle>(centerX_, centerY_+(scaleY_/2.4), angle_, scaleX_/50.f, scaleY_/25.f, 0.f, 0.f, 0.f));
     std::cout << "Animal was created at " << centerX_ << ", " << centerY_ << std::endl;
 }
 
