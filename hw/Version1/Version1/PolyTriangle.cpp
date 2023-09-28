@@ -27,11 +27,9 @@ PolyTriangle::PolyTriangle(float centerX, float centerY, float angle, float scal
     // vertex 1
     _trianPoints[0][0] = 0;
     _trianPoints[0][1] = height / 2.0f;
-
     // vertex 2
     _trianPoints[1][0] =  -halfSize;
     _trianPoints[1][1] = -height / 2.0f;
-
     // vertex 3
     _trianPoints[2][0] = halfSize;
     _trianPoints[2][1] = -height / 2.0f;
