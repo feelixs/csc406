@@ -12,12 +12,9 @@
 #include <stdio.h>
 #include <vector>
 
-bool initAnimal();
-
 
 class Animal
 {
-    friend bool initAnimal();
     private:
         float centerX_, centerY_, scaleX_, scaleY_, angle_;
         float red_, green_, blue_;

@@ -20,15 +20,9 @@ float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
 
 
+static bool mainShapeInitted = false;
 
 const char* animalShapeFilePath = "/Users/michaelfelix/Documents/GitHub/csc406/hw/Version1/Version1/shapeCoords.txt";
-
-bool initAnimal() {
-    bool mainShapeInitted = initPolyShape(animalShapeFilePath);
-    Animal::_myShapes.push_back(std::make_shared<PolyShape>(420, 400, 12, 100, 100, 0.f, 1.f, 1.f));
-    Animal::_myShapes.push_back(std::make_shared<PolyShape>(420, 400, 0, 100, 100, 0.f, 1.f, 1.f));
-    return mainShapeInitted;
-}
 
 
 Animal::Animal(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
@@ -41,13 +35,16 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
         green_(green),
         blue_(blue)
 {
+    if (!mainShapeInitted) {
+        mainShapeInitted = initPolyShape(animalShapeFilePath);
+    }
+    Animal::_myShapes.push_back(std::make_shared<PolyShape>(this->centerX_, this->centerY_, this->angle_, this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
+    Animal::_myShapes.push_back(std::make_shared<PolyShape>(this->centerX_, this->centerY_, this->angle_,  this->scaleX_, this->scaleY_, this->red_, this->green_, this->blue_));
 }
 
 Animal::~Animal() {
     std::cout << "Animal at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
 }
-
-
 
 void Animal::draw() const {
     for (auto obj : _myShapes)
