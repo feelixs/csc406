@@ -37,5 +37,8 @@ PolyShape::~PolyShape() {
 
 
 void PolyShape::draw() const {
-    std::cout << "draw not overriden" << std::endl;
+    // this will be overriden by the shape class's children
+    // we will never call draw of the base shape class directly
+    
+    // std::cout << "draw not overriden" << std::endl;
 }
