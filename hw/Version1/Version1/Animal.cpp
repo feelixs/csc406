@@ -19,6 +19,7 @@ const int Animal::_maxLoadedPnts = 25;
 
 float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
+float** Animal::_straightLinePoints;
 const int Animal::_numCirPoints = 12;
 
 bool initAnimal(const char* coordFile) {
@@ -39,6 +40,13 @@ bool initCircle() {
         Animal::_circlePoints[k][0] = cosf(theta);
         Animal::_circlePoints[k][1] = sinf(theta);
     }
+    return true;
+}
+
+bool initStraightLine() {
+    Animal::_straightLinePoints = new float*[2];
+    // Animal::_straightLinePoints[0][0] = // x1
+    // Animal::_straightLinePoints[0][1] = // y1
     return true;
 }
 
