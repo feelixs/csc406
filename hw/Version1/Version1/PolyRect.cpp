@@ -5,37 +5,36 @@
 //  Created by Michael Felix on 9/28/23.
 //
 
-#include "PolyLine.hpp"
+#include "PolyRect.hpp"
 #include "PolyShape.hpp"
 #include "glPlatform.h"
 #include <iostream>
 
 
-float** PolyLine::_straightLinePoints;
+float** PolyRect::_straightLinePoints;
 const int numLinePts = 4;
 
-PolyLine::PolyLine(float centerX, float centerY, float angle, float length, float width, float r, float g, float b): PolyShape(centerX, centerY, angle, length, width, r, g, b) {
+PolyRect::PolyRect(float centerX, float centerY, float angle, float length, float width, float r, float g, float b): PolyShape(centerX, centerY, angle, length, width, r, g, b), width_(width), length_(length) {
     _straightLinePoints = new float*[4]; // only need 2 points for a line, but we also want to give it width
     for (int i = 0; i < numLinePts; i++)
         _straightLinePoints[i] = new float[2];
     
-    // scaleX_ = length
-    // scaleY_ = width
-    _straightLinePoints[0][0] = 0;
-    _straightLinePoints[0][1] = - (scaleX_/2.f);
+    _straightLinePoints[0][0] = -length / 2.f;
+    _straightLinePoints[0][1] = -width / 2.f;
     
-    _straightLinePoints[1][0] = 0;
-    _straightLinePoints[1][1] = - (scaleX_/2.f) + scaleY_;
+    _straightLinePoints[1][0] = -length / 2.f;
+    _straightLinePoints[1][1] = width / 2.f;
     
-    _straightLinePoints[2][0] = scaleY_;
-    _straightLinePoints[2][1] = (scaleX_/2.f) + scaleY_;
+    _straightLinePoints[2][0] = length / 2.f;
+    _straightLinePoints[2][1] = width / 2.f;
+
+    _straightLinePoints[3][0] = length / 2.f;
+    _straightLinePoints[3][1] = -width / 2.f;
     
-    _straightLinePoints[3][0] = scaleY_;
-    _straightLinePoints[3][1] = (scaleX_/2.f);
 }
 
 
-PolyLine::~PolyLine() {
+PolyRect::~PolyRect() {
     //for (int i = 0; i < 2; i++) {
     //    delete[] _straightLinePoints[i];
     //}
@@ -45,7 +44,7 @@ PolyLine::~PolyLine() {
 }
 
 
-void PolyLine::draw() const {
+void PolyRect::draw() const {
     //    save the current coordinate system (origin, axes, scale)
     glPushMatrix();
     

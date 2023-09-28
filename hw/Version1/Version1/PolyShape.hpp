@@ -15,7 +15,7 @@ class PolyShape
 /// base class for all shapes
 {
     friend class PolyCircle;
-    friend class PolyLine;
+    friend class PolyRect;
     friend class PolyCustom;
     
     private:

@@ -7,7 +7,7 @@
 
 #include "Animal.hpp"
 #include "PolyShape.hpp"
-#include "PolyLine.hpp"
+#include "PolyRect.hpp"
 #include "PolyCustom.hpp"
 #include "PolyCircle.hpp"
 #include <iostream>
@@ -50,12 +50,7 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
     // right eye
     _myShapes.push_back(std::make_shared<PolyCircle>(centerX_+(scaleX_/2.4), centerY_+(scaleY_/1.9), angle_, scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f));
     
-    // nose pt1
-    // float centerX, float centerY, float angle, float length, float width, float r, float g, float b
-    _myShapes.push_back(std::make_shared<PolyLine>(centerX_, centerY_, angle_, scaleX_, (scaleY_), 1.f, 1.f, 1.f));
-    
-    
-
+    _myShapes.push_back(std::make_shared<PolyRect>(centerX_, centerY_, angle_, 10.f, 4.f, 1.f, 1.f, 1.f));
     
     std::cout << "Animal was created at " << centerX_ << ", " << centerY_ << std::endl;
 }
