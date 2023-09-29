@@ -10,11 +10,12 @@
 
 #include "PolyShape.hpp"
 #include <stdio.h>
+#include <string>
 
 bool loadPolyShape(const char* filename);
 bool initPolyShape(const char* coordFile);
 
-class PolyCustom: public PolyShape {
+class PolyHalfCircle: public PolyShape {
     friend bool loadPolyShape(const char* filename);
 private:
     // shape points loaded from file shapeCoords.txt in loadShape()
@@ -24,17 +25,17 @@ private:
     static float** _loadedShapePnts; // Nx2 float
     
 public:
-    PolyCustom(const char* filepath, float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
-    ~PolyCustom();
+    PolyHalfCircle(std::string filepath, float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+    ~PolyHalfCircle();
     
     void draw() const override;
     
     //disabled constructors & operators
-    PolyCustom() = delete;
-    PolyCustom(const PolyCustom& obj) = delete;    // copy
-    PolyCustom(PolyCustom&& obj) = delete;        // move
-    PolyCustom& operator = (const PolyCustom& obj) = delete;    // copy operator
-    PolyCustom& operator = (PolyCustom&& obj) = delete;        // move operator
+    PolyHalfCircle() = delete;
+    PolyHalfCircle(const PolyHalfCircle& obj) = delete;    // copy
+    PolyHalfCircle(PolyHalfCircle&& obj) = delete;        // move
+    PolyHalfCircle& operator = (const PolyHalfCircle& obj) = delete;    // copy operator
+    PolyHalfCircle& operator = (PolyHalfCircle&& obj) = delete;        // move operator
 };
 
 #endif /* PolyCustom_hpp */
