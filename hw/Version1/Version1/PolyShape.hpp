@@ -16,8 +16,10 @@ class PolyShape
 {
     friend class PolyCircle;
     friend class PolyRect;
-    friend class PolyCustom;
+    friend class PolyHalfCircle;
     friend class PolyTriangle;
+    friend class PolyEarRight;
+    friend class PolyEarLeft;
     
     private:
         // all children share these attributes

@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA24C01C2AC64A4E006B59DF /* PolyEarRight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C01A2AC64A4E006B59DF /* PolyEarRight.cpp */; };
+		AA24C01F2AC64C70006B59DF /* PolyEarLeft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C01E2AC64C70006B59DF /* PolyEarLeft.cpp */; };
 		AA3F04632AC48AE000D3DA39 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA3F04622AC48AE000D3DA39 /* main.cpp */; };
 		AA3F046B2AC48B0D00D3DA39 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3F046A2AC48B0D00D3DA39 /* GLUT.framework */; };
 		AA3F046D2AC48B1200D3DA39 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3F046C2AC48B1200D3DA39 /* OpenGL.framework */; };
 		AA3F04712AC48B7900D3DA39 /* Animal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA3F046F2AC48B7900D3DA39 /* Animal.cpp */; };
-		AA5C226B2AC6039100196AF1 /* PolyCustom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA5C22692AC6039100196AF1 /* PolyCustom.cpp */; };
+		AA5C226B2AC6039100196AF1 /* PolyHalfCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA5C22692AC6039100196AF1 /* PolyHalfCircle.cpp */; };
 		AAB7C45D2AC5DD7800F6A5B3 /* PolyCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAB7C45B2AC5DD7800F6A5B3 /* PolyCircle.cpp */; };
 		AAB7C4602AC5E5E400F6A5B3 /* PolyRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAB7C45E2AC5E5E400F6A5B3 /* PolyRect.cpp */; };
 		AAC9B7832AC6226E006AD1D8 /* PolyTriangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAC9B7812AC6226E006AD1D8 /* PolyTriangle.cpp */; };
@@ -31,6 +33,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA24C01A2AC64A4E006B59DF /* PolyEarRight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolyEarRight.cpp; sourceTree = "<group>"; };
+		AA24C01B2AC64A4E006B59DF /* PolyEarRight.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PolyEarRight.hpp; sourceTree = "<group>"; };
+		AA24C01D2AC64C70006B59DF /* PolyEarLeft.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PolyEarLeft.hpp; sourceTree = "<group>"; };
+		AA24C01E2AC64C70006B59DF /* PolyEarLeft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolyEarLeft.cpp; sourceTree = "<group>"; };
 		AA3F045F2AC48AE000D3DA39 /* Version1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Version1; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA3F04622AC48AE000D3DA39 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AA3F046A2AC48B0D00D3DA39 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -38,8 +44,8 @@
 		AA3F046E2AC48B5300D3DA39 /* glPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glPlatform.h; sourceTree = "<group>"; };
 		AA3F046F2AC48B7900D3DA39 /* Animal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Animal.cpp; sourceTree = "<group>"; };
 		AA3F04702AC48B7900D3DA39 /* Animal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animal.hpp; sourceTree = "<group>"; };
-		AA5C22692AC6039100196AF1 /* PolyCustom.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyCustom.cpp; sourceTree = "<group>"; };
-		AA5C226A2AC6039100196AF1 /* PolyCustom.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyCustom.hpp; sourceTree = "<group>"; };
+		AA5C22692AC6039100196AF1 /* PolyHalfCircle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyHalfCircle.cpp; sourceTree = "<group>"; };
+		AA5C226A2AC6039100196AF1 /* PolyHalfCircle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyHalfCircle.hpp; sourceTree = "<group>"; };
 		AA5C226C2AC60E1400196AF1 /* shapeCoords.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = shapeCoords.txt; sourceTree = "<group>"; };
 		AAAE5EC92AC62CCF00D75DFC /* rightears.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = rightears.txt; sourceTree = "<group>"; };
 		AAB7C45B2AC5DD7800F6A5B3 /* PolyCircle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PolyCircle.cpp; sourceTree = "<group>"; };
@@ -97,10 +103,14 @@
 				AAB7C45C2AC5DD7800F6A5B3 /* PolyCircle.hpp */,
 				AAB7C45E2AC5E5E400F6A5B3 /* PolyRect.cpp */,
 				AAB7C45F2AC5E5E400F6A5B3 /* PolyRect.hpp */,
-				AA5C22692AC6039100196AF1 /* PolyCustom.cpp */,
-				AA5C226A2AC6039100196AF1 /* PolyCustom.hpp */,
+				AA5C22692AC6039100196AF1 /* PolyHalfCircle.cpp */,
+				AA5C226A2AC6039100196AF1 /* PolyHalfCircle.hpp */,
 				AAC9B7812AC6226E006AD1D8 /* PolyTriangle.cpp */,
 				AAC9B7822AC6226E006AD1D8 /* PolyTriangle.hpp */,
+				AA24C01A2AC64A4E006B59DF /* PolyEarRight.cpp */,
+				AA24C01B2AC64A4E006B59DF /* PolyEarRight.hpp */,
+				AA24C01E2AC64C70006B59DF /* PolyEarLeft.cpp */,
+				AA24C01D2AC64C70006B59DF /* PolyEarLeft.hpp */,
 			);
 			path = Version1;
 			sourceTree = "<group>";
@@ -173,10 +183,12 @@
 			files = (
 				AA3F04632AC48AE000D3DA39 /* main.cpp in Sources */,
 				AAC9B7832AC6226E006AD1D8 /* PolyTriangle.cpp in Sources */,
+				AA24C01F2AC64C70006B59DF /* PolyEarLeft.cpp in Sources */,
 				AAB7C45D2AC5DD7800F6A5B3 /* PolyCircle.cpp in Sources */,
+				AA24C01C2AC64A4E006B59DF /* PolyEarRight.cpp in Sources */,
 				AA3F04712AC48B7900D3DA39 /* Animal.cpp in Sources */,
 				AAB7C4602AC5E5E400F6A5B3 /* PolyRect.cpp in Sources */,
-				AA5C226B2AC6039100196AF1 /* PolyCustom.cpp in Sources */,
+				AA5C226B2AC6039100196AF1 /* PolyHalfCircle.cpp in Sources */,
 				AAF220A92AC5C5B800562D83 /* PolyShape.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
