@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <cstdio>
+#include <random>
 #include <unistd.h>
 #include <iostream>
 #include "glPlatform.h"
@@ -43,6 +44,17 @@ const char* DISPLAY_TITLE = "CSC406 Homework 1";
 const int numCirclePts = 24;
 float circlePts[numCirclePts][2];
 
+
+// create a random float number generator
+static int clickCount = 0;
+static std::random_device seed;
+static std::mt19937 gen(seed());
+std::uniform_real_distribution<float> colorValGen(0.0f, 1.0f); // set the range of the random color generator from 0-1
+
+// set the range of possible locations, but subtract 100 because we don't want them too far offscreen
+std::uniform_real_distribution<float> coordValGenX(0.0f, DISPLAY_WIDTH-100.f);
+std::uniform_real_distribution<float> coordValGenY(0.0f, DISPLAY_HEIGHT-100.f);
+std::uniform_real_distribution<float> scaleValGen(80.f, 200.f);
 
 //    This is the function that does the actual scene drawing
 //    Typically, you shold almost never have to call this function directly yourself.
@@ -109,24 +121,19 @@ void resizeFunc(int w, int h)
 
 //    This function is called when a mouse event occurs.  This event, of type s
 //    (up, down, dragged, etc.), occurs on a particular button of the mouse.
-//
 void mouseHandler(int button, int state, int x, int y)
 {
    // silence the warning
-   static int clickCount = 0;
    (void) x;
    (void) y;
    
    switch (button)
    {
        case GLUT_LEFT_BUTTON:
-           if (state == GLUT_DOWN)
+           if (state == GLUT_UP)
            {
-               //    do something
-           }
-           else if (state == GLUT_UP)
-           {
-               shapeList.push_back(make_shared<Animal>(x, DISPLAY_HEIGHT-y, 0, 100, 100, 0.f, 1.f, 1.f));
+               float randScale = scaleValGen(seed);
+               shapeList.push_back(make_shared<Animal>(x, DISPLAY_HEIGHT-y, 0, randScale, randScale, colorValGen(seed), colorValGen(seed), colorValGen(seed)));
                if (clickCount < 4)
                    shapeList[clickCount++] = nullptr;
            }
@@ -214,13 +221,13 @@ void myInit(void)
     glutAttachMenu(GLUT_RIGHT_BUTTON);
     
     // initialize some animals
-    shapeList.push_back(make_shared<Animal>(320, 400, 0, 100, 100, 1.f, 1.f, 0.f));
-    shapeList.push_back(make_shared<Animal>(900, 400, 0, 80, 80, 0.f, 1.f, 0.f));
-    shapeList.push_back(make_shared<Animal>(700, 220, 0, 200, 200, 0.8, 0.2, 0.8));
-    shapeList.push_back(make_shared<Animal>(100, 300, 0, 50, 50, 0.f, 1.f, 1.f));
-    shapeList.push_back(make_shared<Animal>(170, 600, 0, 150, 150, 1.f, 0.f, 0.f));
-    shapeList.push_back(make_shared<Animal>(600, 700, 0, 70, 70, 1.f, 0.f, 0.8));
-    shapeList.push_back(make_shared<Animal>(700, 500, 0, 55, 55, 0.4, 0.9, 1.f));
+    shapeList.push_back(make_shared<Animal>(coordValGenX(seed), coordValGenY(seed), 0, 100, 100, colorValGen(seed), colorValGen(seed), colorValGen(seed)));
+    shapeList.push_back(make_shared<Animal>(coordValGenX(seed), coordValGenY(seed), 0, 80, 80, colorValGen(seed), colorValGen(seed), colorValGen(seed)));
+    shapeList.push_back(make_shared<Animal>(coordValGenX(seed), coordValGenY(seed), 0, 200, 200, colorValGen(seed), colorValGen(seed), colorValGen(seed)));
+    shapeList.push_back(make_shared<Animal>(coordValGenX(seed), coordValGenY(seed), 0, 50, 50, colorValGen(seed), colorValGen(seed), colorValGen(seed)));
+    shapeList.push_back(make_shared<Animal>(coordValGenX(seed), coordValGenY(seed), 0, 150, 150, colorValGen(seed), colorValGen(seed), colorValGen(seed)));
+    shapeList.push_back(make_shared<Animal>(coordValGenX(seed), coordValGenY(seed), 0, 70, 70, colorValGen(seed), colorValGen(seed), colorValGen(seed)));
+    shapeList.push_back(make_shared<Animal>(coordValGenX(seed), coordValGenY(seed), 0, 55, 55, colorValGen(seed), colorValGen(seed), colorValGen(seed)));
 }
 
 
