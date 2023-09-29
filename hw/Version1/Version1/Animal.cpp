@@ -67,9 +67,7 @@ Animal::~Animal() {
 }
 
 void Animal::draw() const {
-    for (auto obj : _myShapes)
-    {
-        if (obj != nullptr)
-            obj->draw();
+    for (int i=0; i<_myShapes.size(); i++) {
+        _myShapes.at(i)->draw();
     }
 }
