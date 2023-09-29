@@ -30,6 +30,8 @@ public:
     
     void draw() const override;
     
+    void initFromPolygon();
+    void initFromFile(const char* filepath);
     //disabled constructors & operators
     PolyEarLeft() = delete;
     PolyEarLeft(const PolyEarLeft& obj) = delete;    // copy

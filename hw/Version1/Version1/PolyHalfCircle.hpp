@@ -12,11 +12,8 @@
 #include <stdio.h>
 #include <string>
 
-bool loadPolyShape(const char* filename);
-bool initPolyShape(const char* coordFile);
 
 class PolyHalfCircle: public PolyShape {
-    friend bool loadPolyShape(const char* filename);
 private:
     // shape points loaded from file shapeCoords.txt in loadShape()
     const char* _myLoadedFilepath;
@@ -29,7 +26,8 @@ public:
     ~PolyHalfCircle();
     
     void draw() const override;
-    
+    void initFromPolygon();
+    void initFromFile(const char* filepath);
     //disabled constructors & operators
     PolyHalfCircle() = delete;
     PolyHalfCircle(const PolyHalfCircle& obj) = delete;    // copy
