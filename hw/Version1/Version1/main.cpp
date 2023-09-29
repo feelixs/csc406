@@ -215,7 +215,12 @@ void myInit(void)
     
     // initialize some animals
     shapeList.push_back(make_shared<Animal>(320, 400, 0, 100, 100, 0.f, 1.f, 1.f));
-    shapeList.push_back(make_shared<Animal>(900, 400, 0, 50, 50, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<Animal>(900, 400, 0, 80, 80, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<Animal>(700, 220, 0, 200, 200, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<Animal>(100, 300, 0, 50, 50, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<Animal>(170, 600, 0, 150, 150, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<Animal>(600, 700, 0, 70, 70, 0.f, 1.f, 1.f));
+    shapeList.push_back(make_shared<Animal>(700, 500, 0, 55, 55, 0.f, 1.f, 1.f));
 }
 
 
