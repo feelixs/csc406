@@ -81,10 +81,8 @@ void myDisplay(void)
    //    basic drawing code
    //--------------------------
 
-    for (auto obj : shapeList)
-    {
-        if (obj != nullptr)
-            obj->draw();
+    for (int i=0; i<shapeList.size(); i++) {
+        shapeList.at(i)->draw();
     }
    //    We were drawing into the back buffer, now it should be brought
    //    to the forefront.
