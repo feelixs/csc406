@@ -90,6 +90,7 @@ void PolyWingRight::initFromFile(const char* filepath) {
 
     if (!file_data.is_open()) {
         std::cout << "Error: Unable to open file " << filepath << std::endl;
+        // if the file can't be opened, load the hard-coded values instead
         return initFromPolygon();
     }
     

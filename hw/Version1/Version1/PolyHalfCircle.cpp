@@ -102,7 +102,8 @@ void PolyHalfCircle::initFromFile(const char* filepath) {
 
     if (!file_data.is_open()) {
         std::cout << "Error: Unable to open file " << filepath << std::endl;
-        return initFromPolygon();  // if the provided file is not found, default to hardcoded values
+        // if the file can't be opened, load the hard-coded values instead
+        return initFromPolygon();
     }
     
     std::string tempVal = "";
