@@ -11,8 +11,8 @@
 #include "PolyHalfCircle.hpp"
 #include "PolyTriangle.hpp"
 #include "PolyCircle.hpp"
-#include "PolyEarRight.hpp"
-#include "PolyEarLeft.hpp"
+#include "PolyWingRight.hpp"
+#include "PolyWingLeft.hpp"
 #include <iostream>
 #include <string>
 #include "glPlatform.h"
@@ -40,8 +40,8 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
     
     
     // wings
-    _myShapes.push_back(std::make_shared<PolyEarRight>(animalShapesDir + "/rightEar.txt", centerX_+(scaleX_/10.f), centerY_+(scaleY_/1.6), angle_-10, scaleX_, scaleY_, red_, green_, blue_));
-    _myShapes.push_back(std::make_shared<PolyEarLeft>(animalShapesDir + "/leftEar.txt", centerX_-(scaleX_/10.f), centerY_+(scaleY_/1.6), angle_+10, scaleX_, scaleY_, red_, green_, blue_));
+    _myShapes.push_back(std::make_shared<PolyWingRight>(animalShapesDir + "/rightEar.txt", centerX_+(scaleX_/10.f), centerY_+(scaleY_/1.6), angle_-10, scaleX_, scaleY_, red_, green_, blue_));
+    _myShapes.push_back(std::make_shared<PolyWingLeft>(animalShapesDir + "/leftEar.txt", centerX_-(scaleX_/10.f), centerY_+(scaleY_/1.6), angle_+10, scaleX_, scaleY_, red_, green_, blue_));
     // two half-circles at different angles (face/body)
     _myShapes.push_back(std::make_shared<PolyHalfCircle>(animalShapesDir + "/halfCircle.txt", centerX_, centerY_, angle_+4.f, scaleX_, scaleY_, red_, green_, blue_));
     _myShapes.push_back(std::make_shared<PolyHalfCircle>(animalShapesDir + "/halfCircle.txt", centerX_, centerY_, angle_+14.f, scaleX_, scaleY_, red_, green_, blue_));

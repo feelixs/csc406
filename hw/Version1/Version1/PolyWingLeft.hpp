@@ -15,7 +15,7 @@
 bool loadPolyShape(const char* filename);
 bool initPolyShape(const char* coordFile);
 
-class PolyEarLeft: public PolyShape {
+class PolyWingLeft: public PolyShape {
     friend bool loadPolyShape(const char* filename);
 private:
     // shape points loaded from file shapeCoords.txt in loadShape()
@@ -25,19 +25,19 @@ private:
     static float** _loadedShapePnts; // Nx2 float
     
 public:
-    PolyEarLeft(std::string filepath, float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
-    ~PolyEarLeft();
+    PolyWingLeft(std::string filepath, float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+    ~PolyWingLeft();
     
     void draw() const override;
     
     void initFromPolygon();
     void initFromFile(const char* filepath);
     //disabled constructors & operators
-    PolyEarLeft() = delete;
-    PolyEarLeft(const PolyEarLeft& obj) = delete;    // copy
-    PolyEarLeft(PolyEarLeft&& obj) = delete;        // move
-    PolyEarLeft& operator = (const PolyEarLeft& obj) = delete;    // copy operator
-    PolyEarLeft& operator = (PolyEarLeft&& obj) = delete;        // move operator
+    PolyWingLeft() = delete;
+    PolyWingLeft(const PolyWingLeft& obj) = delete;    // copy
+    PolyWingLeft(PolyWingLeft&& obj) = delete;        // move
+    PolyWingLeft& operator = (const PolyWingLeft& obj) = delete;    // copy operator
+    PolyWingLeft& operator = (PolyWingLeft&& obj) = delete;        // move operator
 };
 
 #endif /* PolyEarLeft_hpp */

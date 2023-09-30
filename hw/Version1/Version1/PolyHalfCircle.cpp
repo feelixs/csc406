@@ -66,7 +66,7 @@ void PolyHalfCircle::initFromPolygon() {
     for (int i = 0; i < _numLoadedPnts; i++) {
         _loadedShapePnts[i] = new float[2];
     }
-    
+    // these are the coords for a half-circle
     _loadedShapePnts[0][0] = 1.0;
     _loadedShapePnts[0][1] = 0.0;
     _loadedShapePnts[1][0] = 0.9510565162951535;

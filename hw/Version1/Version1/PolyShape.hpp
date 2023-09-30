@@ -18,8 +18,8 @@ class PolyShape
     friend class PolyRect;
     friend class PolyHalfCircle;
     friend class PolyTriangle;
-    friend class PolyEarRight;
-    friend class PolyEarLeft;
+    friend class PolyWingRight;
+    friend class PolyWingLeft;
     
     private:
         // all children share these attributes

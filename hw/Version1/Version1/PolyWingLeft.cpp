@@ -1,22 +1,22 @@
 //
-//  PolyEarRight.cpp
+//  PolyEarLeft.cpp
 //  Version1
 //
 //  Created by Michael Felix on 9/28/23.
 //
 
-#include "PolyEarRight.hpp"
+#include "PolyWingLeft.hpp"
 #include "glPlatform.h"
 #include <fstream>
 #include <iostream>
 #include <string>
 
-int PolyEarRight::_numLoadedPnts = 0;
-const int PolyEarRight::_maxLoadedPnts = 25;
-float** PolyEarRight::_loadedShapePnts;
+int PolyWingLeft::_numLoadedPnts = 0;
+const int PolyWingLeft::_maxLoadedPnts = 25;
+float** PolyWingLeft::_loadedShapePnts;
 
 
-PolyEarRight::PolyEarRight(std::string filepath, float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue):
+PolyWingLeft::PolyWingLeft(std::string filepath, float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue):
     PolyShape(centerX, centerY, angle, scaleX, scaleY, red, green, blue),
     _myLoadedFilepath(filepath.c_str())
 {
@@ -24,13 +24,13 @@ PolyEarRight::PolyEarRight(std::string filepath, float centerX, float centerY, f
 }
 
 
-PolyEarRight::~PolyEarRight() {
+PolyWingLeft::~PolyWingLeft() {
    // std::cout << "Custom polygon at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
     //PolyShape::~PolyShape();
 }
 
 
-void PolyEarRight::draw() const {
+void PolyWingLeft::draw() const {
     //    save the current coordinate system (origin, axes, scale)
     glPushMatrix();
     
@@ -46,18 +46,19 @@ void PolyEarRight::draw() const {
     glColor3f(red_, green_, blue_);
     
     glBegin(GL_POLYGON);
-    for (int k=0; k<PolyEarRight::_maxLoadedPnts; k++) {
-        if (k >= PolyEarRight::_numLoadedPnts)
+    for (int k=0; k<PolyWingLeft::_maxLoadedPnts; k++) {
+        if (k >= PolyWingLeft::_numLoadedPnts)
             // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
             break;
-        glVertex2f(PolyEarRight::_loadedShapePnts[k][0], PolyEarRight::_loadedShapePnts[k][1]);
+        glVertex2f(PolyWingLeft::_loadedShapePnts[k][0], PolyWingLeft::_loadedShapePnts[k][1]);
     }
     glEnd();
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
 }
 
-void PolyEarRight::initFromPolygon() {
+
+void PolyWingLeft::initFromPolygon() {
     /// hard coded values for the shape
     _numLoadedPnts = 5;
     
@@ -66,30 +67,31 @@ void PolyEarRight::initFromPolygon() {
         _loadedShapePnts[i] = new float[2];
     }
     
-    PolyEarRight::_loadedShapePnts[0][0] = 0.76;
-    PolyEarRight::_loadedShapePnts[0][1] = 0.38;
-    PolyEarRight::_loadedShapePnts[1][0] = 0.66;
-    PolyEarRight::_loadedShapePnts[1][1] = 0.1;
-    PolyEarRight::_loadedShapePnts[2][0] = 0.65;
-    PolyEarRight::_loadedShapePnts[2][1] = 0;
-    PolyEarRight::_loadedShapePnts[3][0] = 0.83;
-    PolyEarRight::_loadedShapePnts[3][1] = 0;
-    PolyEarRight::_loadedShapePnts[4][0] = 0.9;
-    PolyEarRight::_loadedShapePnts[4][1] = -0.2;
+    PolyWingLeft::_loadedShapePnts[0][0] = -0.76;
+    PolyWingLeft::_loadedShapePnts[0][1] = 0.38;
+    PolyWingLeft::_loadedShapePnts[1][0] = -0.66;
+    PolyWingLeft::_loadedShapePnts[1][1] = 0.1;
+    PolyWingLeft::_loadedShapePnts[2][0] = -0.65;
+    PolyWingLeft::_loadedShapePnts[2][1] = 0;
+    PolyWingLeft::_loadedShapePnts[3][0] = -0.83;
+    PolyWingLeft::_loadedShapePnts[3][1] = 0;
+    PolyWingLeft::_loadedShapePnts[4][0] = -0.9;
+    PolyWingLeft::_loadedShapePnts[4][1] = -0.2;
 }
 
-void PolyEarRight::initFromFile(const char* filepath) {
+
+void PolyWingLeft::initFromFile(const char* filepath) {
     // loads a shape from a file in format:
     //   x1, y1
     //   x2, y2
     //   ...
     
-    PolyEarRight::_loadedShapePnts = new float*[PolyEarRight::_maxLoadedPnts];
+    PolyWingLeft::_loadedShapePnts = new float*[PolyWingLeft::_maxLoadedPnts];
     
     std::ifstream file_data(filepath);
 
     if (!file_data.is_open()) {
-        std::cout << "Error: Unable to open file " << filepath << std::endl;
+        std::cout << "Error: Unable to open file " << _myLoadedFilepath << std::endl;
         return initFromPolygon();
     }
     
@@ -122,13 +124,13 @@ void PolyEarRight::initFromFile(const char* filepath) {
             // -,- in text file will exit early
             break;
         } else {
-            PolyEarRight::_loadedShapePnts[totalShapes] = new float[2];
-            PolyEarRight::_loadedShapePnts[totalShapes][0] = std::stof(curX); // stof --> string to float
-            PolyEarRight::_loadedShapePnts[totalShapes][1] = std::stof(tempVal);
+            PolyWingLeft::_loadedShapePnts[totalShapes] = new float[2];
+            PolyWingLeft::_loadedShapePnts[totalShapes][0] = std::stof(curX); // stof --> string to float
+            PolyWingLeft::_loadedShapePnts[totalShapes][1] = std::stof(tempVal);
             totalShapes++;
             tempVal = "";
         }
     }
 
-    PolyEarRight::_numLoadedPnts = totalShapes;
+    PolyWingLeft::_numLoadedPnts = totalShapes;
 }

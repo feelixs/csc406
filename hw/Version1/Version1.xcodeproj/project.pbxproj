@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA24C01C2AC64A4E006B59DF /* PolyEarRight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C01A2AC64A4E006B59DF /* PolyEarRight.cpp */; };
-		AA24C01F2AC64C70006B59DF /* PolyEarLeft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C01E2AC64C70006B59DF /* PolyEarLeft.cpp */; };
+		AA24C01C2AC64A4E006B59DF /* PolyWingRight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C01A2AC64A4E006B59DF /* PolyWingRight.cpp */; };
+		AA24C01F2AC64C70006B59DF /* PolyWingLeft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA24C01E2AC64C70006B59DF /* PolyWingLeft.cpp */; };
 		AA3F04632AC48AE000D3DA39 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA3F04622AC48AE000D3DA39 /* main.cpp */; };
 		AA3F046B2AC48B0D00D3DA39 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3F046A2AC48B0D00D3DA39 /* GLUT.framework */; };
 		AA3F046D2AC48B1200D3DA39 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3F046C2AC48B1200D3DA39 /* OpenGL.framework */; };
@@ -33,10 +33,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AA24C01A2AC64A4E006B59DF /* PolyEarRight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolyEarRight.cpp; sourceTree = "<group>"; };
-		AA24C01B2AC64A4E006B59DF /* PolyEarRight.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PolyEarRight.hpp; sourceTree = "<group>"; };
-		AA24C01D2AC64C70006B59DF /* PolyEarLeft.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PolyEarLeft.hpp; sourceTree = "<group>"; };
-		AA24C01E2AC64C70006B59DF /* PolyEarLeft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolyEarLeft.cpp; sourceTree = "<group>"; };
+		AA24C01A2AC64A4E006B59DF /* PolyWingRight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolyWingRight.cpp; sourceTree = "<group>"; };
+		AA24C01B2AC64A4E006B59DF /* PolyWingRight.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PolyWingRight.hpp; sourceTree = "<group>"; };
+		AA24C01D2AC64C70006B59DF /* PolyWingLeft.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PolyWingLeft.hpp; sourceTree = "<group>"; };
+		AA24C01E2AC64C70006B59DF /* PolyWingLeft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolyWingLeft.cpp; sourceTree = "<group>"; };
 		AA3F045F2AC48AE000D3DA39 /* Version1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Version1; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA3F04622AC48AE000D3DA39 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AA3F046A2AC48B0D00D3DA39 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
@@ -107,10 +107,10 @@
 				AA5C226A2AC6039100196AF1 /* PolyHalfCircle.hpp */,
 				AAC9B7812AC6226E006AD1D8 /* PolyTriangle.cpp */,
 				AAC9B7822AC6226E006AD1D8 /* PolyTriangle.hpp */,
-				AA24C01A2AC64A4E006B59DF /* PolyEarRight.cpp */,
-				AA24C01B2AC64A4E006B59DF /* PolyEarRight.hpp */,
-				AA24C01E2AC64C70006B59DF /* PolyEarLeft.cpp */,
-				AA24C01D2AC64C70006B59DF /* PolyEarLeft.hpp */,
+				AA24C01A2AC64A4E006B59DF /* PolyWingRight.cpp */,
+				AA24C01B2AC64A4E006B59DF /* PolyWingRight.hpp */,
+				AA24C01E2AC64C70006B59DF /* PolyWingLeft.cpp */,
+				AA24C01D2AC64C70006B59DF /* PolyWingLeft.hpp */,
 			);
 			path = Version1;
 			sourceTree = "<group>";
@@ -183,9 +183,9 @@
 			files = (
 				AA3F04632AC48AE000D3DA39 /* main.cpp in Sources */,
 				AAC9B7832AC6226E006AD1D8 /* PolyTriangle.cpp in Sources */,
-				AA24C01F2AC64C70006B59DF /* PolyEarLeft.cpp in Sources */,
+				AA24C01F2AC64C70006B59DF /* PolyWingLeft.cpp in Sources */,
 				AAB7C45D2AC5DD7800F6A5B3 /* PolyCircle.cpp in Sources */,
-				AA24C01C2AC64A4E006B59DF /* PolyEarRight.cpp in Sources */,
+				AA24C01C2AC64A4E006B59DF /* PolyWingRight.cpp in Sources */,
 				AA3F04712AC48B7900D3DA39 /* Animal.cpp in Sources */,
 				AAB7C4602AC5E5E400F6A5B3 /* PolyRect.cpp in Sources */,
 				AA5C226B2AC6039100196AF1 /* PolyHalfCircle.cpp in Sources */,
