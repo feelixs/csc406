@@ -12,8 +12,18 @@
 
 using namespace std;
 
+#define VERSION1    1
+#define VERSION2    2
+
+#define VERSION VERSION1
+
+extern float X_MIN, X_MAX;
+extern float Y_MIN, Y_MAX;
+
+
 const int Ellipse::numCirclePts_ = 24;
 float** Ellipse::circlePts_;
+GLuint Ellipse::displayList_;
 
 bool ellipseInitialized = initEllipseFunc();
 
@@ -62,15 +72,33 @@ void Ellipse::draw() const
     glScalef(radiusX_, radiusY_, 1.f);
     
     glColor3f(red_, green_, blue_);
+#if VERSION == VERSION1
     glBegin(GL_POLYGON);
             for (int k=0; k<numCirclePts_; k++)
                 glVertex2f(circlePts_[k][0],
                            circlePts_[k][1]);
     glEnd();
+#else
+    glCallList(displayList_);
+#endif
+
     
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
 }
+
+void Ellipse::update()
+{
+    static float speed = 0.01f;
+    centerX_ += speed;
+    
+    // stop when arrive at the edge of the world
+    if (centerX_ >= X_MAX)
+    {
+        speed = 0;
+    }
+}
+
 
 // I want this code to run only once
 bool initEllipseFunc()
@@ -87,5 +115,21 @@ bool initEllipseFunc()
         Ellipse::circlePts_[k][0] = cosf(theta);
         Ellipse::circlePts_[k][1] = sinf(theta);
     }
+    
+    // create display list
+    
+#if VERSION == VERSION2
+    Ellipse::displayList_ = glGenLists(1);
+
+    glNewList(Ellipse::displayList_, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for (int k=0; k<Ellipse::numCirclePts_; k++)
+    {
+        float theta = k*angleStep;
+        glVertex2f(cosf(theta), sinf(theta));
+    }
+    glEnd();
+    glEndList();
+#endif
     return true;
 }

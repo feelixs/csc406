@@ -8,6 +8,7 @@
 
 // "pure" C++ headers
 #include <string>
+#include <algorithm>
 #include <vector>
 #include <memory>
 // C++ wrappers around C headers
@@ -25,20 +26,7 @@
 using namespace std;
 
 //--------------------------------------
-//  Function prototypes
-//--------------------------------------
-void myDisplayFunc(void);
-void myResizeFunc(int w, int h);
-void myMouseHandler(int b, int s, int x, int y);
-void myKeyHandler(unsigned char c, int x, int y);
-void myMenuHandler(int value);
-void mySubmenuHandler(int colorIndex);
-void myInit(void);
-void myIdle(void);
-void myTimerFunc(int val);
-
-//--------------------------------------
-//  Interface constants
+//  Custom data types
 //--------------------------------------
 
 //    I like to setup my meny item indices as enmerated values, but really
@@ -51,18 +39,50 @@ enum MenuItemID {    SEPARATOR = -1,
                    SOME_ITEM = 10
 };
 
-const string MAIN_MENU_ITEM_STR[] = {    "Quit",            //    QUIT_MENU
-                                       "Something"        //    OTHER_MENU_ITEM
-};
 
 enum FirstSubmenuItemID {    FIRST_SUBMENU_ITEM = 11,
                            SECOND_SUBMENU_ITEM = 12
 };
 
+struct Point
+{
+   float x;
+   float y;
+};
+
+
+//--------------------------------------
+//  Function prototypes
+//--------------------------------------
+void myDisplayFunc(void);
+void myResizeFunc(int w, int h);
+void myMouseHandler(int b, int s, int x, int y);
+void myKeyHandler(unsigned char c, int x, int y);
+void myMenuHandler(int value);
+void mySubmenuHandler(int colorIndex);
+void myInit(void);
+void myTimerFunc(int val);
+Point pixelToWorld(float ix, float iy);
+
+
+//--------------------------------------
+//  Interface constants
+//--------------------------------------
+
+const string MAIN_MENU_ITEM_STR[] = {    "Quit",            //    QUIT_MENU
+                                       "Something"        //    OTHER_MENU_ITEM
+};
 
 const int   INIT_WIN_X = 100,
            INIT_WIN_Y = 40;
 
+
+float X_MIN = -10.f, X_MAX = +10.f;
+float Y_MIN = -10.f, Y_MAX = +10.f;
+const float WORLD_WIDTH = X_MAX-X_MIN;
+const float WORLD_HEIGHT = Y_MAX-Y_MIN;
+
+const float diskRad = WORLD_WIDTH/20.f;
 
 //--------------------------------------
 //  File-level global variables
@@ -72,13 +92,16 @@ int winWidth = 800,
    winHeight = 800;
 
 int numVerts = 4;
-const float vertArray[][2] = {{400.f, 100.f},
-                             {400.f, 200.f},
-                             {300.f, 200.f},
-                             {200.f, 150.f}};
+const float vertArray[][2] = {{-4.f, -1.00f},
+                             {-4.f, -2.00f},
+                             {-3.f, -2.f},
+                             {-2.f, -1.5f}};
 
 vector<shared_ptr<Ellipse>> ellipseList;
 
+// first rough expression
+float pixelToWorldScale = max(WORLD_WIDTH / winWidth, WORLD_HEIGHT/winHeight);
+float worldToPixel = 1.f / pixelToWorldScale;
 
 //    This is the function that does the actual scene drawing
 //    Typically, you shold almost never have to call this function directly yourself.
@@ -101,6 +124,9 @@ void myDisplayFunc(void)
    
    //    This says that we start from the lower-left corner of the screen
    glLoadIdentity();
+   
+   // scale to start using "wprld units"
+   
 
    //--------------------------
    //    basic drawing code
@@ -138,6 +164,9 @@ void myResizeFunc(int w, int h)
    winWidth = w;
    winHeight = h;
    
+   pixelToWorldScale = max(WORLD_WIDTH / winWidth, WORLD_HEIGHT/winHeight);
+   worldToPixel = 1.f / pixelToWorldScale;
+   
    //    Here I create my virtual camera.  We are going to do 2D drawing for a while, so what this
    //    does is define the dimensions (origin and units) of the "virtual world that my viewport
    //    maps to.
@@ -146,7 +175,7 @@ void myResizeFunc(int w, int h)
    
    //    Here I define the dimensions of the "virtual world" that my
    //    window maps to
-   gluOrtho2D(0.f, winWidth, 0.f, winHeight);
+   gluOrtho2D(X_MIN, X_MAX, Y_MIN, Y_MAX);
 
    //    When it's done, request a refresh of the display
    glutPostRedisplay();
@@ -156,14 +185,10 @@ void myResizeFunc(int w, int h)
 //    This function is called when a mouse event occurs.  This event, of type s
 //    (up, down, dragged, etc.), occurs on a particular button of the mouse.
 //
-void myMouseHandler(int button, int state, int x, int y)
+void myMouseHandler(int button, int state, int ix, int iy)
 {
-static int clickCount = 0;
+   static int clickCount = 0;
 
-   // silence the warning
-   (void) x;
-   (void) y;
-   
    switch (button)
    {
        case GLUT_LEFT_BUTTON:
@@ -174,7 +199,8 @@ static int clickCount = 0;
            else if (state == GLUT_UP)
            {
                // create a new disk
-               ellipseList.push_back(make_shared<Ellipse>(x, winHeight-y, 30, 1.f, 1.f, 0.f));
+               Point worldPt = pixelToWorld(ix, iy);
+               ellipseList.push_back(make_shared<Ellipse>(worldPt.x, worldPt.y, diskRad, 1.f, 1.f, 0.f));
 
                if (clickCount < 4)
                    ellipseList[clickCount++] = nullptr;
@@ -185,6 +211,13 @@ static int clickCount = 0;
            break;
    }
 }
+
+Point pixelToWorld(float ix, float iy) {
+   return Point{    X_MIN + 1.f*ix/winWidth*WORLD_WIDTH,
+                   Y_MAX - 1.f*iy/winHeight*WORLD_HEIGHT
+               };
+}
+
 
 //    This callback function is called when a keyboard event occurs
 //
@@ -207,14 +240,6 @@ void myKeyHandler(unsigned char c, int x, int y)
 }
 
 
-void myIdle(void)
-{
-   //  possibly I do something to update the scene
-   
-   //    And finally I perform the rendering
-   glutPostRedisplay();
-}
-
 void myTimerFunc(int value)
 {
    static int frameIndex=0;
@@ -222,6 +247,11 @@ void myTimerFunc(int value)
    glutTimerFunc(1, myTimerFunc, value);
 
    //     do something (e.g. update the state of some objects)
+   for (auto obj : ellipseList)
+   {
+       if (obj != nullptr)
+           obj->update();
+   }
    
    //    And finally I perform the rendering
    if (frameIndex++ % 10 == 0)
@@ -288,10 +318,10 @@ void myInit(void)
 //    glutAddSubMenu("Submenu example", mySubmenu);
    glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-   ellipseList.push_back(make_shared<Ellipse>(400, 400, 30, 200, 100, 0.f, 1.f, 1.f));
-   ellipseList.push_back(make_shared<Ellipse>(700, 200, 0, 50, 50, 1.f, 1.f, 1.f));
-   ellipseList.push_back(make_shared<Ellipse>(200, 700, 0, 50, 50, 0.f, 0.f, 1.f));
-   ellipseList.push_back(make_shared<Ellipse>(600, 500, 0, 150, 150, 1.f, 0.f, 0.f));
+   ellipseList.push_back(make_shared<Ellipse>(4, 4, 30, 2, 1, 0.f, 1.f, 1.f));
+   ellipseList.push_back(make_shared<Ellipse>(7, 2, 0, .50, .50, 1.f, 1.f, 1.f));
+   ellipseList.push_back(make_shared<Ellipse>(2, 7, 0, .50, .5, 0.f, 0.f, 1.f));
+   ellipseList.push_back(make_shared<Ellipse>(6, 5, 0, 1.5, 1.5, 1.f, 0.f, 0.f));
 }
 
 

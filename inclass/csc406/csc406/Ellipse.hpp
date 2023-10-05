@@ -16,12 +16,13 @@ class Ellipse
     
     private:
     
-        float centerX_, centerY_, radiusX_, radiusY_, angle_;
+        float centerX_, centerY_;
+        float radiusX_, radiusY_, angle_;
         float red_, green_, blue_;
             
         static const int numCirclePts_;
         static float** circlePts_;
-
+        static GLuint displayList_;
 
     public:
     
@@ -32,6 +33,7 @@ class Ellipse
         ~Ellipse();
         
         void draw() const;
+        void update();
 
         //disabled constructors & operators
         Ellipse() = delete;
