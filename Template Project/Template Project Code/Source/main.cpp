@@ -56,10 +56,10 @@ enum FirstSubmenuItemID {	FIRST_SUBMENU_ITEM = 11,
 void displayTextualInfo(const char* infoStr, int x, int y, FontSize isLarge);
 void myDisplayFunc(void);
 void myResizeFunc(int w, int h);
-void myMouseHandler(int b, int s, int x, int y);
-void myMouseMotionHandler(int x, int y);
-void myMousePassiveMotionHandler(int x, int y);
-void myEntryHandler(int state);
+void myMouseHandler(int b, int s, int x, int y); // detect mouse clicked
+void myMouseMotionHandler(int x, int y); // motion while mouse is pressed
+void myMousePassiveMotionHandler(int x, int y); // passive mouse motion
+void myEntryHandler(int state); // detect mouse entering window
 void myKeyHandler(unsigned char c, int x, int y);
 void myMenuHandler(int value);
 void mySubmenuHandler(int colorIndex);
