@@ -10,7 +10,6 @@
 #include "glPlatform.h"
 #include "Ellipse.h"
 
-using namespace std;
 
 const int Ellipse::numCirclePts_ = 24;
 float** Ellipse::circlePts_;
@@ -42,7 +41,7 @@ Ellipse::Ellipse(float centerX, float centerY, float radius,
 
 Ellipse::~Ellipse()
 {
-	cout << "Ellipse at " << getX() << ", " << getY() << " sating goodbye" << endl;
+	std::cout << "Ellipse at " << getX() << ", " << getY() << " sating goodbye" << std::endl;
 }
 
 void Ellipse::draw() const
