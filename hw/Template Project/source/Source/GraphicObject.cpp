@@ -13,4 +13,3 @@ GraphicObject::GraphicObject(float x, float y, float angle)
 		y_(y),
 		angle_(angle)
 {}
-

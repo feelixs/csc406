@@ -12,13 +12,13 @@
 //
 #include "GraphicObject.h"
 
-class Ellipse : public GraphicObject
+class Ellipse
 {
 	friend bool initEllipseFunc();
 	
 	private:
 	
-		float radiusX_, radiusY_;
+		float centerX_, centerY_, radiusX_, radiusY_, angle_;
 		float red_, green_, blue_;
 			
 		static const int numCirclePts_;

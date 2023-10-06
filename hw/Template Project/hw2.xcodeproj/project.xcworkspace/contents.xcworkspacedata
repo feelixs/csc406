@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:">
+      location = "self:/Users/michaelfelix/Documents/GitHub/csc406/hw/Template Project/hw2.xcodeproj">
    </FileRef>
 </Workspace>

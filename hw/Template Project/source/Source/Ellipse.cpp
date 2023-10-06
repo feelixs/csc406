@@ -19,8 +19,9 @@ bool ellipseInitialized = initEllipseFunc();
 
 Ellipse::Ellipse(float centerX, float centerY, float angle, float radiusX, float radiusY,
 				float red, float green, float blue)
-	:	GraphicObject(centerX, centerY, angle),
-		//
+	:	centerX_(centerX),
+		centerY_(centerY),
+		angle_(angle),
 		radiusX_(radiusX),
 		radiusY_(radiusY),
 		red_(red),
@@ -30,8 +31,9 @@ Ellipse::Ellipse(float centerX, float centerY, float angle, float radiusX, float
 }
 Ellipse::Ellipse(float centerX, float centerY, float radius,
 				float red, float green, float blue)
-	:	GraphicObject(centerX, centerY, 0.f),
-		//	
+	:	centerX_(centerX),
+		centerY_(centerY),
+		angle_(0.f),
 		radiusX_(radius),
 		radiusY_(radius),
 		red_(red),
@@ -42,7 +44,7 @@ Ellipse::Ellipse(float centerX, float centerY, float radius,
 
 Ellipse::~Ellipse()
 {
-	cout << "Ellipse at " << getX() << ", " << getY() << " sating goodbye" << endl;
+	cout << "Ellipse at " << centerX_ << ", " << centerY_ << " sating goodbye" << endl;
 }
 
 void Ellipse::draw() const
@@ -51,10 +53,10 @@ void Ellipse::draw() const
 	glPushMatrix();
 	
 	//	move to the center of the disk
-	glTranslatef(getX(), getY(), 0.f);
+	glTranslatef(centerX_, centerY_, 0.f);
 		
 	// apply rotation
-	glRotatef(getAngle(), 0.f, 0.f, 1.f);
+	glRotatef(angle_, 0.f, 0.f, 1.f);
 	
 	//	apply the radius as a scale
 	glScalef(radiusX_, radiusY_, 1.f);
