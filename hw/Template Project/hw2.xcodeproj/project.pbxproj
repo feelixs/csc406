@@ -13,6 +13,10 @@
 		AABB64FB2AD0C32900EC5BF3 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABB64F72AD0C32900EC5BF3 /* World.cpp */; };
 		AABB64FC2AD0C32900EC5BF3 /* Ellipse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABB64F82AD0C32900EC5BF3 /* Ellipse.cpp */; };
 		AABB64FD2AD0C32900EC5BF3 /* GraphicObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABB64F92AD0C32900EC5BF3 /* GraphicObject.cpp */; };
+		AABB65062AD0C4B600EC5BF3 /* Animal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABB65052AD0C4B600EC5BF3 /* Animal.cpp */; };
+		AABB650B2AD0C51100EC5BF3 /* PolyWingLeft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABB65092AD0C51100EC5BF3 /* PolyWingLeft.cpp */; };
+		AABB650C2AD0C51100EC5BF3 /* PolyWingRight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABB650A2AD0C51100EC5BF3 /* PolyWingRight.cpp */; };
+		AABB650F2AD0C5A300EC5BF3 /* PolyShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABB650E2AD0C5A300EC5BF3 /* PolyShape.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +43,14 @@
 		AABB64F72AD0C32900EC5BF3 /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
 		AABB64F82AD0C32900EC5BF3 /* Ellipse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ellipse.cpp; sourceTree = "<group>"; };
 		AABB64F92AD0C32900EC5BF3 /* GraphicObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicObject.cpp; sourceTree = "<group>"; };
+		AABB65042AD0C4AB00EC5BF3 /* Animal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Animal.hpp; path = "../../../../Template Project/Template Project Code/Headers/Animal.hpp"; sourceTree = "<group>"; };
+		AABB65052AD0C4B600EC5BF3 /* Animal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Animal.cpp; path = "../../../../Template Project/Template Project Code/Source/Animal.cpp"; sourceTree = "<group>"; };
+		AABB65072AD0C4FE00EC5BF3 /* PolyWingLeft.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PolyWingLeft.hpp; path = "../../../../Template Project/Template Project Code/Headers/PolyWingLeft.hpp"; sourceTree = "<group>"; };
+		AABB65082AD0C4FE00EC5BF3 /* PolyWingRight.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PolyWingRight.hpp; path = "../../../../Template Project/Template Project Code/Headers/PolyWingRight.hpp"; sourceTree = "<group>"; };
+		AABB65092AD0C51100EC5BF3 /* PolyWingLeft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolyWingLeft.cpp; path = "../../../../Template Project/Template Project Code/Source/PolyWingLeft.cpp"; sourceTree = "<group>"; };
+		AABB650A2AD0C51100EC5BF3 /* PolyWingRight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolyWingRight.cpp; path = "../../../../Template Project/Template Project Code/Source/PolyWingRight.cpp"; sourceTree = "<group>"; };
+		AABB650D2AD0C59B00EC5BF3 /* PolyShape.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PolyShape.hpp; path = "../../../../Template Project/Template Project Code/Headers/PolyShape.hpp"; sourceTree = "<group>"; };
+		AABB650E2AD0C5A300EC5BF3 /* PolyShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolyShape.cpp; path = "../../../../Template Project/Template Project Code/Source/PolyShape.cpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +107,11 @@
 				AABB64F52AD0C31E00EC5BF3 /* Ellipse.h */,
 				AABB64F42AD0C31E00EC5BF3 /* glPlatform.h */,
 				AABB64F22AD0C31E00EC5BF3 /* GraphicObject.h */,
+				AABB65072AD0C4FE00EC5BF3 /* PolyWingLeft.hpp */,
+				AABB65082AD0C4FE00EC5BF3 /* PolyWingRight.hpp */,
+				AABB65042AD0C4AB00EC5BF3 /* Animal.hpp */,
 				AABB64F32AD0C31E00EC5BF3 /* World.h */,
+				AABB650D2AD0C59B00EC5BF3 /* PolyShape.hpp */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -103,9 +119,13 @@
 		1619E19F2ACF1EFF00065C2A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AABB65092AD0C51100EC5BF3 /* PolyWingLeft.cpp */,
+				AABB650A2AD0C51100EC5BF3 /* PolyWingRight.cpp */,
 				AABB64F82AD0C32900EC5BF3 /* Ellipse.cpp */,
 				AABB64F92AD0C32900EC5BF3 /* GraphicObject.cpp */,
+				AABB650E2AD0C5A300EC5BF3 /* PolyShape.cpp */,
 				AABB64F62AD0C32900EC5BF3 /* main.cpp */,
+				AABB65052AD0C4B600EC5BF3 /* Animal.cpp */,
 				AABB64F72AD0C32900EC5BF3 /* World.cpp */,
 			);
 			path = Source;
@@ -168,10 +188,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AABB65062AD0C4B600EC5BF3 /* Animal.cpp in Sources */,
 				AABB64FC2AD0C32900EC5BF3 /* Ellipse.cpp in Sources */,
+				AABB650C2AD0C51100EC5BF3 /* PolyWingRight.cpp in Sources */,
+				AABB650F2AD0C5A300EC5BF3 /* PolyShape.cpp in Sources */,
 				AABB64FB2AD0C32900EC5BF3 /* World.cpp in Sources */,
 				AABB64FA2AD0C32900EC5BF3 /* main.cpp in Sources */,
 				AABB64FD2AD0C32900EC5BF3 /* GraphicObject.cpp in Sources */,
+				AABB650B2AD0C51100EC5BF3 /* PolyWingLeft.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
