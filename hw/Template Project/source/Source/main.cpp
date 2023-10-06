@@ -8,8 +8,8 @@
 //
 //	Very basic interface with limited keyboard action:
 //		- 'q' or ESC exits the app,
-//		- 'm' toggles on/off mouse motion tracking
-//		- 'p' toggles on/off passive mouse motion tracking
+//		- 'm' toggles on/off mouse motion tracking (button pressed)
+//		- 'p' toggles on/off passive mouse motion tracking (no button pressed)
 //		- 'e' toggles on/off mouse exit/enter
 //		- 't' toggles on/off text overlay display
 //		- 'i' activates the input of a second text string
@@ -22,9 +22,12 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <memory>
 //
 #include "glPlatform.h"
 #include "World.h"
+#include "Ellipse.h"
 
 using namespace std;
 
@@ -53,13 +56,13 @@ enum FirstSubmenuItemID {	FIRST_SUBMENU_ITEM = 11,
 #pragma mark Function prototypes
 #endif
 //--------------------------------------
-void displayTextualInfo(const char* infoStr, int x, int y, FontSize isLarge);
+//void displayTextualInfo(const char* infoStr, int x, int y, FontSize isLarge);
 void myDisplayFunc(void);
 void myResizeFunc(int w, int h);
-void myMouseHandler(int b, int s, int x, int y); // detect mouse clicked
-void myMouseMotionHandler(int x, int y); // motion while mouse is pressed
-void myMousePassiveMotionHandler(int x, int y); // passive mouse motion
-void myEntryHandler(int state); // detect mouse entering window
+void myMouseHandler(int b, int s, int x, int y);
+void myMouseMotionHandler(int x, int y);
+void myMousePassiveMotionHandler(int x, int y);
+void myEntryHandler(int state);
 void myKeyHandler(unsigned char c, int x, int y);
 void myMenuHandler(int value);
 void mySubmenuHandler(int colorIndex);
@@ -78,9 +81,9 @@ const float Y_MIN = -10.f, Y_MAX = +10.f;
 #define SMALL_DISPLAY_FONT    GLUT_BITMAP_HELVETICA_10
 #define MEDIUM_DISPLAY_FONT   GLUT_BITMAP_HELVETICA_12
 #define LARGE_DISPLAY_FONT    GLUT_BITMAP_HELVETICA_18
-const int TEXT_PADDING = 0;
-const float TEXT_COLOR[4] = {1.f, 1.f, 1.f, 1.f};
-const float PARTITION_COLOR[4] = {0.6f, 0.6f, 0.6f, 1.f};
+//const int TEXT_PADDING = 0;
+//const float TEXT_COLOR[4] = {1.f, 1.f, 1.f, 1.f};
+//const float PARTITION_COLOR[4] = {0.6f, 0.6f, 0.6f, 1.f};
 
 //--------------------------------------
 #if 0
@@ -95,6 +98,9 @@ bool trackPassiveMousePointer = false;
 bool trackEntry = false;
 bool displayText = false;
 string stringLine = "";
+
+vector<shared_ptr<GraphicObject> > objectList;
+
 
 //--------------------------------------
 #if 0
@@ -126,6 +132,12 @@ void myDisplayFunc(void)
 		glVertex2f(4.f, 1.0f);
 		glVertex2f(-1.f, 3.f);
 	glEnd();
+
+	for (auto obj : objectList)
+	{
+		if (obj != nullptr)
+			obj->draw();
+	}
 
 	glPopMatrix();
 
@@ -333,109 +345,109 @@ void myTimerFunc(int value)
 #endif
 //--------------------------------------
 
-void displayTextualInfo(const char* infoStr, int xPos, int yPos, FontSize fontSize)
-{
-    //-----------------------------------------------
-    //  0.  get current material properties
-    //-----------------------------------------------
-    float oldAmb[4], oldDif[4], oldSpec[4], oldShiny;
-    glGetMaterialfv(GL_FRONT, GL_AMBIENT, oldAmb);
-    glGetMaterialfv(GL_FRONT, GL_DIFFUSE, oldDif);
-    glGetMaterialfv(GL_FRONT, GL_SPECULAR, oldSpec);
-    glGetMaterialfv(GL_FRONT, GL_SHININESS, &oldShiny);
-
-    glPushMatrix();
-
-    //-----------------------------------------------
-    //  1.  Build the string to display <-- parameter
-    //-----------------------------------------------
-    int infoLn = (int) strlen(infoStr);
-
-    //-----------------------------------------------
-    //  2.  Determine the string's length (in pixels)
-    //-----------------------------------------------
-    int textWidth = 0;
-	switch(fontSize)
-	{
-		case SMALL_FONT_SIZE:
-			for (int k=0; k<infoLn; k++)
-			{
-				textWidth += glutBitmapWidth(SMALL_DISPLAY_FONT, infoStr[k]);
-			}
-			break;
-		
-		case MEDIUM_FONT_SIZE:
-			for (int k=0; k<infoLn; k++)
-			{
-				textWidth += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr[k]);
-			}
-			break;
-		
-		case LARGE_FONT_SIZE:
-			for (int k=0; k<infoLn; k++)
-			{
-				textWidth += glutBitmapWidth(LARGE_DISPLAY_FONT, infoStr[k]);
-			}
-			break;
-			
-		default:
-			break;
-	}
-		
-	//  add a few pixels of padding
-    textWidth += 2*TEXT_PADDING;
-	
-    //-----------------------------------------------
-    //  4.  Draw the string
-    //-----------------------------------------------    
-    glColor4fv(TEXT_COLOR);
-    int x = xPos;
-	switch(fontSize)
-	{
-		case SMALL_FONT_SIZE:
-			for (int k=0; k<infoLn; k++)
-			{
-				glRasterPos2i(x, yPos);
-				glutBitmapCharacter(SMALL_DISPLAY_FONT, infoStr[k]);
-				x += glutBitmapWidth(SMALL_DISPLAY_FONT, infoStr[k]);
-			}
-			break;
-		
-		case MEDIUM_FONT_SIZE:
-			for (int k=0; k<infoLn; k++)
-			{
-				glRasterPos2i(x, yPos);
-				glutBitmapCharacter(MEDIUM_DISPLAY_FONT, infoStr[k]);
-				x += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr[k]);
-			}
-			break;
-		
-		case LARGE_FONT_SIZE:
-			for (int k=0; k<infoLn; k++)
-			{
-				glRasterPos2i(x, yPos);
-				glutBitmapCharacter(LARGE_DISPLAY_FONT, infoStr[k]);
-				x += glutBitmapWidth(LARGE_DISPLAY_FONT, infoStr[k]);
-			}
-			break;
-			
-		default:
-			break;
-	}
-
-    //-----------------------------------------------
-    //  5.  Restore old material properties
-    //-----------------------------------------------
-	glMaterialfv(GL_FRONT, GL_AMBIENT, oldAmb);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, oldDif);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, oldSpec);
-	glMaterialf(GL_FRONT, GL_SHININESS, oldShiny);  
-    
-    //-----------------------------------------------
-    //  6.  Restore reference frame
-    //-----------------------------------------------
-    glPopMatrix();
-}
+//void displayTextualInfo(const char* infoStr, int xPos, int yPos, FontSize fontSize)
+//{
+//    //-----------------------------------------------
+//    //  0.  get current material properties
+//    //-----------------------------------------------
+//    float oldAmb[4], oldDif[4], oldSpec[4], oldShiny;
+//    glGetMaterialfv(GL_FRONT, GL_AMBIENT, oldAmb);
+//    glGetMaterialfv(GL_FRONT, GL_DIFFUSE, oldDif);
+//    glGetMaterialfv(GL_FRONT, GL_SPECULAR, oldSpec);
+//    glGetMaterialfv(GL_FRONT, GL_SHININESS, &oldShiny);
+//
+//    glPushMatrix();
+//
+//    //-----------------------------------------------
+//    //  1.  Build the string to display <-- parameter
+//    //-----------------------------------------------
+//    int infoLn = (int) strlen(infoStr);
+//
+//    //-----------------------------------------------
+//    //  2.  Determine the string's length (in pixels)
+//    //-----------------------------------------------
+//    int textWidth = 0;
+//	switch(fontSize)
+//	{
+//		case SMALL_FONT_SIZE:
+//			for (int k=0; k<infoLn; k++)
+//			{
+//				textWidth += glutBitmapWidth(SMALL_DISPLAY_FONT, infoStr[k]);
+//			}
+//			break;
+//		
+//		case MEDIUM_FONT_SIZE:
+//			for (int k=0; k<infoLn; k++)
+//			{
+//				textWidth += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr[k]);
+//			}
+//			break;
+//		
+//		case LARGE_FONT_SIZE:
+//			for (int k=0; k<infoLn; k++)
+//			{
+//				textWidth += glutBitmapWidth(LARGE_DISPLAY_FONT, infoStr[k]);
+//			}
+//			break;
+//			
+//		default:
+//			break;
+//	}
+//		
+//	//  add a few pixels of padding
+//    textWidth += 2*TEXT_PADDING;
+//	
+//    //-----------------------------------------------
+//    //  4.  Draw the string
+//    //-----------------------------------------------    
+//    glColor4fv(TEXT_COLOR);
+//    int x = xPos;
+//	switch(fontSize)
+//	{
+//		case SMALL_FONT_SIZE:
+//			for (int k=0; k<infoLn; k++)
+//			{
+//				glRasterPos2i(x, yPos);
+//				glutBitmapCharacter(SMALL_DISPLAY_FONT, infoStr[k]);
+//				x += glutBitmapWidth(SMALL_DISPLAY_FONT, infoStr[k]);
+//			}
+//			break;
+//		
+//		case MEDIUM_FONT_SIZE:
+//			for (int k=0; k<infoLn; k++)
+//			{
+//				glRasterPos2i(x, yPos);
+//				glutBitmapCharacter(MEDIUM_DISPLAY_FONT, infoStr[k]);
+//				x += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr[k]);
+//			}
+//			break;
+//		
+//		case LARGE_FONT_SIZE:
+//			for (int k=0; k<infoLn; k++)
+//			{
+//				glRasterPos2i(x, yPos);
+//				glutBitmapCharacter(LARGE_DISPLAY_FONT, infoStr[k]);
+//				x += glutBitmapWidth(LARGE_DISPLAY_FONT, infoStr[k]);
+//			}
+//			break;
+//			
+//		default:
+//			break;
+//	}
+//
+//    //-----------------------------------------------
+//    //  5.  Restore old material properties
+//    //-----------------------------------------------
+//	glMaterialfv(GL_FRONT, GL_AMBIENT, oldAmb);
+//	glMaterialfv(GL_FRONT, GL_DIFFUSE, oldDif);
+//	glMaterialfv(GL_FRONT, GL_SPECULAR, oldSpec);
+//	glMaterialf(GL_FRONT, GL_SHININESS, oldShiny);  
+//    
+//    //-----------------------------------------------
+//    //  6.  Restore reference frame
+//    //-----------------------------------------------
+//    glPopMatrix();
+//}
 
 
 void applicationInit()
@@ -460,6 +472,11 @@ void applicationInit()
 	glutAddSubMenu("Submenu example", mySubmenu);
 	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
+
+	objectList.push_back(make_shared<Ellipse>(4, 4, 30, 2, 1, 0.f, 1.f, 1.f));
+	objectList.push_back(make_shared<Ellipse>(7, 2, 0, .50, .50, 1.f, 1.f, 1.f));
+	objectList.push_back(make_shared<Ellipse>(2, 7, 0, .50, .5, 0.f, 0.f, 1.f));
+	objectList.push_back(make_shared<Ellipse>(6, 5, 0, 1.5, 1.5, 1.f, 0.f, 0.f));
 }
 
 int main(int argc, char * argv[])
