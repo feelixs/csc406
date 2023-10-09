@@ -34,15 +34,15 @@ void PolyWingRight::draw() const {
     glPushMatrix();
     
     //    move to the center of the disk
-    glTranslatef(centerX_, centerY_, 0.f);
+    glTranslatef(getX(), getY(), 0.f);
         
     // apply rotation
-    glRotatef(angle_, 0.f, 0.f, 1.f);
+    glRotatef(getAngle(), 0.f, 0.f, 1.f);
     
     //    apply the radius as a scale
-    glScalef(scaleX_, scaleY_, 1.f);
+    glScalef(getScaleX(), getScaleY(), 1.f);
     
-    glColor3f(red_, green_, blue_);
+    glColor3f(getRed(), getGreen(), getBlue());
     
     glBegin(GL_POLYGON);
     for (int k=0; k<PolyWingRight::_maxLoadedPnts; k++) {
@@ -77,58 +77,7 @@ void PolyWingRight::initFromPolygon() {
     PolyWingRight::_loadedShapePnts[4][1] = -0.2;
 }
 
-void PolyWingRight::initFromFile(const char* filepath) {
-    // loads a shape from a file in format:
-    //   x1, y1
-    //   x2, y2
-    //   ...
-    
-    PolyWingRight::_loadedShapePnts = new float*[PolyWingRight::_maxLoadedPnts];
-    
-    std::ifstream file_data(filepath);
-
-    if (!file_data.is_open()) {
-        std::cout << "Error: Unable to open file " << filepath << std::endl;
-        // if the file can't be opened, load the hard-coded values instead
-        return initFromPolygon();
-    }
-    
-    std::string tempVal = "";
-    std::string curX = "";
-    std::string line;
-    char letter;
-    int totalShapes = 0;
-    while (std::getline(file_data, line)) {
-        for (int i = 0; i < line.size(); i++) {
-            letter = line.at(i);
-            if (letter == *" ") {
-                // ignore spaces
-                continue;
-            } else if (letter == *",") {
-              // commas mean that we just read an X, and the next value will be a Y
-              curX = tempVal;
-              tempVal = "";
-          } else {
-              tempVal += letter;
-          }
-        }
-        // end of the line
-        if ((curX == "") | (tempVal == "")) {
-            // if there's an incorrectly parsed line in the text file
-            curX = "";
-            tempVal =  "";
-            continue;
-        } else if ((curX == "-") & (tempVal == "-")) {
-            // -,- in text file will exit early
-            break;
-        } else {
-            PolyWingRight::_loadedShapePnts[totalShapes] = new float[2];
-            PolyWingRight::_loadedShapePnts[totalShapes][0] = std::stof(curX); // stof --> string to float
-            PolyWingRight::_loadedShapePnts[totalShapes][1] = std::stof(tempVal);
-            totalShapes++;
-            tempVal = "";
-        }
-    }
-
-    PolyWingRight::_numLoadedPnts = totalShapes;
+void PolyWingRight::setCenterPoint(Point newCenter) {
+    setX(newCenter.x);
+    setY(newCenter.y);
 }

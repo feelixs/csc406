@@ -9,13 +9,13 @@
 #define PolyEarRight_hpp
 
 #include "PolyShape.hpp"
+#include "World.h"
 #include <stdio.h>
 #include <string>
 
 class PolyWingRight: public PolyShape {
 private:
     // shape points loaded from file shapeCoords.txt in loadShape()
-    const char* _myLoadedFilepath;
     static int _numLoadedPnts;
     static const int _maxLoadedPnts; // stop loading from the file after this limit is reached
     static float** _loadedShapePnts; // Nx2 float
@@ -25,9 +25,8 @@ public:
     ~PolyWingRight();
     
     void draw() const override;
-    
     void initFromPolygon();
-    void initFromFile(const char* filepath);
+    void setCenterPoint(Point newCenter);
     //disabled constructors & operators
     PolyWingRight() = delete;
     PolyWingRight(const PolyWingRight& obj) = delete;    // copy

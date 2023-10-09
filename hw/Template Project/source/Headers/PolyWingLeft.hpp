@@ -12,11 +12,7 @@
 #include <stdio.h>
 #include <string>
 
-bool loadPolyShape(const char* filename);
-bool initPolyShape(const char* coordFile);
-
 class PolyWingLeft: public PolyShape {
-    friend bool loadPolyShape(const char* filename);
 private:
     // shape points loaded from file shapeCoords.txt in loadShape()
     const char* _myLoadedFilepath;
@@ -31,7 +27,6 @@ public:
     void draw() const override;
     
     void initFromPolygon();
-    void initFromFile(const char* filepath);
     //disabled constructors & operators
     PolyWingLeft() = delete;
     PolyWingLeft(const PolyWingLeft& obj) = delete;    // copy

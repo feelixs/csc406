@@ -9,22 +9,16 @@
 #define PolyShape_hpp
 
 #include <stdio.h>
+#include "GraphicObject.h"
 
 
-class PolyShape
+class PolyShape: public GraphicObject
 /// base class for all shapes
-{
-    friend class PolyCircle;
-    friend class PolyRect;
-    friend class PolyHalfCircle;
-    friend class PolyTriangle;
-    friend class PolyWingRight;
-    friend class PolyWingLeft;
-    
+{    
     private:
         // all children share these attributes
         float centerX_, centerY_, scaleX_, scaleY_, angle_;
-//        float red_, green_, blue_;
+        float red_, green_, blue_;
     
     public:
         PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
@@ -39,20 +33,36 @@ class PolyShape
         PolyShape& operator = (const PolyShape& obj) = delete;    // copy operator
         PolyShape& operator = (PolyShape&& obj) = delete;        // move operator
     
-    inline float getX() {
+    inline float getX() const {
         return centerX_;
     }
-    inline float getY() {
+    inline float getY() const {
         return centerY_;
     }
-    inline float getScaleX() {
+    inline float getAngle() const {
+        return angle_;
+    }
+    inline float getScaleX() const {
         return scaleX_;
     }
-    inline float getScaleY() {
+    inline float getScaleY() const {
         return scaleY_;
     }
-    inline float getAngle() {
-        return angle_;
+    inline float getRed() const {
+        return red_;
+    }
+    inline float getGreen() const {
+        return green_;
+    }
+    inline float getBlue() const {
+        return blue_;
+    }
+    
+    inline void setX(float x) {
+        centerX_ = x;
+    }
+    inline void setY(float y) {
+        centerY_ = y;
     }
 };
 

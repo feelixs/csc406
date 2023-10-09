@@ -11,7 +11,8 @@
 
 
 PolyShape::PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
-    :    centerX_(centerX),
+:   GraphicObject(centerX, centerY, angle),
+        centerX_(centerX),
         centerY_(centerY),
         angle_(angle),
         scaleX_(scaleX),

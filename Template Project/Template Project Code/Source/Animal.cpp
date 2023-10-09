@@ -6,6 +6,7 @@
 //
 
 #include "Animal.hpp"
+#include "World.h"
 #include "PolyShape.hpp"
 #include "PolyRect.hpp"
 #include "PolyHalfCircle.hpp"
@@ -16,6 +17,7 @@
 #include <iostream>
 #include <string>
 #include "glPlatform.h"
+
 
 std::vector<std::shared_ptr<PolyShape>> Animal::_myShapes;
 float** Animal::_loadedShapePnts;
