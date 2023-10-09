@@ -7,7 +7,7 @@
 
 #include "Animal.hpp"
 #include "World.h"
-#include "PolyShape.hpp"
+#include "GraphicObject.h"
 #include "PolyRect.hpp"
 #include "PolyHalfCircle.hpp"
 #include "PolyTriangle.hpp"
@@ -19,13 +19,14 @@
 #include "glPlatform.h"
 
 
-std::vector<std::shared_ptr<PolyShape>> Animal::_myShapes;
+std::vector<std::shared_ptr<GraphicObject>> Animal::_myShapes;
 float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
 
 
 Animal::Animal(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
-    :    centerX_(centerX),
+    :   GraphicObject(centerX, centerY, angle),
+        centerX_(centerX),
         centerY_(centerY),
         angle_(angle),
         scaleX_(scaleX),

@@ -13,13 +13,13 @@
 #include <vector>
 
 
-class Animal
+class Animal: public GraphicObject
 {
     private:
         float centerX_, centerY_, scaleX_, scaleY_, angle_;
         float red_, green_, blue_;
 
-        static std::vector<std::shared_ptr<PolyShape>> _myShapes;
+        static std::vector<std::shared_ptr<GraphicObject>> _myShapes;
     
         // shape points of circle calculated in initCircle()
         static float** _circlePoints; // Nx2 float

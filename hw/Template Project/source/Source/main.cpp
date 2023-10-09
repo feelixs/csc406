@@ -24,7 +24,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-//
+
+#include "Animal.hpp"
 #include "glPlatform.h"
 #include "World.h"
 #include "Ellipse.h"
@@ -231,6 +232,7 @@ void myMouseHandler(int button, int state, int ix, int iy)
 			if (state == GLUT_DOWN)
 			{
 				//	do something
+
 				cout << "Click at: (" << ix << ", " << iy << ")" << endl;
 				Point wPt = pixelToWorld(ix, iy);
 				cout << "Corresponding world point: (" << wPt.x << ", " <<
@@ -238,10 +240,13 @@ void myMouseHandler(int button, int state, int ix, int iy)
 				Point pPt = worldToPixel(wPt.x, wPt.y);
 				cout << "Back to pixels: (" << pPt.x << ", " <<
 						pPt.y << ")" << endl;
-				
 			}
 			else if (state == GLUT_UP)
 			{
+              //  objectList.push_back(make_shared<Ellipse>(4, 4, 30, 2, 1, 0.f, 1.f, 1.f));
+                
+                objectList.push_back(make_shared<Animal>(4, 4, 0, 2, 2, 1.f, 1.f, 1.f));
+                cout << "created ellipse at" << endl;
 			}
 			break;
 			
@@ -473,7 +478,6 @@ void applicationInit()
 	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-	objectList.push_back(make_shared<Ellipse>(4, 4, 30, 2, 1, 0.f, 1.f, 1.f));
 	objectList.push_back(make_shared<Ellipse>(7, 2, 0, .50, .50, 1.f, 1.f, 1.f));
 	objectList.push_back(make_shared<Ellipse>(2, 7, 0, .50, .5, 0.f, 0.f, 1.f));
 	objectList.push_back(make_shared<Ellipse>(6, 5, 0, 1.5, 1.5, 1.f, 0.f, 0.f));
