@@ -16,7 +16,7 @@
 class Animal: public GraphicObject
 {
     private:
-        float centerX_, centerY_, scaleX_, scaleY_, angle_;
+        float scaleX_, scaleY_, angle_;
         float red_, green_, blue_;
 
         static std::vector<std::shared_ptr<GraphicObject>> _myShapes;

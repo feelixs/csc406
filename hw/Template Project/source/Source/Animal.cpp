@@ -26,8 +26,6 @@ float** Animal::_circlePoints;
 
 Animal::Animal(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
     :   GraphicObject(centerX, centerY, angle),
-        centerX_(centerX),
-        centerY_(centerY),
         angle_(angle),
         scaleX_(scaleX),
         scaleY_(scaleY),
@@ -37,26 +35,62 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
 {
     // this is where we programatically draw the animal
     
+    Point tempPoint = Point{0.f, 0.f}; // we will use this point to apply trig functions for angle rotations
     
     // wings
-    _myShapes.push_back(std::make_shared<PolyWingRight>(centerX_+(scaleX_/10.f), centerY_+(scaleY_/1.6), angle_-10, scaleX_, scaleY_, red_, green_, blue_));
-    _myShapes.push_back(std::make_shared<PolyWingLeft>(centerX_-(scaleX_/10.f), centerY_+(scaleY_/1.6), angle_+10, scaleX_, scaleY_, red_, green_, blue_));
+    tempPoint.x = getX()+(scaleX_/10.f);
+    tempPoint.y = getY()+(scaleY_/1.6);
+    tempPoint.rotateBy(angle_);
+    _myShapes.push_back(std::make_shared<PolyWingRight>(tempPoint.x, tempPoint.y, angle_-10, scaleX_, scaleY_, red_, green_, blue_));
+    
+    tempPoint.x = getX()-(scaleX_/10.f);
+    tempPoint.y = getY()+(scaleY_/1.6);
+    tempPoint.rotateBy(angle_);
+    _myShapes.push_back(std::make_shared<PolyWingLeft>(tempPoint.x, tempPoint.y, angle_+10, scaleX_, scaleY_, red_, green_, blue_));
+    
     // two half-circles at different angles (face/body)
-    _myShapes.push_back(std::make_shared<PolyHalfCircle>(centerX_, centerY_, angle_+4.f, scaleX_, scaleY_, red_, green_, blue_));
-    _myShapes.push_back(std::make_shared<PolyHalfCircle>(centerX_, centerY_, angle_+14.f, scaleX_, scaleY_, red_, green_, blue_));
+    tempPoint.x = getX();
+    tempPoint.y = getY();
+    tempPoint.rotateBy(angle_);
+    _myShapes.push_back(std::make_shared<PolyHalfCircle>(tempPoint.x, tempPoint.y, angle_+4.f, scaleX_, scaleY_, red_, green_, blue_));
+    
+    tempPoint.x = getX();
+    tempPoint.y = getY();
+    tempPoint.rotateBy(angle_);
+    _myShapes.push_back(std::make_shared<PolyHalfCircle>(tempPoint.x, tempPoint.y, angle_+14.f, scaleX_, scaleY_, red_, green_, blue_));
     // left eye
-    _myShapes.push_back(std::make_shared<PolyCircle>(centerX_-(scaleX_/2.4), centerY_+(scaleY_/1.9), angle_, scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f));
-    _myShapes.push_back(std::make_shared<PolyCircle>(centerX_-(scaleX_/2.5), centerY_+(scaleY_/1.8), angle_, scaleX_/28.f, scaleY_/28.f, 1.f, 1.f, 1.f));
+    
+    tempPoint.x = getX()-(scaleX_/2.4);
+    tempPoint.y = getY()+(scaleY_/1.9);
+    tempPoint.rotateBy(angle_);
+    _myShapes.push_back(std::make_shared<PolyCircle>(tempPoint.x, tempPoint.y, angle_, scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f));
+    
+    tempPoint.x = getX()-(scaleX_/2.5);
+    tempPoint.y = getY()+(scaleY_/1.8);
+    tempPoint.rotateBy(angle_);
+    _myShapes.push_back(std::make_shared<PolyCircle>(tempPoint.x, tempPoint.y, angle_, scaleX_/28.f, scaleY_/28.f, 1.f, 1.f, 1.f));
     // right eye
-    _myShapes.push_back(std::make_shared<PolyCircle>(centerX_+(scaleX_/2.4), centerY_+(scaleY_/1.9), angle_, scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f));
-    _myShapes.push_back(std::make_shared<PolyCircle>(centerX_+(scaleX_/2.3), centerY_+(scaleY_/1.8), angle_, scaleX_/28.f, scaleY_/28.f, 1.f, 1.f, 1.f));
+    
+    tempPoint.x = getX()+(scaleX_/2.4);
+    tempPoint.y = getY()+(scaleY_/1.9);
+    tempPoint.rotateBy(angle_);
+    _myShapes.push_back(std::make_shared<PolyCircle>(tempPoint.x, tempPoint.y, angle_, scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f));
+    
+    tempPoint.x = getX()+(scaleX_/2.3);
+    tempPoint.y = getY()+(scaleY_/1.8);
+    tempPoint.rotateBy(angle_);
+    _myShapes.push_back(std::make_shared<PolyCircle>(tempPoint.x, tempPoint.y, angle_, scaleX_/28.f, scaleY_/28.f, 1.f, 1.f, 1.f));
     // nose
-    _myShapes.push_back(std::make_shared<PolyTriangle>(centerX_, centerY_+(scaleY_/4.f), angle_+180.f, scaleX_/40.f, scaleY_/20.f, 1.f, 1.f, 1.f));
-    std::cout << "Animal was created at " << centerX_ << ", " << centerY_ << std::endl;
+    
+    tempPoint.x = getX();
+    tempPoint.y = getY()+(scaleY_/4.f);
+    tempPoint.rotateBy(angle_);
+    _myShapes.push_back(std::make_shared<PolyTriangle>(tempPoint.x, tempPoint.y, angle_+180.f, scaleX_/40.f, scaleY_/20.f, 1.f, 1.f, 1.f));
+    std::cout << "Animal was created at " << getX() << ", " << getY() << std::endl;
 }
 
 Animal::~Animal() {
-    std::cout << "Animal at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
+    std::cout << "Animal at " << getX() << ", " << getY() << " was deleted" << std::endl;
 }
 
 void Animal::draw() const {

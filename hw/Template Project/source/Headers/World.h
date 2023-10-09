@@ -15,6 +15,11 @@ struct Point{
 	/** The point's vertical coordinate.
 	 */
 	float y;
+    
+    void rotateBy(float angle) {
+        x = x * cosf(angle) - y * sinf(angle);
+        y = x * sinf(angle) + y * cosf(angle);
+    }
 
 };
 
