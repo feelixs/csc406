@@ -14,3 +14,8 @@ GraphicObject::GraphicObject(float x, float y, float angle)
 		angle_(angle)
 {}
 
+
+void GraphicObject::setCenterPoint(Point newCenter) {
+    x_ = newCenter.x;
+    y_ = newCenter.y;
+}

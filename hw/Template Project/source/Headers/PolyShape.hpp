@@ -17,7 +17,7 @@ class PolyShape: public GraphicObject
 {    
     private:
         // all children share these attributes
-        float centerX_, centerY_, scaleX_, scaleY_, angle_;
+    float scaleX_, scaleY_;
         float red_, green_, blue_;
     
     public:
@@ -33,15 +33,6 @@ class PolyShape: public GraphicObject
         PolyShape& operator = (const PolyShape& obj) = delete;    // copy operator
         PolyShape& operator = (PolyShape&& obj) = delete;        // move operator
     
-    inline float getX() const {
-        return centerX_;
-    }
-    inline float getY() const {
-        return centerY_;
-    }
-    inline float getAngle() const {
-        return angle_;
-    }
     inline float getScaleX() const {
         return scaleX_;
     }
@@ -56,13 +47,6 @@ class PolyShape: public GraphicObject
     }
     inline float getBlue() const {
         return blue_;
-    }
-    
-    inline void setX(float x) {
-        centerX_ = x;
-    }
-    inline void setY(float y) {
-        centerY_ = y;
     }
 };
 

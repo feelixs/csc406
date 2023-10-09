@@ -76,8 +76,3 @@ void PolyWingRight::initFromPolygon() {
     PolyWingRight::_loadedShapePnts[4][0] = 0.9;
     PolyWingRight::_loadedShapePnts[4][1] = -0.2;
 }
-
-void PolyWingRight::setCenterPoint(Point newCenter) {
-    setX(newCenter.x);
-    setY(newCenter.y);
-}

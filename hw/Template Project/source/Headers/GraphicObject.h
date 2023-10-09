@@ -8,6 +8,8 @@
 #ifndef GRAPHIC_OBJECT_H
 #define GRAPHIC_OBJECT_H
 
+#include "World.h"
+
 class GraphicObject		// abstract class
 {
 	private:
@@ -19,6 +21,7 @@ class GraphicObject		// abstract class
 		GraphicObject(float x, float y, float angle);
 		~GraphicObject() = default;
 		
+        void setCenterPoint(Point newCenter);
 		virtual void draw() const = 0;  // pure virtual function
 
 		//disabled constructors & operators
@@ -42,6 +45,14 @@ class GraphicObject		// abstract class
 		{
 			return angle_;
 		}
+    
+        
+        inline void setX(float x) {
+            x_ = x;
+        }
+        inline void setY(float y) {
+            y_ = y;
+        }
 
 };
 

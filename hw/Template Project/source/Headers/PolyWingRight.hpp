@@ -9,7 +9,6 @@
 #define PolyEarRight_hpp
 
 #include "PolyShape.hpp"
-#include "World.h"
 #include <stdio.h>
 #include <string>
 
@@ -26,7 +25,6 @@ public:
     
     void draw() const override;
     void initFromPolygon();
-    void setCenterPoint(Point newCenter);
     //disabled constructors & operators
     PolyWingRight() = delete;
     PolyWingRight(const PolyWingRight& obj) = delete;    // copy
