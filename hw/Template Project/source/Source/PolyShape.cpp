@@ -20,6 +20,16 @@ PolyShape::PolyShape(float centerX, float centerY, float angle, float scaleX, fl
 {
 }
 
+PolyShape::PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue)
+:   GraphicObject(centerPoint.x, centerPoint.y, angle),
+        scaleX_(scaleX),
+        scaleY_(scaleY),
+        red_(red),
+        green_(green),
+        blue_(blue)
+{
+}
+
 PolyShape::~PolyShape() {
     //for (int i = 0; i < _numLoadedPnts; i++) {
     //    delete[] _loadedShapePnts[i];
