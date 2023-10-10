@@ -22,6 +22,7 @@ class PolyShape: public GraphicObject
     
     public:
         PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+        PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
         ~PolyShape();
         
         virtual void draw() const; // children will override this function

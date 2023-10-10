@@ -9,6 +9,7 @@
 #define PolyEarRight_hpp
 
 #include "PolyShape.hpp"
+#include "World.h"
 #include <stdio.h>
 #include <string>
 
@@ -20,7 +21,7 @@ private:
     static float** _loadedShapePnts; // Nx2 float
     
 public:
-    PolyWingRight(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+    PolyWingRight(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
     ~PolyWingRight();
     
     void draw() const override;
