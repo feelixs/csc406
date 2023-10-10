@@ -53,17 +53,20 @@ void World::setWorldBounds(float xmin, float xmax, float ymin, float ymax,
 	paneHeight = static_cast<int>(round(HEIGHT * worldToPixelScale));
 }
 
-void Point::rotateBy(float angle) {
-    x = x * cosf(angle) - y * sinf(angle);
-    y = x * sinf(angle) + y * cosf(angle);
+void Point::rotateBy(float degrees) {
+    degrees *= (M_PI/180.f); // convert from degrees to radians
+    x = x * cosf(degrees) - y * sinf(degrees);
+    y = x * sinf(degrees) + y * cosf(degrees);
 }
 
-void Point::rotateAround(Point* other, float theta)
-{
+void Point::rotateAround(Point* other, float degrees) {
     /// rotate this point around another one
-    Point relativePoint = Point{x - other->x, y - other->y};
-    relativePoint.rotateBy(theta);
     
-    x = relativePoint.x;
-    y = relativePoint.y;
+    // find this point's position relative to the origin, if the origin was 'other'
+    Point relativePoint{x - other->x, y - other->y};
+    relativePoint.rotateBy(degrees); // apply rotation around temp origin
+
+    // undo the temporary relative origin
+    x = other->x + relativePoint.x;
+    y = other->y + relativePoint.y;
 }
