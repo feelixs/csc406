@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <vector>
 
-
 class Animal: public GraphicObject
 {
     private:

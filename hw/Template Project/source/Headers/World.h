@@ -16,10 +16,8 @@ struct Point{
 	 */
 	float y;
     
-    void rotateBy(float angle) {
-        x = x * cosf(angle) - y * sinf(angle);
-        y = x * sinf(angle) + y * cosf(angle);
-    }
+    void rotateBy(float angle);
+    void rotateAround(Point* other, float theta);
 
 };
 

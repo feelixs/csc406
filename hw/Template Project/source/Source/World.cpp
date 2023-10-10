@@ -52,3 +52,18 @@ void World::setWorldBounds(float xmin, float xmax, float ymin, float ymax,
 	paneWidth = static_cast<int>(round(WIDTH * worldToPixelScale));
 	paneHeight = static_cast<int>(round(HEIGHT * worldToPixelScale));
 }
+
+void Point::rotateBy(float angle) {
+    x = x * cosf(angle) - y * sinf(angle);
+    y = x * sinf(angle) + y * cosf(angle);
+}
+
+void Point::rotateAround(Point* other, float theta)
+{
+    /// rotate this point around another one
+    Point relativePoint = Point{x - other->x, y - other->y};
+    relativePoint.rotateBy(theta);
+    
+    x = relativePoint.x;
+    y = relativePoint.y;
+}

@@ -245,7 +245,7 @@ void myMouseHandler(int button, int state, int ix, int iy)
 			{
               //  objectList.push_back(make_shared<Ellipse>(4, 4, 30, 2, 1, 0.f, 1.f, 1.f));
                 
-                objectList.push_back(make_shared<Animal>(4, 4, 90, 2, 2, 1.f, 1.f, 1.f));
+                objectList.push_back(make_shared<Animal>(4, 4, M_PI*2, 2, 2, 1.f, 1.f, 1.f));
                 cout << "created ellipse at" << endl;
 			}
 			break;
