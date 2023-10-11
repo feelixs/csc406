@@ -25,7 +25,6 @@ public:
     PolyHalfCircle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
     ~PolyHalfCircle();
     
-    void draw() const override;
     void initFromPolygon();
     //disabled constructors & operators
     PolyHalfCircle() = delete;

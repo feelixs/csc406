@@ -34,34 +34,6 @@ PolyHalfCircle::~PolyHalfCircle() {
 }
 
 
-void PolyHalfCircle::draw() const {
-    //    save the current coordinate system (origin, axes, scale)
-    glPushMatrix();
-    
-    //    move to the center of the disk
-    glTranslatef(getX(), getY(), 0.f);
-        
-    // apply rotation
-    glRotatef(getAngle(), 0.f, 0.f, 1.f);
-    
-    //    apply the radius as a scale
-    glScalef(getScaleX(), getScaleY(), 1.f);
-    
-    glColor3f(getRed(), getGreen(), getBlue());
-    
-    glBegin(GL_POLYGON);
-    for (int k=0; k<PolyHalfCircle::_maxLoadedPnts; k++) {
-        if (k >= PolyHalfCircle::_numLoadedPnts)
-            // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
-            break;
-        glVertex2f(PolyHalfCircle::_loadedShapePnts[k][0], PolyHalfCircle::_loadedShapePnts[k][1]);
-    }
-    glEnd();
-    //    restore the original coordinate system (origin, axes, scale)
-    glPopMatrix();
-}
-
-
 void PolyHalfCircle::initFromPolygon() {
     /// hard coded values for the shape
     _numLoadedPnts = 10;
@@ -91,4 +63,16 @@ void PolyHalfCircle::initFromPolygon() {
     _loadedShapePnts[8][1] = 0.5877852522924732;
     _loadedShapePnts[9][0] = -0.9510565162951535;
     _loadedShapePnts[9][1] = 0.3090169943749475;
+    
+    vertexList = glGenLists(1);
+    glNewList(vertexList, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for (int k=0; k<PolyHalfCircle::_maxLoadedPnts; k++) {
+        if (k >= PolyHalfCircle::_numLoadedPnts)
+            // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
+            break;
+        glVertex2f(PolyHalfCircle::_loadedShapePnts[k][0], PolyHalfCircle::_loadedShapePnts[k][1]);
+    }
+    glEnd();
+    glEndList();
 }

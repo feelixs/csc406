@@ -20,8 +20,6 @@ class PolyTriangle: public PolyShape {
         PolyTriangle(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         PolyTriangle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
         ~PolyTriangle();
-        
-        void draw() const override;
 
         //disabled constructors & operators
         PolyTriangle() = delete;

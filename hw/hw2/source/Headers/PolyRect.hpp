@@ -23,8 +23,6 @@ public:
     PolyRect(Point centerPoint, float angle, float length, float width, float r, float g, float b);
     ~PolyRect();
     
-    void draw() const override;
-    
     //disabled constructors & operators
     PolyRect() = delete;
     PolyRect(const PolyRect& obj) = delete;    // copy

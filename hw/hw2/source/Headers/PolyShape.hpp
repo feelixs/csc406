@@ -9,6 +9,7 @@
 #define PolyShape_hpp
 
 #include <stdio.h>
+#include "glPlatform.h"
 #include "GraphicObject.h"
 
 
@@ -17,15 +18,17 @@ class PolyShape: public GraphicObject
 {    
     private:
         // all children share these attributes
-    float scaleX_, scaleY_;
+        float scaleX_, scaleY_;
         float red_, green_, blue_;
     
     public:
+        GLuint vertexList;
+    
         PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
         ~PolyShape();
         
-        virtual void draw() const; // children will override this function
+        void draw() const; // doesn't need to be overridden since we're using glCallList(vertexList), and each shape has a different vertexList
 
         //disabled constructors & operators
         PolyShape() = delete;

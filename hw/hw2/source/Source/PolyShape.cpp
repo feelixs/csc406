@@ -35,7 +35,25 @@ PolyShape::~PolyShape() {
 
 
 
-void PolyShape::draw() const {
-    // this will be overriden by the shape class's children
-    // we will never call draw of the base shape class directly
+void PolyShape::draw() const
+{
+    //    save the current coordinate system (origin, axes, scale)
+    glPushMatrix();
+    
+    //    move to the center of the disk
+    glTranslatef(getX(), getY(), 0.f);
+        
+    // apply rotation
+    glRotatef(getAngle(), 0.f, 0.f, 1.f);
+    
+    //    apply the radius as a scale
+    glScalef(getScaleX(), getScaleY(), 1.f);
+    
+    glColor3f(getRed(), getGreen(), getBlue());
+    
+    glCallList(vertexList);
+    
+    //    restore the original coordinate system (origin, axes, scale)
+    glPopMatrix();
 }
+

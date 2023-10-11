@@ -41,35 +41,18 @@ void PolyTriangle::_init_() {
     // vertex 3
     _trianPoints[2][0] = width;
     _trianPoints[2][1] = -height / 2.f;
-}
-
-
-PolyTriangle::~PolyTriangle() {
     
-}
-
-
-
-void PolyTriangle::draw() const {
-    //    save the current coordinate system (origin, axes, scale)
-    glPushMatrix();
-    
-    //    move to the center of the disk
-    glTranslatef(getX(), getY(), 0.f);
-        
-    // apply rotation
-    glRotatef(getAngle(), 0.f, 0.f, 1.f);
-    
-    //    apply the radius as a scale
-    glScalef(getScaleX(), getScaleY(), 1.f);
-    
-    glColor3f(getRed(), getGreen(), getBlue());
-    
+    vertexList = glGenLists(1);
+    glNewList(vertexList, GL_COMPILE);
     glBegin(GL_POLYGON);
     for (int k=0; k<numTrianPts; k++) {
         glVertex2f(_trianPoints[k][0], _trianPoints[k][1]);
     }
     glEnd();
-    //    restore the original coordinate system (origin, axes, scale)
-    glPopMatrix();
+    glEndList();
+}
+
+
+PolyTriangle::~PolyTriangle() {
+    
 }

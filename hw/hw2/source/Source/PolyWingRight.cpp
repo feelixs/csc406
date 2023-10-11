@@ -34,33 +34,6 @@ PolyWingRight::~PolyWingRight() {
 }
 
 
-void PolyWingRight::draw() const {
-    //    save the current coordinate system (origin, axes, scale)
-    glPushMatrix();
-    
-    //    move to the center of the disk
-    glTranslatef(getX(), getY(), 0.f);
-        
-    // apply rotation
-    glRotatef(getAngle(), 0.f, 0.f, 1.f);
-    
-    //    apply the radius as a scale
-    glScalef(getScaleX(), getScaleY(), 1.f);
-    
-    glColor3f(getRed(), getGreen(), getBlue());
-    
-    glBegin(GL_POLYGON);
-    for (int k=0; k<PolyWingRight::_maxLoadedPnts; k++) {
-        if (k >= PolyWingRight::_numLoadedPnts)
-            // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
-            break;
-        glVertex2f(PolyWingRight::_loadedShapePnts[k][0], PolyWingRight::_loadedShapePnts[k][1]);
-    }
-    glEnd();
-    //    restore the original coordinate system (origin, axes, scale)
-    glPopMatrix();
-}
-
 void PolyWingRight::initFromPolygon() {
     /// hard coded values for the shape
     _numLoadedPnts = 5;
@@ -80,4 +53,16 @@ void PolyWingRight::initFromPolygon() {
     PolyWingRight::_loadedShapePnts[3][1] = 0;
     PolyWingRight::_loadedShapePnts[4][0] = 0.9;
     PolyWingRight::_loadedShapePnts[4][1] = -0.2;
+    
+    vertexList = glGenLists(1);
+    glNewList(vertexList, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for (int k=0; k<PolyWingRight::_maxLoadedPnts; k++) {
+        if (k >= PolyWingRight::_numLoadedPnts)
+            // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
+            break;
+        glVertex2f(PolyWingRight::_loadedShapePnts[k][0], PolyWingRight::_loadedShapePnts[k][1]);
+    }
+    glEnd();
+    glEndList();
 }
