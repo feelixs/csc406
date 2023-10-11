@@ -18,7 +18,7 @@ class Animal: public GraphicObject
     private:
         void _init_();
     
-        float scaleX_, scaleY_, angle_;
+        float scaleX_, scaleY_;
         float red_, green_, blue_;
 
         static std::vector<std::shared_ptr<GraphicObject>> _myShapes;
@@ -40,6 +40,7 @@ class Animal: public GraphicObject
         Animal(Animal&& obj) = delete;        // move
         Animal& operator = (const Animal& obj) = delete;    // copy operator
         Animal& operator = (Animal&& obj) = delete;        // move operator
+    
 };
 
 #endif /* Animal_hpp */
