@@ -31,11 +31,6 @@ PolyShape::PolyShape(Point centerPoint, float angle, float scaleX, float scaleY,
 }
 
 PolyShape::~PolyShape() {
-    //for (int i = 0; i < _numLoadedPnts; i++) {
-    //    delete[] _loadedShapePnts[i];
-    //}
-    //delete[] _loadedShapePnts;
-//    std::cout << "PolyShape at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
 }
 
 
@@ -43,6 +38,4 @@ PolyShape::~PolyShape() {
 void PolyShape::draw() const {
     // this will be overriden by the shape class's children
     // we will never call draw of the base shape class directly
-    
-    // std::cout << "draw not overriden" << std::endl;
 }

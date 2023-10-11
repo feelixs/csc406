@@ -41,12 +41,7 @@ void PolyRect::_init_() {
 }
 
 PolyRect::~PolyRect() {
-    //for (int i = 0; i < 2; i++) {
-    //    delete[] _straightLinePoints[i];
-    //}
-    //delete[] _straightLinePoints;
-  //  std::cout << "Line at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
-    //PolyShape::~PolyShape();
+    
 }
 
 

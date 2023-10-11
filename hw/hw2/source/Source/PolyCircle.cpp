@@ -38,12 +38,6 @@ void PolyCircle::_init_() {
 }
 
 PolyCircle::~PolyCircle() {
-//    for (int i = 0; i < _numCirPoints; i++) {
-//        delete[] _circlePoints[i];
-//    }
-//    delete[] _circlePoints;
- //   std::cout << "Cicle at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
-    PolyShape::~PolyShape();
 }
 
 

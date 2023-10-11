@@ -30,8 +30,7 @@ PolyHalfCircle::PolyHalfCircle(Point centerPoint, float angle, float scaleX, flo
 
 
 PolyHalfCircle::~PolyHalfCircle() {
-   // std::cout << "Custom polygon at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
-    //PolyShape::~PolyShape();
+   
 }
 
 

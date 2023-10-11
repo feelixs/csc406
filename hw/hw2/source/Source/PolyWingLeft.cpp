@@ -30,8 +30,7 @@ PolyWingLeft::PolyWingLeft(Point centerPoint, float angle, float scaleX, float s
 
 
 PolyWingLeft::~PolyWingLeft() {
-   // std::cout << "Custom polygon at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
-    //PolyShape::~PolyShape();
+
 }
 
 

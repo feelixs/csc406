@@ -45,11 +45,7 @@ void PolyTriangle::_init_() {
 
 
 PolyTriangle::~PolyTriangle() {
-    //for (int i = 0; i < _numLoadedPnts; i++) {
-    //    delete[] _loadedShapePnts[i];
-    //}
-    //delete[] _loadedShapePnts;
- //   std::cout << "Triangle at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
+    
 }
 
 

@@ -48,7 +48,7 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
 }
 
 Animal::~Animal() {
-    std::cout << "Animal at " << getX() << ", " << getY() << " was deleted" << std::endl;
+    
 }
 
 void Animal::draw() const {
@@ -101,5 +101,4 @@ void Animal::_init_() {
     translationPoint = Point{getX(), getY() + (scaleY_/4.f)};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
     _myShapes.push_back(std::make_shared<PolyTriangle>(translationPoint, getAngle()+180.f, scaleX_/40.f, scaleY_/20.f, 1.f, 1.f, 1.f));
-    std::cout << "Animal was created at " << getX() << ", " << getY() << std::endl;
 }
