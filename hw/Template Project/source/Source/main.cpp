@@ -51,7 +51,6 @@ enum FirstSubmenuItemID {	FIRST_SUBMENU_ITEM = 11,
 							SECOND_SUBMENU_ITEM = 12
 };
 
-
 //--------------------------------------
 #if 0
 #pragma mark Function prototypes

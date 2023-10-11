@@ -21,7 +21,6 @@ class GraphicObject		// abstract class
 		GraphicObject(float x, float y, float angle);
 		~GraphicObject() = default;
 		
-        void setCenterPoint(Point newCenter);
 		virtual void draw() const = 0;  // pure virtual function
 
 		//disabled constructors & operators
