@@ -22,6 +22,7 @@ private:
     
 public:
     PolyHalfCircle(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+    PolyHalfCircle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
     ~PolyHalfCircle();
     
     void draw() const override;

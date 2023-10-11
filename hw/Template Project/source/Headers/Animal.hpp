@@ -9,12 +9,15 @@
 #define Animal_hpp
 
 #include "PolyShape.hpp"
+#include "World.h"
 #include <stdio.h>
 #include <vector>
 
 class Animal: public GraphicObject
 {
     private:
+        void _init_();
+    
         float scaleX_, scaleY_, angle_;
         float red_, green_, blue_;
 
@@ -26,6 +29,7 @@ class Animal: public GraphicObject
     
     public:
         Animal(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+        Animal(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
         ~Animal();
         
         void draw() const;

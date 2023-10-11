@@ -16,6 +16,14 @@ const int PolyCircle::_numCirPoints = 12;
 
 
 PolyCircle::PolyCircle(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue): PolyShape(centerX, centerY, angle, scaleX, scaleY, red, green, blue) {
+    _init_();
+}
+
+PolyCircle::PolyCircle(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue): PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue) {
+    _init_();
+}
+
+void PolyCircle::_init_() {
     PolyCircle::_circlePoints = new float*[PolyCircle::_numCirPoints];
     for (int k=0; k<PolyCircle::_numCirPoints; k++) {
         PolyCircle::_circlePoints[k] = new float[2];
@@ -28,7 +36,6 @@ PolyCircle::PolyCircle(float centerX, float centerY, float angle, float scaleX, 
         PolyCircle::_circlePoints[k][1] = sinf(theta);
     }
 }
-
 
 PolyCircle::~PolyCircle() {
 //    for (int i = 0; i < _numCirPoints; i++) {

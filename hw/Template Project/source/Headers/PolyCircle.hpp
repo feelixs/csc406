@@ -16,9 +16,10 @@ private:
     // shape points of circle calculated in constructor
     static float** _circlePoints; // Nx2 float
     static const int _numCirPoints;
-    
+    void _init_();
 public:
     PolyCircle(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+    PolyCircle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
     ~PolyCircle();
     
     void draw() const override;

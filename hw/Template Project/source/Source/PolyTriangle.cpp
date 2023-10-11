@@ -15,6 +15,14 @@ float** PolyTriangle::_trianPoints;
 const int numTrianPts = 3;
 
 PolyTriangle::PolyTriangle(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue): PolyShape(centerX, centerY, angle, scaleX, scaleY, red, green, blue) {
+    _init_();
+}
+
+PolyTriangle::PolyTriangle(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue): PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue) {
+    _init_();
+}
+
+void PolyTriangle::_init_() {
     _trianPoints = new float*[numTrianPts];
     for (int i = 0; i < numTrianPts; i++) {
         _trianPoints[i] = new float[2];
@@ -34,6 +42,7 @@ PolyTriangle::PolyTriangle(float centerX, float centerY, float angle, float scal
     _trianPoints[2][0] = width;
     _trianPoints[2][1] = -height / 2.f;
 }
+
 
 PolyTriangle::~PolyTriangle() {
     //for (int i = 0; i < _numLoadedPnts; i++) {

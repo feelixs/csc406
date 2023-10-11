@@ -15,9 +15,10 @@
 class PolyTriangle: public PolyShape {
     private:
         static float** _trianPoints;
-    
+        void _init_();
     public:
         PolyTriangle(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+        PolyTriangle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
         ~PolyTriangle();
         
         void draw() const override;

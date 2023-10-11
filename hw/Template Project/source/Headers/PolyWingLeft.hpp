@@ -22,6 +22,7 @@ private:
     
 public:
     PolyWingLeft(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+    PolyWingLeft(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
     ~PolyWingLeft();
     
     void draw() const override;

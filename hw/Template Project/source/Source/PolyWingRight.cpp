@@ -16,6 +16,13 @@ const int PolyWingRight::_maxLoadedPnts = 25;
 float** PolyWingRight::_loadedShapePnts;
 
 
+PolyWingRight::PolyWingRight(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue):
+    PolyShape(centerX, centerY, angle, scaleX, scaleY, red, green, blue)
+{
+    initFromPolygon();
+}
+
+
 PolyWingRight::PolyWingRight(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue):
     PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue)
 {
