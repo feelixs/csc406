@@ -23,10 +23,10 @@ std::vector<std::shared_ptr<GraphicObject>> Animal::_myShapes;
 float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
 
-Animal::Animal(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue)
+Animal::Animal(Point centerPoint, float angle, float scale, float red, float green, float blue)
 :   GraphicObject(centerPoint.x, centerPoint.y, angle),
-    scaleX_(scaleX),
-    scaleY_(scaleY),
+    scaleX_(scale),
+    scaleY_(scale),
     red_(red),
     green_(green),
     blue_(blue)
@@ -36,6 +36,7 @@ Animal::Animal(Point centerPoint, float angle, float scaleX, float scaleY, float
 
 
 Animal::Animal(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
+// Animal _init_() will use World::Point to initialize its shapes, regardless of which constructor is used
     :   GraphicObject(centerX, centerY, angle),
         scaleX_(scaleX),
         scaleY_(scaleY),

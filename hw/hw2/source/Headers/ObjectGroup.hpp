@@ -9,7 +9,9 @@
 #define ObjectGroup_hpp
 
 #include <stdio.h>
+#include <vector>
 #include "GraphicObject.h"
+#include "Animal.hpp"
 
 #endif /* ObjectGroup_hpp */
 
@@ -23,14 +25,18 @@ class ObjectGroup: public GraphicObject {
 private:
     GroupType type_;
     GroupSize size_;
+    float pixelSize_; // convert GroupSize into an actual pixel size to be used for the Animal's scale_
     int num_;
     float speedX_, speedY_; // pixels per second
     float spin_; // degrees per second
+    
+    static float** headPoints_;
+    std::vector<std::shared_ptr<Animal>> groupHeads_;
 
     
 public:
     ObjectGroup(GroupType type, GroupSize size, int num, float x, float y);
-    ~ObjectGroup();
+    ~ObjectGroup() = default;
     
     void draw() const;
     void update(float dt);
