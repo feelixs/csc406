@@ -21,3 +21,8 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, float x, float
 void ObjectGroup::draw() const {
     
 }
+
+
+void ObjectGroup::update(float dt) {
+    
+}
