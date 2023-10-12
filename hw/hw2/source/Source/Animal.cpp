@@ -19,7 +19,7 @@
 #include "glPlatform.h"
 
 
-std::vector<std::shared_ptr<GraphicObject>> Animal::_myShapes;
+std::vector<std::shared_ptr<PolyShape>> Animal::_myShapes;
 float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
 
@@ -97,4 +97,20 @@ void Animal::_init_() {
     translationPoint = Point{getX(), getY() + (scaleY_/4.f)};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
     _myShapes.push_back(std::make_shared<PolyTriangle>(translationPoint, getAngle()+180.f, scaleX_/40.f, scaleY_/20.f, 1.f, 1.f, 1.f));
+}
+
+
+void Animal::setColor(float r, float g, float b) {
+    for (int i = 0; i < _myShapes.size(); i++) {
+        switch(i) {
+            // we will manually set the color of all my shapes
+            // we know which ones to set the colors of based on their order of creation in _init_()
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                _myShapes.at(i)->setColor(r, g, b);
+            
+        }
+    }
 }
