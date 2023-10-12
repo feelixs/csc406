@@ -103,7 +103,7 @@ string stringLine = "";
 vector<shared_ptr<GraphicObject>> objectList;
 
 bool creationModeEnabled = false;
-shared_ptr<Animal> creationModeStatus;
+shared_ptr<Animal> creationModeStatusObj;
 
 //--------------------------------------
 #if 0
@@ -143,9 +143,11 @@ void myDisplayFunc(void)
 	}
 
     if (creationModeEnabled) {
-        creationModeStatus->draw();
+        creationModeStatusObj->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
+    } else {
+        creationModeStatusObj->setColor(1.f, 0.f, 0.f); // red if disabled
     }
-
+    creationModeStatusObj->draw();
 
 	glPopMatrix();
 
@@ -501,7 +503,7 @@ void applicationInit()
 	objectList.push_back(make_shared<Ellipse>(2, 7, 0, .50, .5, 0.f, 0.f, 1.f));
 	objectList.push_back(make_shared<Ellipse>(6, 5, 0, 1.5, 1.5, 1.f, 0.f, 0.f));
     
-    creationModeStatus = make_shared<Animal>(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f);
+    creationModeStatusObj = make_shared<Animal>(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f);
 }
 
 int main(int argc, char * argv[])

@@ -21,7 +21,7 @@ class Animal: public GraphicObject
         float scaleX_, scaleY_;
         float red_, green_, blue_;
 
-        static std::vector<std::shared_ptr<GraphicObject>> _myShapes;
+        static std::vector<std::shared_ptr<PolyShape>> _myShapes;
     
         // shape points of circle calculated in initCircle()
         static float** _circlePoints; // Nx2 float
@@ -33,7 +33,7 @@ class Animal: public GraphicObject
         ~Animal() = default;
         
         void draw() const;
-
+        void setColor(float r, float g, float b);
         //disabled constructors & operators
         Animal() = delete;
         Animal(const Animal& obj) = delete;    // copy

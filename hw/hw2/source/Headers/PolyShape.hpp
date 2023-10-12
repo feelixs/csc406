@@ -52,6 +52,12 @@ class PolyShape: public GraphicObject
     inline float getBlue() const {
         return blue_;
     }
+    
+    inline void setColor(float r, float g, float b) {
+        red_ = r;
+        green_ = g;
+        blue_ = b;
+    }
 };
 
 #endif /* PolyShape_hpp */
