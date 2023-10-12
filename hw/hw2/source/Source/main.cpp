@@ -150,6 +150,20 @@ void myDisplayFunc(void)
     } else {
         creationModeStatusObj->setColor(1.f, 0.f, 0.f); // red if disabled
     }
+    /*
+    if (creationModeType == HEADS_ON_WHEELS) {
+        creationModeStatusObj->setAllAngles(90);
+    } else {
+        creationModeStatusObj->setAllAngles(0);
+    }
+    if (creationModeSize == SMALL) {
+        creationModeStatusObj->setAllScales(0.25, 0.25);
+    } else if (creationModeSize == MEDIUM) {
+        creationModeStatusObj->setAllScales(0.5, 0.5);
+    } else {
+        creationModeStatusObj->setAllScales(0.75, 0.75);
+    }
+     */
     creationModeStatusObj->draw();
 
 	glPopMatrix();
