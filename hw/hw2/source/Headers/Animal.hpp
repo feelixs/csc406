@@ -34,20 +34,12 @@ class Animal: public GraphicObject
         
         void draw() const;
         void setColor(float r, float g, float b);
-        void setAllAngles(float degrees); // set angle of all constutient shapes
-        void setAllScales(float x, float y);
         //disabled constructors & operators
         Animal() = delete;
         Animal(const Animal& obj) = delete;    // copy
         Animal(Animal&& obj) = delete;        // move
         Animal& operator = (const Animal& obj) = delete;    // copy operator
         Animal& operator = (Animal&& obj) = delete;        // move operator
-    
-    inline void setScale(float x, float y) {
-        scaleX_ = x;
-        scaleY_ = y;
-    }
-    
 };
 
 #endif /* Animal_hpp */

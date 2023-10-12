@@ -114,20 +114,3 @@ void Animal::setColor(float r, float g, float b) {
         }
     }
 }
-
-void Animal::setAllScales(float x, float y) {
-    for (int i = 0; i < _myShapes.size(); i++) {
-        _myShapes.erase(_myShapes.begin() + i);
-    }
-    setScale(x, y);
-    _init_();
-}
-
-
-void Animal::setAllAngles(float degrees) {
-    for (int i = 0; i < _myShapes.size(); i++) {
-        _myShapes.erase(_myShapes.begin() + i);
-    }
-    setAngle(degrees);
-    _init_();
-}
