@@ -66,8 +66,7 @@ void ObjectGroup::_init_() {
     }
     Point createAt;
     for (int i = 0; i < num_; i++) {
-        createAt = Point{headPoints_[i][0], headPoints_[i][1]};
-        groupHeads_.push_back(std::make_shared<Animal>(createAt, rotateBy * i, pixelSize_, 0.f, 1.f, 1.f));
+        groupHeads_.push_back(std::make_shared<Animal>(Point{headPoints_[i][0], headPoints_[i][1]}, rotateBy * i, pixelSize_, 0.f, 1.f, 1.f));
     }
 }
 
