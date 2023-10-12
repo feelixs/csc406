@@ -23,10 +23,10 @@ std::vector<std::shared_ptr<GraphicObject>> Animal::_myShapes;
 float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
 
-Animal::Animal(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue)
+Animal::Animal(Point centerPoint, float angle, float scale, float red, float green, float blue)
 :   GraphicObject(centerPoint.x, centerPoint.y, angle),
-    scaleX_(scaleX),
-    scaleY_(scaleY),
+    scaleX_(scale),
+    scaleY_(scale),
     red_(red),
     green_(green),
     blue_(blue)
@@ -36,6 +36,7 @@ Animal::Animal(Point centerPoint, float angle, float scaleX, float scaleY, float
 
 
 Animal::Animal(float centerX, float centerY, float angle, float scaleX, float scaleY, float red, float green, float blue)
+// Animal _init_() will use World::Point to initialize its shapes, regardless of which constructor is used
     :   GraphicObject(centerX, centerY, angle),
         scaleX_(scaleX),
         scaleY_(scaleY),
@@ -44,10 +45,6 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
         blue_(blue)
 {
     _init_();
-}
-
-Animal::~Animal() {
-    std::cout << "Animal at " << getX() << ", " << getY() << " was deleted" << std::endl;
 }
 
 void Animal::draw() const {
@@ -100,5 +97,4 @@ void Animal::_init_() {
     translationPoint = Point{getX(), getY() + (scaleY_/4.f)};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
     _myShapes.push_back(std::make_shared<PolyTriangle>(translationPoint, getAngle()+180.f, scaleX_/40.f, scaleY_/20.f, 1.f, 1.f, 1.f));
-    std::cout << "Animal was created at " << getX() << ", " << getY() << std::endl;
 }

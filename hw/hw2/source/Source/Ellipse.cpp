@@ -39,9 +39,7 @@ Ellipse::Ellipse(float centerX, float centerY, float radius,
 {
 }
 
-Ellipse::~Ellipse()
-{
-	std::cout << "Ellipse at " << getX() << ", " << getY() << " sating goodbye" << std::endl;
+Ellipse::~Ellipse() {
 }
 
 void Ellipse::draw() const

@@ -22,8 +22,6 @@ public:
     PolyCircle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
     ~PolyCircle();
     
-    void draw() const override;
-    
     //disabled constructors & operators
     PolyCircle() = delete;
     PolyCircle(const PolyCircle& obj) = delete;    // copy

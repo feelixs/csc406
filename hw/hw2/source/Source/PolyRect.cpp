@@ -38,38 +38,17 @@ void PolyRect::_init_() {
 
     _rectPoints[3][0] = length_ / 2.f;
     _rectPoints[3][1] = -width_ / 2.f;
-}
-
-PolyRect::~PolyRect() {
-    //for (int i = 0; i < 2; i++) {
-    //    delete[] _straightLinePoints[i];
-    //}
-    //delete[] _straightLinePoints;
-  //  std::cout << "Line at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
-    //PolyShape::~PolyShape();
-}
-
-
-void PolyRect::draw() const {
-    //    save the current coordinate system (origin, axes, scale)
-    glPushMatrix();
     
-    //    move to the center of the disk
-    glTranslatef(getX(), getY(), 0.f);
-        
-    // apply rotation
-    glRotatef(getAngle(), 0.f, 0.f, 1.f);
-    
-    //    apply the radius as a scale
-   // glScalef(scaleX_, scaleY_, 1.f);
-    
-    glColor3f(getRed(), getGreen(), getBlue());
-    
+    vertexList = glGenLists(1);
+    glNewList(vertexList, GL_COMPILE);
     glBegin(GL_POLYGON);
     for (int k=0; k<numRectPts; k++) {
         glVertex2f(_rectPoints[k][0], _rectPoints[k][1]);
     }
     glEnd();
-    //    restore the original coordinate system (origin, axes, scale)
-    glPopMatrix();
+    glEndList();
+}
+
+PolyRect::~PolyRect() {
+    
 }

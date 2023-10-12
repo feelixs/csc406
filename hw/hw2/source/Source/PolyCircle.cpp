@@ -35,40 +35,16 @@ void PolyCircle::_init_() {
         PolyCircle::_circlePoints[k][0] = cosf(theta);
         PolyCircle::_circlePoints[k][1] = sinf(theta);
     }
-}
-
-PolyCircle::~PolyCircle() {
-//    for (int i = 0; i < _numCirPoints; i++) {
-//        delete[] _circlePoints[i];
-//    }
-//    delete[] _circlePoints;
- //   std::cout << "Cicle at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
-    PolyShape::~PolyShape();
-}
-
-
-
-void PolyCircle::draw() const {
-    //    save the current coordinate system (origin, axes, scale)
-    glPushMatrix();
     
-    //    move to the center of the disk
-    glTranslatef(getX(), getY(), 0.f);
-        
-    // apply rotation
-    glRotatef(getAngle(), 0.f, 0.f, 1.f);
-    
-    //    apply the radius as a scale
-    glScalef(getScaleX(), getScaleY(), 1.f);
-    
-    glColor3f(getRed(), getGreen(), getBlue());
-    
+    vertexList = glGenLists(1);
+    glNewList(vertexList, GL_COMPILE);
     glBegin(GL_POLYGON);
     for (int k=0; k<PolyCircle::_numCirPoints; k++) {
         glVertex2f(PolyCircle::_circlePoints[k][0], PolyCircle::_circlePoints[k][1]);
     }
     glEnd();
-    //    restore the original coordinate system (origin, axes, scale)
-    glPopMatrix();
+    glEndList();
 }
 
+PolyCircle::~PolyCircle() {
+}

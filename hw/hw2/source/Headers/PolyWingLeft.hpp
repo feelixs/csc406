@@ -25,8 +25,6 @@ public:
     PolyWingLeft(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
     ~PolyWingLeft();
     
-    void draw() const override;
-    
     void initFromPolygon();
     //disabled constructors & operators
     PolyWingLeft() = delete;

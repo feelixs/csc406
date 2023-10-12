@@ -30,36 +30,7 @@ PolyWingLeft::PolyWingLeft(Point centerPoint, float angle, float scaleX, float s
 
 
 PolyWingLeft::~PolyWingLeft() {
-   // std::cout << "Custom polygon at " << centerX_ << ", " << centerY_ << " was deleted" << std::endl;
-    //PolyShape::~PolyShape();
-}
 
-
-void PolyWingLeft::draw() const {
-    //    save the current coordinate system (origin, axes, scale)
-    glPushMatrix();
-    
-    //    move to the center of the disk
-    glTranslatef(getX(), getY(), 0.f);
-        
-    // apply rotation
-    glRotatef(getAngle(), 0.f, 0.f, 1.f);
-    
-    //    apply the radius as a scale
-    glScalef(getScaleX(), getScaleY(), 1.f);
-    
-    glColor3f(getRed(), getGreen(), getBlue());
-    
-    glBegin(GL_POLYGON);
-    for (int k=0; k<PolyWingLeft::_maxLoadedPnts; k++) {
-        if (k >= PolyWingLeft::_numLoadedPnts)
-            // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
-            break;
-        glVertex2f(PolyWingLeft::_loadedShapePnts[k][0], PolyWingLeft::_loadedShapePnts[k][1]);
-    }
-    glEnd();
-    //    restore the original coordinate system (origin, axes, scale)
-    glPopMatrix();
 }
 
 
@@ -82,4 +53,16 @@ void PolyWingLeft::initFromPolygon() {
     PolyWingLeft::_loadedShapePnts[3][1] = 0;
     PolyWingLeft::_loadedShapePnts[4][0] = -0.9;
     PolyWingLeft::_loadedShapePnts[4][1] = -0.2;
+    
+    vertexList = glGenLists(1);
+    glNewList(vertexList, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for (int k=0; k<PolyWingLeft::_maxLoadedPnts; k++) {
+        if (k >= PolyWingLeft::_numLoadedPnts)
+            // prevent EXC_BAD_ACCESS when trying to access unexisting/noninitialized indices of shapePntBuff in loadShape()
+            break;
+        glVertex2f(PolyWingLeft::_loadedShapePnts[k][0], PolyWingLeft::_loadedShapePnts[k][1]);
+    }
+    glEnd();
+    glEndList();
 }

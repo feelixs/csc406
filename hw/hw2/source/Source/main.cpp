@@ -25,6 +25,7 @@
 #include <vector>
 #include <memory>
 
+#include "ObjectGroup.hpp"
 #include "Animal.hpp"
 #include "glPlatform.h"
 #include "World.h"
@@ -50,7 +51,6 @@ enum MenuItemID {	SEPARATOR = -1,
 enum FirstSubmenuItemID {	FIRST_SUBMENU_ITEM = 11,
 							SECOND_SUBMENU_ITEM = 12
 };
-
 
 //--------------------------------------
 #if 0
@@ -245,8 +245,9 @@ void myMouseHandler(int button, int state, int ix, int iy)
 			{
               //  objectList.push_back(make_shared<Ellipse>(4, 4, 30, 2, 1, 0.f, 1.f, 1.f));
                 
-                objectList.push_back(make_shared<Animal>(4, 4, 180.f, 2, 2, 0.f, 1.f, 1.f));
-                cout << "created ellipse at" << endl;
+               // objectList.push_back(make_shared<Animal>(pixelToWorld(ix, iy), 90.f, 1, 0.f, 1.f, 1.f));
+                
+                objectList.push_back(make_shared<ObjectGroup>(HEADS_ON_WHEELS, MEDIUM, 4, pixelToWorld(ix, iy)));
 			}
 			break;
 			
