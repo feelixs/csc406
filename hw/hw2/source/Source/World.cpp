@@ -55,8 +55,9 @@ void World::setWorldBounds(float xmin, float xmax, float ymin, float ymax,
 
 void Point::rotateBy(float degrees) {
     degrees *= (M_PI/180.f); // convert from degrees to radians
+    float xo = x; // store our original x before we change it
     x = x * cosf(degrees) - y * sinf(degrees);
-    y = x * sinf(degrees) + y * cosf(degrees);
+    y = xo * sinf(degrees) + y * cosf(degrees);
 }
 
 void Point::rotateAround(Point* other, float degrees) {
