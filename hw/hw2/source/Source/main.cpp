@@ -152,18 +152,18 @@ void myDisplayFunc(void)
     }
     /*
     if (creationModeType == HEADS_ON_WHEELS) {
-        creationModeStatusObj->setAllAngles(90);
+        creationModeStatusObj.reset(new Animal(Point{-9, 8}, 90, 0.5, 0.f, 1.f, 0.f));
     } else {
-        creationModeStatusObj->setAllAngles(0);
+        creationModeStatusObj.reset(new Animal(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f));
     }
     if (creationModeSize == SMALL) {
-        creationModeStatusObj->setAllScales(0.25, 0.25);
+        creationModeStatusObj.reset(new Animal(Point{-9, 8}, 0, 0.25, 0.f, 1.f, 0.f));
     } else if (creationModeSize == MEDIUM) {
-        creationModeStatusObj->setAllScales(0.5, 0.5);
+        creationModeStatusObj.reset(new Animal(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f));
     } else {
-        creationModeStatusObj->setAllScales(0.75, 0.75);
-    }
-     */
+        creationModeStatusObj.reset(new Animal(Point{-9, 8}, 0, 0.75, 0.f, 1.f, 0.f));
+    }*/
+     
     creationModeStatusObj->draw();
 
 	glPopMatrix();
