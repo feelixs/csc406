@@ -352,30 +352,35 @@ void myKeyHandler(unsigned char c, int x, int y)
         case '=':
         case '+':
             // +, =, are mapped to the same key
-            if (creationModeSize == SMALL) { // there are only 3 possible sizes
-                creationModeSize = MEDIUM;
-                cout << "medium\n";
-            } else if (creationModeSize == MEDIUM) {
-                creationModeSize = LARGE;
-                cout << "large\n";
-            } else {
-                cout << "small\n";
-                creationModeSize = SMALL;
+            
+            if (creationModeEnabled) {
+                if (creationModeSize == SMALL) { // there are only 3 possible sizes
+                    creationModeSize = MEDIUM;
+                    cout << "medium\n";
+                } else if (creationModeSize == MEDIUM) {
+                    creationModeSize = LARGE;
+                    cout << "large\n";
+                } else {
+                    cout << "small\n";
+                    creationModeSize = SMALL;
+                }
             }
             break;
             
         case '_':
         case '-':
             // _, -, are mapped to the same key
-            if (creationModeSize == SMALL) { // there are only 3 possible sizes
-                creationModeSize = LARGE;
-                cout << "large\n";
-            } else if (creationModeSize == MEDIUM) {
-                creationModeSize = SMALL;
-                cout << "small\n";
-            } else {
-                creationModeSize = MEDIUM;
-                cout << "=\n";
+            if (creationModeEnabled) {
+                if (creationModeSize == SMALL) { // there are only 3 possible sizes
+                    creationModeSize = LARGE;
+                    cout << "large\n";
+                } else if (creationModeSize == MEDIUM) {
+                    creationModeSize = SMALL;
+                    cout << "small\n";
+                } else {
+                    creationModeSize = MEDIUM;
+                    cout << "=\n";
+                }
             }
             break;
         
