@@ -30,7 +30,7 @@ class Animal: public GraphicObject
     public:
         Animal(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         Animal(Point centerPoint, float angle, float scale, float r, float g, float b);
-        ~Animal();
+        ~Animal() = default;
         
         void draw() const;
 

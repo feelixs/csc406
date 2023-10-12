@@ -47,10 +47,6 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
     _init_();
 }
 
-Animal::~Animal() {
-    
-}
-
 void Animal::draw() const {
     for (int i=0; i<_myShapes.size(); i++) {
         _myShapes.at(i)->draw();
