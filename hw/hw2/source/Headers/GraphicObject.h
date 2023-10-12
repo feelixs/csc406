@@ -44,7 +44,6 @@ class GraphicObject		// abstract class
 		{
 			return angle_;
 		}
-    
         
         inline void setX(float x) {
             x_ = x;
@@ -52,7 +51,9 @@ class GraphicObject		// abstract class
         inline void setY(float y) {
             y_ = y;
         }
-
+        inline void setAngle(float degrees) {
+            angle_ = degrees;
+        }
 };
 
 #endif /* GRAPHIC_OBJECT_H */

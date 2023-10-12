@@ -103,6 +103,9 @@ string stringLine = "";
 vector<shared_ptr<GraphicObject>> objectList;
 
 bool creationModeEnabled = false;
+GroupType creationModeType = HEADS_ON_STICK; // chosen GroupType
+GroupSize creationModeSize = SMALL; // chosen GroupSize
+int creationModeNum = 6; // number of heads
 shared_ptr<Animal> creationModeStatusObj;
 
 //--------------------------------------
@@ -255,7 +258,7 @@ void myMouseHandler(int button, int state, int ix, int iy)
 			{
                 if (creationModeEnabled) {
                     // create an objectgroup at the mouse pointer
-                    objectList.push_back(make_shared<ObjectGroup>(HEADS_ON_WHEELS, LARGE, 4, pixelToWorld(ix, iy)));
+                    objectList.push_back(make_shared<ObjectGroup>(creationModeType, creationModeSize, creationModeNum, pixelToWorld(ix, iy)));
                 }
                 
 			}
@@ -311,6 +314,7 @@ void myKeyHandler(unsigned char c, int x, int y)
 		case 27:
 			exit(0);
 			break;
+            
         case 'c':
             // toggle creation mode
             cout << "c pressed\n";
@@ -321,6 +325,57 @@ void myKeyHandler(unsigned char c, int x, int y)
                 cout << "enabled creation\n";
                 creationModeEnabled = true;
             }
+            break;
+        case 's':
+            cout << "head on stci\n";
+            creationModeType = HEADS_ON_STICK;
+            break;
+        case 'w':
+            cout << "head on wheel\n";
+            creationModeType = HEADS_ON_WHEELS;
+            break;
+        
+        case '=':
+        case '+':
+            // +, =, are mapped to the same key
+            if (creationModeSize == SMALL) { // there are only 3 possible sizes
+                creationModeSize = MEDIUM;
+                cout << "medium\n";
+            } else if (creationModeSize == MEDIUM) {
+                creationModeSize = LARGE;
+                cout << "large\n";
+            } else {
+                cout << "small\n";
+                creationModeSize = SMALL;
+            }
+            break;
+            
+        case '_':
+        case '-':
+            // _, -, are mapped to the same key
+            if (creationModeSize == SMALL) { // there are only 3 possible sizes
+                creationModeSize = LARGE;
+                cout << "large\n";
+            } else if (creationModeSize == MEDIUM) {
+                creationModeSize = SMALL;
+                cout << "small\n";
+            } else {
+                creationModeSize = MEDIUM;
+                cout << "=\n";
+            }
+            break;
+        
+            
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            cout << c << " to int " << c - '0' << endl;
+            creationModeNum = c - '0';
+            break;
             
 		case 'm':
 			trackMousePointer = !trackMousePointer;
@@ -343,6 +398,7 @@ void myKeyHandler(unsigned char c, int x, int y)
 			displayText = !displayText;
 			
 		default:
+            cout << c << endl;
 			break;
 	}
 }
