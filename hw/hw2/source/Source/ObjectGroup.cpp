@@ -17,6 +17,20 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, float x, float
     size_(size),
     num_(num)
 {
+    _init_();
+}
+
+ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, Point at):
+    GraphicObject(at.x, at.y, 0),
+    type_(type),
+    size_(size),
+    num_(num)
+{
+    _init_();
+}
+
+
+void ObjectGroup::_init_() {
     headPoints_ = new float*[num_];
     for (int k=0; k<num_; k++)
         headPoints_[k] = new float[2];
@@ -25,8 +39,8 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, float x, float
     for (int k=0; k<num_; k++)
     {
         float theta = k*angleStep;
-        headPoints_[k][0] = cosf(theta);
-        headPoints_[k][1] = sinf(theta);
+        headPoints_[k][0] = cosf(theta) + getX();
+        headPoints_[k][1] = sinf(theta) + getY();
     }
     
     switch (size_) {

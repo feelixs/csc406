@@ -33,9 +33,11 @@ private:
     static float** headPoints_;
     std::vector<std::shared_ptr<Animal>> groupHeads_;
 
+    void _init_();
     
 public:
     ObjectGroup(GroupType type, GroupSize size, int num, float x, float y);
+    ObjectGroup(GroupType type, GroupSize size, int num, Point at);
     ~ObjectGroup() = default;
     
     void draw() const;
