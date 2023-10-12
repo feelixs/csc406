@@ -43,24 +43,18 @@ void ObjectGroup::_init_() {
         headPoints_[k][1] = sinf(theta) + getY();
     }
     
-    switch (size_) {
-        case LARGE:
-            pixelSize_ = 1.f;
-        case MEDIUM:
-            pixelSize_ = 0.75f;
-        case SMALL:
-            pixelSize_ = 0.5f;
-        default:
-            pixelSize_ = 0.75f;
+    if (size_ == LARGE) {
+        pixelSize_ = 1.f;
+    } else if (size_ == MEDIUM) {
+        pixelSize_ = 0.75f;
+    } else {
+        pixelSize_ = 0.5f;
     }
     
     float rotateBy;
     
     
-    if (type_ == HEADS_ON_STICK) {
-        rotateBy = 0;
-    }
-    else if (type_ == HEADS_ON_WHEELS) {
+    if (type_ == HEADS_ON_WHEELS) {
         rotateBy = 360/num_; // for example: six heads would be 360d/6 = 60d
     } else {
         rotateBy = 0;
