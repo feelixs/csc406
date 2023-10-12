@@ -245,8 +245,9 @@ void myMouseHandler(int button, int state, int ix, int iy)
 			{
               //  objectList.push_back(make_shared<Ellipse>(4, 4, 30, 2, 1, 0.f, 1.f, 1.f));
                 
-                objectList.push_back(make_shared<Animal>(pixelToWorld(ix, iy), 90.f, 1, 0.f, 1.f, 1.f));
-               // objectList.push_back(make_shared<ObjectGroup>(HEADS_ON_WHEELS, MEDIUM, 6, pixelToWorld(ix, iy)));
+               // objectList.push_back(make_shared<Animal>(pixelToWorld(ix, iy), 90.f, 1, 0.f, 1.f, 1.f));
+                
+                objectList.push_back(make_shared<ObjectGroup>(HEADS_ON_WHEELS, MEDIUM, 4, pixelToWorld(ix, iy)));
 			}
 			break;
 			
