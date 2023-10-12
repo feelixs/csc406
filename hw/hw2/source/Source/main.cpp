@@ -100,8 +100,15 @@ bool trackEntry = false;
 bool displayText = false;
 string stringLine = "";
 
-vector<shared_ptr<GraphicObject> > objectList;
+vector<shared_ptr<GraphicObject>> objectList;
 
+struct StatusObj {
+    shared_ptr<GraphicObject> obj;  // which object shows this setting's status?
+    bool settingStatus; // should the setting start out enabled/disabled?
+};
+// store all our StatusObjects. We'll populate this in the init() with all our desired settings
+// our display function will handle drawing only the ones whose setting is currently 'enabled'
+vector<StatusObj> statusObjects;
 
 //--------------------------------------
 #if 0
@@ -139,6 +146,14 @@ void myDisplayFunc(void)
 		if (obj != nullptr)
 			obj->draw();
 	}
+    
+    for (int i = 0; i < statusObjects.size(); i++) {
+        // only draw a setting object if its setting is enabled (true)
+        // this will tell the user which modes are currently active (creation mode, group creation, etc)
+        if (statusObjects.at(i).settingStatus) {
+            statusObjects.at(i).obj->draw();
+        }
+    }
 
 	glPopMatrix();
 
@@ -233,21 +248,23 @@ void myMouseHandler(int button, int state, int ix, int iy)
 			{
 				//	do something
 
-				cout << "Click at: (" << ix << ", " << iy << ")" << endl;
+				/*cout << "Click at: (" << ix << ", " << iy << ")" << endl;
 				Point wPt = pixelToWorld(ix, iy);
 				cout << "Corresponding world point: (" << wPt.x << ", " <<
 						wPt.y << ")" << endl;
 				Point pPt = worldToPixel(wPt.x, wPt.y);
 				cout << "Back to pixels: (" << pPt.x << ", " <<
 						pPt.y << ")" << endl;
+                 */
 			}
 			else if (state == GLUT_UP)
 			{
-              //  objectList.push_back(make_shared<Ellipse>(4, 4, 30, 2, 1, 0.f, 1.f, 1.f));
-                
-               // objectList.push_back(make_shared<Animal>(pixelToWorld(ix, iy), 90.f, 1, 0.f, 1.f, 1.f));
-                
-                objectList.push_back(make_shared<ObjectGroup>(HEADS_ON_WHEELS, LARGE, 4, pixelToWorld(ix, iy)));
+                cout << statusObjects.at(0).settingStatus << endl;
+                if (statusObjects.at(0).settingStatus) { // 0 index of statusObjects = creation mode
+                    // create an objectgroup at the mouse pointer
+                    objectList.push_back(make_shared<ObjectGroup>(HEADS_ON_WHEELS, LARGE, 4, pixelToWorld(ix, iy)));
+                }
+                cout << statusObjects.size() << "sljdw\n";
 			}
 			break;
 			
@@ -301,7 +318,18 @@ void myKeyHandler(unsigned char c, int x, int y)
 		case 27:
 			exit(0);
 			break;
-		
+        case 'c':
+            // toggle creation mode
+            cout << "c pressed\n";
+            static StatusObj* creationModeIndex = &statusObjects.at(0); // changing this var needs to reference the obj directly
+            if (creationModeIndex->settingStatus) {
+                cout << "disabled creation\n";
+                creationModeIndex->settingStatus = false;
+            } else {
+                cout << "enabled creation\n";
+                creationModeIndex->settingStatus = true;
+            }
+            
 		case 'm':
 			trackMousePointer = !trackMousePointer;
 			break;
@@ -482,6 +510,9 @@ void applicationInit()
 	objectList.push_back(make_shared<Ellipse>(7, 2, 0, .50, .50, 1.f, 1.f, 1.f));
 	objectList.push_back(make_shared<Ellipse>(2, 7, 0, .50, .5, 0.f, 0.f, 1.f));
 	objectList.push_back(make_shared<Ellipse>(6, 5, 0, 1.5, 1.5, 1.f, 0.f, 0.f));
+    
+    StatusObj creationObj = StatusObj{make_shared<Animal>(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f), false};
+    statusObjects.push_back(creationObj);
 }
 
 int main(int argc, char * argv[])
