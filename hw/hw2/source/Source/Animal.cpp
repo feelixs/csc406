@@ -121,7 +121,7 @@ void Animal::draw() const {
 
     // left wing
     static float leftWing[5][2] = {{-0.76f, 0.38f}, {-0.66f, 0.1f}, {-0.65f, 0.f}, {-0.83f, 0.f}, {-0.9f, -0.2f}};
-    posWOffset = Point{atx - (scale/10.f), aty + (scale/1.6f)}; 
+    posWOffset = Point{atx - (scale/10.f), aty + (scale/1.6f)};
     posWOffset.rotateAround(&thisShapeCenter, getAngle());
     glPushMatrix();
     glTranslatef(posWOffset.x, posWOffset.y, 0.f);
@@ -134,7 +134,6 @@ void Animal::draw() const {
     }
     glEnd();
     glPopMatrix();
-    
     
     // two half-circles at different angles (face/body)
     static float halfCircle[10][2] = {{1.f, 0.f}, {0.9510565162951535f, 0.3090169943749474f}, {0.8090169943749475f, 0.5877852522924731f}, {0.5877852522924731f, 0.8090169943749475f}, {0.30901699437494745f, 0.9510565162951535f}, {6.123233995736766e-17f, 1.f}, {-0.30901699437494734f, 0.9510565162951536f}, {-0.587785252292473f, 0.8090169943749475}, {-0.8090169943749473f, 0.5877852522924732f}, {-0.9510565162951535f, 0.3090169943749475}};
@@ -162,7 +161,6 @@ void Animal::draw() const {
     }
     glEnd();
     glPopMatrix();
-    
     
     // left eye
     posWOffset = Point{atx + (scaleX_/2.4f), aty + (scaleY_/1.9f)};
