@@ -75,5 +75,5 @@ void ObjectGroup::draw() const {
 
 
 void ObjectGroup::update(float dt) {
-    
+
 }

@@ -29,7 +29,7 @@ class EllipseReticle : public GraphicObject
         ~EllipseReticle() = default;
         
         void draw() const;
-
+        void update(float dx);
         //disabled constructors & operators
         EllipseReticle() = delete;
         EllipseReticle(const EllipseReticle& obj) = delete;    // copy

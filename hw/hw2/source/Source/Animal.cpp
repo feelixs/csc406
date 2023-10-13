@@ -113,3 +113,8 @@ void Animal::setColor(float r, float g, float b) {
         }
     }
 }
+
+
+void Animal::update(float dx) {
+    
+}
