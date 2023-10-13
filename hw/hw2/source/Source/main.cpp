@@ -23,6 +23,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <ctime>
 #include <memory>
 #include "EllipseReticle.hpp"
 #include "ObjectGroup.hpp"
