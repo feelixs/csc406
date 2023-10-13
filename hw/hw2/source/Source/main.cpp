@@ -100,7 +100,7 @@ bool trackEntry = false;
 bool displayText = false;
 string stringLine = "";
 
-vector<shared_ptr<ObjectGroup>> objectList;
+vector<shared_ptr<ObjectGroup>> allObjectGroups;
 
 bool creationModeEnabled = false;
 GroupType creationModeType = HEADS_ON_STICK; // chosen GroupType
@@ -142,7 +142,7 @@ void myDisplayFunc(void)
         creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
     }
     
-	for (auto obj : objectList)
+	for (auto obj : allObjectGroups)
 	{
 		if (obj != nullptr)
 			obj->draw();
@@ -257,7 +257,7 @@ void myMouseHandler(int button, int state, int ix, int iy)
 			{
                 if (creationModeEnabled) {
                     // create an objectgroup at the mouse pointer
-                    objectList.push_back(make_shared<ObjectGroup>(creationModeType, creationModeSize, creationModeNum, pixelToWorld(ix, iy)));
+                    allObjectGroups.push_back(make_shared<ObjectGroup>(creationModeType, creationModeSize, creationModeNum, pixelToWorld(ix, iy)));
                 }
                 
 			}
@@ -468,7 +468,7 @@ void myTimerFunc(int value)
 
 	//	 do something (e.g. update the state of some objects)
 	
-    for (auto obj : objectList)
+    for (auto obj : allObjectGroups)
     {
         if (obj != nullptr) {
             obj->setSpeed(velocityX, velocityY);
