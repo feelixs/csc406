@@ -41,13 +41,13 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
 
 
 void Animal::draw() const {
-    float atx = getX();
-    float aty = getY();
-    float atangle = getAngle();
-    float r = red_;
-    float g = green_;
-    float b = blue_;
-    float scale = scaleX_;
+    float atx = this->getX();
+    float aty = this->getY();
+    float atangle = this->getAngle();
+    float r = this->red_;
+    float g = this->green_;
+    float b = this->blue_;
+    float scale = this->scaleX_;
     Point thisShapeCenter = Point{atx, aty};
     
     // right wing

@@ -15,7 +15,10 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, float x, float
     GraphicObject(x, y, 0),
     type_(type),
     size_(size),
-    num_(num)
+    num_(num),
+    spin_(0),
+    speedX_(0.01),
+    speedY_(0)
 {
     _init_();
 }
@@ -24,7 +27,10 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, Point at):
     GraphicObject(at.x, at.y, 0),
     type_(type),
     size_(size),
-    num_(num)
+    num_(num),
+    spin_(0),
+    speedX_(0.01),
+    speedY_(0)
 {
     _init_();
 }
@@ -75,7 +81,11 @@ void ObjectGroup::draw() const {
 
 
 void ObjectGroup::update(float dt) {
+    setX(getX() + speedX_ * dt);
+    setY(getY() + speedY_ * dt);
     for (int i = 0; i < num_; i++) {
+        groupHeads_.at(i)->setX(groupHeads_.at(i)->getX() + speedX_ * dt);
+        groupHeads_.at(i)->setY(groupHeads_.at(i)->getY() + speedY_ * dt);
         groupHeads_.at(i)->update(dt);
     }
 }

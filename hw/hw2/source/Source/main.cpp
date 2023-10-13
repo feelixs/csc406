@@ -100,7 +100,7 @@ bool trackEntry = false;
 bool displayText = false;
 string stringLine = "";
 
-vector<shared_ptr<GraphicObject>> objectList;
+vector<shared_ptr<ObjectGroup>> objectList;
 
 bool creationModeEnabled = false;
 GroupType creationModeType = HEADS_ON_STICK; // chosen GroupType
@@ -129,7 +129,7 @@ void myDisplayFunc(void)
 	//	This says that we start from the lower-left corner of the screen
 	glLoadIdentity();
 	glPushMatrix();
-
+    
 	for (auto obj : objectList)
 	{
 		if (obj != nullptr)
