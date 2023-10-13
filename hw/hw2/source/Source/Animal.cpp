@@ -115,6 +115,9 @@ void Animal::setColor(float r, float g, float b) {
 }
 
 
-void Animal::update(float dx) {
+void Animal::update(float dt) {
+    for (int i = 0; i < _myShapes.size(); i++) {
+        _myShapes.at(i)->setX(_myShapes.at(i)->getX()+0.01);
+    }
     
 }
