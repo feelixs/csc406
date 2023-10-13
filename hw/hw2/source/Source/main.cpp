@@ -106,7 +106,7 @@ bool creationModeEnabled = false;
 GroupType creationModeType = HEADS_ON_STICK; // chosen GroupType
 GroupSize creationModeSize = SMALL; // chosen GroupSize
 int creationModeNum = 6; // number of heads
-shared_ptr<Animal> creationModeStatusObj;
+shared_ptr<Animal> creationModePreview;
 
 //--------------------------------------
 #if 0
@@ -146,9 +146,9 @@ void myDisplayFunc(void)
 	}
 
     if (creationModeEnabled) {
-        creationModeStatusObj->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
+        creationModePreview->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
     } else {
-        creationModeStatusObj->setColor(1.f, 0.f, 0.f); // red if disabled
+        creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
     }
     /*
     if (creationModeType == HEADS_ON_WHEELS) {
@@ -164,7 +164,7 @@ void myDisplayFunc(void)
         creationModeStatusObj.reset(new Animal(Point{-9, 8}, 0, 0.75, 0.f, 1.f, 0.f));
     }*/
      
-    creationModeStatusObj->draw();
+    creationModePreview->draw();
 
 	glPopMatrix();
 
@@ -573,12 +573,12 @@ void applicationInit()
 	glutAddSubMenu("Submenu example", mySubmenu);
 	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-
+    /*
 	objectList.push_back(make_shared<Ellipse>(7, 2, 0, .50, .50, 1.f, 1.f, 1.f));
 	objectList.push_back(make_shared<Ellipse>(2, 7, 0, .50, .5, 0.f, 0.f, 1.f));
 	objectList.push_back(make_shared<Ellipse>(6, 5, 0, 1.5, 1.5, 1.f, 0.f, 0.f));
-    
-    creationModeStatusObj = make_shared<Animal>(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f);
+    */
+    creationModePreview = make_shared<Animal>(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f);
 }
 
 int main(int argc, char * argv[])
