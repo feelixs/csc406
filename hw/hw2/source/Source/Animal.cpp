@@ -110,7 +110,6 @@ void Animal::setColor(float r, float g, float b) {
             case 2:
             case 3:
                 _myShapes.at(i)->setColor(r, g, b);
-            
         }
     }
 }

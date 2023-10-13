@@ -40,7 +40,6 @@ class Animal: public GraphicObject
         Animal(Animal&& obj) = delete;        // move
         Animal& operator = (const Animal& obj) = delete;    // copy operator
         Animal& operator = (Animal&& obj) = delete;        // move operator
-    
 };
 
 #endif /* Animal_hpp */
