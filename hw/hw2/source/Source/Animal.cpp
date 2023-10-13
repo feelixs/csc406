@@ -218,6 +218,5 @@ void Animal::_init_() {
 
 
 void Animal::update(float dt) {
-    setAngle(getAngle()+0.5);
-    //setX(getX()+0.01);
+
 }
