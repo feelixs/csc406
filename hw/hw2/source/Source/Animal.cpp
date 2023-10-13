@@ -23,6 +23,15 @@ std::vector<std::shared_ptr<PolyShape>> Animal::_myShapes;
 float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
 
+void TranslatedShape::rotate() {
+    Point thisShapeCenter = Point{this->shape->getX(), this->shape->getY()}; // stores the animal's absolute center
+    Point translationPoint = Point{0.f, 0.f}; // this stores the translation away from the shape's centerpoint, and will be rotated by this->angle
+    
+    translationPoint = Point{this->shape->getX() + (this->shape->getScaleX()/10.f), this->shape->getY() + (this->shape->getScaleY()/1.6f)};
+    translationPoint.rotateAround(&thisShapeCenter, this->shape->getAngle());
+    this->shape->setPos(translationPoint);
+}
+
 Animal::Animal(Point centerPoint, float angle, float scale, float red, float green, float blue)
 :   GraphicObject(centerPoint.x, centerPoint.y, angle),
     scaleX_(scale),
@@ -115,6 +124,11 @@ void Animal::setColor(float r, float g, float b) {
 }
 
 
-void Animal::update(float dx) {
+void Animal::update(float dt) {
+    
+    for (int i = 0; i < _myShapes.size(); i++) {
+        _myShapes.at(i)->setX(_myShapes.at(i)->getX()+0.01*dt);
+        _myShapes.at(i)->setAngle(_myShapes.at(i)->getAngle()+1*dt);
+    }
     
 }

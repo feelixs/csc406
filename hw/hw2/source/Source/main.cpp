@@ -428,6 +428,7 @@ void myTimerFunc(int value)
     for (int i = 0; i < objectList.size(); i++) {
         objectList.at(i)->update(dt);
     }
+    creationModePreview->update(dt);
     
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)

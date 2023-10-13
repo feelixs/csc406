@@ -13,6 +13,13 @@
 #include <stdio.h>
 #include <vector>
 
+struct TranslatedShape {
+    std::shared_ptr<PolyShape> shape;
+    
+    void rotate();
+};
+
+
 class Animal: public GraphicObject
 {
     private:
