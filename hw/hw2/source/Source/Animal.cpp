@@ -222,17 +222,9 @@ void Animal::_init_() {
 
 
 void Animal::setColor(float r, float g, float b) {
-    for (int i = 0; i < _myShapes.size(); i++) {
-        switch(i) {
-            // we will manually set the color of all my shapes
-            // we know which ones to set the colors of based on their order of creation in _init_()
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-                _myShapes.at(i)->setColor(r, g, b);
-        }
-    }
+    red_ = r;
+    green_ = g;
+    blue_ = b;
 }
 
 
