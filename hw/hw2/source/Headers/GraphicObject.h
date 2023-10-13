@@ -10,6 +10,7 @@
 
 #include "World.h"
 
+
 class GraphicObject		// abstract class
 {
 	private:

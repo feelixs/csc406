@@ -20,8 +20,6 @@ class Animal: public GraphicObject
     
         float scaleX_, scaleY_;
         float red_, green_, blue_;
-
-        static std::vector<std::shared_ptr<PolyShape>> _myShapes;
     
         static float** _circlePoints; // Nx2 float
         static float** _loadedShapePnts; // Nx2 float

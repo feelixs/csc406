@@ -8,17 +8,10 @@
 #include "Animal.hpp"
 #include "World.h"
 #include "GraphicObject.h"
-#include "PolyRect.hpp"
-#include "PolyHalfCircle.hpp"
-#include "PolyTriangle.hpp"
-#include "PolyCircle.hpp"
-#include "PolyWingRight.hpp"
-#include "PolyWingLeft.hpp"
 #include <iostream>
 #include "glPlatform.h"
 
 
-std::vector<std::shared_ptr<PolyShape>> Animal::_myShapes;
 float** Animal::_loadedShapePnts;
 float** Animal::_circlePoints;
 const int Animal::_numCirPoints = 12;
