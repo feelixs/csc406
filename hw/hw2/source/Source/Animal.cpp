@@ -120,7 +120,7 @@ void Animal::update(float dt) {
     
     for (int i = 0; i < _myShapes.size(); i++) {
         //_myShapes.at(i)->setX(_myShapes.at(i)->getX()+0.01);
-      //  _myShapes.at(i)->rotateWithOffset(getAngle()+0.5);
+        _myShapes.at(i)->rotateWithOffset(180);
     }
     
 }

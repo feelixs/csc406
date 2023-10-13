@@ -55,10 +55,9 @@ void PolyShape::setOffset(Point xy) {
 }
 
 void PolyShape::rotateWithOffset(float degrees) {
-    Point thisShapeCenter = Point{getX(), getY()}; // stores the animal's absolute center
-    offset_.rotateAround(&thisShapeCenter, getAngle());
-    setPos(offset_);
-    setAngle(degrees);
+    Point center = Point{0, 0};
+    offset_.rotateAround(&center, degrees);
+    setPos(Point{offset_.x + getX(), offset_.y + getY()});
 }
 
 void PolyShape::draw() const

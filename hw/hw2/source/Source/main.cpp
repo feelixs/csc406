@@ -425,9 +425,9 @@ void myTimerFunc(int value)
 
 	//	 do something (e.g. update the state of some objects)
 	
-    for (int i = 0; i < objectList.size(); i++) {
-        objectList.at(i)->update(dt);
-    }
+   // for (int i = 0; i < objectList.size(); i++) {
+   //     objectList.at(i)->update(dt);
+   // }
     creationModePreview->update(dt);
     
 	//	And finally I perform the rendering
