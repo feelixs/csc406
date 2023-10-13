@@ -141,15 +141,6 @@ void myDisplayFunc(void)
     
     if (creationModeEnabled) {
         creationModeReticle->draw();
-        creationModePreview->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
-    } else {
-        creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
-    }
-    
-    if (velocityModeEnabled) {
-        velocityModePreview->setColor(0.f, 1.f, 0.f);
-    } else {
-        velocityModePreview->setColor(1.f, 0.f, 0.f);
     }
     
 	for (auto obj : allObjectGroups)
@@ -324,9 +315,11 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (creationModeEnabled) {
                 cout << "disabled creation\n";
                 creationModeEnabled = false;
+                creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
             } else {
                 cout << "enabled creation\n";
                 creationModeEnabled = true;
+                creationModePreview->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
             }
             break;
         case 's':
@@ -350,9 +343,11 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (velocityModeEnabled) {
                 cout << "disabled velocity\n";
                 velocityModeEnabled = false;
+                velocityModePreview->setColor(1.f, 0.f, 0.f);
             } else {
                 cout << "enabled velocity\n";
                 velocityModeEnabled = true;
+                velocityModePreview->setColor(0.f, 1.f, 0.f);
             }
             break;
         case 'x':
@@ -372,9 +367,13 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (rotationModeEnabled) {
                 cout << "disabled rotation\n";
                 rotationModeEnabled = false;
+                velocityModePreview->setSpin(0);
+                if (velocityModePreview->getAngle() > 0)
+                    velocityModePreview->setAngle(0);
             } else {
                 cout << "enabled rotation\n";
                 rotationModeEnabled = true;
+                velocityModePreview->setSpin(0.5);
             }
             break;
             
@@ -486,7 +485,7 @@ void myKeyHandler(unsigned char c, int x, int y)
 
 void myTimerFunc(int value)
 {
-	static int frameIndex=0;
+    static int frameIndex=0;
     static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
 
     //    "re-prime the timer"
@@ -508,17 +507,8 @@ void myTimerFunc(int value)
     }
 
     creationModePreview->update(dt);
-    
-    if (rotationModeEnabled) {
-        velocityModePreview->setSpin(0.5);
-    } else {
-        velocityModePreview->setSpin(0);
-        if (velocityModePreview->getAngle() > 0) {
-            velocityModePreview->setAngle(0);
-        }
-    }
-    
     velocityModePreview->update(dt);
+
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)
 	{
@@ -661,7 +651,7 @@ void applicationInit()
 	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-    creationModePreview = make_shared<Animal>(Point{-9, 8.3}, 0, 0.5, 0.f, 1.f, 0.f);
+    creationModePreview = make_shared<Animal>(Point{-9, 8.3}, 0, 0.5, 1.f, 0.f, 0.f);
     creationModeReticle = make_shared<EllipseReticle>(Point{0, 0}, 1, 1.f, 1.f, 1.f, 12);
     
     float rlen = 1;
