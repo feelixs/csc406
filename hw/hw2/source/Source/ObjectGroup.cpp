@@ -17,7 +17,7 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, float x, float
     size_(size),
     num_(num),
     spin_(0),
-    speedX_(0.01),
+    speedX_(0),
     speedY_(0)
 {
     _init_();
@@ -29,7 +29,7 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, Point at):
     size_(size),
     num_(num),
     spin_(0),
-    speedX_(0.01),
+    speedX_(0),
     speedY_(0)
 {
     _init_();
