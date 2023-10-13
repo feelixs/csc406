@@ -21,15 +21,22 @@ class PolyShape: public GraphicObject
         float scaleX_, scaleY_;
         float red_, green_, blue_;
     
+        Point offset_;
+    
     public:
         GLuint vertexList;
     
         PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
+        PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, Point offset);
         ~PolyShape();
         
         void draw() const; // doesn't need to be overridden since we're using glCallList(vertexList), and each shape has a different vertexList
         void update(float dx);
+        
+        void setOffset(Point xy);
+        void rotateWithOffset(float degrees);
+    
         //disabled constructors & operators
         PolyShape() = delete;
         PolyShape(const PolyShape& obj) = delete;    // copy

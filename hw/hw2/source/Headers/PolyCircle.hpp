@@ -19,7 +19,7 @@ private:
     void _init_();
 public:
     PolyCircle(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
-    PolyCircle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
+    PolyCircle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, Point offset);
     ~PolyCircle();
     
     //disabled constructors & operators

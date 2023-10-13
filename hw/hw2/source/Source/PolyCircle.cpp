@@ -19,7 +19,7 @@ PolyCircle::PolyCircle(float centerX, float centerY, float angle, float scaleX, 
     _init_();
 }
 
-PolyCircle::PolyCircle(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue): PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue) {
+PolyCircle::PolyCircle(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue, Point offset): PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue, offset) {
     _init_();
 }
 

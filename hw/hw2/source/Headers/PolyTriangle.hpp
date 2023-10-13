@@ -18,7 +18,7 @@ class PolyTriangle: public PolyShape {
         void _init_();
     public:
         PolyTriangle(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
-        PolyTriangle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
+        PolyTriangle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, Point offset);
         ~PolyTriangle();
 
         //disabled constructors & operators

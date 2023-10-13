@@ -18,7 +18,7 @@ PolyTriangle::PolyTriangle(float centerX, float centerY, float angle, float scal
     _init_();
 }
 
-PolyTriangle::PolyTriangle(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue): PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue) {
+PolyTriangle::PolyTriangle(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue, Point offset): PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue, offset) {
     _init_();
 }
 

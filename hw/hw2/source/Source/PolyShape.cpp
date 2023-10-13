@@ -16,7 +16,8 @@ PolyShape::PolyShape(float centerX, float centerY, float angle, float scaleX, fl
         scaleY_(scaleY),
         red_(red),
         green_(green),
-        blue_(blue)
+        blue_(blue),
+        offset_(Point{getX(), getY()})
 {
 }
 
@@ -26,14 +27,35 @@ PolyShape::PolyShape(Point centerPoint, float angle, float scaleX, float scaleY,
         scaleY_(scaleY),
         red_(red),
         green_(green),
-        blue_(blue)
+        blue_(blue),
+        offset_(Point{getX(), getY()})
+{
+}
+
+PolyShape::PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue, Point offset)
+:   GraphicObject(centerPoint.x, centerPoint.y, angle),
+        scaleX_(scaleX),
+        scaleY_(scaleY),
+        red_(red),
+        green_(green),
+        blue_(blue),
+        offset_(offset)
 {
 }
 
 PolyShape::~PolyShape() {
 }
 
+void PolyShape::setOffset(Point xy) {
+    
+}
 
+void PolyShape::rotateWithOffset(float degrees) {
+    Point thisShapeCenter = Point{getX(), getY()}; // stores the animal's absolute center
+    offset_.rotateAround(&thisShapeCenter, getAngle());
+    setPos(offset_);
+    setAngle(degrees);
+}
 
 void PolyShape::draw() const
 {
