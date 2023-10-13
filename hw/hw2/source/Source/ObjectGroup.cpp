@@ -75,5 +75,7 @@ void ObjectGroup::draw() const {
 
 
 void ObjectGroup::update(float dt) {
-
+    for (int i = 0; i < num_; i++) {
+        groupHeads_.at(i)->update(dt);
+    }
 }
