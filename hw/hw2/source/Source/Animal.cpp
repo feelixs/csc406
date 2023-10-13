@@ -40,56 +40,6 @@ Animal::Animal(float centerX, float centerY, float angle, float scaleX, float sc
 }
 
 
-void Animal::_init_() {
-    // calculate circle points
-    _circlePoints = new float*[_numCirPoints];
-    for (int k=0; k < _numCirPoints; k++) {
-        _circlePoints[k] = new float[2];
-    }
-    float angleStep = 2.f*M_PI/_numCirPoints;
-    float theta;
-    for (int k=0; k<_numCirPoints; k++) {
-        theta = k*angleStep;
-        _circlePoints[k][0] = cosf(theta);
-        _circlePoints[k][1] = sinf(theta);
-    }
-    circleVertices_ = glGenLists(1);
-    glNewList(circleVertices_, GL_COMPILE);
-    glBegin(GL_POLYGON);
-    for (int k=0; k < _numCirPoints; k++) {
-        glVertex2f(_circlePoints[k][0], _circlePoints[k][1]);
-    }
-    glEnd();
-    glEndList();
-    
-    // calculate triangle points
-    _trianPoints = new float*[numTrianPts];
-    for (int i = 0; i < numTrianPts; i++) {
-        _trianPoints[i] = new float[2];
-    }
-    float width = 5.f;
-    float height = width * sqrt(3.f);
-
-    // vertex 1
-    _trianPoints[0][0] = 0;
-    _trianPoints[0][1] = height / 2.f;
-    // vertex 2
-    _trianPoints[1][0] =  -width;
-    _trianPoints[1][1] = -height / 2.f;
-    // vertex 3
-    _trianPoints[2][0] = width;
-    _trianPoints[2][1] = -height / 2.f;
-    
-    triangleVertices_ = glGenLists(1);
-    glNewList(triangleVertices_, GL_COMPILE);
-    glBegin(GL_POLYGON);
-    for (int k=0; k<numTrianPts; k++) {
-        glVertex2f(_trianPoints[k][0], _trianPoints[k][1]);
-    }
-    glEnd();
-    glEndList();
-}
-
 void Animal::draw() const {
     float atx = getX();
     float aty = getY();
@@ -213,6 +163,57 @@ void Animal::draw() const {
     glColor3f(1.f, 1.f, 1.f);
     glCallList(triangleVertices_);
     glPopMatrix();
+}
+
+
+void Animal::_init_() {
+    // calculate circle points
+    _circlePoints = new float*[_numCirPoints];
+    for (int k=0; k < _numCirPoints; k++) {
+        _circlePoints[k] = new float[2];
+    }
+    float angleStep = 2.f*M_PI/_numCirPoints;
+    float theta;
+    for (int k=0; k<_numCirPoints; k++) {
+        theta = k*angleStep;
+        _circlePoints[k][0] = cosf(theta);
+        _circlePoints[k][1] = sinf(theta);
+    }
+    circleVertices_ = glGenLists(1);
+    glNewList(circleVertices_, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for (int k=0; k < _numCirPoints; k++) {
+        glVertex2f(_circlePoints[k][0], _circlePoints[k][1]);
+    }
+    glEnd();
+    glEndList();
+    
+    // calculate triangle points
+    _trianPoints = new float*[numTrianPts];
+    for (int i = 0; i < numTrianPts; i++) {
+        _trianPoints[i] = new float[2];
+    }
+    float width = 5.f;
+    float height = width * sqrt(3.f);
+    
+    // vertex 1
+    _trianPoints[0][0] = 0;
+    _trianPoints[0][1] = height / 2.f;
+    // vertex 2
+    _trianPoints[1][0] =  -width;
+    _trianPoints[1][1] = -height / 2.f;
+    // vertex 3
+    _trianPoints[2][0] = width;
+    _trianPoints[2][1] = -height / 2.f;
+    
+    triangleVertices_ = glGenLists(1);
+    glNewList(triangleVertices_, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for (int k=0; k<numTrianPts; k++) {
+        glVertex2f(_trianPoints[k][0], _trianPoints[k][1]);
+    }
+    glEnd();
+    glEndList();
 }
 
 
