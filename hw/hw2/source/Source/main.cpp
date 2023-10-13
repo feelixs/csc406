@@ -327,14 +327,18 @@ void myKeyHandler(unsigned char c, int x, int y)
             }
             break;
         case 's':
-            cout << "head on stci\n";
-            creationModeType = HEADS_ON_STICK;
-            creationModeReticle.reset(new EllipseReticle(pixelToWorld(x, y), 1, 1.f, 1.f, 1.f, 24));
+            if (creationModeEnabled) {
+                cout << "head on stci\n";
+                creationModeType = HEADS_ON_STICK;
+                creationModeReticle.reset(new EllipseReticle(pixelToWorld(x, y), 1, 1.f, 1.f, 1.f, 24));
+            }
             break;
         case 'w':
-            cout << "head on wheel\n";
-            creationModeType = HEADS_ON_WHEELS;
-            creationModeReticle.reset(new EllipseReticle(pixelToWorld(x, y), 1, 1.f, 1.f, 1.f, 6));
+            if (creationModeEnabled) {
+                cout << "head on wheel\n";
+                creationModeType = HEADS_ON_WHEELS;
+                creationModeReticle.reset(new EllipseReticle(pixelToWorld(x, y), 1, 1.f, 1.f, 1.f, 6));
+            }
             break;
         
         case '=':
