@@ -130,18 +130,18 @@ void myDisplayFunc(void)
 	glLoadIdentity();
 	glPushMatrix();
     
+    if (creationModeEnabled) {
+        creationModeReticle->draw();
+        creationModePreview->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
+    } else {
+        creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
+    }
+    
 	for (auto obj : objectList)
 	{
 		if (obj != nullptr)
 			obj->draw();
 	}
-
-    if (creationModeEnabled) {
-       // creationModeReticle->draw();
-        creationModePreview->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
-    } else {
-        creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
-    }
      
     creationModePreview->draw();
     
