@@ -21,7 +21,8 @@ class GraphicObject		// abstract class
 		GraphicObject(float x, float y, float angle);
 		~GraphicObject() = default;
 		
-		virtual void draw() const = 0;  // pure virtual function
+        virtual void draw() const = 0;  // pure virtual function
+        virtual void update(float dx) = 0;
 
 		//disabled constructors & operators
 		GraphicObject() = delete;
@@ -50,6 +51,10 @@ class GraphicObject		// abstract class
         }
         inline void setY(float y) {
             y_ = y;
+        }
+        inline void setPos(Point xy) {
+            x_ = xy.x;
+            y_ = xy.y;
         }
         inline void setAngle(float degrees) {
             angle_ = degrees;

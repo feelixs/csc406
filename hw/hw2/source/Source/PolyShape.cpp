@@ -57,3 +57,6 @@ void PolyShape::draw() const
     glPopMatrix();
 }
 
+void PolyShape::update(float dx) {
+    
+}
