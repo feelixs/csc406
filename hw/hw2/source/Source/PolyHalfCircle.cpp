@@ -22,8 +22,8 @@ PolyHalfCircle::PolyHalfCircle(float centerX, float centerY, float angle, float 
     initFromPolygon();
 }
 
-PolyHalfCircle::PolyHalfCircle(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue, Point offset):
-    PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue, offset)
+PolyHalfCircle::PolyHalfCircle(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue, Point offset, float angleOffset):
+    PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue, offset, angleOffset)
 {
     initFromPolygon();
 }

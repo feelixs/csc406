@@ -17,7 +17,8 @@ PolyShape::PolyShape(float centerX, float centerY, float angle, float scaleX, fl
         red_(red),
         green_(green),
         blue_(blue),
-        offset_(Point{getX(), getY()})
+        offset_(Point{getX(), getY()}),
+        angleOffset_(0)
 {
 }
 
@@ -28,19 +29,22 @@ PolyShape::PolyShape(Point centerPoint, float angle, float scaleX, float scaleY,
         red_(red),
         green_(green),
         blue_(blue),
-        offset_(Point{getX(), getY()})
+        offset_(Point{getX(), getY()}),
+        angleOffset_(0)
 {
 }
 
-PolyShape::PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue, Point offset)
+PolyShape::PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue, Point offset, float angleOffset)
 :   GraphicObject(centerPoint.x, centerPoint.y, angle),
         scaleX_(scaleX),
         scaleY_(scaleY),
         red_(red),
         green_(green),
         blue_(blue),
-        offset_(offset)
+        offset_(offset),
+        angleOffset_(angleOffset)
 {
+    setAngle(getAngle() + angleOffset_);
 }
 
 PolyShape::~PolyShape() {

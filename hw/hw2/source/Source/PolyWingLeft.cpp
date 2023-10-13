@@ -22,8 +22,8 @@ PolyWingLeft::PolyWingLeft(float centerX, float centerY, float angle, float scal
     initFromPolygon();
 }
 
-PolyWingLeft::PolyWingLeft(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue, Point offset):
-    PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue, offset)
+PolyWingLeft::PolyWingLeft(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue, Point offset, float angleOffset):
+    PolyShape(centerPoint, angle, scaleX, scaleY, red, green, blue, offset, angleOffset)
 {
     initFromPolygon();
 }

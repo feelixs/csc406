@@ -22,7 +22,7 @@ private:
     
 public:
     PolyHalfCircle(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
-    PolyHalfCircle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, Point offset);
+    PolyHalfCircle(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, Point offset, float angleOffset);
     ~PolyHalfCircle();
     
     void initFromPolygon();

@@ -22,7 +22,7 @@ private:
     
 public:
     PolyWingRight(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
-    PolyWingRight(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, Point offset);
+    PolyWingRight(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, Point offset, float angleOffset);
     ~PolyWingRight();
     
     void initFromPolygon();

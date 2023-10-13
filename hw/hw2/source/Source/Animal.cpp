@@ -63,41 +63,41 @@ void Animal::_init_() {
     // right wing
     translationPoint = Point{getX() + (scaleX_/10.f), getY() + (scaleY_/1.6f)};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
-    _myShapes.push_back(std::make_shared<PolyWingRight>(translationPoint, getAngle() - 10.f, scaleX_, scaleY_, red_, green_, blue_, Point{getX()+(scaleX_/10.f), getY()+(scaleY_/1.6f)}));
+    _myShapes.push_back(std::make_shared<PolyWingRight>(translationPoint, getAngle(), scaleX_, scaleY_, red_, green_, blue_, Point{(scaleX_/10.f), (scaleY_/1.6f)}, -10.f));
     // left wing
     translationPoint = Point{getX() - (scaleX_/10.f), getY() + (scaleY_/1.6f)};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
-    _myShapes.push_back(std::make_shared<PolyWingLeft>(translationPoint, getAngle() + 10.f, scaleX_, scaleY_, red_, green_, blue_, Point{getX()-(scaleX_/10.f), getY()+(scaleY_/1.6f)}));
+    _myShapes.push_back(std::make_shared<PolyWingLeft>(translationPoint, getAngle(), scaleX_, scaleY_, red_, green_, blue_, Point{-(scaleX_/10.f), (scaleY_/1.6f)}, 10.f));
     
     // two half-circles at different angles (face/body)
     translationPoint = Point{getX(), getY()};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
-    _myShapes.push_back(std::make_shared<PolyHalfCircle>(translationPoint, getAngle()+4.f, scaleX_, scaleY_, red_, green_, blue_, Point{getX(), getY()}));
+    _myShapes.push_back(std::make_shared<PolyHalfCircle>(translationPoint, getAngle(), scaleX_, scaleY_, red_, green_, blue_, Point{0, 0}, 4.f));
     translationPoint = Point{getX(), getY()};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
-    _myShapes.push_back(std::make_shared<PolyHalfCircle>(translationPoint, getAngle()+14.f, scaleX_, scaleY_, red_, green_, blue_, Point{getX(), getY()}));
+    _myShapes.push_back(std::make_shared<PolyHalfCircle>(translationPoint, getAngle(), scaleX_, scaleY_, red_, green_, blue_, Point{0, 0}, 14.f));
     
     // left eye
     translationPoint = Point{getX() + (-scaleX_/2.4f), getY() + (scaleY_/1.9f)};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
-    _myShapes.push_back(std::make_shared<PolyCircle>(translationPoint, getAngle(), scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f, Point{getX() + (-scaleX_/2.4f), getY() + (scaleY_/1.9f)}));
+    _myShapes.push_back(std::make_shared<PolyCircle>(translationPoint, getAngle(), scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f, Point{(-scaleX_/2.4f), (scaleY_/1.9f)}, 0.f));
     translationPoint = Point{getX() + (-scaleX_/2.5f), getY() + (scaleY_/1.8f)};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
-    _myShapes.push_back(std::make_shared<PolyCircle>(translationPoint, getAngle(), scaleX_/28.f, scaleY_/28.f, 1.f, 1.f, 1.f, Point{getX() + (-scaleX_/2.5f), getY() + (scaleY_/1.8f)}));
+    _myShapes.push_back(std::make_shared<PolyCircle>(translationPoint, getAngle(), scaleX_/28.f, scaleY_/28.f, 1.f, 1.f, 1.f, Point{(-scaleX_/2.5f), (scaleY_/1.8f)}, 0.f));
     
     // right eye
     translationPoint = Point{getX() + (scaleX_/2.4f), getY() + (scaleY_/1.9f)};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
-    _myShapes.push_back(std::make_shared<PolyCircle>(translationPoint, getAngle(), scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f, Point{getX() + (scaleX_/2.4f), getY() + (scaleY_/1.9f)}));
+    _myShapes.push_back(std::make_shared<PolyCircle>(translationPoint, getAngle(), scaleX_/8.f, scaleY_/8.f, 0.f, 0.f, 0.f, Point{(scaleX_/2.4f), (scaleY_/1.9f)}, 0.f));
 
     translationPoint = Point{getX() + (scaleX_/2.3f), getY() + (scaleY_/1.8f)};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
-    _myShapes.push_back(std::make_shared<PolyCircle>(translationPoint, getAngle(), scaleX_/28.f, scaleY_/28.f, 1.f, 1.f, 1.f, Point{getX() + (scaleX_/2.3f), getY() + (scaleY_/1.8f)}));
+    _myShapes.push_back(std::make_shared<PolyCircle>(translationPoint, getAngle(), scaleX_/28.f, scaleY_/28.f, 1.f, 1.f, 1.f, Point{(scaleX_/2.3f), (scaleY_/1.8f)}, 0.f));
     
     // nose
     translationPoint = Point{getX(), getY() + (scaleY_/4.f)};
     translationPoint.rotateAround(&thisShapeCenter, getAngle());
-    _myShapes.push_back(std::make_shared<PolyTriangle>(translationPoint, getAngle()+180.f, scaleX_/40.f, scaleY_/20.f, 1.f, 1.f, 1.f, Point{getX(), getY() + (scaleY_/4.f)}));
+    _myShapes.push_back(std::make_shared<PolyTriangle>(translationPoint, getAngle(), scaleX_/40.f, scaleY_/20.f, 1.f, 1.f, 1.f, Point{0, (scaleY_/4.f)}, 180.f));
 }
 
 
@@ -120,7 +120,7 @@ void Animal::update(float dt) {
     
     for (int i = 0; i < _myShapes.size(); i++) {
         //_myShapes.at(i)->setX(_myShapes.at(i)->getX()+0.01);
-        _myShapes.at(i)->rotateWithOffset(_myShapes.at(i)->getAngle()+0.5);
+      //  _myShapes.at(i)->rotateWithOffset(getAngle()+0.5);
     }
     
 }

@@ -572,7 +572,7 @@ void applicationInit()
 	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-    creationModePreview = make_shared<Animal>(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f);
+    creationModePreview = make_shared<Animal>(Point{-9, 8}, 90, 0.5, 0.f, 1.f, 0.f);
     creationModeReticle = make_shared<EllipseReticle>(Point{0, 0}, 1, 1.f, 1.f, 1.f, 12);
 }
 

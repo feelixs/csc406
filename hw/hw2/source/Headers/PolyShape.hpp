@@ -22,13 +22,14 @@ class PolyShape: public GraphicObject
         float red_, green_, blue_;
     
         Point offset_;
+        float angleOffset_;
     
     public:
         GLuint vertexList;
     
         PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
-        PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, Point offset);
+        PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, Point offset, float angleOffset);
         ~PolyShape();
         
         void draw() const; // doesn't need to be overridden since we're using glCallList(vertexList), and each shape has a different vertexList
