@@ -109,6 +109,11 @@ int creationModeNum = 6; // number of heads
 shared_ptr<Animal> creationModePreview;
 shared_ptr<EllipseReticle> creationModeReticle;
 
+bool velocityModeEnabled = false;
+bool velocityToChange = 0; // 0 means +/- keys will change x, 1 means y
+float velocityX = 0;
+float velocityY = 0;
+
 //--------------------------------------
 #if 0
 #pragma mark -
@@ -328,7 +333,29 @@ void myKeyHandler(unsigned char c, int x, int y)
                 creationModeReticle.reset(new EllipseReticle(pixelToWorld(x, y), 1, 1.f, 1.f, 1.f, 6));
             }
             break;
-        
+            
+        case 'v':
+            // toggle velocity mode
+            cout << "v pressed\n";
+            if (velocityModeEnabled) {
+                cout << "disabled velocity\n";
+                velocityModeEnabled = false;
+            } else {
+                cout << "enabled velocity\n";
+                velocityModeEnabled = true;
+            }
+            break;
+        case 'x':
+            if (velocityModeEnabled) {
+                velocityToChange = 0;
+            }
+            break;
+        case 'y':
+            if (velocityModeEnabled) {
+                velocityToChange = 1;
+            }
+            break;
+            
         case '=':
         case '+':
             // +, =, are mapped to the same key
@@ -344,6 +371,16 @@ void myKeyHandler(unsigned char c, int x, int y)
                     cout << "small\n";
                     creationModeSize = SMALL;
                 }
+            }
+            if (velocityModeEnabled) {
+                if (velocityToChange) {
+                    // 1 = change y
+                    velocityY += 0.0001;
+                } else {
+                    // 0 = change x
+                    velocityX += 0.0001;
+                }
+                cout << "vel: (" << velocityX << ", " << velocityY << ")\n";
             }
             break;
             
@@ -361,6 +398,24 @@ void myKeyHandler(unsigned char c, int x, int y)
                     creationModeSize = MEDIUM;
                     cout << "=\n";
                 }
+            }
+            if (velocityModeEnabled) {
+                if (velocityToChange) {
+                    // 1 = change y
+                    velocityY -= 0.0001;
+                } else {
+                    // 0 = change x
+                    velocityX -= 0.0001;
+                }
+                cout << "vel: (" << velocityX << ", " << velocityY << ")\n";
+            }
+            break;
+            
+        case 'z':
+            if (velocityModeEnabled) {
+                // reset velocity of all object groups
+                velocityX = 0;
+                velocityY = 0;
             }
             break;
         
@@ -415,8 +470,10 @@ void myTimerFunc(int value)
 	
     for (auto obj : objectList)
     {
-        if (obj != nullptr)
+        if (obj != nullptr) {
+            obj->setSpeed(velocityX, velocityY);
             obj->update(dt);
+        }
     }
 
     creationModePreview->update(dt);
