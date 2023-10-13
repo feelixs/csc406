@@ -35,7 +35,6 @@ class Animal: public GraphicObject
         Animal(Point centerPoint, float angle, float scale, float r, float g, float b);
         ~Animal() = default;
         
-        void drawRightWing(float atx, float aty, float atangle, float r, float g, float b, float scale) const;
         void draw() const;
         void update(float dx);
         inline void setColor(float r, float g, float b) {
