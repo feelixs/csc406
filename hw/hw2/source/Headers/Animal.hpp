@@ -10,8 +10,7 @@
 
 #include "PolyShape.hpp"
 #include "World.h"
-#include <stdio.h>
-#include <vector>
+
 
 class Animal: public GraphicObject
 {
