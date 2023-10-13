@@ -6,10 +6,7 @@
 //
 
 #include "Animal.hpp"
-#include "World.h"
-#include "GraphicObject.h"
 #include <iostream>
-#include "glPlatform.h"
 
 
 float** Animal::_loadedShapePnts;
