@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-
+#include "EllipseReticle.hpp"
 #include "ObjectGroup.hpp"
 #include "Animal.hpp"
 #include "glPlatform.h"
@@ -95,7 +95,6 @@ const float Y_MIN = -10.f, Y_MAX = +10.f;
 int winWidth = 800,
     winHeight = 800;
 bool trackMousePointer = false;
-bool trackPassiveMousePointer = false;
 bool trackEntry = false;
 bool displayText = false;
 string stringLine = "";
@@ -107,6 +106,7 @@ GroupType creationModeType = HEADS_ON_STICK; // chosen GroupType
 GroupSize creationModeSize = SMALL; // chosen GroupSize
 int creationModeNum = 6; // number of heads
 shared_ptr<Animal> creationModePreview;
+shared_ptr<EllipseReticle> creationModeReticle;
 
 //--------------------------------------
 #if 0
@@ -128,16 +128,6 @@ void myDisplayFunc(void)
 	//	This says that we start from the lower-left corner of the screen
 	glLoadIdentity();
 	glPushMatrix();
-	
-	//--------------------------
-	//	Draw stuff
-	//--------------------------
-	glColor3f(1.f, 0.5f, 0.f);
-	glBegin(GL_POLYGON);
-		glVertex2f(1.5f, -5.0f);
-		glVertex2f(4.f, 1.0f);
-		glVertex2f(-1.f, 3.f);
-	glEnd();
 
 	for (auto obj : objectList)
 	{
@@ -146,6 +136,7 @@ void myDisplayFunc(void)
 	}
 
     if (creationModeEnabled) {
+        creationModeReticle->draw();
         creationModePreview->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
     } else {
         creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
@@ -165,6 +156,7 @@ void myDisplayFunc(void)
     }*/
      
     creationModePreview->draw();
+    
 
 	glPopMatrix();
 
@@ -292,11 +284,9 @@ void myMouseMotionHandler(int ix, int iy)
 }
 void myMousePassiveMotionHandler(int ix, int iy)
 {
-	if (trackPassiveMousePointer)
-	{
-		cout << "Passive mouse at (" << ix << ", " << iy << ")" << endl;
-	}
-
+    Point mousePos = pixelToWorld(ix, iy);
+    creationModeReticle->setX(mousePos.x);
+    creationModeReticle->setY(mousePos.y);
 }
 void myEntryHandler(int state)
 {
@@ -318,10 +308,6 @@ void myEntryHandler(int state)
 //
 void myKeyHandler(unsigned char c, int x, int y)
 {
-	// silence warning
-	(void) x;
-	(void) y;
-	
 	switch (c)
 	{
 		case 'q':
@@ -343,10 +329,12 @@ void myKeyHandler(unsigned char c, int x, int y)
         case 's':
             cout << "head on stci\n";
             creationModeType = HEADS_ON_STICK;
+            creationModeReticle.reset(new EllipseReticle(pixelToWorld(x, y), 1, 1.f, 1.f, 1.f, 24));
             break;
         case 'w':
             cout << "head on wheel\n";
             creationModeType = HEADS_ON_WHEELS;
+            creationModeReticle.reset(new EllipseReticle(pixelToWorld(x, y), 1, 1.f, 1.f, 1.f, 6));
             break;
         
         case '=':
@@ -398,10 +386,6 @@ void myKeyHandler(unsigned char c, int x, int y)
             
 		case 'm':
 			trackMousePointer = !trackMousePointer;
-			break;
-
-		case 'p':
-			trackPassiveMousePointer = !trackPassiveMousePointer;
 			break;
 			
 		case 'e':
@@ -573,12 +557,9 @@ void applicationInit()
 	glutAddSubMenu("Submenu example", mySubmenu);
 	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-    /*
-	objectList.push_back(make_shared<Ellipse>(7, 2, 0, .50, .50, 1.f, 1.f, 1.f));
-	objectList.push_back(make_shared<Ellipse>(2, 7, 0, .50, .5, 0.f, 0.f, 1.f));
-	objectList.push_back(make_shared<Ellipse>(6, 5, 0, 1.5, 1.5, 1.f, 0.f, 0.f));
-    */
+
     creationModePreview = make_shared<Animal>(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f);
+    creationModeReticle = make_shared<EllipseReticle>(Point{0, 0}, 1, 1.f, 1.f, 1.f, 12);
 }
 
 int main(int argc, char * argv[])
