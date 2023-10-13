@@ -137,7 +137,7 @@ void myDisplayFunc(void)
 	}
 
     if (creationModeEnabled) {
-        creationModeReticle->draw();
+       // creationModeReticle->draw();
         creationModePreview->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
     } else {
         creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
