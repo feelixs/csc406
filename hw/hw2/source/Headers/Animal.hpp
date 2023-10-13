@@ -38,7 +38,11 @@ class Animal: public GraphicObject
         void drawRightWing(float atx, float aty, float atangle, float r, float g, float b, float scale) const;
         void draw() const;
         void update(float dx);
-        void setColor(float r, float g, float b);
+        inline void setColor(float r, float g, float b) {
+            red_ = r;
+            green_ = g;
+            blue_ = b;
+        }
         //disabled constructors & operators
         Animal() = delete;
         Animal(const Animal& obj) = delete;    // copy

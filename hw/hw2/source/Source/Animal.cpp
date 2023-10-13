@@ -220,14 +220,6 @@ void Animal::_init_() {
     glEndList();
 }
 
-
-void Animal::setColor(float r, float g, float b) {
-    red_ = r;
-    green_ = g;
-    blue_ = b;
-}
-
-
 void Animal::draw() const {
     float myx, myy, myan;
     myx = getX();
