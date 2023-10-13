@@ -121,7 +121,7 @@ void Animal::draw() const {
 
     // left wing
     static float leftWing[5][2] = {{-0.76f, 0.38f}, {-0.66f, 0.1f}, {-0.65f, 0.f}, {-0.83f, 0.f}, {-0.9f, -0.2f}};
-    posWOffset = Point{atx - (scale/10.f), aty + (scale/1.6f)};  // all animal shapes have constant offsets
+    posWOffset = Point{atx - (scale/10.f), aty + (scale/1.6f)}; 
     posWOffset.rotateAround(&thisShapeCenter, getAngle());
     glPushMatrix();
     glTranslatef(posWOffset.x, posWOffset.y, 0.f);
