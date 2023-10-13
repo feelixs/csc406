@@ -68,6 +68,6 @@ void PolyShape::draw() const
     glPopMatrix();
 }
 
-void PolyShape::update(float dx) {
-    
+void PolyShape::update(float dt) {
+    setAngle(getAngle() + spin_ * dt);
 }

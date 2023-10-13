@@ -86,6 +86,7 @@ void ObjectGroup::update(float dt) {
     for (int i = 0; i < num_; i++) {
         groupHeads_.at(i)->setX(groupHeads_.at(i)->getX() + speedX_ * dt);
         groupHeads_.at(i)->setY(groupHeads_.at(i)->getY() + speedY_ * dt);
+        groupHeads_.at(i)->setAngle(groupHeads_.at(i)->getAngle() + spin_ * dt);
         groupHeads_.at(i)->update(dt);
     }
 }

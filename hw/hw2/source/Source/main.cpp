@@ -115,6 +115,9 @@ float velocityX = 0;
 float velocityY = 0;
 shared_ptr<PolyShape> velocityModePreview;
 
+bool rotationModeEnabled = false;
+float rotation = 0;
+
 //--------------------------------------
 #if 0
 #pragma mark -
@@ -363,6 +366,18 @@ void myKeyHandler(unsigned char c, int x, int y)
             }
             break;
             
+        case 'r':
+            // toggle rotation mode
+            cout << "r pressed\n";
+            if (rotationModeEnabled) {
+                cout << "disabled rotation\n";
+                rotationModeEnabled = false;
+            } else {
+                cout << "enabled rotation\n";
+                rotationModeEnabled = true;
+            }
+            break;
+            
         case '=':
         case '+':
             // +, =, are mapped to the same key
@@ -388,6 +403,11 @@ void myKeyHandler(unsigned char c, int x, int y)
                     velocityX += 0.0001;
                 }
                 cout << "vel: (" << velocityX << ", " << velocityY << ")\n";
+            }
+            // these modes are not mutually exclusive, so it's possible to be in velocity & rotation mode at the same time, for example
+            // and in such a case pressing +/- will change both settings simultaneously
+            if (rotationModeEnabled) {
+                rotation += 0.01;
             }
             break;
             
@@ -415,6 +435,9 @@ void myKeyHandler(unsigned char c, int x, int y)
                     velocityX -= 0.0001;
                 }
                 cout << "vel: (" << velocityX << ", " << velocityY << ")\n";
+            }
+            if (rotationModeEnabled) {
+                rotation -= 0.01;
             }
             break;
             
@@ -479,11 +502,23 @@ void myTimerFunc(int value)
     {
         if (obj != nullptr) {
             obj->setSpeed(velocityX, velocityY);
+            obj->setSpin(rotation);
             obj->update(dt);
         }
     }
 
     creationModePreview->update(dt);
+    
+    if (rotationModeEnabled) {
+        velocityModePreview->setSpin(0.5);
+    } else {
+        velocityModePreview->setSpin(0);
+        if (velocityModePreview->getAngle() > 0) {
+            velocityModePreview->setAngle(0);
+        }
+    }
+    
+    velocityModePreview->update(dt);
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)
 	{
