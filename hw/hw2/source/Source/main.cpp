@@ -410,12 +410,21 @@ void myKeyHandler(unsigned char c, int x, int y)
 void myTimerFunc(int value)
 {
 	static int frameIndex=0;
+    static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
 
-	//	"re-prime the timer"
-	glutTimerFunc(1, myTimerFunc, value);
+    //    "re-prime the timer"
+    glutTimerFunc(1, myTimerFunc, value);
+
+    //     do something (e.g. update the state of animated objects)
+    chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
+    float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
 
 	//	 do something (e.g. update the state of some objects)
 	
+    for (int i = 0; i < objectList.size(); i++) {
+        objectList.at(i)->update(dt);
+    }
+    
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)
 	{

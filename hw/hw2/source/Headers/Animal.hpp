@@ -33,6 +33,7 @@ class Animal: public GraphicObject
         ~Animal() = default;
         
         void draw() const;
+        void update(float dx);
         void setColor(float r, float g, float b);
         //disabled constructors & operators
         Animal() = delete;

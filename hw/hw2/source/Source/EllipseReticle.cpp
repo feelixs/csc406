@@ -72,3 +72,7 @@ void EllipseReticle::draw() const {
     glPopMatrix();
 }
 
+
+void EllipseReticle::update(float dx) {
+    
+}

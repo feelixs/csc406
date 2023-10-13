@@ -29,7 +29,7 @@ class PolyShape: public GraphicObject
         ~PolyShape();
         
         void draw() const; // doesn't need to be overridden since we're using glCallList(vertexList), and each shape has a different vertexList
-
+        void update(float dx);
         //disabled constructors & operators
         PolyShape() = delete;
         PolyShape(const PolyShape& obj) = delete;    // copy
