@@ -11,6 +11,7 @@
 		1619E18D2ACDCFE800065C2A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1619E18B2ACDCFE800065C2A /* OpenGL.framework */; };
 		AA532E382AD4A7560027E3FE /* Animal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA532E372AD4A7560027E3FE /* Animal.cpp */; };
 		AA59184E2AD644CF00971540 /* ObjectGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA59184C2AD644CB00971540 /* ObjectGroup.cpp */; };
+		AA801A8E2AD994AF006A8BBC /* PolyShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA801A8D2AD994AF006A8BBC /* PolyShape.cpp */; };
 		AA99EF6A2AD8D173008340C3 /* EllipseReticle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA99EF682AD8D16B008340C3 /* EllipseReticle.cpp */; };
 		AABB64FA2AD0C32900EC5BF3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABB64F62AD0C32900EC5BF3 /* main.cpp */; };
 		AABB64FB2AD0C32900EC5BF3 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABB64F72AD0C32900EC5BF3 /* World.cpp */; };
@@ -38,6 +39,8 @@
 		AA532E392AD4A7620027E3FE /* Animal.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Animal.hpp; sourceTree = "<group>"; };
 		AA59184C2AD644CB00971540 /* ObjectGroup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectGroup.cpp; sourceTree = "<group>"; };
 		AA59184D2AD644CB00971540 /* ObjectGroup.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ObjectGroup.hpp; sourceTree = "<group>"; };
+		AA801A8D2AD994AF006A8BBC /* PolyShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolyShape.cpp; sourceTree = "<group>"; };
+		AA801A8F2AD994B7006A8BBC /* PolyShape.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PolyShape.hpp; sourceTree = "<group>"; };
 		AA99EF682AD8D16B008340C3 /* EllipseReticle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EllipseReticle.cpp; sourceTree = "<group>"; };
 		AA99EF692AD8D16B008340C3 /* EllipseReticle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EllipseReticle.hpp; sourceTree = "<group>"; };
 		AABB64F22AD0C31E00EC5BF3 /* GraphicObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GraphicObject.h; sourceTree = "<group>"; };
@@ -106,6 +109,7 @@
 				AABB64F22AD0C31E00EC5BF3 /* GraphicObject.h */,
 				AA532E392AD4A7620027E3FE /* Animal.hpp */,
 				AABB64F32AD0C31E00EC5BF3 /* World.h */,
+				AA801A8F2AD994B7006A8BBC /* PolyShape.hpp */,
 				AA59184D2AD644CB00971540 /* ObjectGroup.hpp */,
 				AA99EF692AD8D16B008340C3 /* EllipseReticle.hpp */,
 			);
@@ -118,6 +122,7 @@
 				AA99EF682AD8D16B008340C3 /* EllipseReticle.cpp */,
 				AA59184C2AD644CB00971540 /* ObjectGroup.cpp */,
 				AA532E372AD4A7560027E3FE /* Animal.cpp */,
+				AA801A8D2AD994AF006A8BBC /* PolyShape.cpp */,
 				AABB64F82AD0C32900EC5BF3 /* Ellipse.cpp */,
 				AABB64F92AD0C32900EC5BF3 /* GraphicObject.cpp */,
 				AABB64F62AD0C32900EC5BF3 /* main.cpp */,
@@ -186,6 +191,7 @@
 				AA99EF6A2AD8D173008340C3 /* EllipseReticle.cpp in Sources */,
 				AABB64FC2AD0C32900EC5BF3 /* Ellipse.cpp in Sources */,
 				AA532E382AD4A7560027E3FE /* Animal.cpp in Sources */,
+				AA801A8E2AD994AF006A8BBC /* PolyShape.cpp in Sources */,
 				AABB64FB2AD0C32900EC5BF3 /* World.cpp in Sources */,
 				AABB64FA2AD0C32900EC5BF3 /* main.cpp in Sources */,
 				AABB64FD2AD0C32900EC5BF3 /* GraphicObject.cpp in Sources */,
