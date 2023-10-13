@@ -113,6 +113,7 @@ bool velocityModeEnabled = false;
 bool velocityToChange = 0; // 0 means +/- keys will change x, 1 means y
 float velocityX = 0;
 float velocityY = 0;
+shared_ptr<PolyShape> velocityModePreview;
 
 //--------------------------------------
 #if 0
@@ -142,6 +143,12 @@ void myDisplayFunc(void)
         creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
     }
     
+    if (velocityModeEnabled) {
+        velocityModePreview->setColor(0.f, 1.f, 0.f);
+    } else {
+        velocityModePreview->setColor(1.f, 0.f, 0.f);
+    }
+    
 	for (auto obj : allObjectGroups)
 	{
 		if (obj != nullptr)
@@ -149,7 +156,7 @@ void myDisplayFunc(void)
 	}
      
     creationModePreview->draw();
-    
+    velocityModePreview->draw();
 
 	glPopMatrix();
 
@@ -619,8 +626,22 @@ void applicationInit()
 	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-    creationModePreview = make_shared<Animal>(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f);
+    creationModePreview = make_shared<Animal>(Point{-9, 8.3}, 0, 0.5, 0.f, 1.f, 0.f);
     creationModeReticle = make_shared<EllipseReticle>(Point{0, 0}, 1, 1.f, 1.f, 1.f, 12);
+    
+    float rlen = 1;
+    float rwid = 0.5;
+    static float velPrevPnts[4][2] = {{-rlen / 2.f, -rwid / 2.f}, {-rlen / 2.f, rwid / 2.f}, {rlen / 2.f, rwid / 2.f}, {rlen / 2.f, -rwid / 2.f}};
+    GLuint velocityPrevList = glGenLists(1);
+    glNewList(velocityPrevList, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    // rectangle to display when velocity mode is on
+    for (int r=0; r < 4; r++) {
+        glVertex2f(velPrevPnts[r][0], velPrevPnts[r][1]);
+    }
+    glEnd();
+    glEndList();
+    velocityModePreview = make_shared<PolyShape>(Point{-7, 8.5}, 0, rlen, rwid, 1.f, 0.f, 0.f, velocityPrevList);
 }
 
 int main(int argc, char * argv[])

@@ -26,6 +26,7 @@ class PolyShape: public GraphicObject
     
         PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
         PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
+        PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, GLuint vertices);
         ~PolyShape();
         
         void draw() const; // doesn't need to be overridden since we're using glCallList(vertexList), and each shape has a different vertexList
