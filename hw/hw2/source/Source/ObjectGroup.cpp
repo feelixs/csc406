@@ -73,6 +73,13 @@ void ObjectGroup::_init_() {
 }
 
 
+void ObjectGroup::setColor(float r, float g, float b) {
+    for (auto head : groupHeads_) {
+        head -> setColor(r, g, b);
+    }
+}
+
+
 void ObjectGroup::draw() const {
     for (int i = 0; i < num_; i++) {
         groupHeads_.at(i)->draw();

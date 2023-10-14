@@ -42,7 +42,7 @@ public:
     
     void draw() const;
     void update(float dt);
-    
+    void setColor(float r, float g, float b);
     inline void setSpeed(float vx, float vy) {
         speedX_ = vx;
         speedY_ = vy;
