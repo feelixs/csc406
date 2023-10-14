@@ -74,8 +74,8 @@ const float TEXT_COLOR[4] = {1.f, 1.f, 1.f, 1.f};
 const float PARTITION_COLOR[4] = {0.6f, 0.6f, 0.6f, 1.f};
 
 
-const float ANGLE_CHNG_STEP = -0.1; // i set up the angle changing login backwards
-const float SPD_CHNG_STEP = 0.005;
+const float ANGLE_CHNG_STEP = -10; // i set up the angle changing login backwards
+const float SPD_CHNG_STEP = 1;
 
 //--------------------------------------
 #if 0
@@ -83,6 +83,7 @@ const float SPD_CHNG_STEP = 0.005;
 #endif
 //--------------------------------------
 
+time_t startTime = -1;
 int winWidth = 800,
     winHeight = 800;
 
@@ -368,7 +369,7 @@ void myKeyHandler(unsigned char c, int x, int y)
             } else {
                 cout << "enabled rotation\n";
                 rotationModeEnabled = true;
-                velocityModePreview->setSpin(0.5);
+                velocityModePreview->setSpin(-50);
             }
             break;
         case 'a':
@@ -669,6 +670,8 @@ void applicationInit()
     glEnd();
     glEndList();
     animationModePausedIcon = make_shared<PolyShape>(Point{-5.1, 8.6}, 30, 0.075, 0.075, 1.f, 0.f, 0.f, playIconList);
+    
+    startTime = time(nullptr);
 }
 
 int main(int argc, char * argv[])
