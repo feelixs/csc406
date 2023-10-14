@@ -101,7 +101,8 @@ shared_ptr<PolyShape> velocityModePreview;
 bool rotationModeEnabled = false;
 
 bool animationModeEnabled = false;
-shared_ptr<PolyShape> animationModePreview;
+shared_ptr<PolyShape> animationModePlayingIcon;
+shared_ptr<PolyShape> animationModePausedIcon;
 
 int groupEditIndex = 0; // represents the groupobject thats currently selected by the user
 
@@ -138,16 +139,20 @@ void myDisplayFunc(void)
      
     creationModePreview->draw();
     velocityModePreview->draw();
-    animationModePreview->draw();
+    
+    if (animationModeEnabled) {
+        animationModePlayingIcon->draw();
+    } else {
+        animationModePausedIcon->draw();
+    }
+
 
 	glPopMatrix();
 
 	//	Display textual info
-    const char* message = "hello";
-    displayTextualInfo(message, Point{-9, -9});
-    //for (int k = 0; message[k] != *"\0"; k++) {
-    //    displayTextualInfo(message[k], 100, 200);
-    //}
+    static const char* message = "hello";
+  //  displayTextualInfo(message, Point{-9, -9});
+
 
 	//	We were drawing into the back buffer, now it should be brought
 	//	to the forefront.
@@ -370,11 +375,9 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (animationModeEnabled) {
                 cout << "disabled animation\n";
                 animationModeEnabled = false;
-                animationModePreview->setColor(1.f, 0.f, 0.f);
             } else {
                 cout << "enabled animation\n";
                 animationModeEnabled = true;
-                animationModePreview->setColor(0.f, 1.f, 0.f);
             }
             break;
             
@@ -638,20 +641,35 @@ void applicationInit()
     glEndList();
     velocityModePreview = make_shared<PolyShape>(Point{-7, 8.5}, 0, rlen, rwid, 1.f, 0.f, 0.f, velocityPrevList);
     
-    float arrowLen = 0.5;
-    float arrowWidth = 0.5;
-    static float arrowPoints[7][2] = {{-arrowLen, 0}, {-arrowLen + arrowWidth, arrowWidth / 2}, {-arrowLen + arrowWidth, arrowWidth / 4},
-                                      {arrowLen, arrowWidth / 4}, {arrowLen, -arrowWidth / 4}, {-arrowLen + arrowWidth, -arrowWidth / 4},
-                                      {-arrowLen + arrowWidth, -arrowWidth / 2}};
-    GLuint arrowList = glGenLists(1);
-    glNewList(arrowList, GL_COMPILE);
-    glBegin(GL_POLYGON);
-    for (int i = 0; i < 7; i++) {
-        glVertex2f(arrowPoints[i][0], arrowPoints[i][1]);
+    rlen = 0.5;
+    rwid = 0.5;
+    // two parralel lines - pressing 'a' while this is active pauses animation mode
+    static float pauseIconPnts[4][2] = {{-rlen / 2, -rwid / 2}, {-rlen / 2, rwid / 2}, {rlen / 2, rwid / 2}, {rlen / 2, -rwid / 2}};
+    GLuint pauseIconList = glGenLists(1);
+    glNewList(pauseIconList, GL_COMPILE);
+    glLineWidth(2.0);  // Adjust the line width as needed
+    glBegin(GL_LINES);
+    for (int l = 0; l < 4; l++) {
+        glVertex2f(pauseIconPnts[l][0], pauseIconPnts[l][1]);
     }
     glEnd();
     glEndList();
-    animationModePreview = make_shared<PolyShape>(Point{-5, 8.5}, 0, 1, 1, 1.f, 0.f, 0.f, arrowList);
+    animationModePlayingIcon = make_shared<PolyShape>(Point{-5, 8.5}, 0, 1, 1, 1.f, 0.f, 0.f, pauseIconList);
+    
+    
+    rwid = 5.f;
+    rlen = rwid * sqrt(3.f);
+    static float playIconPnts[3][2] = {{0, rlen / 2.f}, {-rwid, -rlen / 2.f}, {rwid, -rlen / 2.f}};
+    
+    GLuint playIconList = glGenLists(1);
+    glNewList(playIconList, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for (int k=0; k<3; k++) {
+        glVertex2f(playIconPnts[k][0], playIconPnts[k][1]);
+    }
+    glEnd();
+    glEndList();
+    animationModePausedIcon = make_shared<PolyShape>(Point{-5.1, 8.6}, 30, 0.075, 0.075, 1.f, 0.f, 0.f, playIconList);
 }
 
 int main(int argc, char * argv[])
