@@ -30,6 +30,17 @@ PolyShape::PolyShape(Point centerPoint, float angle, float scaleX, float scaleY,
 {
 }
 
+PolyShape::PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float red, float green, float blue, GLuint vertices)
+:   GraphicObject(centerPoint.x, centerPoint.y, angle),
+        scaleX_(scaleX),
+        scaleY_(scaleY),
+        red_(red),
+        green_(green),
+        blue_(blue),
+        vertexList(vertices)
+{
+}
+
 PolyShape::~PolyShape() {
 }
 
@@ -57,6 +68,6 @@ void PolyShape::draw() const
     glPopMatrix();
 }
 
-void PolyShape::update(float dx) {
-    
+void PolyShape::update(float dt) {
+    setAngle(getAngle() + spin_ * dt);
 }

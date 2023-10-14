@@ -23,6 +23,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <ctime>
 #include <memory>
 #include "EllipseReticle.hpp"
 #include "ObjectGroup.hpp"
@@ -99,7 +100,7 @@ bool trackEntry = false;
 bool displayText = false;
 string stringLine = "";
 
-vector<shared_ptr<GraphicObject>> objectList;
+vector<shared_ptr<ObjectGroup>> allObjectGroups;
 
 bool creationModeEnabled = false;
 GroupType creationModeType = HEADS_ON_STICK; // chosen GroupType
@@ -107,6 +108,18 @@ GroupSize creationModeSize = SMALL; // chosen GroupSize
 int creationModeNum = 6; // number of heads
 shared_ptr<Animal> creationModePreview;
 shared_ptr<EllipseReticle> creationModeReticle;
+
+bool velocityModeEnabled = false;
+bool velocityToChange = 0; // 0 means +/- keys will change x, 1 means y
+float velocityX = 0;
+float velocityY = 0;
+shared_ptr<PolyShape> velocityModePreview;
+
+bool rotationModeEnabled = false;
+float rotation = 0;
+
+bool animationModeEnabled = false;
+shared_ptr<PolyShape> animationModePreview;
 
 //--------------------------------------
 #if 0
@@ -128,35 +141,20 @@ void myDisplayFunc(void)
 	//	This says that we start from the lower-left corner of the screen
 	glLoadIdentity();
 	glPushMatrix();
-
-	for (auto obj : objectList)
+    
+    if (creationModeEnabled) {
+        creationModeReticle->draw();
+    }
+    
+	for (auto obj : allObjectGroups)
 	{
 		if (obj != nullptr)
 			obj->draw();
 	}
-
-    if (creationModeEnabled) {
-        creationModeReticle->draw();
-        creationModePreview->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
-    } else {
-        creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
-    }
-    /*
-    if (creationModeType == HEADS_ON_WHEELS) {
-        creationModeStatusObj.reset(new Animal(Point{-9, 8}, 90, 0.5, 0.f, 1.f, 0.f));
-    } else {
-        creationModeStatusObj.reset(new Animal(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f));
-    }
-    if (creationModeSize == SMALL) {
-        creationModeStatusObj.reset(new Animal(Point{-9, 8}, 0, 0.25, 0.f, 1.f, 0.f));
-    } else if (creationModeSize == MEDIUM) {
-        creationModeStatusObj.reset(new Animal(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f));
-    } else {
-        creationModeStatusObj.reset(new Animal(Point{-9, 8}, 0, 0.75, 0.f, 1.f, 0.f));
-    }*/
      
     creationModePreview->draw();
-    
+    velocityModePreview->draw();
+    animationModePreview->draw();
 
 	glPopMatrix();
 
@@ -264,7 +262,7 @@ void myMouseHandler(int button, int state, int ix, int iy)
 			{
                 if (creationModeEnabled) {
                     // create an objectgroup at the mouse pointer
-                    objectList.push_back(make_shared<ObjectGroup>(creationModeType, creationModeSize, creationModeNum, pixelToWorld(ix, iy)));
+                    allObjectGroups.push_back(make_shared<ObjectGroup>(creationModeType, creationModeSize, creationModeNum, pixelToWorld(ix, iy)));
                 }
                 
 			}
@@ -321,9 +319,11 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (creationModeEnabled) {
                 cout << "disabled creation\n";
                 creationModeEnabled = false;
+                creationModePreview->setColor(1.f, 0.f, 0.f); // red if disabled
             } else {
                 cout << "enabled creation\n";
                 creationModeEnabled = true;
+                creationModePreview->setColor(0.f, 1.f, 0.f); // green animal if creation is enabled
             }
             break;
         case 's':
@@ -340,7 +340,59 @@ void myKeyHandler(unsigned char c, int x, int y)
                 creationModeReticle.reset(new EllipseReticle(pixelToWorld(x, y), 1, 1.f, 1.f, 1.f, 6));
             }
             break;
-        
+            
+        case 'v':
+            // toggle velocity mode
+            cout << "v pressed\n";
+            if (velocityModeEnabled) {
+                cout << "disabled velocity\n";
+                velocityModeEnabled = false;
+                velocityModePreview->setColor(1.f, 0.f, 0.f);
+            } else {
+                cout << "enabled velocity\n";
+                velocityModeEnabled = true;
+                velocityModePreview->setColor(0.f, 1.f, 0.f);
+            }
+            break;
+        case 'x':
+            if (velocityModeEnabled) {
+                velocityToChange = 0;
+            }
+            break;
+        case 'y':
+            if (velocityModeEnabled) {
+                velocityToChange = 1;
+            }
+            break;
+            
+        case 'r':
+            // toggle rotation mode
+            cout << "r pressed\n";
+            if (rotationModeEnabled) {
+                cout << "disabled rotation\n";
+                rotationModeEnabled = false;
+                velocityModePreview->setSpin(0);
+                if (velocityModePreview->getAngle() > 0)
+                    velocityModePreview->setAngle(0);
+            } else {
+                cout << "enabled rotation\n";
+                rotationModeEnabled = true;
+                velocityModePreview->setSpin(0.5);
+            }
+            break;
+        case 'a':
+            cout << "a pressed\n";
+            if (animationModeEnabled) {
+                cout << "disabled animation\n";
+                animationModeEnabled = false;
+                animationModePreview->setColor(1.f, 0.f, 0.f);
+            } else {
+                cout << "enabled animation\n";
+                animationModeEnabled = true;
+                animationModePreview->setColor(0.f, 1.f, 0.f);
+            }
+            break;
+            
         case '=':
         case '+':
             // +, =, are mapped to the same key
@@ -356,6 +408,21 @@ void myKeyHandler(unsigned char c, int x, int y)
                     cout << "small\n";
                     creationModeSize = SMALL;
                 }
+            }
+            if (velocityModeEnabled) {
+                if (velocityToChange) {
+                    // 1 = change y
+                    velocityY += 0.0001;
+                } else {
+                    // 0 = change x
+                    velocityX += 0.0001;
+                }
+                cout << "vel: (" << velocityX << ", " << velocityY << ")\n";
+            }
+            // these modes are not mutually exclusive, so it's possible to be in velocity & rotation mode at the same time, for example
+            // and in such a case pressing +/- will change both settings simultaneously
+            if (rotationModeEnabled) {
+                rotation += 0.01;
             }
             break;
             
@@ -373,6 +440,27 @@ void myKeyHandler(unsigned char c, int x, int y)
                     creationModeSize = MEDIUM;
                     cout << "=\n";
                 }
+            }
+            if (velocityModeEnabled) {
+                if (velocityToChange) {
+                    // 1 = change y
+                    velocityY -= 0.0001;
+                } else {
+                    // 0 = change x
+                    velocityX -= 0.0001;
+                }
+                cout << "vel: (" << velocityX << ", " << velocityY << ")\n";
+            }
+            if (rotationModeEnabled) {
+                rotation -= 0.01;
+            }
+            break;
+            
+        case 'z':
+            if (velocityModeEnabled) {
+                // reset velocity of all object groups
+                velocityX = 0;
+                velocityY = 0;
             }
             break;
         
@@ -413,7 +501,7 @@ void myKeyHandler(unsigned char c, int x, int y)
 
 void myTimerFunc(int value)
 {
-	static int frameIndex=0;
+    static int frameIndex=0;
     static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
 
     //    "re-prime the timer"
@@ -425,9 +513,22 @@ void myTimerFunc(int value)
 
 	//	 do something (e.g. update the state of some objects)
 	
-    for (int i = 0; i < objectList.size(); i++) {
-        objectList.at(i)->update(dt);
+    if (animationModeEnabled) {
+        // only update the objectgroups if animation mode is on
+        for (auto obj : allObjectGroups)
+        {
+            if (obj != nullptr) {
+                obj->setSpeed(velocityX, velocityY);
+                obj->setSpin(rotation);
+                obj->update(dt);
+            }
+        }
     }
+    
+    // update the status info objects regardless of animation mode
+    creationModePreview->update(dt);
+    velocityModePreview->update(dt);
+    
     
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)
@@ -571,8 +672,37 @@ void applicationInit()
 	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-    creationModePreview = make_shared<Animal>(Point{-9, 8}, 0, 0.5, 0.f, 1.f, 0.f);
+    creationModePreview = make_shared<Animal>(Point{-9, 8.3}, 0, 0.5, 1.f, 0.f, 0.f);
     creationModeReticle = make_shared<EllipseReticle>(Point{0, 0}, 1, 1.f, 1.f, 1.f, 12);
+    
+    float rlen = 1;
+    float rwid = 0.5;
+    static float velPrevPnts[4][2] = {{-rlen / 2.f, -rwid / 2.f}, {-rlen / 2.f, rwid / 2.f}, {rlen / 2.f, rwid / 2.f}, {rlen / 2.f, -rwid / 2.f}};
+    GLuint velocityPrevList = glGenLists(1);
+    glNewList(velocityPrevList, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    // rectangle to display when velocity mode is on
+    for (int r=0; r < 4; r++) {
+        glVertex2f(velPrevPnts[r][0], velPrevPnts[r][1]);
+    }
+    glEnd();
+    glEndList();
+    velocityModePreview = make_shared<PolyShape>(Point{-7, 8.5}, 0, rlen, rwid, 1.f, 0.f, 0.f, velocityPrevList);
+    
+    float arrowLen = 0.5;
+    float arrowWidth = 0.5;
+    static float arrowPoints[7][2] = {{-arrowLen, 0}, {-arrowLen + arrowWidth, arrowWidth / 2}, {-arrowLen + arrowWidth, arrowWidth / 4},
+                                      {arrowLen, arrowWidth / 4}, {arrowLen, -arrowWidth / 4}, {-arrowLen + arrowWidth, -arrowWidth / 4},
+                                      {-arrowLen + arrowWidth, -arrowWidth / 2}};
+    GLuint arrowList = glGenLists(1);
+    glNewList(arrowList, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 7; i++) {
+        glVertex2f(arrowPoints[i][0], arrowPoints[i][1]);
+    }
+    glEnd();
+    glEndList();
+    animationModePreview = make_shared<PolyShape>(Point{-5, 8.5}, 0, 1, 1, 1.f, 0.f, 0.f, arrowList);
 }
 
 int main(int argc, char * argv[])

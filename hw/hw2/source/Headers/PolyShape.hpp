@@ -16,26 +16,28 @@
 class PolyShape: public GraphicObject
 /// base class for all shapes
 {    
-    private:
-        // all children share these attributes
-        float scaleX_, scaleY_;
-        float red_, green_, blue_;
+private:
+    // all children share these attributes
+    float scaleX_, scaleY_;
+    float red_, green_, blue_;
+    float spin_;
     
-    public:
-        GLuint vertexList;
+public:
+    GLuint vertexList;
     
-        PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
-        PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
-        ~PolyShape();
-        
-        void draw() const; // doesn't need to be overridden since we're using glCallList(vertexList), and each shape has a different vertexList
-        void update(float dx);
-        //disabled constructors & operators
-        PolyShape() = delete;
-        PolyShape(const PolyShape& obj) = delete;    // copy
-        PolyShape(PolyShape&& obj) = delete;        // move
-        PolyShape& operator = (const PolyShape& obj) = delete;    // copy operator
-        PolyShape& operator = (PolyShape&& obj) = delete;        // move operator
+    PolyShape(float centerX, float centerY, float angle, float scaleX, float scaleY, float r, float g, float b);
+    PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b);
+    PolyShape(Point centerPoint, float angle, float scaleX, float scaleY, float r, float g, float b, GLuint vertices);
+    ~PolyShape();
+    
+    void draw() const; // doesn't need to be overridden since we're using glCallList(vertexList), and each shape has a different vertexList
+    void update(float dt);
+    //disabled constructors & operators
+    PolyShape() = delete;
+    PolyShape(const PolyShape& obj) = delete;    // copy
+    PolyShape(PolyShape&& obj) = delete;        // move
+    PolyShape& operator = (const PolyShape& obj) = delete;    // copy operator
+    PolyShape& operator = (PolyShape&& obj) = delete;        // move operator
     
     inline float getScaleX() const {
         return scaleX_;
@@ -52,7 +54,12 @@ class PolyShape: public GraphicObject
     inline float getBlue() const {
         return blue_;
     }
-    
+    inline float getSpin() const {
+        return spin_;
+    }
+    inline void setSpin(float s) {
+        spin_ = s;
+    }
     inline void setColor(float r, float g, float b) {
         red_ = r;
         green_ = g;
