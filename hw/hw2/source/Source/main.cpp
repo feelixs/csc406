@@ -118,6 +118,9 @@ shared_ptr<PolyShape> velocityModePreview;
 bool rotationModeEnabled = false;
 float rotation = 0;
 
+bool animationModeEnabled = false;
+shared_ptr<PolyShape> animationModePreview;
+
 //--------------------------------------
 #if 0
 #pragma mark -
@@ -151,6 +154,7 @@ void myDisplayFunc(void)
      
     creationModePreview->draw();
     velocityModePreview->draw();
+    animationModePreview->draw();
 
 	glPopMatrix();
 
@@ -376,6 +380,18 @@ void myKeyHandler(unsigned char c, int x, int y)
                 velocityModePreview->setSpin(0.5);
             }
             break;
+        case 'a':
+            cout << "a pressed\n";
+            if (animationModeEnabled) {
+                cout << "disabled animation\n";
+                animationModeEnabled = false;
+                animationModePreview->setColor(1.f, 0.f, 0.f);
+            } else {
+                cout << "enabled animation\n";
+                animationModeEnabled = true;
+                animationModePreview->setColor(0.f, 1.f, 0.f);
+            }
+            break;
             
         case '=':
         case '+':
@@ -497,18 +513,23 @@ void myTimerFunc(int value)
 
 	//	 do something (e.g. update the state of some objects)
 	
-    for (auto obj : allObjectGroups)
-    {
-        if (obj != nullptr) {
-            obj->setSpeed(velocityX, velocityY);
-            obj->setSpin(rotation);
-            obj->update(dt);
+    if (animationModeEnabled) {
+        // only update the objectgroups if animation mode is on
+        for (auto obj : allObjectGroups)
+        {
+            if (obj != nullptr) {
+                obj->setSpeed(velocityX, velocityY);
+                obj->setSpin(rotation);
+                obj->update(dt);
+            }
         }
     }
-
+    
+    // update the status info objects regardless of animation mode
     creationModePreview->update(dt);
     velocityModePreview->update(dt);
-
+    
+    
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)
 	{
@@ -667,6 +688,21 @@ void applicationInit()
     glEnd();
     glEndList();
     velocityModePreview = make_shared<PolyShape>(Point{-7, 8.5}, 0, rlen, rwid, 1.f, 0.f, 0.f, velocityPrevList);
+    
+    float arrowLen = 0.5;
+    float arrowWidth = 0.5;
+    static float arrowPoints[7][2] = {{-arrowLen, 0}, {-arrowLen + arrowWidth, arrowWidth / 2}, {-arrowLen + arrowWidth, arrowWidth / 4},
+                                      {arrowLen, arrowWidth / 4}, {arrowLen, -arrowWidth / 4}, {-arrowLen + arrowWidth, -arrowWidth / 4},
+                                      {-arrowLen + arrowWidth, -arrowWidth / 2}};
+    GLuint arrowList = glGenLists(1);
+    glNewList(arrowList, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 7; i++) {
+        glVertex2f(arrowPoints[i][0], arrowPoints[i][1]);
+    }
+    glEnd();
+    glEndList();
+    animationModePreview = make_shared<PolyShape>(Point{-5, 8.5}, 0, 1, 1, 1.f, 0.f, 0.f, arrowList);
 }
 
 int main(int argc, char * argv[])
