@@ -18,7 +18,8 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, float x, float
     num_(num),
     spin_(0),
     speedX_(0),
-    speedY_(0)
+    speedY_(0),
+    animationEnabled_(true)
 {
     _init_();
 }
@@ -30,7 +31,8 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, Point at):
     num_(num),
     spin_(0),
     speedX_(0),
-    speedY_(0)
+    speedY_(0),
+    animationEnabled_(true)
 {
     _init_();
 }
@@ -73,6 +75,13 @@ void ObjectGroup::_init_() {
 }
 
 
+void ObjectGroup::setColor(float r, float g, float b) {
+    for (auto head : groupHeads_) {
+        head -> setColor(r, g, b);
+    }
+}
+
+
 void ObjectGroup::draw() const {
     for (int i = 0; i < num_; i++) {
         groupHeads_.at(i)->draw();
@@ -81,15 +90,27 @@ void ObjectGroup::draw() const {
 
 
 void ObjectGroup::update(float dt) {
-    setX(getX() + speedX_ * dt);
-    setY(getY() + speedY_ * dt);
-    for (int i = 0; i < num_; i++) {
-        if (speedX_ != 0.f)
-            groupHeads_.at(i)->setX(groupHeads_.at(i)->getX() + speedX_ * dt);
-        if (speedY_ != 0.f)
-            groupHeads_.at(i)->setY(groupHeads_.at(i)->getY() + speedY_ * dt);
-        if (spin_ != 0.f)
-            groupHeads_.at(i)->setAngle(groupHeads_.at(i)->getAngle() + spin_ * dt);
-        groupHeads_.at(i)->update(dt);
+    dt = 1; // there's a bug when mult by dt where anims speed up over time
+    if (animationEnabled_) {
+        setX(getX() + speedX_ * dt);
+        setY(getY() + speedY_ * dt);
+        for (auto a : groupHeads_) {
+            if (speedX_ != 0.f)
+                a->setX(a->getX() + speedX_ * dt);
+            if (speedY_ != 0.f)
+                a->setY(a->getY() + speedY_ * dt);
+            if (spin_ != 0.f)
+                a->setAngle(a->getAngle() + spin_ * dt);
+            a->update(dt);
+        }
+    }
+}
+
+
+void ObjectGroup::togglePlay() {
+    if (animationEnabled_) {
+        animationEnabled_ = false;
+    } else {
+        animationEnabled_ = true;
     }
 }
