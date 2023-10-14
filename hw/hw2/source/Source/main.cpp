@@ -305,7 +305,7 @@ void myKeyHandler(unsigned char c, int x, int y)
 			break;
         
         case '\\':
-            // reset all modes
+            // '\' key resets all modes
             creationModeEnabled = false;
             velocityModeEnabled = false;
             rotationModeEnabled = false;
