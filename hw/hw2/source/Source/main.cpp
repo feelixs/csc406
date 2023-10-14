@@ -73,8 +73,8 @@ const float TEXT_COLOR[4] = {1.f, 1.f, 1.f, 1.f};
 const float PARTITION_COLOR[4] = {0.6f, 0.6f, 0.6f, 1.f};
 
 
-const float ANGLE_CHNG_STEP = -0.1; // i set up the angle changing login backwards
-const float SPD_CHNG_STEP = 0.005;
+const float ANGLE_CHNG_STEP = -10; // i set up the angle changing login backwards
+const float SPD_CHNG_STEP = 1;
 
 //--------------------------------------
 #if 0
@@ -367,7 +367,7 @@ void myKeyHandler(unsigned char c, int x, int y)
             } else {
                 cout << "enabled rotation\n";
                 rotationModeEnabled = true;
-                velocityModePreview->setSpin(0.5);
+                velocityModePreview->setSpin(-50);
             }
             break;
         case 'a':
@@ -522,7 +522,7 @@ void myTimerFunc(int value)
     creationModePreview->update(dt);
     velocityModePreview->update(dt);
     
-    
+    lastTime = currentTime;
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)
 	{
@@ -554,7 +554,7 @@ void displayTextualInfo(string infoStr, Point pos)
     //-----------------------------------------------
     //  1.  Build the string to display <-- parameter
     //-----------------------------------------------
-    int infoLn = infoStr.size();
+    int infoLn = (int) infoStr.size();
 
     //-----------------------------------------------
     //  2.  Determine the string's length (in pixels)

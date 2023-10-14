@@ -90,7 +90,6 @@ void ObjectGroup::draw() const {
 
 
 void ObjectGroup::update(float dt) {
-    dt = 1; // there's a bug when mult by dt where anims speed up over time
     if (animationEnabled_) {
         setX(getX() + speedX_ * dt);
         setY(getY() + speedY_ * dt);
