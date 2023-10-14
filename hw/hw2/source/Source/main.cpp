@@ -84,10 +84,6 @@ const float SPD_CHNG_STEP = 0.005;
 
 int winWidth = 800,
     winHeight = 800;
-bool trackMousePointer = false;
-bool trackEntry = false;
-bool displayText = false;
-string stringLine = "";
 
 vector<shared_ptr<ObjectGroup>> allObjectGroups;
 
@@ -270,10 +266,7 @@ void myMouseHandler(int button, int state, int ix, int iy)
 
 void myMouseMotionHandler(int ix, int iy)
 {
-	if (trackMousePointer)
-	{
-		cout << "Active mouse at (" << ix << ", " << iy << ")" << endl;
-	}
+	// track active mouse motion
 }
 void myMousePassiveMotionHandler(int ix, int iy)
 {
@@ -283,17 +276,7 @@ void myMousePassiveMotionHandler(int ix, int iy)
 }
 void myEntryHandler(int state)
 {
-	if (trackEntry)
-	{
-		if (state == GLUT_ENTERED)
-		{
-			cout << "===> Pointer entered" << endl;
-		}
-		else	// GLUT_LEFT
-		{
-			cout << "<=== Pointer exited" << endl;
-		}
-	}
+	// track when mouse enters/leaves
 }
 
 
@@ -494,25 +477,8 @@ void myKeyHandler(unsigned char c, int x, int y)
             }
             break;
         
-            
-		case 'm':
-			trackMousePointer = !trackMousePointer;
-			break;
-			
-		case 'e':
-			trackEntry = !trackEntry;
-			break;
-			
-		case 'i':
-			cout << "Enter a new line of text: ";
-			cin >> stringLine;
-			break;
-			
-		case 't':
-			displayText = !displayText;
-			
 		default:
-            cout << c << endl;
+            cout << "Unhandled choice: " << c << endl;
 			break;
 	}
 }
