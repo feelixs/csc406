@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
 #include <ctime>
 #include <memory>
 #include "EllipseReticle.hpp"
@@ -522,7 +523,7 @@ void myTimerFunc(int value)
     creationModePreview->update(dt);
     velocityModePreview->update(dt);
     
-    
+    lastTime = currentTime;
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)
 	{
@@ -554,7 +555,7 @@ void displayTextualInfo(string infoStr, Point pos)
     //-----------------------------------------------
     //  1.  Build the string to display <-- parameter
     //-----------------------------------------------
-    int infoLn = infoStr.size();
+    int infoLn = (int) infoStr.size();
 
     //-----------------------------------------------
     //  2.  Determine the string's length (in pixels)
