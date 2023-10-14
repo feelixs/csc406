@@ -1,23 +1,8 @@
 //
 //  main.cpp
-//  Display Text
-//	The main purpose of this project is to show how to
-//	display textual information in OpenGL.
-//	I use as basis an elementary program working with "world units"
-//	to display a simple scene.
+//  hw2
 //
-//	Very basic interface with limited keyboard action:
-//		- 'q' or ESC exits the app,
-//		- 'm' toggles on/off mouse motion tracking (button pressed)
-//		- 'p' toggles on/off passive mouse motion tracking (no button pressed)
-//		- 'e' toggles on/off mouse exit/enter
-//		- 't' toggles on/off text overlay display
-//		- 'i' activates the input of a second text string
-//			(input from the terminal)
-//	Initial aspect ratio of the window is preserved when the window
-//	is resized.
-//
-//  Created by Jean-Yves Hervé on 2023-10-04.
+//  Created by Michael Felix on 10/12/23.
 //
 
 #include <iostream>
@@ -58,7 +43,7 @@ enum FirstSubmenuItemID {	FIRST_SUBMENU_ITEM = 11,
 #pragma mark Function prototypes
 #endif
 //--------------------------------------
-//void displayTextualInfo(const char* infoStr, int x, int y, FontSize isLarge);
+void displayTextualInfo(const char* infoStr, Point pos);
 void myDisplayFunc(void);
 void myResizeFunc(int w, int h);
 void myMouseHandler(int b, int s, int x, int y);
@@ -83,9 +68,9 @@ const float Y_MIN = -10.f, Y_MAX = +10.f;
 #define SMALL_DISPLAY_FONT    GLUT_BITMAP_HELVETICA_10
 #define MEDIUM_DISPLAY_FONT   GLUT_BITMAP_HELVETICA_12
 #define LARGE_DISPLAY_FONT    GLUT_BITMAP_HELVETICA_18
-//const int TEXT_PADDING = 0;
-//const float TEXT_COLOR[4] = {1.f, 1.f, 1.f, 1.f};
-//const float PARTITION_COLOR[4] = {0.6f, 0.6f, 0.6f, 1.f};
+const int TEXT_PADDING = 0;
+const float TEXT_COLOR[4] = {1.f, 1.f, 1.f, 1.f};
+const float PARTITION_COLOR[4] = {0.6f, 0.6f, 0.6f, 1.f};
 
 //--------------------------------------
 #if 0
@@ -111,15 +96,15 @@ shared_ptr<EllipseReticle> creationModeReticle;
 
 bool velocityModeEnabled = false;
 bool velocityToChange = 0; // 0 means +/- keys will change x, 1 means y
-float velocityX = 0;
-float velocityY = 0;
 shared_ptr<PolyShape> velocityModePreview;
 
 bool rotationModeEnabled = false;
-float rotation = 0;
 
 bool animationModeEnabled = false;
-shared_ptr<PolyShape> animationModePreview;
+shared_ptr<PolyShape> animationModePlayingIcon;
+shared_ptr<PolyShape> animationModePausedIcon;
+
+int groupEditIndex = 0; // represents the groupobject thats currently selected by the user
 
 //--------------------------------------
 #if 0
@@ -154,15 +139,20 @@ void myDisplayFunc(void)
      
     creationModePreview->draw();
     velocityModePreview->draw();
-    animationModePreview->draw();
+    
+    if (animationModeEnabled) {
+        animationModePlayingIcon->draw();
+    } else {
+        animationModePausedIcon->draw();
+    }
+
 
 	glPopMatrix();
 
 	//	Display textual info
-//		displayTextualInfo(	message[k],
-//							LEFT_MARGIN,
-//							3*STATE_PANE_HEIGHT/4 - k*V_PAD,
-//							LARGE_FONT_SIZE);
+    static const char* message = "hello";
+  //  displayTextualInfo(message, Point{-9, -9});
+
 
 	//	We were drawing into the back buffer, now it should be brought
 	//	to the forefront.
@@ -385,11 +375,9 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (animationModeEnabled) {
                 cout << "disabled animation\n";
                 animationModeEnabled = false;
-                animationModePreview->setColor(1.f, 0.f, 0.f);
             } else {
                 cout << "enabled animation\n";
                 animationModeEnabled = true;
-                animationModePreview->setColor(0.f, 1.f, 0.f);
             }
             break;
             
@@ -412,17 +400,16 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (velocityModeEnabled) {
                 if (velocityToChange) {
                     // 1 = change y
-                    velocityY += 0.0001;
+                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() + 0.0001);
                 } else {
                     // 0 = change x
-                    velocityX += 0.0001;
+                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() + 0.0001);
                 }
-                cout << "vel: (" << velocityX << ", " << velocityY << ")\n";
             }
             // these modes are not mutually exclusive, so it's possible to be in velocity & rotation mode at the same time, for example
             // and in such a case pressing +/- will change both settings simultaneously
             if (rotationModeEnabled) {
-                rotation += 0.01;
+                allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() + 0.01);
             }
             break;
             
@@ -444,23 +431,22 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (velocityModeEnabled) {
                 if (velocityToChange) {
                     // 1 = change y
-                    velocityY -= 0.0001;
+                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() - 0.0001);
                 } else {
                     // 0 = change x
-                    velocityX -= 0.0001;
+                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() - 0.0001);
                 }
-                cout << "vel: (" << velocityX << ", " << velocityY << ")\n";
             }
             if (rotationModeEnabled) {
-                rotation -= 0.01;
+                allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() - 0.01);
             }
             break;
             
         case 'z':
             if (velocityModeEnabled) {
                 // reset velocity of all object groups
-                velocityX = 0;
-                velocityY = 0;
+                allObjectGroups.at(groupEditIndex)->setSpeedX(0);
+                allObjectGroups.at(groupEditIndex)->setSpeedY(0);
             }
             break;
         
@@ -472,9 +458,20 @@ void myKeyHandler(unsigned char c, int x, int y)
         case '7':
         case '8':
         case '9':
-            cout << c << " to int " << c - '0' << endl;
-            creationModeNum = c - '0';
+            if (animationModeEnabled) {
+                groupEditIndex = c - '0';  // char of a num minus the key '0' = the number
+            }
+            if (creationModeEnabled) {
+                creationModeNum = c - '0';
+            }
             break;
+        case '0':
+        case '1':
+        case '2':
+            if (animationModeEnabled) {
+                groupEditIndex = c - '0';
+            }
+        
             
 		case 'm':
 			trackMousePointer = !trackMousePointer;
@@ -509,7 +506,7 @@ void myTimerFunc(int value)
 
     //     do something (e.g. update the state of animated objects)
     chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
-    float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
+    float dt = chrono::duration_cast<chrono::duration<float>>(currentTime - lastTime).count();
 
 	//	 do something (e.g. update the state of some objects)
 	
@@ -518,8 +515,6 @@ void myTimerFunc(int value)
         for (auto obj : allObjectGroups)
         {
             if (obj != nullptr) {
-                obj->setSpeed(velocityX, velocityY);
-                obj->setSpin(rotation);
                 obj->update(dt);
             }
         }
@@ -544,109 +539,66 @@ void myTimerFunc(int value)
 #endif
 //--------------------------------------
 
-//void displayTextualInfo(const char* infoStr, int xPos, int yPos, FontSize fontSize)
-//{
-//    //-----------------------------------------------
-//    //  0.  get current material properties
-//    //-----------------------------------------------
-//    float oldAmb[4], oldDif[4], oldSpec[4], oldShiny;
-//    glGetMaterialfv(GL_FRONT, GL_AMBIENT, oldAmb);
-//    glGetMaterialfv(GL_FRONT, GL_DIFFUSE, oldDif);
-//    glGetMaterialfv(GL_FRONT, GL_SPECULAR, oldSpec);
-//    glGetMaterialfv(GL_FRONT, GL_SHININESS, &oldShiny);
-//
-//    glPushMatrix();
-//
-//    //-----------------------------------------------
-//    //  1.  Build the string to display <-- parameter
-//    //-----------------------------------------------
-//    int infoLn = (int) strlen(infoStr);
-//
-//    //-----------------------------------------------
-//    //  2.  Determine the string's length (in pixels)
-//    //-----------------------------------------------
-//    int textWidth = 0;
-//	switch(fontSize)
-//	{
-//		case SMALL_FONT_SIZE:
-//			for (int k=0; k<infoLn; k++)
-//			{
-//				textWidth += glutBitmapWidth(SMALL_DISPLAY_FONT, infoStr[k]);
-//			}
-//			break;
-//		
-//		case MEDIUM_FONT_SIZE:
-//			for (int k=0; k<infoLn; k++)
-//			{
-//				textWidth += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr[k]);
-//			}
-//			break;
-//		
-//		case LARGE_FONT_SIZE:
-//			for (int k=0; k<infoLn; k++)
-//			{
-//				textWidth += glutBitmapWidth(LARGE_DISPLAY_FONT, infoStr[k]);
-//			}
-//			break;
-//			
-//		default:
-//			break;
-//	}
-//		
-//	//  add a few pixels of padding
-//    textWidth += 2*TEXT_PADDING;
-//	
-//    //-----------------------------------------------
-//    //  4.  Draw the string
-//    //-----------------------------------------------    
-//    glColor4fv(TEXT_COLOR);
-//    int x = xPos;
-//	switch(fontSize)
-//	{
-//		case SMALL_FONT_SIZE:
-//			for (int k=0; k<infoLn; k++)
-//			{
-//				glRasterPos2i(x, yPos);
-//				glutBitmapCharacter(SMALL_DISPLAY_FONT, infoStr[k]);
-//				x += glutBitmapWidth(SMALL_DISPLAY_FONT, infoStr[k]);
-//			}
-//			break;
-//		
-//		case MEDIUM_FONT_SIZE:
-//			for (int k=0; k<infoLn; k++)
-//			{
-//				glRasterPos2i(x, yPos);
-//				glutBitmapCharacter(MEDIUM_DISPLAY_FONT, infoStr[k]);
-//				x += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr[k]);
-//			}
-//			break;
-//		
-//		case LARGE_FONT_SIZE:
-//			for (int k=0; k<infoLn; k++)
-//			{
-//				glRasterPos2i(x, yPos);
-//				glutBitmapCharacter(LARGE_DISPLAY_FONT, infoStr[k]);
-//				x += glutBitmapWidth(LARGE_DISPLAY_FONT, infoStr[k]);
-//			}
-//			break;
-//			
-//		default:
-//			break;
-//	}
-//
-//    //-----------------------------------------------
-//    //  5.  Restore old material properties
-//    //-----------------------------------------------
-//	glMaterialfv(GL_FRONT, GL_AMBIENT, oldAmb);
-//	glMaterialfv(GL_FRONT, GL_DIFFUSE, oldDif);
-//	glMaterialfv(GL_FRONT, GL_SPECULAR, oldSpec);
-//	glMaterialf(GL_FRONT, GL_SHININESS, oldShiny);  
-//    
-//    //-----------------------------------------------
-//    //  6.  Restore reference frame
-//    //-----------------------------------------------
-//    glPopMatrix();
-//}
+
+void displayTextualInfo(const char* infoStr, Point pos)
+{
+    //-----------------------------------------------
+    //  0.  get current material properties
+    //-----------------------------------------------
+    float oldAmb[4], oldDif[4], oldSpec[4], oldShiny;
+    glGetMaterialfv(GL_FRONT, GL_AMBIENT, oldAmb);
+    glGetMaterialfv(GL_FRONT, GL_DIFFUSE, oldDif);
+    glGetMaterialfv(GL_FRONT, GL_SPECULAR, oldSpec);
+    glGetMaterialfv(GL_FRONT, GL_SHININESS, &oldShiny);
+
+    glPushMatrix();
+
+    //-----------------------------------------------
+    //  1.  Build the string to display <-- parameter
+    //-----------------------------------------------
+    int infoLn = (int) strlen(infoStr);
+
+    //-----------------------------------------------
+    //  2.  Determine the string's length (in pixels)
+    //-----------------------------------------------
+    int textWidth = 0;
+
+    for (int k=0; k<infoLn; k++)
+    {
+        textWidth += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr[k]);
+    }
+
+
+		
+	//  add a few pixels of padding
+    textWidth += 2*TEXT_PADDING;
+	
+    //-----------------------------------------------
+    //  4.  Draw the string
+    //-----------------------------------------------
+    glColor4fv(TEXT_COLOR);
+    int x = pos.x;
+
+    for (int k=0; k<infoLn; k++)
+    {
+        glRasterPos2i(x, pos.y);
+        glutBitmapCharacter(MEDIUM_DISPLAY_FONT, infoStr[k]);
+        x += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr[k]);
+    }
+
+    //-----------------------------------------------
+    //  5.  Restore old material properties
+    //-----------------------------------------------
+	glMaterialfv(GL_FRONT, GL_AMBIENT, oldAmb);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, oldDif);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, oldSpec);
+	glMaterialf(GL_FRONT, GL_SHININESS, oldShiny);
+    
+    //-----------------------------------------------
+    //  6.  Restore reference frame
+    //-----------------------------------------------
+    glPopMatrix();
+}
 
 
 void applicationInit()
@@ -689,20 +641,35 @@ void applicationInit()
     glEndList();
     velocityModePreview = make_shared<PolyShape>(Point{-7, 8.5}, 0, rlen, rwid, 1.f, 0.f, 0.f, velocityPrevList);
     
-    float arrowLen = 0.5;
-    float arrowWidth = 0.5;
-    static float arrowPoints[7][2] = {{-arrowLen, 0}, {-arrowLen + arrowWidth, arrowWidth / 2}, {-arrowLen + arrowWidth, arrowWidth / 4},
-                                      {arrowLen, arrowWidth / 4}, {arrowLen, -arrowWidth / 4}, {-arrowLen + arrowWidth, -arrowWidth / 4},
-                                      {-arrowLen + arrowWidth, -arrowWidth / 2}};
-    GLuint arrowList = glGenLists(1);
-    glNewList(arrowList, GL_COMPILE);
-    glBegin(GL_POLYGON);
-    for (int i = 0; i < 7; i++) {
-        glVertex2f(arrowPoints[i][0], arrowPoints[i][1]);
+    rlen = 0.5;
+    rwid = 0.5;
+    // two parralel lines - pressing 'a' while this is active pauses animation mode
+    static float pauseIconPnts[4][2] = {{-rlen / 2, -rwid / 2}, {-rlen / 2, rwid / 2}, {rlen / 2, rwid / 2}, {rlen / 2, -rwid / 2}};
+    GLuint pauseIconList = glGenLists(1);
+    glNewList(pauseIconList, GL_COMPILE);
+    glLineWidth(2.0);  // Adjust the line width as needed
+    glBegin(GL_LINES);
+    for (int l = 0; l < 4; l++) {
+        glVertex2f(pauseIconPnts[l][0], pauseIconPnts[l][1]);
     }
     glEnd();
     glEndList();
-    animationModePreview = make_shared<PolyShape>(Point{-5, 8.5}, 0, 1, 1, 1.f, 0.f, 0.f, arrowList);
+    animationModePlayingIcon = make_shared<PolyShape>(Point{-5, 8.5}, 0, 1, 1, 1.f, 0.f, 0.f, pauseIconList);
+    
+    
+    rwid = 5.f;
+    rlen = rwid * sqrt(3.f);
+    static float playIconPnts[3][2] = {{0, rlen / 2.f}, {-rwid, -rlen / 2.f}, {rwid, -rlen / 2.f}};
+    
+    GLuint playIconList = glGenLists(1);
+    glNewList(playIconList, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for (int k=0; k<3; k++) {
+        glVertex2f(playIconPnts[k][0], playIconPnts[k][1]);
+    }
+    glEnd();
+    glEndList();
+    animationModePausedIcon = make_shared<PolyShape>(Point{-5.1, 8.6}, 30, 0.075, 0.075, 1.f, 0.f, 0.f, playIconList);
 }
 
 int main(int argc, char * argv[])
