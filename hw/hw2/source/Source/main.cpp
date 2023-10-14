@@ -72,6 +72,10 @@ const int TEXT_PADDING = 0;
 const float TEXT_COLOR[4] = {1.f, 1.f, 1.f, 1.f};
 const float PARTITION_COLOR[4] = {0.6f, 0.6f, 0.6f, 1.f};
 
+
+const float ANGLE_CHNG_STEP = -0.1; // i set up the angle changing login backwards
+const float SPD_CHNG_STEP = 0.005;
+
 //--------------------------------------
 #if 0
 #pragma mark Global variables
@@ -417,16 +421,16 @@ void myKeyHandler(unsigned char c, int x, int y)
             if ((velocityModeEnabled) & (groupEditIndex > -1)) {
                 if (velocityToChange) {
                     // 1 = change y
-                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() + 0.0001);
+                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() + SPD_CHNG_STEP);
                 } else {
                     // 0 = change x
-                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() + 0.0001);
+                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() + SPD_CHNG_STEP);
                 }
             }
             // these modes are not mutually exclusive, so it's possible to be in velocity & rotation mode at the same time, for example
             // and in such a case pressing +/- will change both settings simultaneously
             if ((rotationModeEnabled) & (groupEditIndex > -1)) {
-                allObjectGroups.at(groupEditIndex)->setSpin(allObjectGroups.at(groupEditIndex)->getSpin() + 0.01);
+                allObjectGroups.at(groupEditIndex)->setSpin(allObjectGroups.at(groupEditIndex)->getSpin() + ANGLE_CHNG_STEP);
             }
             break;
             
@@ -448,14 +452,14 @@ void myKeyHandler(unsigned char c, int x, int y)
             if ((velocityModeEnabled) & (groupEditIndex > -1)) {
                 if (velocityToChange) {
                     // 1 = change y
-                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() - 0.0001);
+                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() - SPD_CHNG_STEP);
                 } else {
                     // 0 = change x
-                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() - 0.0001);
+                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() - SPD_CHNG_STEP);
                 }
             }
             if ((rotationModeEnabled) & (groupEditIndex > -1)) {
-                allObjectGroups.at(groupEditIndex)->setSpin(allObjectGroups.at(groupEditIndex)->getSpin() - 0.01);
+                allObjectGroups.at(groupEditIndex)->setSpin(allObjectGroups.at(groupEditIndex)->getSpin() - ANGLE_CHNG_STEP);
             }
             break;
             

@@ -18,7 +18,8 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, float x, float
     num_(num),
     spin_(0),
     speedX_(0),
-    speedY_(0)
+    speedY_(0),
+    animationEnabled_(true)
 {
     _init_();
 }
@@ -30,7 +31,8 @@ ObjectGroup::ObjectGroup(GroupType type, GroupSize size, int num, Point at):
     num_(num),
     spin_(0),
     speedX_(0),
-    speedY_(0)
+    speedY_(0),
+    animationEnabled_(true)
 {
     _init_();
 }
@@ -88,6 +90,7 @@ void ObjectGroup::draw() const {
 
 
 void ObjectGroup::update(float dt) {
+    dt = 1; // there's a bug when mult by dt where anims speed up over time
     if (animationEnabled_) {
         setX(getX() + speedX_ * dt);
         setY(getY() + speedY_ * dt);
