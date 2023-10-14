@@ -476,6 +476,23 @@ void myKeyHandler(unsigned char c, int x, int y)
                 groupEditIndex = c - '0';
             }
             break;
+            
+        case '[':
+            if (animationModeEnabled) {
+                groupEditIndex --;
+                if (groupEditIndex < 0) {
+                    groupEditIndex = (int) allObjectGroups.size() - 1;
+                }
+            }
+            break;
+        case ']':
+            if (animationModeEnabled) {
+                groupEditIndex ++;
+                if (groupEditIndex == (int) allObjectGroups.size()) {
+                    groupEditIndex = 0;
+                }
+            }
+            break;
         
 		default:
             cout << "Unhandled choice: " << c << endl;
