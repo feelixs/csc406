@@ -97,9 +97,11 @@ shared_ptr<EllipseReticle> creationModeReticle;
 bool velocityModeEnabled = false;
 bool velocityToChange = 0; // 0 means +/- keys will change x, 1 means y
 shared_ptr<PolyShape> velocityModePreview;
+float allSpdX = 0;
+float allSpdY = 0;
 
 bool rotationModeEnabled = false;
-
+float allRotation = 0;
 bool animationModeEnabled = false;
 shared_ptr<PolyShape> animationModePlayingIcon;
 shared_ptr<PolyShape> animationModePausedIcon;
@@ -150,7 +152,7 @@ void myDisplayFunc(void)
 	glPopMatrix();
 
 	//	Display textual info
-    static const char* message = "hello";
+  //  static const char* message = "hello";
   //  displayTextualInfo(message, Point{-9, -9});
 
 
@@ -400,16 +402,19 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (velocityModeEnabled) {
                 if (velocityToChange) {
                     // 1 = change y
-                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() + 0.0001);
+                    allSpdY += 0.0001;
+                    //allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() + 0.0001);
                 } else {
                     // 0 = change x
-                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() + 0.0001);
+                    allSpdX += 0.0001;
+                    //allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() + 0.0001);
                 }
             }
             // these modes are not mutually exclusive, so it's possible to be in velocity & rotation mode at the same time, for example
             // and in such a case pressing +/- will change both settings simultaneously
             if (rotationModeEnabled) {
-                allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() + 0.01);
+                allRotation += 0.01;
+                //allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() + 0.01);
             }
             break;
             
@@ -431,22 +436,26 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (velocityModeEnabled) {
                 if (velocityToChange) {
                     // 1 = change y
-                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() - 0.0001);
+                    allSpdY -= 0.0001;
+                    //allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() - 0.0001);
                 } else {
                     // 0 = change x
-                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() - 0.0001);
+                    allSpdX -= 0.0001;
+                    //allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() - 0.0001);
                 }
             }
             if (rotationModeEnabled) {
-                allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() - 0.01);
+                allRotation -= 0.01;
+                //allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() - 0.01);
             }
             break;
             
         case 'z':
             if (velocityModeEnabled) {
                 // reset velocity of all object groups
-                allObjectGroups.at(groupEditIndex)->setSpeedX(0);
-                allObjectGroups.at(groupEditIndex)->setSpeedY(0);
+                
+                //allObjectGroups.at(groupEditIndex)->setSpeedX(0);
+                //allObjectGroups.at(groupEditIndex)->setSpeedY(0);
             }
             break;
         
@@ -458,9 +467,9 @@ void myKeyHandler(unsigned char c, int x, int y)
         case '7':
         case '8':
         case '9':
-            if (animationModeEnabled) {
-                groupEditIndex = c - '0';  // char of a num minus the key '0' = the number
-            }
+            //if (animationModeEnabled) {
+            //    groupEditIndex = c - '0';  // char of a num minus the key '0' = the number
+            //}
             if (creationModeEnabled) {
                 creationModeNum = c - '0';
             }
@@ -468,9 +477,10 @@ void myKeyHandler(unsigned char c, int x, int y)
         case '0':
         case '1':
         case '2':
-            if (animationModeEnabled) {
-                groupEditIndex = c - '0';
-            }
+            //if (animationModeEnabled) {
+            //    groupEditIndex = c - '0';
+            //}
+            break;
         
             
 		case 'm':
@@ -515,6 +525,8 @@ void myTimerFunc(int value)
         for (auto obj : allObjectGroups)
         {
             if (obj != nullptr) {
+                obj->setSpin(allRotation);
+                obj->setSpeed(allSpdX, allSpdY);
                 obj->update(dt);
             }
         }
