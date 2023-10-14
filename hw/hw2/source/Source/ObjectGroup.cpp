@@ -58,7 +58,6 @@ void ObjectGroup::_init_() {
         rotateBy = 360/num_; // for example: six heads would be 360d/6 = 60d
     } else {
         rotateBy = 0;
-        std::cout << "An invalid GroupType was used when creating an ObjectGroup!" << std::endl;
     }
     
     for (int i = 0; i < num_; i++) {
