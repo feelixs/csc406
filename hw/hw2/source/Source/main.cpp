@@ -43,7 +43,7 @@ enum FirstSubmenuItemID {	FIRST_SUBMENU_ITEM = 11,
 #pragma mark Function prototypes
 #endif
 //--------------------------------------
-void displayTextualInfo(const char* infoStr, Point pos);
+void displayTextualInfo(string infoStr, Point pos);
 void myDisplayFunc(void);
 void myResizeFunc(int w, int h);
 void myMouseHandler(int b, int s, int x, int y);
@@ -72,6 +72,10 @@ const int TEXT_PADDING = 0;
 const float TEXT_COLOR[4] = {1.f, 1.f, 1.f, 1.f};
 const float PARTITION_COLOR[4] = {0.6f, 0.6f, 0.6f, 1.f};
 
+
+const float ANGLE_CHNG_STEP = -0.1; // i set up the angle changing login backwards
+const float SPD_CHNG_STEP = 0.005;
+
 //--------------------------------------
 #if 0
 #pragma mark Global variables
@@ -80,10 +84,6 @@ const float PARTITION_COLOR[4] = {0.6f, 0.6f, 0.6f, 1.f};
 
 int winWidth = 800,
     winHeight = 800;
-bool trackMousePointer = false;
-bool trackEntry = false;
-bool displayText = false;
-string stringLine = "";
 
 vector<shared_ptr<ObjectGroup>> allObjectGroups;
 
@@ -104,7 +104,7 @@ bool animationModeEnabled = false;
 shared_ptr<PolyShape> animationModePlayingIcon;
 shared_ptr<PolyShape> animationModePausedIcon;
 
-int groupEditIndex = 0; // represents the groupobject thats currently selected by the user
+int groupEditIndex = -1; // represents the groupobject thats currently selected by the user
 
 //--------------------------------------
 #if 0
@@ -150,8 +150,9 @@ void myDisplayFunc(void)
 	glPopMatrix();
 
 	//	Display textual info
-    static const char* message = "hello";
-  //  displayTextualInfo(message, Point{-9, -9});
+    if (groupEditIndex > -1) {
+        displayTextualInfo(to_string(groupEditIndex), Point{-9, -9});
+    }
 
 
 	//	We were drawing into the back buffer, now it should be brought
@@ -265,10 +266,7 @@ void myMouseHandler(int button, int state, int ix, int iy)
 
 void myMouseMotionHandler(int ix, int iy)
 {
-	if (trackMousePointer)
-	{
-		cout << "Active mouse at (" << ix << ", " << iy << ")" << endl;
-	}
+	// track active mouse motion
 }
 void myMousePassiveMotionHandler(int ix, int iy)
 {
@@ -278,17 +276,7 @@ void myMousePassiveMotionHandler(int ix, int iy)
 }
 void myEntryHandler(int state)
 {
-	if (trackEntry)
-	{
-		if (state == GLUT_ENTERED)
-		{
-			cout << "===> Pointer entered" << endl;
-		}
-		else	// GLUT_LEFT
-		{
-			cout << "<=== Pointer exited" << endl;
-		}
-	}
+	// track when mouse enters/leaves
 }
 
 
@@ -302,7 +290,20 @@ void myKeyHandler(unsigned char c, int x, int y)
 		case 27:
 			exit(0);
 			break;
+        
+        case '\\':
+            // '\' key resets all modes
+            creationModeEnabled = false;
+            velocityModeEnabled = false;
+            rotationModeEnabled = false;
+            animationModeEnabled = false;
+            groupEditIndex = -1;
             
+            creationModePreview->setColor(1.f, 0.f, 0.f);
+            velocityModePreview->setColor(1.f, 0.f, 0.f);
+            velocityModePreview->setSpin(0);
+            velocityModePreview->setAngle(0);
+            break;
         case 'c':
             // toggle creation mode
             cout << "c pressed\n";
@@ -362,8 +363,7 @@ void myKeyHandler(unsigned char c, int x, int y)
                 cout << "disabled rotation\n";
                 rotationModeEnabled = false;
                 velocityModePreview->setSpin(0);
-                if (velocityModePreview->getAngle() > 0)
-                    velocityModePreview->setAngle(0);
+                velocityModePreview->setAngle(0);
             } else {
                 cout << "enabled rotation\n";
                 rotationModeEnabled = true;
@@ -380,11 +380,15 @@ void myKeyHandler(unsigned char c, int x, int y)
                 animationModeEnabled = true;
             }
             break;
+        case ' ':
+            if ((animationModeEnabled) & (groupEditIndex > -1)) {
+                allObjectGroups.at(groupEditIndex)->togglePlay();
+            }
+            break;
             
         case '=':
         case '+':
             // +, =, are mapped to the same key
-            
             if (creationModeEnabled) {
                 if (creationModeSize == SMALL) { // there are only 3 possible sizes
                     creationModeSize = MEDIUM;
@@ -397,19 +401,19 @@ void myKeyHandler(unsigned char c, int x, int y)
                     creationModeSize = SMALL;
                 }
             }
-            if (velocityModeEnabled) {
+            if ((velocityModeEnabled) & (groupEditIndex > -1)) {
                 if (velocityToChange) {
                     // 1 = change y
-                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() + 0.0001);
+                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() + SPD_CHNG_STEP);
                 } else {
                     // 0 = change x
-                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() + 0.0001);
+                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() + SPD_CHNG_STEP);
                 }
             }
             // these modes are not mutually exclusive, so it's possible to be in velocity & rotation mode at the same time, for example
             // and in such a case pressing +/- will change both settings simultaneously
-            if (rotationModeEnabled) {
-                allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() + 0.01);
+            if ((rotationModeEnabled) & (groupEditIndex > -1)) {
+                allObjectGroups.at(groupEditIndex)->setSpin(allObjectGroups.at(groupEditIndex)->getSpin() + ANGLE_CHNG_STEP);
             }
             break;
             
@@ -428,22 +432,22 @@ void myKeyHandler(unsigned char c, int x, int y)
                     cout << "=\n";
                 }
             }
-            if (velocityModeEnabled) {
+            if ((velocityModeEnabled) & (groupEditIndex > -1)) {
                 if (velocityToChange) {
                     // 1 = change y
-                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() - 0.0001);
+                    allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() - SPD_CHNG_STEP);
                 } else {
                     // 0 = change x
-                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() - 0.0001);
+                    allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() - SPD_CHNG_STEP);
                 }
             }
-            if (rotationModeEnabled) {
-                allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() - 0.01);
+            if ((rotationModeEnabled) & (groupEditIndex > -1)) {
+                allObjectGroups.at(groupEditIndex)->setSpin(allObjectGroups.at(groupEditIndex)->getSpin() - ANGLE_CHNG_STEP);
             }
             break;
             
         case 'z':
-            if (velocityModeEnabled) {
+            if ((velocityModeEnabled) & (groupEditIndex > -1)) {
                 // reset velocity of all object groups
                 allObjectGroups.at(groupEditIndex)->setSpeedX(0);
                 allObjectGroups.at(groupEditIndex)->setSpeedY(0);
@@ -471,26 +475,10 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (animationModeEnabled) {
                 groupEditIndex = c - '0';
             }
+            break;
         
-            
-		case 'm':
-			trackMousePointer = !trackMousePointer;
-			break;
-			
-		case 'e':
-			trackEntry = !trackEntry;
-			break;
-			
-		case 'i':
-			cout << "Enter a new line of text: ";
-			cin >> stringLine;
-			break;
-			
-		case 't':
-			displayText = !displayText;
-			
 		default:
-            cout << c << endl;
+            cout << "Unhandled choice: " << c << endl;
 			break;
 	}
 }
@@ -510,10 +498,20 @@ void myTimerFunc(int value)
 
 	//	 do something (e.g. update the state of some objects)
 	
-    if (animationModeEnabled) {
-        // only update the objectgroups if animation mode is on
-        for (auto obj : allObjectGroups)
-        {
+    
+        
+    for (int i = 0; i < allObjectGroups.size(); i++)
+    {
+        auto obj = allObjectGroups.at(i);
+        
+        // display the currently selected object
+        if (i == groupEditIndex) {
+            obj->setColor(0.f, 1.f, 0.f);
+        } else {
+            obj->setColor(0.f, 1.f, 1.f);
+        }
+        if (animationModeEnabled) {
+            // only update the obj position if animation mode is on
             if (obj != nullptr) {
                 obj->update(dt);
             }
@@ -540,7 +538,7 @@ void myTimerFunc(int value)
 //--------------------------------------
 
 
-void displayTextualInfo(const char* infoStr, Point pos)
+void displayTextualInfo(string infoStr, Point pos)
 {
     //-----------------------------------------------
     //  0.  get current material properties
@@ -556,7 +554,7 @@ void displayTextualInfo(const char* infoStr, Point pos)
     //-----------------------------------------------
     //  1.  Build the string to display <-- parameter
     //-----------------------------------------------
-    int infoLn = (int) strlen(infoStr);
+    int infoLn = infoStr.size();
 
     //-----------------------------------------------
     //  2.  Determine the string's length (in pixels)
@@ -565,7 +563,7 @@ void displayTextualInfo(const char* infoStr, Point pos)
 
     for (int k=0; k<infoLn; k++)
     {
-        textWidth += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr[k]);
+        textWidth += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr.at(k));
     }
 
 
@@ -582,8 +580,8 @@ void displayTextualInfo(const char* infoStr, Point pos)
     for (int k=0; k<infoLn; k++)
     {
         glRasterPos2i(x, pos.y);
-        glutBitmapCharacter(MEDIUM_DISPLAY_FONT, infoStr[k]);
-        x += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr[k]);
+        glutBitmapCharacter(MEDIUM_DISPLAY_FONT, infoStr.at(k));
+        x += glutBitmapWidth(MEDIUM_DISPLAY_FONT, infoStr.at(k));
     }
 
     //-----------------------------------------------
