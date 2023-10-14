@@ -83,7 +83,6 @@ const float SPD_CHNG_STEP = 1;
 #endif
 //--------------------------------------
 
-time_t startTime = -1;
 int winWidth = 800,
     winHeight = 800;
 
@@ -670,8 +669,6 @@ void applicationInit()
     glEnd();
     glEndList();
     animationModePausedIcon = make_shared<PolyShape>(Point{-5.1, 8.6}, 30, 0.075, 0.075, 1.f, 0.f, 0.f, playIconList);
-    
-    startTime = time(nullptr);
 }
 
 int main(int argc, char * argv[])
