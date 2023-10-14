@@ -1,6 +1,6 @@
 //
 //  Animal.cpp
-//  csc406-hw1
+//  hw2
 //
 //  Created by Michael Felix on 9/20/23.
 //
