@@ -69,6 +69,5 @@ void PolyShape::draw() const
 }
 
 void PolyShape::update(float dt) {
-    //setAngle(getAngle() + spin_ * dt);
-    setAngle(getAngle() + spin_);  // there's a bug when mult by dt where anims speed up over time
+    setAngle(getAngle() + spin_ * dt);
 }

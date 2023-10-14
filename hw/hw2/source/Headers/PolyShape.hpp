@@ -8,6 +8,7 @@
 #ifndef PolyShape_hpp
 #define PolyShape_hpp
 
+#include "World.h"
 #include <stdio.h>
 #include "glPlatform.h"
 #include "GraphicObject.h"
