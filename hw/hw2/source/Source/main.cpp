@@ -393,11 +393,15 @@ void myKeyHandler(unsigned char c, int x, int y)
                 animationModeEnabled = true;
             }
             break;
+        case ' ':
+            if ((animationModeEnabled) & (groupEditIndex > -1)) {
+                allObjectGroups.at(groupEditIndex)->togglePlay();
+            }
+            break;
             
         case '=':
         case '+':
             // +, =, are mapped to the same key
-            
             if (creationModeEnabled) {
                 if (creationModeSize == SMALL) { // there are only 3 possible sizes
                     creationModeSize = MEDIUM;
@@ -422,7 +426,7 @@ void myKeyHandler(unsigned char c, int x, int y)
             // these modes are not mutually exclusive, so it's possible to be in velocity & rotation mode at the same time, for example
             // and in such a case pressing +/- will change both settings simultaneously
             if ((rotationModeEnabled) & (groupEditIndex > -1)) {
-                allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() + 0.01);
+                allObjectGroups.at(groupEditIndex)->setSpin(allObjectGroups.at(groupEditIndex)->getSpin() + 0.01);
             }
             break;
             
@@ -451,7 +455,7 @@ void myKeyHandler(unsigned char c, int x, int y)
                 }
             }
             if ((rotationModeEnabled) & (groupEditIndex > -1)) {
-                allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() - 0.01);
+                allObjectGroups.at(groupEditIndex)->setSpin(allObjectGroups.at(groupEditIndex)->getSpin() - 0.01);
             }
             break;
             

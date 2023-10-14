@@ -88,15 +88,26 @@ void ObjectGroup::draw() const {
 
 
 void ObjectGroup::update(float dt) {
-    setX(getX() + speedX_ * dt);
-    setY(getY() + speedY_ * dt);
-    for (int i = 0; i < num_; i++) {
-        if (speedX_ != 0.f)
-            groupHeads_.at(i)->setX(groupHeads_.at(i)->getX() + speedX_ * dt);
-        if (speedY_ != 0.f)
-            groupHeads_.at(i)->setY(groupHeads_.at(i)->getY() + speedY_ * dt);
-        if (spin_ != 0.f)
-            groupHeads_.at(i)->setAngle(groupHeads_.at(i)->getAngle() + spin_ * dt);
-        groupHeads_.at(i)->update(dt);
+    if (animationEnabled_) {
+        setX(getX() + speedX_ * dt);
+        setY(getY() + speedY_ * dt);
+        for (auto a : groupHeads_) {
+            if (speedX_ != 0.f)
+                a->setX(a->getX() + speedX_ * dt);
+            if (speedY_ != 0.f)
+                a->setY(a->getY() + speedY_ * dt);
+            if (spin_ != 0.f)
+                a->setAngle(a->getAngle() + spin_ * dt);
+            a->update(dt);
+        }
+    }
+}
+
+
+void ObjectGroup::togglePlay() {
+    if (animationEnabled_) {
+        animationEnabled_ = false;
+    } else {
+        animationEnabled_ = true;
     }
 }

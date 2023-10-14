@@ -30,6 +30,8 @@ private:
     float speedX_, speedY_; // pixels per second
     float spin_; // degrees per second
     
+    bool animationEnabled_; // keep track of if the main program has paused this object's animation
+    
     static float** headPoints_;
     std::vector<std::shared_ptr<Animal>> groupHeads_;
 
@@ -66,6 +68,14 @@ public:
     inline float getSpin() {
         return spin_;
     }
+    
+    inline void pause() {
+        animationEnabled_ = false;
+    }
+    inline void play() {
+        animationEnabled_ = true;
+    }
+    void togglePlay();
     
     //disabled constructors & operators
     ObjectGroup() = delete;
