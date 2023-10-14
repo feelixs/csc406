@@ -471,6 +471,7 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (animationModeEnabled) {
                 groupEditIndex = c - '0';
             }
+            break;
         
             
 		case 'm':
