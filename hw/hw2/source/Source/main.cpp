@@ -694,7 +694,7 @@ int main(int argc, char * argv[])
 
 	glutInitWindowSize(winWidth, winHeight);
 	glutInitWindowPosition(INIT_WIN_X, INIT_WIN_Y);
-	glutCreateWindow("demo CSC406");
+	glutCreateWindow("MMH HW2 Version3");
 	
 	//	set up the callbacks
 	glutDisplayFunc(myDisplayFunc);
