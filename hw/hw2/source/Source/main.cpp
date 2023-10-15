@@ -70,7 +70,6 @@ const float Y_MIN = -10.f, Y_MAX = +10.f;
 #define LARGE_DISPLAY_FONT    GLUT_BITMAP_HELVETICA_18
 const int TEXT_PADDING = 0;
 const float TEXT_COLOR[4] = {1.f, 1.f, 1.f, 1.f};
-const float PARTITION_COLOR[4] = {0.6f, 0.6f, 0.6f, 1.f};
 
 
 const float ANGLE_CHNG_STEP = -10; // i set up the angle changing login backwards
@@ -695,7 +694,7 @@ int main(int argc, char * argv[])
 
 	glutInitWindowSize(winWidth, winHeight);
 	glutInitWindowPosition(INIT_WIN_X, INIT_WIN_Y);
-	glutCreateWindow("demo CSC406");
+	glutCreateWindow("MMH HW2 Version3");
 	
 	//	set up the callbacks
 	glutDisplayFunc(myDisplayFunc);
