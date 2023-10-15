@@ -106,7 +106,6 @@ bool animationModeEnabled = false;
 shared_ptr<PolyShape> animationModePlayingIcon;
 shared_ptr<PolyShape> animationModePausedIcon;
 
-int groupEditIndex = 0; // represents the groupobject thats currently selected by the user
 
 //--------------------------------------
 #if 0
@@ -369,7 +368,7 @@ void myKeyHandler(unsigned char c, int x, int y)
             } else {
                 cout << "enabled rotation\n";
                 rotationModeEnabled = true;
-                velocityModePreview->setSpin(0.5);
+                velocityModePreview->setSpin(-50);
             }
             break;
         case 'a':
@@ -402,19 +401,16 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (velocityModeEnabled) {
                 if (velocityToChange) {
                     // 1 = change y
-                    allSpdY += 0.0001;
-                    //allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() + 0.0001);
+                    allSpdY += 1;
                 } else {
                     // 0 = change x
-                    allSpdX += 0.0001;
-                    //allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() + 0.0001);
+                    allSpdX += 1;
                 }
             }
             // these modes are not mutually exclusive, so it's possible to be in velocity & rotation mode at the same time, for example
             // and in such a case pressing +/- will change both settings simultaneously
             if (rotationModeEnabled) {
-                allRotation += 0.01;
-                //allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() + 0.01);
+                allRotation -= 5;
             }
             break;
             
@@ -436,26 +432,22 @@ void myKeyHandler(unsigned char c, int x, int y)
             if (velocityModeEnabled) {
                 if (velocityToChange) {
                     // 1 = change y
-                    allSpdY -= 0.0001;
-                    //allObjectGroups.at(groupEditIndex)->setSpeedY(allObjectGroups.at(groupEditIndex)->getSpeedY() - 0.0001);
+                    allSpdY -= 1;
                 } else {
                     // 0 = change x
-                    allSpdX -= 0.0001;
-                    //allObjectGroups.at(groupEditIndex)->setSpeedX(allObjectGroups.at(groupEditIndex)->getSpeedX() - 0.0001);
+                    allSpdX -= 1;
                 }
             }
             if (rotationModeEnabled) {
-                allRotation -= 0.01;
-                //allObjectGroups.at(groupEditIndex)->setAngle(allObjectGroups.at(groupEditIndex)->getAngle() - 0.01);
+                allRotation += 5;
             }
             break;
             
         case 'z':
             if (velocityModeEnabled) {
                 // reset velocity of all object groups
-                
-                //allObjectGroups.at(groupEditIndex)->setSpeedX(0);
-                //allObjectGroups.at(groupEditIndex)->setSpeedY(0);
+                allSpdX = 0;
+                allSpdY = 0;
             }
             break;
         
@@ -467,9 +459,6 @@ void myKeyHandler(unsigned char c, int x, int y)
         case '7':
         case '8':
         case '9':
-            //if (animationModeEnabled) {
-            //    groupEditIndex = c - '0';  // char of a num minus the key '0' = the number
-            //}
             if (creationModeEnabled) {
                 creationModeNum = c - '0';
             }
@@ -477,9 +466,6 @@ void myKeyHandler(unsigned char c, int x, int y)
         case '0':
         case '1':
         case '2':
-            //if (animationModeEnabled) {
-            //    groupEditIndex = c - '0';
-            //}
             break;
         
             
@@ -536,6 +522,7 @@ void myTimerFunc(int value)
     creationModePreview->update(dt);
     velocityModePreview->update(dt);
     
+    lastTime = currentTime;
     
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)
