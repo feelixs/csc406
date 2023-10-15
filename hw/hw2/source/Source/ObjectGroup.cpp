@@ -119,7 +119,9 @@ void ObjectGroup::update(float dt) {
 void ObjectGroup::togglePlay() {
     if (animationEnabled_) {
         animationEnabled_ = false;
+        std::cout << "paused this object's anims\n";
     } else {
         animationEnabled_ = true;
+        std::cout << "resumed this object's anims\n";
     }
 }
