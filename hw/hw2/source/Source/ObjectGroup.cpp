@@ -90,9 +90,20 @@ void ObjectGroup::draw() const {
 
 void ObjectGroup::update(float dt) {
     if (animationEnabled_) {
+        // these aren't really needed as we never access the objectgroup's vars directly
         setX(getX() + speedX_ * dt);
         setY(getY() + speedY_ * dt);
+        setAngle(getAngle() + spin_ * dt);
+        
+        // this is where we actually update the animations
         for (auto a : groupHeads_) {
+            if (a->getX() >= 10.f) {
+                a->setX(-10.f);
+            }
+            if (a->getY() >= 10.f) {
+                a->setY(-10.f);
+            }
+            
             if (speedX_ != 0.f)
                 a->setX(a->getX() + speedX_ * dt);
             if (speedY_ != 0.f)
