@@ -133,3 +133,12 @@ bool initEllipseFunc()
 #endif
     return true;
 }
+
+
+bool Ellipse::isInside(float x, float y) {
+    // only works for perfect circles
+    float dx = x - getX();
+    float dy = y - getY();
+    float r = getRadiusX();
+    return dx*dx + dy*dy < r * r;
+}
