@@ -19,10 +19,10 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float width, float
 {
 }
 
-Asteroid::Asteroid(const WorldPoint& pt, float angle, float width, float height, const WorldPoint& velPt)
+Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, float height, const Velocity& vel)
     :    Object(pt, angle),
         GraphicObject(pt, angle),
-        AnimatedObject(pt.x, pt.y, angle, velPt.x, velPt.y, 0.f),
+        AnimatedObject(pt.x, pt.y, angle, vel.vx, vel.vy, spin),
         //
         scaleX_(width),
         scaleY_(height)
