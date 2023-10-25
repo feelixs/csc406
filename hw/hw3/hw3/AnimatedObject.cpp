@@ -70,10 +70,10 @@ void AnimatedObject::update(float dt)
 					setX(getX() - World::WIDTH);
 			if (getY() < World::Y_MIN || getY() > World::Y_MAX){
 				if (getY() < World::Y_MIN)
-					setY(World::Y_MIN);
+					setY(-World::Y_MIN);
 				else
-					setY(World::Y_MAX);
-				vy_ = -vy_;
+					setY(-World::Y_MAX);
+				//vy_ = -vy_;
 			}
 			break;
 				

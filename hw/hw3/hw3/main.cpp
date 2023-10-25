@@ -779,7 +779,7 @@ void applicationInit()
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 
-    shared_ptr<Asteroid> face = make_shared<Asteroid>(0.f, 0.f, 0.f, 1.f, 1.f, 5.f, 5.f);
+    shared_ptr<Asteroid> face = make_shared<Asteroid>(0.f, 0.f, 0.f, 1.f, 1.f, -5.f, 5.f);
     //    and add it to both lists
     objectList.push_back(face);
     animatedObjectList.push_back(face);
