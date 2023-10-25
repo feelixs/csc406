@@ -47,6 +47,7 @@
 #include "SmilingFace.h"
 #include "AnimatedEllipse.h"
 #include "AnimatedRectangle.h"
+#include "Spaceship.hpp"
 
 using namespace std;
 using namespace earshooter;
@@ -761,7 +762,10 @@ void applicationInit()
         objectList.push_back(new_ast);
         animatedObjectList.push_back(new_ast);
     }
-	
+    
+    shared_ptr<Spaceship> player = make_shared<Spaceship>(0.f, 0.f);
+    
+    objectList.push_back(player);
     
 	//	time really starts now
 	startTime = time(nullptr);
