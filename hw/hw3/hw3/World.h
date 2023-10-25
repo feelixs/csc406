@@ -4,6 +4,8 @@
 #include <random>
 #include <cmath>
 #include "commonTypes.h"
+#include "glPlatform.h"
+
 
 namespace earshooter {
 
