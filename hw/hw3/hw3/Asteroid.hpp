@@ -9,7 +9,6 @@
 #define Asteroid_hpp
 
 #include <stdio.h>
-
 #include "GraphicObject.h"
 #include "AnimatedObject.h"
 

@@ -7,13 +7,11 @@
 
 #include "Asteroid.hpp"
 
-using namespace earshooter;
 
 Asteroid::Asteroid(float centerX, float centerY, float angle, float width, float height, float vx, float vy)
     :    Object(centerX, centerY, angle),
         GraphicObject(centerX, centerY, angle),
         AnimatedObject(centerX, centerY, angle, vx, vy, 0.f),
-        //
         scaleX_(width),
         scaleY_(height)
 {
@@ -43,7 +41,7 @@ void Asteroid::draw() const
     //    apply the radius as a scale
     glScalef(scaleX_, scaleY_, 1.f);
     
-//    glColor3f(red_, green_, blue_);
+    glColor3f(1.f, 1.f, 1.f);
     glBegin(GL_POLYGON);
         glVertex2f(-0.5f, -0.5f);
         glVertex2f(+0.5f, -0.5f);
