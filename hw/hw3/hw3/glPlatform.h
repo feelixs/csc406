@@ -1,13 +1,13 @@
 /*----------------------------------------------------------------------------------+
- |                                                                                    |
- |    A Simple global header to check the development platform and load the proper    |
- |    OpenGL, glu, and glut headers.                                                    |
- |    Supports macOS, Windows, Linux,                                                    |
- |                                                                                    |
- |    Author:        Jean-Yves Hervé,    University of Rhode Island                        |
- |                                    Dept. of Com[puter Science and Statistics        |
- |                                    3D Group for Interactive Visualization            |
- |    Fall 2013, modified Fall 2022                                                    |
+ |																					|
+ |	A Simple global header to check the development platform and load the proper	|
+ |	OpenGL, glu, and glut headers.													|
+ |	Supports macOS, Windows, Linux,													|
+ |																					|
+ |	Author:		Jean-Yves Hervé,	University of Rhode Island						|
+ |									Dept. of Com[puter Science and Statistics		|
+ |									3D Group for Interactive Visualization			|
+ |	Fall 2013, modified Fall 2022													|
  +---------------------------------------------------------------------------------*/
 #ifndef GL_PLATFORM_H
 #define GL_PLATFORM_H
@@ -21,9 +21,9 @@
 #if (defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW32__) || (defined( __MWERKS__) && __INTEL__))
     //  Visual
     #if defined(_MSC_VER)
-        #include <Windows.h>
+		#include <Windows.h>
         #include <GL\gl.h>
-        #include <GL\glut.h>
+		#include <GL\glut.h>
     //  gcc-based compiler
     #elif defined(__CYGWIN__) || defined(__MINGW32__)
         #include <GL/gl.h>
@@ -38,14 +38,14 @@
 
 //  macOS
 #else
-    #if 1
-        //    Here ask Xcode/clang++ to suppress "deprecated" warnings
-        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-        #include <GLUT/GLUT.h>
-    #else
-        #include <GL/freeglut.h>
-        #include <GL/gl.h>
-    #endif
+	#if 1
+		//	Here ask Xcode/clang++ to suppress "deprecated" warnings
+		#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+		#include <GLUT/GLUT.h>
+	#else
+		#include <GL/freeglut.h>
+		#include <GL/gl.h>
+	#endif
 #endif
 
-#endif    //    GL_PLATFORM_H
+#endif	//	GL_PLATFORM_H
