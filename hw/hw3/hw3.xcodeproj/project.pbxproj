@@ -7,7 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AAC32B792AE00FF400CB5A41 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAC32B782AE00FF400CB5A41 /* main.cpp */; };
+		AA2D238B2AE9444B00FE4A11 /* AnimatedEllipse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23712AE9444B00FE4A11 /* AnimatedEllipse.cpp */; };
+		AA2D238C2AE9444B00FE4A11 /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23732AE9444B00FE4A11 /* Object.cpp */; };
+		AA2D238D2AE9444B00FE4A11 /* GraphicObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23762AE9444B00FE4A11 /* GraphicObject.cpp */; };
+		AA2D238E2AE9444B00FE4A11 /* AnimatedObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23772AE9444B00FE4A11 /* AnimatedObject.cpp */; };
+		AA2D238F2AE9444B00FE4A11 /* Face.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D237F2AE9444B00FE4A11 /* Face.cpp */; };
+		AA2D23902AE9444B00FE4A11 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23802AE9444B00FE4A11 /* main.cpp */; };
+		AA2D23912AE9444B00FE4A11 /* SmilingFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23812AE9444B00FE4A11 /* SmilingFace.cpp */; };
+		AA2D23922AE9444B00FE4A11 /* Ellipse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23822AE9444B00FE4A11 /* Ellipse.cpp */; };
+		AA2D23932AE9444B00FE4A11 /* BoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23832AE9444B00FE4A11 /* BoundingBox.cpp */; };
+		AA2D23942AE9444B00FE4A11 /* Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23842AE9444B00FE4A11 /* Rectangle.cpp */; };
+		AA2D23952AE9444B00FE4A11 /* ComplexGraphicObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23882AE9444B00FE4A11 /* ComplexGraphicObject.cpp */; };
+		AA2D23962AE9444B00FE4A11 /* AnimatedRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23892AE9444B00FE4A11 /* AnimatedRectangle.cpp */; };
+		AA2D23972AE9444B00FE4A11 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D238A2AE9444B00FE4A11 /* World.cpp */; };
 		AAC32B812AE010B600CB5A41 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC32B802AE010B600CB5A41 /* GLUT.framework */; };
 		AAC32B832AE010BD00CB5A41 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC32B822AE010BD00CB5A41 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
@@ -25,11 +37,36 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA2D23702AE9444B00FE4A11 /* Ellipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ellipse.h; sourceTree = "<group>"; };
+		AA2D23712AE9444B00FE4A11 /* AnimatedEllipse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimatedEllipse.cpp; sourceTree = "<group>"; };
+		AA2D23722AE9444B00FE4A11 /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
+		AA2D23732AE9444B00FE4A11 /* Object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Object.cpp; sourceTree = "<group>"; };
+		AA2D23742AE9444B00FE4A11 /* ComplexGraphicObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComplexGraphicObject.h; sourceTree = "<group>"; };
+		AA2D23752AE9444B00FE4A11 /* SmilingFace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmilingFace.h; sourceTree = "<group>"; };
+		AA2D23762AE9444B00FE4A11 /* GraphicObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicObject.cpp; sourceTree = "<group>"; };
+		AA2D23772AE9444B00FE4A11 /* AnimatedObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimatedObject.cpp; sourceTree = "<group>"; };
+		AA2D23782AE9444B00FE4A11 /* GraphicObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicObject.h; sourceTree = "<group>"; };
+		AA2D23792AE9444B00FE4A11 /* AnimatedRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedRectangle.h; sourceTree = "<group>"; };
+		AA2D237A2AE9444B00FE4A11 /* commonTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commonTypes.h; sourceTree = "<group>"; };
+		AA2D237B2AE9444B00FE4A11 /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
+		AA2D237C2AE9444B00FE4A11 /* AnimatedEllipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedEllipse.h; sourceTree = "<group>"; };
+		AA2D237D2AE9444B00FE4A11 /* BoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBox.h; sourceTree = "<group>"; };
+		AA2D237E2AE9444B00FE4A11 /* AnimatedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedObject.h; sourceTree = "<group>"; };
+		AA2D237F2AE9444B00FE4A11 /* Face.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Face.cpp; sourceTree = "<group>"; };
+		AA2D23802AE9444B00FE4A11 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		AA2D23812AE9444B00FE4A11 /* SmilingFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmilingFace.cpp; sourceTree = "<group>"; };
+		AA2D23822AE9444B00FE4A11 /* Ellipse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ellipse.cpp; sourceTree = "<group>"; };
+		AA2D23832AE9444B00FE4A11 /* BoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoundingBox.cpp; sourceTree = "<group>"; };
+		AA2D23842AE9444B00FE4A11 /* Rectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rectangle.cpp; sourceTree = "<group>"; };
+		AA2D23852AE9444B00FE4A11 /* World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = World.h; sourceTree = "<group>"; };
+		AA2D23862AE9444B00FE4A11 /* glPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glPlatform.h; sourceTree = "<group>"; };
+		AA2D23872AE9444B00FE4A11 /* Face.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Face.h; sourceTree = "<group>"; };
+		AA2D23882AE9444B00FE4A11 /* ComplexGraphicObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComplexGraphicObject.cpp; sourceTree = "<group>"; };
+		AA2D23892AE9444B00FE4A11 /* AnimatedRectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimatedRectangle.cpp; sourceTree = "<group>"; };
+		AA2D238A2AE9444B00FE4A11 /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
 		AAC32B752AE00FF400CB5A41 /* hw3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hw3; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAC32B782AE00FF400CB5A41 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AAC32B802AE010B600CB5A41 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		AAC32B822AE010BD00CB5A41 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		AAC32B842AE010FD00CB5A41 /* glPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glPlatform.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,8 +102,33 @@
 		AAC32B772AE00FF400CB5A41 /* hw3 */ = {
 			isa = PBXGroup;
 			children = (
-				AAC32B782AE00FF400CB5A41 /* main.cpp */,
-				AAC32B842AE010FD00CB5A41 /* glPlatform.h */,
+				AA2D23712AE9444B00FE4A11 /* AnimatedEllipse.cpp */,
+				AA2D237C2AE9444B00FE4A11 /* AnimatedEllipse.h */,
+				AA2D23772AE9444B00FE4A11 /* AnimatedObject.cpp */,
+				AA2D237E2AE9444B00FE4A11 /* AnimatedObject.h */,
+				AA2D23892AE9444B00FE4A11 /* AnimatedRectangle.cpp */,
+				AA2D23792AE9444B00FE4A11 /* AnimatedRectangle.h */,
+				AA2D23832AE9444B00FE4A11 /* BoundingBox.cpp */,
+				AA2D237D2AE9444B00FE4A11 /* BoundingBox.h */,
+				AA2D237A2AE9444B00FE4A11 /* commonTypes.h */,
+				AA2D23882AE9444B00FE4A11 /* ComplexGraphicObject.cpp */,
+				AA2D23742AE9444B00FE4A11 /* ComplexGraphicObject.h */,
+				AA2D23822AE9444B00FE4A11 /* Ellipse.cpp */,
+				AA2D23702AE9444B00FE4A11 /* Ellipse.h */,
+				AA2D237F2AE9444B00FE4A11 /* Face.cpp */,
+				AA2D23872AE9444B00FE4A11 /* Face.h */,
+				AA2D23862AE9444B00FE4A11 /* glPlatform.h */,
+				AA2D23762AE9444B00FE4A11 /* GraphicObject.cpp */,
+				AA2D23782AE9444B00FE4A11 /* GraphicObject.h */,
+				AA2D23802AE9444B00FE4A11 /* main.cpp */,
+				AA2D23732AE9444B00FE4A11 /* Object.cpp */,
+				AA2D237B2AE9444B00FE4A11 /* Object.h */,
+				AA2D23842AE9444B00FE4A11 /* Rectangle.cpp */,
+				AA2D23722AE9444B00FE4A11 /* Rectangle.h */,
+				AA2D23812AE9444B00FE4A11 /* SmilingFace.cpp */,
+				AA2D23752AE9444B00FE4A11 /* SmilingFace.h */,
+				AA2D238A2AE9444B00FE4A11 /* World.cpp */,
+				AA2D23852AE9444B00FE4A11 /* World.h */,
 			);
 			path = hw3;
 			sourceTree = "<group>";
@@ -137,7 +199,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAC32B792AE00FF400CB5A41 /* main.cpp in Sources */,
+				AA2D23912AE9444B00FE4A11 /* SmilingFace.cpp in Sources */,
+				AA2D238C2AE9444B00FE4A11 /* Object.cpp in Sources */,
+				AA2D23922AE9444B00FE4A11 /* Ellipse.cpp in Sources */,
+				AA2D23972AE9444B00FE4A11 /* World.cpp in Sources */,
+				AA2D23952AE9444B00FE4A11 /* ComplexGraphicObject.cpp in Sources */,
+				AA2D23942AE9444B00FE4A11 /* Rectangle.cpp in Sources */,
+				AA2D23932AE9444B00FE4A11 /* BoundingBox.cpp in Sources */,
+				AA2D23962AE9444B00FE4A11 /* AnimatedRectangle.cpp in Sources */,
+				AA2D238E2AE9444B00FE4A11 /* AnimatedObject.cpp in Sources */,
+				AA2D23902AE9444B00FE4A11 /* main.cpp in Sources */,
+				AA2D238D2AE9444B00FE4A11 /* GraphicObject.cpp in Sources */,
+				AA2D238B2AE9444B00FE4A11 /* AnimatedEllipse.cpp in Sources */,
+				AA2D238F2AE9444B00FE4A11 /* Face.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
