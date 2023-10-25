@@ -97,9 +97,7 @@ namespace earshooter {
 		static std::bernoulli_distribution animatedChoiceDist;
 		static std::bernoulli_distribution headsOrTailsDist;
 		static std::uniform_real_distribution<float> radiusDist;
-        static std::uniform_real_distribution<float> randomPosX;
-        static std::uniform_real_distribution<float> randomPosY;
-
+        static std::uniform_real_distribution<float> randomWidth;
 
 	};
 
@@ -149,7 +147,10 @@ namespace earshooter {
 		return World::animatedChoiceDist(World::randEngine);
 	}
     inline WorldPoint randomPos() {
-        return WorldPoint{ World::randomPosX(World::randEngine), World::randomPosY(World::randEngine) };
+        return WorldPoint{ World::wxDist(World::randEngine), World::wyDist(World::randEngine) };
+    }
+    inline float randWidth() {
+        return World::randomWidth(World::randEngine);
     }
 }
 

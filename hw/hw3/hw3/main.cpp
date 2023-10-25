@@ -197,9 +197,7 @@ uniform_real_distribution<float> World::colorDist(0.f, 1.f);
 uniform_real_distribution<float> World::normalDist(0.f, 1.f);
 uniform_real_distribution<float> World::angleDegDist(0.f, 360.f);
 uniform_real_distribution<float> World::angleRadDist(0.f, 2.f*M_PI);
-
-uniform_real_distribution<float> World::randomPosX(World::X_MIN, World::X_MAX);
-uniform_real_distribution<float> World::randomPosY(World::Y_MIN, World::Y_MAX);
+uniform_real_distribution<float> World::randomWidth(0.5f, 2.5f);
 //	In non-simulation contexts, I like to specify velocities in terms of the time it goes
 //	to go cross the world (in seconds).  For simulations, the problem dictates speed.
 // re-initialized when the window is resized
@@ -781,15 +779,16 @@ void applicationInit()
 	glutAddSubMenu("Background color:", myBgndColorSubmenu);
 	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-
+    
     
     for (int i = 0; i < NUM_ASTEROIDS; i++) {
-        shared_ptr<Asteroid> face = make_shared<Asteroid>(randomPos(), randomAngleDeg(), randomSpinDeg(), 1.f, 1.f, randomVelocity(-1.f, 1.f));
+        shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(randomPos(), randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-1.f, 1.f));
         //    and add it to both lists
-        objectList.push_back(face);
-        animatedObjectList.push_back(face);
+        objectList.push_back(new_ast);
+        animatedObjectList.push_back(new_ast);
     }
 	
+    
 	//	time really starts now
 	startTime = time(nullptr);
 }
