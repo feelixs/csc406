@@ -9,20 +9,20 @@
 
 using namespace earshooter;
 
-Asteroid::Asteroid(float centerX, float centerY, float angle, float width, float height,
-                float red, float green, float blue)
+Asteroid::Asteroid(float centerX, float centerY, float angle, float width, float height, float vx, float vy)
     :    Object(centerX, centerY, angle),
         GraphicObject(centerX, centerY, angle),
+        AnimatedObject(centerX, centerY, angle, vx, vy, 0.f),
         //
         scaleX_(width),
         scaleY_(height)
 {
 }
 
-Asteroid::Asteroid(const WorldPoint& pt, float angle, float width, float height,
-                float red, float green, float blue)
+Asteroid::Asteroid(const WorldPoint& pt, float angle, float width, float height, const WorldPoint& velPt)
     :    Object(pt, angle),
         GraphicObject(pt, angle),
+        AnimatedObject(pt.x, pt.y, angle, velPt.x, velPt.y, 0.f),
         //
         scaleX_(width),
         scaleY_(height)

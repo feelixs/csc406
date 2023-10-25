@@ -38,6 +38,7 @@
 #include <chrono>
 #include <ctime>
 //
+#include "Asteroid.hpp"
 #include "glPlatform.h"
 #include "World.h"
 #include "Ellipse.h"
@@ -62,6 +63,8 @@ using namespace earshooter;
 //	are declared as "enum class NameOfType".  I agree and do so in general, but
 //	here these are meant to be used with my glut interface, and it's really
 //	bothersome to do the casting to int each each time.
+
+const char* WIN_TITLE = "Asteroids (Homework 3)";
 
 enum MenuItemID {	SEPARATOR = -1,
 					//
@@ -247,16 +250,6 @@ void myDisplayFunc(void)
 	//	(in the 2D case) coincide with that of the world's orogin.
 	glLoadIdentity();
 	glPushMatrix();
-	
-	//--------------------------
-	//	Draw stuff
-	//--------------------------
-	glColor3f(1.f, 0.5f, 0.f);
-	glBegin(GL_POLYGON);
-		glVertex2f(1.5f, -5.0f);
-		glVertex2f(4.f, 1.0f);
-		glVertex2f(-1.f, 3.f);
-	glEnd();
 
 	for (auto obj : objectList)
 	{
@@ -283,44 +276,6 @@ void myDisplayFunc(void)
 	}
 
 	glPopMatrix();
-
-	//	Reminder:	Not really needed here, but this is how to display the current
-	//				transformation matrix in case you need it.
-	static bool isFirstDraw = true;
-	if (isFirstDraw)
-	{
-		GLfloat A[16];
-		glGetFloatv(GL_MODELVIEW_MATRIX, A);
-		cout << "Back to origin" << endl;
-		printMatrix(A);
-		isFirstDraw = false;
-	}
-	
-	//	Display textual info
-	//---------------------------------
-	//	We are back at the world's origin (by the glPopMatrix() just above), in world coordinates.
-	//	So we must undo the scaling to be back in pixels, which how text is drawn for now.
-	if (displayText)
-	{
-	//	First, translate to the upper-left corner
-		glTranslatef(World::X_MIN, World::Y_MAX, 0.f);
-		
-		//	Then reverse the scaling: back in pixels, making sure that y now points down
-		glScalef(World::drawInPixelScale, -World::drawInPixelScale, 1.f);
-
-		char statusLine[256];
-		sprintf(statusLine, "Runtime: %d s   |   Number of objects: %d   |   Mouse last seen at (%d, %d)",
-								static_cast<int>(time(nullptr)-startTime),
-								static_cast<int>(objectList.size()),
-								lastX, lastY);
-		displayTextualInfo(statusLine, 0);		//	first row
-
-		if (stringLine != "")
-		displayTextualInfo(stringLine, 1);		//	second row
-	}
-
-	//	We were drawing into the back buffer, now it should be brought
-	//	to the forefront.
 	glutSwapBuffers();
 }
 
@@ -823,31 +778,14 @@ void applicationInit()
 	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-	objectList.push_back(make_shared<Face>(-3.f, -2.f));
 
-	objectList.push_back(make_shared<Ellipse>(4, 4, 2, 0.f, 1.f, 1.f));
-	objectList.push_back(make_shared<Ellipse>(4, -4, 3, 0.f, 1.f, 1.f));
+    shared_ptr<Asteroid> face = make_shared<Asteroid>(0.f, 0.f, 0.f, 1.f, 1.f, 5.f, 5.f);
+    //    and add it to both lists
+    objectList.push_back(face);
+    animatedObjectList.push_back(face);
 
-
-	objectList.push_back(make_shared<Ellipse>(7, 2, 0, 0.3f, .25f, 1.f, 1.f, 1.f));
-	objectList.push_back(make_shared<Ellipse>(2, 7, 0, .250f, 0.6f, 0.f, 0.f, 1.f));
-	objectList.push_back(make_shared<Ellipse>(6, 5, 0, 0.25f, 0.15f, 1.f, 0.f, 0.f));
-
-	objectList.push_back(make_shared<Face>(-5.f, -6.f));
-
-	objectList.push_back(make_shared<Rectangle>(-8, 6, 45, 4, 2, 1.f, 1.f, 0.f));
-	
+    
 	World::worldType = WorldType::BOX_WORLD;
-	
-	for (int k=0; k<8; k++)
-	{
-		//	create the object
-		shared_ptr<SmilingFace> face = make_shared<SmilingFace>();
-		//	and add it to both lists
-		objectList.push_back(face);
-		animatedObjectList.push_back(face);
-	}
-	
 	
 	//	time really starts now
 	startTime = time(nullptr);
@@ -861,7 +799,7 @@ int main(int argc, char * argv[])
 
 	glutInitWindowSize(winWidth, winHeight);
 	glutInitWindowPosition(INIT_WIN_X, INIT_WIN_Y);
-	glutCreateWindow("demo CSC406");
+	glutCreateWindow(WIN_TITLE);
 	
 	//	set up the callbacks
 	glutDisplayFunc(myDisplayFunc);
