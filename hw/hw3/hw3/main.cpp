@@ -755,32 +755,6 @@ void printMatrix(const GLfloat* m) {
 
 void applicationInit()
 {
-	// Create Menus
-	int myMenu;
-	
-	//	Submenu for changing keyboard handling function
-	int myTextColorSubmenu = glutCreateMenu(mySubmenuHandler);
-	for (int k=0, t=FIRST_TEXT; k<NUM_TEXT_COLORS; k++, t++)
-		glutAddMenuEntry(TEXT_COLOR_STR[k].c_str(), t);
-	int myBgndColorSubmenu = glutCreateMenu(mySubmenuHandler);
-	for (int k=0, b=FIRST_BGND; k<NUM_BGND_COLORS; k++, b++)
-		glutAddMenuEntry(BGND_COLOR_STR[k].c_str(), b);
-
-	// Main menu that the submenus are connected to
-	myMenu = glutCreateMenu(myMenuHandler);
-	glutAddMenuEntry("Quit", MenuItemID::QUIT_MENU);
-	//
-	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
-	glutAddMenuEntry("Other stuff", MenuItemID::OTHER_MENU_ITEM);
-	glutAddMenuEntry("New entry", 64);
-	
-	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
-	glutAddSubMenu("Text color:", myTextColorSubmenu);
-	glutAddSubMenu("Background color:", myBgndColorSubmenu);
-	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
-	glutAttachMenu(GLUT_RIGHT_BUTTON);
-    
-    
     for (int i = 0; i < NUM_ASTEROIDS; i++) {
         shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(randomPos(), randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-1.f, 1.f));
         //    and add it to both lists
