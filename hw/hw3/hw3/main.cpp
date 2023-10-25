@@ -783,9 +783,6 @@ void applicationInit()
     //    and add it to both lists
     objectList.push_back(face);
     animatedObjectList.push_back(face);
-
-    
-	World::worldType = WorldType::BOX_WORLD;
 	
 	//	time really starts now
 	startTime = time(nullptr);
