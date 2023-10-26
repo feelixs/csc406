@@ -18,7 +18,6 @@ class Spaceship: public GraphicObject, public AnimatedObject {
 private:
     float red_, green_, blue_;
     float vel_;
-    float headingDeg_;
     
 public:
     Spaceship(float x, float y);
@@ -36,14 +35,8 @@ public:
     inline float getBlue() {
         return blue_;
     }
-    inline float getHeading() {
-        return headingDeg_;
-    }
     inline float getVel() {
         return vel_;
-    }
-    inline void setHeading(float d) {
-        headingDeg_ = d;
     }
     inline void setVel(float v) {
         vel_ = v;
