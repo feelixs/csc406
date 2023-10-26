@@ -104,11 +104,6 @@ enum FontSize {
 					NUM_FONT_SIZES
 };
 
-enum AppMode {
-				CREATION_MODE = 0,
-				TEST_MODE
-};
-
 //--------------------------------------
 #if 0
 #pragma mark Function prototypes
@@ -214,15 +209,9 @@ float World::pixelToWorldRatio;
 float World::worldToPixelRatio;
 float World::drawInPixelScale;
 
-bool trackEntry = false;
-bool trackMousePointer = false;
-bool trackPassiveMousePointer = false;
 bool pointerInWindow = false;
 GLint lastX = -1, lastY = -1;
 
-bool displayText = false;
-bool displayBgnd = false;
-string stringLine = "";
 const GLfloat* textColor = TEXT_COLOR[0];
 const GLfloat* bgndColor = BGND_COLOR[0];
 
@@ -230,7 +219,6 @@ list<shared_ptr<GraphicObject> > objectList;
 list<shared_ptr<AnimatedObject> > animatedObjectList;
 
 WorldType World::worldType = WorldType::CYLINDER_WORLD;
-AppMode appMode = AppMode::CREATION_MODE;
 
 //--------------------------------------
 #if 0
@@ -367,111 +355,12 @@ void myMouseHandler(int button, int state, int ix, int iy)
 		case GLUT_LEFT_BUTTON:
 			if (state == GLUT_DOWN)
 			{
-				//	do something
-				cout << "Click at: (" << ix << ", " << iy << ")" << endl;
-				WorldPoint wPt = pixelToWorld(ix, iy);
-				cout << "Corresponding world point: (" << wPt.x << ", " <<
-						wPt.y << ")" << endl;
-				PixelPoint pPt = worldToPixel(wPt.x, wPt.y);
-				cout << "Back to pixels: (" << pPt.x << ", " <<
-						pPt.y << ")" << endl;
-				
+				// left mouse down
 			}
 			else if (state == GLUT_UP)
-			{
-				WorldPoint clickPt = pixelToWorld(ix, iy);
-				
-				if (appMode == AppMode::TEST_MODE)
-				{
-					for (auto obj : objectList)
-					{
-						if (obj->isInside(clickPt)) {
-							cout << "Clicked inside object" << endl;
-							// check if the object was animated
-//							vector<shared_ptr<AnimatedObject> >::iterator iter = find(animatedObjectList.begin(),
-//																		 animatedObjectList.end(),
-//																		 obj);
-//							if (iter != animatedObjectList.end())
-//								*iter = nullptr;
-//							objectList.remove(obj);
-						}
-					}
-				}
-				//	Creation mode
-				else
-				{
-					//----------------
-					//	ellipse
-					//----------------
-					if (headsOrTails())
-					{
-						//	create a randomly-colored ellipse centered at the click location
-						WorldPoint clickPt = pixelToWorld(ix, iy);
-						if (isAnimated())
-						{
-							shared_ptr<AnimatedEllipse> ell  = make_shared<AnimatedEllipse>(
-									clickPt,								//	{x, y}
-									randomAngleDeg(),						//	angle
-									randomObjectScale()*0.5f,				//	h radius
-									randomObjectScale()*0.5f,				//	v radius
-									randomVelocity(MIN_SPEED, MAX_SPEED),	//	{vx, vy}
-									randomSpinDeg(),						//	spin
-									randomColor(),							//	red
-									randomColor(),							//	green
-									randomColor());							//	blue
-							animatedObjectList.push_back(ell);
-							objectList.push_back(ell);
-						}
-						else
-						{
-							objectList.push_back(make_shared<Ellipse>(
-									clickPt,								//	{x, y}
-									randomAngleDeg(),						//	angle
-									randomObjectScale()*0.5f,				//	h radius
-									randomObjectScale()*0.5f,				//	v radius
-									randomColor(),							//	red
-									randomColor(),							//	green
-									randomColor()));						//	blue
-						}
-					}
-					//----------------
-					//	Rectangle
-					//----------------
-					else
-					{
-						//	create a randomly-colored ellipse centered at the click location
-						WorldPoint clickPt = pixelToWorld(ix, iy);
-						if (isAnimated())
-						{
-							shared_ptr<AnimatedRectangle> rect = make_shared<AnimatedRectangle>(
-									clickPt,								//	{x, y}
-									randomAngleDeg(),						//	angle
-									randomObjectScale(),					//	width
-									randomObjectScale(),					//	height
-									randomVelocity(MIN_SPEED, MAX_SPEED),	//	{vx, vy}
-									randomSpinDeg(),						//	spin
-									randomColor(),							//	red
-									randomColor(),							//	green
-									randomColor());							//	blue
-							animatedObjectList.push_back(rect);
-							objectList.push_back(rect);
-						}
-						else
-						{
-							objectList.push_back(make_shared<Rectangle>(
-									clickPt,								//	{x, y}
-									randomAngleDeg(),						//	angle
-									randomObjectScale(),					//	width
-									randomObjectScale(),					//	height
-									randomColor(),							//	red
-									randomColor(),							//	green
-									randomColor()));						//	blue
-						}
-						
-					}
-				
-				}
-			}
+            {
+                // left mouse up
+            }
 		break;
 		
 		case GLUT_RIGHT_BUTTON:
@@ -484,25 +373,26 @@ void myMouseHandler(int button, int state, int ix, int iy)
 
 void myMouseMotionHandler(int ix, int iy)
 {
-	if (trackMousePointer)
-	{
-		cout << "Active mouse at (" << ix << ", " << iy << ")" << endl;
-	}
+	
 }
+
 void myMousePassiveMotionHandler(int ix, int iy)
 {
 	lastX = ix;
 	lastY = iy;
 	pointerInWindow = (ix >= 0 && ix < winWidth && iy >= 0 && iy < winHeight);
 
-	if (trackPassiveMousePointer)
+	/*if (trackPassiveMousePointer)
 	{
 		cout << "Passive mouse at (" << ix << ", " << iy << ")" << endl;
 	}
+     */
 
 }
+
 void myEntryHandler(int state)
 {
+    /*
 	if (trackEntry)
 	{
 		if (state == GLUT_ENTERED)
@@ -516,6 +406,8 @@ void myEntryHandler(int state)
 			cout << "<=== Pointer exited" << endl;
 		}
 	}
+     */
+    
 }
 
 
@@ -532,38 +424,6 @@ void myKeyHandler(unsigned char c, int x, int y)
 		case 'q':
 		case 27:
 			exit(0);
-			break;
-		
-		case 'm':
-			trackMousePointer = !trackMousePointer;
-			break;
-
-		case 'p':
-			trackPassiveMousePointer = !trackPassiveMousePointer;
-			break;
-			
-		case 'e':
-			trackEntry = !trackEntry;
-			break;
-			
-		case 'i':
-			cout << "Enter a new line of text: ";
-			getline(cin, stringLine);
-			break;
-			
-		case 't':
-			displayText = !displayText;
-			
-		case 'b':
-			displayBgnd = !displayBgnd;
-			break;
-		
-		case 'c':
-			if (appMode == AppMode::CREATION_MODE)
-				appMode = AppMode::TEST_MODE;
-			else
-				appMode = AppMode::CREATION_MODE;
-			
 			break;
 
 		default:
@@ -670,16 +530,6 @@ void displayTextualInfo(const char* infoStr, int textRow)
     //-----------------------------------------------
     //  3.  Clear background rectangle if required
     //-----------------------------------------------
-    if (displayBgnd)
-    {
-		glColor3fv(bgndColor);
-		glBegin(GL_POLYGON);
-			glVertex2i(0, 0);
-			glVertex2i(0, fontHeight + 2*V_PAD);
-			glVertex2i(winWidth, fontHeight + 2*V_PAD);
-			glVertex2i(winWidth, 0);
-		glEnd();
-	}
 	
 	//	Move "up" from current plane, to make sure that we overwrite
 	glTranslatef(0.f, 0.f, 0.1f);
