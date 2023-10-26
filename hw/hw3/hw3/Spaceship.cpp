@@ -6,6 +6,7 @@
 //
 
 #include "Spaceship.hpp"
+#include <math.h>
 
 
 Spaceship::Spaceship(float x, float y)
@@ -13,7 +14,6 @@ Spaceship::Spaceship(float x, float y)
     GraphicObject(x, y, 0.f),
     AnimatedObject(x, y, 0.f, 0.f, 0.f, 0.f),
     vel_(0.f),
-    headingDeg_(0.f),
     red_(0.5f),
     green_(0.5f),
     blue_(0.5f)
@@ -54,6 +54,9 @@ bool Spaceship::isInside(const WorldPoint& pt)
     return false;
 }
 
+void Spaceship::addVel(float dv) {
+    setVel(getVel() + dv);
+}
 
 void Spaceship::update(float dt) {
     if (getVx() != 0.f)
@@ -63,46 +66,21 @@ void Spaceship::update(float dt) {
     if (getSpin() != 0.f)
         setAngle(getAngle() + getSpin()*dt);
         
-    //    Temporary stuff:  Freeze motion if the object's origin reaches the edges
-    //    of the world
-    if (getX() < World::X_MIN || getX() > World::X_MAX ||
-        getY() < World::Y_MIN || getY() > World::Y_MAX)
-    {
-        switch (World::worldType)
-        {
-            case WorldType::BOX_WORLD:
-            if (getX() < World::X_MIN || getX() > World::X_MAX){
-                if (getX() < World::X_MIN)
-                    setX(World::X_MIN);
-                else
-                    setX(World::X_MAX);
-                setX(-getVx());
+    if (getX() < World::X_MIN || getX() > World::X_MAX || getY() < World::Y_MIN || getY() > World::Y_MAX) {
+        // this is for cylinder world
+        if (getX() < World::X_MIN) {
+            setX(getX() + World::WIDTH);
+        }
+        else if (getX() > World::X_MAX) {
+            setX(getX() - World::WIDTH);
+        }
+        if (getY() < World::Y_MIN || getY() > World::Y_MAX) {
+            if (getY() < World::Y_MIN) {
+                setY(-World::Y_MIN);
             }
-            if (getY() < World::Y_MIN || getY() > World::Y_MAX){
-                if (getY() < World::Y_MIN)
-                    setY(World::Y_MIN);
-                else
-                    setY(World::Y_MAX);
-                setVy(-getVy());
+            else {
+                setY(-World::Y_MAX);
             }
-            break;
-            
-            case WorldType::CYLINDER_WORLD:
-                if (getX() < World::X_MIN)
-                    setX(getX() + World::WIDTH);
-                else if (getX() > World::X_MAX)
-                    setX(getX() - World::WIDTH);
-            if (getY() < World::Y_MIN || getY() > World::Y_MAX){
-                if (getY() < World::Y_MIN)
-                    setY(-World::Y_MIN);
-                else
-                    setY(-World::Y_MAX);
-                //getVy() = -getVy();
-            }
-            break;
-                
-            default:
-            break;
         }
     }
 }
