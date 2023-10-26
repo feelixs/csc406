@@ -443,7 +443,7 @@ void myKeyHandler(unsigned char c, int x, int y)
             }
             break;
         case 's':
-            if (player->getVel() > -MAX_PLAYER_SPEED) {
+            if (player->getVel() > 0.f) {
                 player->addVel(-1);
             }
             cout << player->getVel() << endl;
