@@ -67,6 +67,7 @@ using namespace earshooter;
 
 const char* WIN_TITLE = "Asteroids (Homework 3)";
 const int NUM_ASTEROIDS = 10;
+const int MAX_PLAYER_SPEED = 10;
 
 enum MenuItemID {	SEPARATOR = -1,
 					//
@@ -437,10 +438,15 @@ void myKeyHandler(unsigned char c, int x, int y)
             player->setSpin(player->getSpin() + 15.f);
             break;
         case 'w':
-            player->setVy(player->getVy() + 1);
+            if (player->getVel() < MAX_PLAYER_SPEED) {
+                player->addVel(1);
+            }
             break;
         case 's':
-            player->setVy(player->getVy()-1);
+            if (player->getVel() > -MAX_PLAYER_SPEED) {
+                player->addVel(-1);
+            }
+            cout << player->getVel() << endl;
             break;
 		default:
 			break;
