@@ -131,6 +131,8 @@ void applicationInit();
 //--------------------------------------
 const int INIT_WIN_X = 10, INIT_WIN_Y = 32;
 
+shared_ptr<Spaceship> player;
+
 const float World::X_MIN = -10.f;
 const float World::X_MAX = +10.f;
 const float World::Y_MIN = -10.f;
@@ -425,7 +427,15 @@ void myKeyHandler(unsigned char c, int x, int y)
 		case 27:
 			exit(0);
 			break;
-
+                
+        case 'd':
+            player->setSpin(player->getSpin() - 10.f);
+            break;
+            
+        case 'a':
+            player->setSpin(player->getSpin() + 10.f);
+            break;
+            
 		default:
 			break;
 	}
@@ -613,9 +623,10 @@ void applicationInit()
         animatedObjectList.push_back(new_ast);
     }
     
-    shared_ptr<Spaceship> player = make_shared<Spaceship>(0.f, 0.f);
+    player = make_shared<Spaceship>(0.f, 0.f);
     
     objectList.push_back(player);
+    animatedObjectList.push_back(player);
     
 	//	time really starts now
 	startTime = time(nullptr);
