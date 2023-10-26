@@ -25,6 +25,7 @@ public:
     void draw() const;
     void update(float dt);
     bool isInside(const WorldPoint& pt);
+    void addVel(float dv);
     
     inline float getRed() {
         return red_;
