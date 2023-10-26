@@ -19,7 +19,7 @@ using namespace earshooter;
 class Spaceship: public GraphicObject, public AnimatedObject {
 private:
     float red_, green_, blue_;
-    bool isMoving_;
+    bool isAccelerating_;
     BoundingBox collisionBox_;
     
 public:
@@ -38,7 +38,7 @@ public:
         return blue_;
     }
     inline void setIsMoving(bool t) {
-        isMoving_ = t;
+        isAccelerating_ = t;
     }
 };
 

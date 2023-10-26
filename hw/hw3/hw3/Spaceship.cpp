@@ -16,7 +16,7 @@ Spaceship::Spaceship(float x, float y)
     red_(0.5f),
     green_(0.5f),
     blue_(0.5f),
-    isMoving_(0),
+    isAccelerating_(0),
     collisionBox_(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)
 {
     
@@ -36,7 +36,7 @@ void Spaceship::draw() const {
     glScalef(1.f, 1.f, 1.f);
     
     
-    if (isMoving_) {
+    if (isAccelerating_) {
         // thrust flame
         glColor3f(1.0f, 0.5f, 0.0f);
         glBegin(GL_POLYGON);
