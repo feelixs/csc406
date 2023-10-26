@@ -446,11 +446,14 @@ void myKeyHandler(unsigned char c, int x, int y)
             player->setIsAccelerating(PLAYER_ACCEL);
             break;
         case 's':
+            /*
+             
+             // pdf said no 'slow down' control
             if (player->getVx() != 0.f)
                 player->setVx(player->getVx() * DECREASE_SPEED_CONST);
             if (player->getVy() != 0.f)
                 player->setVy(player->getVy() * DECREASE_SPEED_CONST);
-            
+            */
             break;
 		default:
 			break;
