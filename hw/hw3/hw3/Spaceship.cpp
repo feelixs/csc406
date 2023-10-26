@@ -17,6 +17,7 @@ Spaceship::Spaceship(float x, float y)
     green_(0.5f),
     blue_(0.5f),
     isAccelerating_(0),
+    accel_(0.f),
     collisionBox_(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)
 {
     
@@ -65,4 +66,36 @@ void Spaceship::draw() const {
 bool Spaceship::isInside(const WorldPoint& pt)
 {
     return false;
+}
+
+
+void Spaceship::update(float dt) {
+    
+    setVx(getVx() + cosf(getAngle() * M_PI / 180) * dt * getAccel());
+    setVy(getVy() + sinf(getAngle() * M_PI / 180) * dt * getAccel());
+    
+    if (getVx() != 0.f)
+        setX(getX() + getVx()*dt);
+    if (getVy() != 0.f)
+        setY(getY() + getVy()*dt);
+    if (getSpin() != 0.f)
+        setAngle(getAngle() + getSpin()*dt);
+        
+    if (getX() < World::X_MIN || getX() > World::X_MAX || getY() < World::Y_MIN || getY() > World::Y_MAX) {
+        // this is for cylinder world
+        if (getX() < World::X_MIN) {
+            setX(getX() + World::WIDTH);
+        }
+        else if (getX() > World::X_MAX) {
+            setX(getX() - World::WIDTH);
+        }
+        if (getY() < World::Y_MIN || getY() > World::Y_MAX) {
+            if (getY() < World::Y_MIN) {
+                setY(-World::Y_MIN);
+            }
+            else {
+                setY(-World::Y_MAX);
+            }
+        }
+    }
 }

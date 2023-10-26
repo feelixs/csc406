@@ -18,7 +18,7 @@ using namespace earshooter;
 
 class Spaceship: public GraphicObject, public AnimatedObject {
 private:
-    float red_, green_, blue_;
+    float red_, green_, blue_, accel_;
     bool isAccelerating_;
     BoundingBox collisionBox_;
     
@@ -27,7 +27,11 @@ public:
     
     void draw() const;
     bool isInside(const WorldPoint& pt);
+    void update(float dt);
     
+    inline void setAccel(float a) {
+        accel_ = a;
+    }
     inline float getRed() {
         return red_;
     }
@@ -37,7 +41,10 @@ public:
     inline float getBlue() {
         return blue_;
     }
-    inline void setIsMoving(bool t) {
+    inline float getAccel() {
+        return accel_;
+    }
+    inline void setIsAccelerating(bool t) {
         isAccelerating_ = t;
     }
 };

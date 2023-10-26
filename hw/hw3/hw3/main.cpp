@@ -68,7 +68,7 @@ using namespace earshooter;
 const char* WIN_TITLE = "Asteroids (Homework 3)";
 const int NUM_ASTEROIDS = 10;
 
-
+const int PLAYER_ACCEL = 3;
 const int MAX_PLAYER_SPEED = 5;
 const float ANGLE_CHNG_RATE = 180;
 const float DECREASE_SPEED_CONST = 0.75;
@@ -442,14 +442,8 @@ void myKeyHandler(unsigned char c, int x, int y)
             player->setSpin(ANGLE_CHNG_RATE);
             break;
         case 'w':
-            if (player->getVx() < MAX_PLAYER_SPEED) {
-                player->setIsMoving(1);
-                player->setVx(player->getVx() + cosf(player->getAngle() * M_PI / 180));
-            }
-            if (player->getVy() < MAX_PLAYER_SPEED) {
-                player->setIsMoving(1);
-                player->setVy(player->getVy() + sinf(player->getAngle() * M_PI / 180));
-            }
+            player->setAccel(PLAYER_ACCEL);
+            player->setIsAccelerating(PLAYER_ACCEL);
             break;
         case 's':
             if (player->getVx() != 0.f)
@@ -471,7 +465,8 @@ void myKeyUpHandler(unsigned char c, int x, int y)
 
     switch (c) {
         case 'w':
-            player->setIsMoving(0);
+            player->setIsAccelerating(0);
+            player->setAccel(0);
             break;
         case 'a':
         case 'd':
