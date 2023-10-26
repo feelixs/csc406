@@ -427,15 +427,21 @@ void myKeyHandler(unsigned char c, int x, int y)
 		case 27:
 			exit(0);
 			break;
-                
+              
+            
+        // TODO add arrow keys
         case 'd':
-            player->setSpin(player->getSpin() - 10.f);
+            player->setSpin(player->getSpin() - 15.f);
             break;
-            
         case 'a':
-            player->setSpin(player->getSpin() + 10.f);
+            player->setSpin(player->getSpin() + 15.f);
             break;
-            
+        case 'w':
+            player->setVy(player->getVy() + 1);
+            break;
+        case 's':
+            player->setVy(player->getVy()-1);
+            break;
 		default:
 			break;
 	}
