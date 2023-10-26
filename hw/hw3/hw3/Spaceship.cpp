@@ -29,7 +29,7 @@ void Spaceship::draw() const {
     glTranslatef(getX(), getY(), 0.f);
     
     // apply rotation
-    glRotatef(getAngle() - 90, 0.f, 0.f, 1.f);
+    glRotatef(getAngle() - 90, 0.f, 0.f, 1.f); // the spaceship model is drawn wrong by 90 degrees
     
     //    apply the radius as a scale
     glScalef(1.f, 1.f, 1.f);
