@@ -29,7 +29,7 @@ void Spaceship::draw() const {
     glTranslatef(getX(), getY(), 0.f);
     
     // apply rotation
-    glRotatef(getAngle(), 0.f, 0.f, 1.f);
+    glRotatef(getAngle() - 90, 0.f, 0.f, 1.f);
     
     //    apply the radius as a scale
     glScalef(1.f, 1.f, 1.f);
@@ -60,9 +60,10 @@ void Spaceship::addVel(float dv) {
 
 void Spaceship::update(float dt) {
     float v = getVel(), x = getX(), y = getY(), a = getAngle(), s = getSpin();
+    
     if (v != 0.f) {
-        setX(x + cosf(v) * dt);
-        setY(y + sinf(v) * dt);
+        setX(x + cosf(a * M_PI/180.f) * v * dt);
+        setY(y + sinf(a* M_PI/180.f) * v * dt);
     }
     if (s != 0.f)
         setAngle(a + s * dt);
