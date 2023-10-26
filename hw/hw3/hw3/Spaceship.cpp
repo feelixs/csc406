@@ -13,7 +13,6 @@ Spaceship::Spaceship(float x, float y)
 :   Object(x, y, 0.f),
     GraphicObject(x, y, 0.f),
     AnimatedObject(x, y, 0.f, 0.f, 0.f, 0.f),
-    vel_(0.f),
     red_(0.5f),
     green_(0.5f),
     blue_(0.5f)
@@ -52,37 +51,4 @@ void Spaceship::draw() const {
 bool Spaceship::isInside(const WorldPoint& pt)
 {
     return false;
-}
-
-void Spaceship::addVel(float dv) {
-    setVel(getVel() + dv);
-}
-
-void Spaceship::update(float dt) {
-    float v = getVel(), x = getX(), y = getY(), a = getAngle(), s = getSpin();
-    
-    if (v != 0.f) {
-        setX(x + cosf(a * M_PI/180.f) * v * dt);
-        setY(y + sinf(a* M_PI/180.f) * v * dt);
-    }
-    if (s != 0.f)
-        setAngle(a + s * dt);
-        
-    if (x < World::X_MIN || x > World::X_MAX || y < World::Y_MIN || y > World::Y_MAX) {
-        // this is for cylinder world
-        if (x < World::X_MIN) {
-            setX(x + World::WIDTH);
-        }
-        else if (x > World::X_MAX) {
-            setX(x - World::WIDTH);
-        }
-        if (y < World::Y_MIN || y > World::Y_MAX) {
-            if (y < World::Y_MIN) {
-                setY(-World::Y_MIN);
-            }
-            else {
-                setY(-World::Y_MAX);
-            }
-        }
-    }
 }

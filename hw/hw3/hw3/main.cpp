@@ -67,7 +67,11 @@ using namespace earshooter;
 
 const char* WIN_TITLE = "Asteroids (Homework 3)";
 const int NUM_ASTEROIDS = 10;
-const int MAX_PLAYER_SPEED = 10;
+
+
+const int MAX_PLAYER_SPEED = 5;
+const float ANGLE_CHNG_RATE = 30;
+const float DECREASE_SPEED_CONST = 0.75;
 
 enum MenuItemID {	SEPARATOR = -1,
 					//
@@ -423,30 +427,33 @@ void myKeyHandler(unsigned char c, int x, int y)
 	(void) y;
 	
 	switch (c)
-	{
-		case 'q':
-		case 27:
-			exit(0);
-			break;
-              
-            
-        // TODO add arrow keys
+    {
+        case 'q':
+        case 27:
+            exit(0);
+            break;
+        
+            // TODO add arrow keys
         case 'd':
-            player->setSpin(player->getSpin() - 15.f);
+            player->setAngle(player->getAngle() - ANGLE_CHNG_RATE);
             break;
         case 'a':
-            player->setSpin(player->getSpin() + 15.f);
+            player->setAngle(player->getAngle() + ANGLE_CHNG_RATE);
             break;
         case 'w':
-            if (player->getVel() < MAX_PLAYER_SPEED) {
-                player->addVel(1);
-            }
+            if (player->getVx() < MAX_PLAYER_SPEED)
+                player->setVx(player->getVx() + cosf(player->getAngle() * M_PI / 180));
+            
+            if (player->getVy() < MAX_PLAYER_SPEED)
+                player->setVy(player->getVy() + sinf(player->getAngle() * M_PI / 180));
             break;
         case 's':
-            if (player->getVel() > 0.f) {
-                player->addVel(-1);
-            }
-            cout << player->getVel() << endl;
+            if (player->getVx() != 0.f)
+                player->setVx(player->getVx() * DECREASE_SPEED_CONST);
+
+            if (player->getVy() != 0.f)
+                player->setVy(player->getVy() * DECREASE_SPEED_CONST);
+            
             break;
 		default:
 			break;

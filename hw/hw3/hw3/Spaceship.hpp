@@ -17,15 +17,12 @@ using namespace earshooter;
 class Spaceship: public GraphicObject, public AnimatedObject {
 private:
     float red_, green_, blue_;
-    float vel_;
     
 public:
     Spaceship(float x, float y);
     
     void draw() const;
-    void update(float dt);
     bool isInside(const WorldPoint& pt);
-    void addVel(float dv);
     
     inline float getRed() {
         return red_;
@@ -35,12 +32,6 @@ public:
     }
     inline float getBlue() {
         return blue_;
-    }
-    inline float getVel() {
-        return vel_;
-    }
-    inline void setVel(float v) {
-        vel_ = v;
     }
 };
 
