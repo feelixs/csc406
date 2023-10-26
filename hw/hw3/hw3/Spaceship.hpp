@@ -17,7 +17,7 @@ using namespace earshooter;
 class Spaceship: public GraphicObject, public AnimatedObject {
 private:
     float red_, green_, blue_;
-    
+    bool isMoving_;
 public:
     Spaceship(float x, float y);
     
@@ -32,6 +32,9 @@ public:
     }
     inline float getBlue() {
         return blue_;
+    }
+    inline void setIsMoving(bool t) {
+        isMoving_ = t;
     }
 };
 

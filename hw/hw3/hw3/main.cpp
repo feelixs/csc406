@@ -124,6 +124,7 @@ void myMouseMotionHandler(int x, int y);
 void myMousePassiveMotionHandler(int x, int y);
 void myEntryHandler(int state);
 void myKeyHandler(unsigned char c, int x, int y);
+void myKeyUpHandler(unsigned char c, int x, int y);
 void myMenuHandler(int value);
 void mySubmenuHandler(int colorIndex);
 void myTimerFunc(int val);
@@ -425,7 +426,7 @@ void myKeyHandler(unsigned char c, int x, int y)
 	// silence warning
 	(void) x;
 	(void) y;
-	
+    	
 	switch (c)
     {
         case 'q':
@@ -441,16 +442,18 @@ void myKeyHandler(unsigned char c, int x, int y)
             player->setAngle(player->getAngle() + ANGLE_CHNG_RATE);
             break;
         case 'w':
-            if (player->getVx() < MAX_PLAYER_SPEED)
+            if (player->getVx() < MAX_PLAYER_SPEED) {
+                player->setIsMoving(1);
                 player->setVx(player->getVx() + cosf(player->getAngle() * M_PI / 180));
-            
-            if (player->getVy() < MAX_PLAYER_SPEED)
+            }
+            if (player->getVy() < MAX_PLAYER_SPEED) {
+                player->setIsMoving(1);
                 player->setVy(player->getVy() + sinf(player->getAngle() * M_PI / 180));
+            }
             break;
         case 's':
             if (player->getVx() != 0.f)
                 player->setVx(player->getVx() * DECREASE_SPEED_CONST);
-
             if (player->getVy() != 0.f)
                 player->setVy(player->getVy() * DECREASE_SPEED_CONST);
             
@@ -458,6 +461,20 @@ void myKeyHandler(unsigned char c, int x, int y)
 		default:
 			break;
 	}
+}
+
+void myKeyUpHandler(unsigned char c, int x, int y)
+{
+    // silence warning
+    (void) x;
+    (void) y;
+
+    switch (c) {
+        case 'w':
+            player->setIsMoving(0);
+            break;
+        
+    }
 }
 
 
@@ -669,6 +686,7 @@ int main(int argc, char * argv[])
 	glutPassiveMotionFunc(myMousePassiveMotionHandler);
 	glutEntryFunc(myEntryHandler);
 	glutKeyboardFunc(myKeyHandler);
+    glutKeyboardUpFunc(myKeyUpHandler);
 	glutTimerFunc(1,	myTimerFunc,		0);
 	//			  time	    name of		value to pass
 	//			  in ms		function	to the func
