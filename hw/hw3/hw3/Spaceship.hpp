@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include "GraphicObject.h"
 #include "AnimatedObject.h"
+#include "BoundingBox.h"
+#include "commonTypes.h"
 
 using namespace earshooter;
 
@@ -18,6 +20,8 @@ class Spaceship: public GraphicObject, public AnimatedObject {
 private:
     float red_, green_, blue_;
     bool isMoving_;
+    BoundingBox collisionBox_;
+    
 public:
     Spaceship(float x, float y);
     

@@ -16,7 +16,8 @@ Spaceship::Spaceship(float x, float y)
     red_(0.5f),
     green_(0.5f),
     blue_(0.5f),
-    isMoving_(0)
+    isMoving_(0),
+    collisionBox_(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)
 {
     
 }
@@ -56,6 +57,8 @@ void Spaceship::draw() const {
     
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
+    
+    collisionBox_.draw();
 }
 
 
