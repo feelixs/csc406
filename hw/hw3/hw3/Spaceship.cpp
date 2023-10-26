@@ -48,10 +48,6 @@ void Spaceship::draw() const {
 }
 
 
-void Spaceship::update(float dt) {
-    
-}
-
 bool Spaceship::isInside(const WorldPoint& pt)
 {
     return false;

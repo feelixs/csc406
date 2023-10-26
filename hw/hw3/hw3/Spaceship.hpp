@@ -22,7 +22,7 @@ public:
     Spaceship(float x, float y);
     
     void draw() const;
-    void update(float dt);
+   
     bool isInside(const WorldPoint& pt);
     
     inline float getRed() {
