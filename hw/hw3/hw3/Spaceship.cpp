@@ -61,8 +61,8 @@ void Spaceship::addVel(float dv) {
 void Spaceship::update(float dt) {
     float v = getVel(), x = getX(), y = getY(), a = getAngle(), s = getSpin();
     if (v != 0.f) {
-        setX(x + sinf(v) * dt);
-        setY(y + cosf(v) * dt);
+        setX(x + cosf(v) * dt);
+        setY(y + sinf(v) * dt);
     }
     if (s != 0.f)
         setAngle(a + s * dt);
