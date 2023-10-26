@@ -70,7 +70,7 @@ const int NUM_ASTEROIDS = 10;
 
 
 const int MAX_PLAYER_SPEED = 5;
-const float ANGLE_CHNG_RATE = 30;
+const float ANGLE_CHNG_RATE = 180;
 const float DECREASE_SPEED_CONST = 0.75;
 
 enum MenuItemID {	SEPARATOR = -1,
@@ -436,10 +436,10 @@ void myKeyHandler(unsigned char c, int x, int y)
         
             // TODO add arrow keys
         case 'd':
-            player->setAngle(player->getAngle() - ANGLE_CHNG_RATE);
+            player->setSpin(-ANGLE_CHNG_RATE);
             break;
         case 'a':
-            player->setAngle(player->getAngle() + ANGLE_CHNG_RATE);
+            player->setSpin(ANGLE_CHNG_RATE);
             break;
         case 'w':
             if (player->getVx() < MAX_PLAYER_SPEED) {
@@ -473,7 +473,10 @@ void myKeyUpHandler(unsigned char c, int x, int y)
         case 'w':
             player->setIsMoving(0);
             break;
-        
+        case 'a':
+        case 'd':
+            player->setSpin(0);
+            break;
     }
 }
 
