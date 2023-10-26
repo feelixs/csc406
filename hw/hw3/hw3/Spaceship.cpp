@@ -59,23 +59,24 @@ void Spaceship::addVel(float dv) {
 }
 
 void Spaceship::update(float dt) {
-    if (getVx() != 0.f)
-        setX(getX() + getVx()*dt);
-    if (getVy() != 0.f)
-        setY(getY() + getVy()*dt);
-    if (getSpin() != 0.f)
-        setAngle(getAngle() + getSpin()*dt);
+    float v = getVel(), x = getX(), y = getY(), a = getAngle(), s = getSpin();
+    if (v != 0.f) {
+        setX(x + cosf(v) * dt);
+        setY(y + sinf(v) * dt);
+    }
+    if (s != 0.f)
+        setAngle(a + s * dt);
         
-    if (getX() < World::X_MIN || getX() > World::X_MAX || getY() < World::Y_MIN || getY() > World::Y_MAX) {
+    if (x < World::X_MIN || x > World::X_MAX || y < World::Y_MIN || y > World::Y_MAX) {
         // this is for cylinder world
-        if (getX() < World::X_MIN) {
-            setX(getX() + World::WIDTH);
+        if (x < World::X_MIN) {
+            setX(x + World::WIDTH);
         }
-        else if (getX() > World::X_MAX) {
-            setX(getX() - World::WIDTH);
+        else if (x > World::X_MAX) {
+            setX(x - World::WIDTH);
         }
-        if (getY() < World::Y_MIN || getY() > World::Y_MAX) {
-            if (getY() < World::Y_MIN) {
+        if (y < World::Y_MIN || y > World::Y_MAX) {
+            if (y < World::Y_MIN) {
                 setY(-World::Y_MIN);
             }
             else {
