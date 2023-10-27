@@ -16,6 +16,7 @@ using namespace earshooter;
 
 class Spaceship: public GraphicObject, public AnimatedObject {
 private:
+    static float boundingBoxXmin_, boundingBoxXmax_, boundingBoxYmin_, boundingBoxYmax_;
     float red_, green_, blue_, accel_;
     bool isAccelerating_;
     std::unique_ptr<BoundingBox> collisionBox_;

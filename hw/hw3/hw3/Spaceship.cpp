@@ -8,6 +8,11 @@
 #include "Spaceship.hpp"
 #include <math.h>
 
+float Spaceship::boundingBoxXmin_ = 0;
+float Spaceship::boundingBoxXmax_ = 0;
+float Spaceship::boundingBoxYmin_ = 0;
+float Spaceship::boundingBoxYmax_ = 0;
+
 
 Spaceship::Spaceship(float x, float y)
 :   Object(x, y, 0.f),
@@ -18,9 +23,38 @@ Spaceship::Spaceship(float x, float y)
     blue_(1.f),
     isAccelerating_(0),
     accel_(0.f),
-    collisionBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, 0.f, ColorIndex::RED))
+    collisionBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED))
 {
+    //create an absolute collision box with height & width set to the MAXIMUM possible hitbox of object
+    // (when the object is rotated by 45 degrees)
+    //
+    // this way, the game can first check if collisions occur within this box
+    // and then do a trig calc for the object collision ONLY IF this bounding box has a collision
+    float halfWidth = 0.5;
+    float halfHeight = 0.5;
+
+    float corners[4][2] = {
+        {-halfWidth, halfHeight},
+        {halfWidth, halfHeight},
+        {halfWidth, -halfHeight},
+        {-halfWidth, -halfHeight}
+    };
     
+    float cosTheta = cosf(M_PI / 4); // 45 degrees = rotation with most extreme size for bounding box
+    float sinTheta = sinf(M_PI / 4);
+
+    boundingBoxXmin_ = boundingBoxXmax_ = corners[0][0] * cosTheta - corners[0][1] * sinTheta;
+    boundingBoxYmin_ = boundingBoxYmax_ = corners[0][0] * sinTheta + corners[0][1] * cosTheta;
+
+    for (int i = 1; i < 4; i++) {
+        float xRot = corners[i][0] * cosTheta - corners[i][1] * sinTheta;
+        float yRot = corners[i][0] * sinTheta + corners[i][1] * cosTheta;
+
+        boundingBoxXmin_ = fmin(boundingBoxXmin_, xRot);
+        boundingBoxXmax_ = fmax(boundingBoxXmax_, xRot);
+        boundingBoxYmin_ = fmin(boundingBoxYmin_, yRot);
+        boundingBoxYmax_ = fmax(boundingBoxYmax_, yRot);
+    }
 }
 
 
@@ -74,7 +108,7 @@ void Spaceship::update(float dt) {
     setVx(getVx() + cosf(getAngle() * M_PI / 180) * dt * getAccel());
     setVy(getVy() + sinf(getAngle() * M_PI / 180) * dt * getAccel());
     
-    collisionBox_->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, getAngle());
+    collisionBox_->setDimensions(getX() + boundingBoxXmin_, getX() + boundingBoxXmax_, getY() + boundingBoxYmin_, getY() + boundingBoxYmax_);
   
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
