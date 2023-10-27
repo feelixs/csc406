@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include "GraphicObject.h"
 #include "AnimatedObject.h"
-#include "BoundingBox.h"
 #include "commonTypes.h"
 
 using namespace earshooter;
