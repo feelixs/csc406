@@ -17,6 +17,7 @@ using namespace earshooter;
 class Asteroid: public GraphicObject, public AnimatedObject {
 private:
     float scaleX_, scaleY_;
+    std::unique_ptr<BoundingBox> collisionBox_;
     
 public:
     Asteroid(float centerX, float centerY, float angle, float width, float height,
@@ -24,6 +25,7 @@ public:
     Asteroid(const WorldPoint& pt, float angle, float spin, float width, float height, const Velocity& vel);
     
     void draw() const;
+    void update(float dt);
     bool isInside(const WorldPoint& pt);
     
     inline float getScaleY() {

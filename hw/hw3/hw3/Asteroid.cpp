@@ -13,7 +13,8 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float width, float
         GraphicObject(centerX, centerY, angle),
         AnimatedObject(centerX, centerY, angle, vx, vy, 0.f),
         scaleX_(width),
-        scaleY_(height)
+        scaleY_(height),
+        collisionBox_(std::make_unique<BoundingBox>(centerX-(width/2), centerX+(width/2), centerY-(height/2), centerY+(height/2), 0.f, ColorIndex::RED))
 {
 }
 
@@ -23,7 +24,8 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         AnimatedObject(pt.x, pt.y, angle, vel.vx, vel.vy, spin),
         //
         scaleX_(width),
-        scaleY_(height)
+        scaleY_(height),
+        collisionBox_(std::make_unique<BoundingBox>(pt.x-(width/2), pt.x+(width/2), pt.y-(height/2), pt.y+(height/2), 0.f, ColorIndex::RED))
 {
 }
 
@@ -49,9 +51,42 @@ void Asteroid::draw() const
         glVertex2f(-0.5f, +0.5f);
     glEnd();
     
+    
+    collisionBox_->draw();
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
 }
+
+void Asteroid::update(float dt) {
+    
+  //  collisionBox_->setDimensions(getX()-(getScaleX()/2), getX()+(getScaleX()/2), getY()-(getScaleY()/2), getY()+(getScaleY()/2), 0.f);
+    
+    if (getVx() != 0.f)
+        setX(getX() + getVx()*dt);
+    if (getVy() != 0.f)
+        setY(getY() + getVy()*dt);
+    if (getSpin() != 0.f)
+        setAngle(getAngle() + getSpin()*dt);
+        
+    if (getX() < World::X_MIN || getX() > World::X_MAX || getY() < World::Y_MIN || getY() > World::Y_MAX) {
+        // this is for cylinder world
+        if (getX() < World::X_MIN) {
+            setX(getX() + World::WIDTH);
+        }
+        else if (getX() > World::X_MAX) {
+            setX(getX() - World::WIDTH);
+        }
+        if (getY() < World::Y_MIN || getY() > World::Y_MAX) {
+            if (getY() < World::Y_MIN) {
+                setY(-World::Y_MIN);
+            }
+            else {
+                setY(-World::Y_MAX);
+            }
+        }
+    }
+}
+
 
 bool Asteroid::isInside(const WorldPoint& pt)
 {
