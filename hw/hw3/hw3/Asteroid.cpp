@@ -42,7 +42,7 @@ void Asteroid::draw() const
     glScalef(scaleX_, scaleY_, 1.f);
     
     glColor3f(1.f, 1.f, 1.f);
-    glBegin(GL_POLYGON);
+    glBegin(GL_LINE_LOOP);
         glVertex2f(-0.5f, -0.5f);
         glVertex2f(+0.5f, -0.5f);
         glVertex2f(+0.5f, +0.5f);
