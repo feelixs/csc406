@@ -8,22 +8,24 @@
 
 using namespace earshooter;
 
-BoundingBox::BoundingBox(float xmin, float xmax, float ymin, float ymax,
+BoundingBox::BoundingBox(float xmin, float xmax, float ymin, float ymax, float angle,
 						 ColorIndex color)
 	: 	xmin_(xmin),
 		xmax_(xmax),
 		ymin_(ymin),
 		ymax_(ymax),
+        angle_(angle),
 		color_(color)
 {
 }
 
-BoundingBox::BoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR,
+BoundingBox::BoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR, float angle,
 						ColorIndex color)
 	: 	xmin_(cornerUL.x),
 		xmax_(cornerLR.x),
 		ymin_(cornerUL.y),
 		ymax_(cornerLR.y),
+        angle_(angle),
 		color_(color)
 {
 }
@@ -38,17 +40,19 @@ BoundingBox::BoundingBox(ColorIndex color)
 	}
 
 
-void BoundingBox::setDimensions(float xmin, float xmax, float ymin, float ymax)
+void BoundingBox::setDimensions(float xmin, float xmax, float ymin, float ymax, float angle)
 {
 	xmin_ = xmin;
 	xmax_ = xmax;
 	ymin_ = ymin;
 	ymax_ = ymax;
+    angle_ = angle;
 }
 
 void BoundingBox::draw(void) const
 {
-//	glPushMatrix();
+	glPushMatrix();
+    //glRotatef(getAngle(), 0.f, 0.f, 1.f);
 	glColor4fv(COLOR[static_cast<int>(color_)]);
 //	const GLfloat worldToPixel = World::getWorldToPixel();
 //	glScalef(worldToPixel, worldToPixel, worldToPixel);
@@ -58,7 +62,7 @@ void BoundingBox::draw(void) const
 		glVertex2f(xmax_, ymax_);
 		glVertex2f(xmin_, ymax_);
 	glEnd();
-//	glPopMatrix();
+	glPopMatrix();
 }
 
 WorldPoint BoundingBox::getCornerUL(void) const

@@ -14,7 +14,7 @@ namespace earshooter
 	{
 
 		private:
-			float xmin_, xmax_, ymin_, ymax_;
+			float xmin_, xmax_, ymin_, ymax_, angle_;
 			ColorIndex color_;
 	
 		public:
@@ -30,7 +30,7 @@ namespace earshooter
 			 * @param ymax	upper bound of the box
 			 * @param color	color of the box's contour
 			 */
-			BoundingBox(float xmin, float xmax, float ymin, float ymax,
+			BoundingBox(float xmin, float xmax, float ymin, float ymax, float angle,
 						ColorIndex color = ColorIndex::NO_COLOR);
 
 			/**	Creates a new bounding box at set dimensions and color.
@@ -41,7 +41,7 @@ namespace earshooter
 			 * @param cornerUL	upper-left corner of the box
 			 * @param cornerLR	lower-right corner the box
 			 */
-			BoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR,
+			BoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR, float angle,
 						ColorIndex color = ColorIndex::NO_COLOR);
 
 			/**	Creates an empty bounding box with the specified contour color
@@ -61,7 +61,7 @@ namespace earshooter
 			 * @param ymin	lower bound of the box
 			 * @param ymax	upper bound of the box
 			 */
-			void setDimensions(float xmin, float xmax, float ymin, float ymax);
+			void setDimensions(float xmin, float xmax, float ymin, float ymax, float angle);
 
 
 			/**	Updates the box's position and dimensions
@@ -74,6 +74,10 @@ namespace earshooter
 			 */
 			void setDimensions(const WorldPoint& cornerUL, const WorldPoint& cornerLR);
 
+        
+            inline float getAngle() const {
+                return angle_;
+            }
 
 			/**	Returns the min value of the x coordinate
 			 * @RETURN min value of the x coordinate
