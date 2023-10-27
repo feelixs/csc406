@@ -75,7 +75,7 @@ void Spaceship::update(float dt) {
     setVy(getVy() + sinf(getAngle() * M_PI / 180) * dt * getAccel());
     
     collisionBox_->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, getAngle());
-    
+  
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
     if (getVy() != 0.f)
