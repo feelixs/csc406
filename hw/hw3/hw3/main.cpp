@@ -39,6 +39,7 @@
 #include <ctime>
 //
 #include "Asteroid.hpp"
+#include "Bullet.hpp"
 #include "glPlatform.h"
 #include "World.h"
 #include "Ellipse.h"
@@ -68,6 +69,7 @@ using namespace earshooter;
 const char* WIN_TITLE = "Asteroids (Homework 3)";
 const int NUM_ASTEROIDS = 10;
 
+const int BULLET_VEL = 10;
 const int PLAYER_ACCEL = 3;
 const int MAX_PLAYER_SPEED = 5;
 const float ANGLE_CHNG_RATE = 180;
@@ -455,8 +457,17 @@ void myKeyHandler(unsigned char c, int x, int y)
                 player->setVy(player->getVy() * DECREASE_SPEED_CONST);
             */
             break;
-		default:
-			break;
+            
+        case ' ': { // space -> shoot a bullet from the player
+            WorldPoint p = WorldPoint{player->getX(), player->getY()};
+            shared_ptr<Bullet> testb = make_shared<Bullet>(p, player->getAngle(), BULLET_VEL);
+            objectList.push_back(testb);
+            animatedObjectList.push_back(testb);
+            break;
+        }
+        
+        default:
+            break;
 	}
 }
 

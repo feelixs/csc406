@@ -24,6 +24,7 @@
 		AAC32B832AE010BD00CB5A41 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC32B822AE010BD00CB5A41 /* OpenGL.framework */; };
 		AAD784A72AE944EF00ACA918 /* Asteroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD784A52AE944EF00ACA918 /* Asteroid.cpp */; };
 		AAD784AA2AE95B8000ACA918 /* Spaceship.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD784A82AE95B8000ACA918 /* Spaceship.cpp */; };
+		AAEF4F132AEC323E00140F64 /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEF4F112AEC323E00140F64 /* Bullet.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,6 +74,8 @@
 		AAD784A62AE944EF00ACA918 /* Asteroid.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Asteroid.hpp; sourceTree = "<group>"; };
 		AAD784A82AE95B8000ACA918 /* Spaceship.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Spaceship.cpp; sourceTree = "<group>"; };
 		AAD784A92AE95B8000ACA918 /* Spaceship.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Spaceship.hpp; sourceTree = "<group>"; };
+		AAEF4F112AEC323E00140F64 /* Bullet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bullet.cpp; sourceTree = "<group>"; };
+		AAEF4F122AEC323E00140F64 /* Bullet.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bullet.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +142,8 @@
 				AAD784A62AE944EF00ACA918 /* Asteroid.hpp */,
 				AAD784A82AE95B8000ACA918 /* Spaceship.cpp */,
 				AAD784A92AE95B8000ACA918 /* Spaceship.hpp */,
+				AAEF4F112AEC323E00140F64 /* Bullet.cpp */,
+				AAEF4F122AEC323E00140F64 /* Bullet.hpp */,
 			);
 			path = hw3;
 			sourceTree = "<group>";
@@ -212,6 +217,7 @@
 				AA2D23912AE9444B00FE4A11 /* SmilingFace.cpp in Sources */,
 				AA2D238C2AE9444B00FE4A11 /* Object.cpp in Sources */,
 				AA2D23922AE9444B00FE4A11 /* Ellipse.cpp in Sources */,
+				AAEF4F132AEC323E00140F64 /* Bullet.cpp in Sources */,
 				AA2D23972AE9444B00FE4A11 /* World.cpp in Sources */,
 				AA2D23952AE9444B00FE4A11 /* ComplexGraphicObject.cpp in Sources */,
 				AA2D23942AE9444B00FE4A11 /* Rectangle.cpp in Sources */,
