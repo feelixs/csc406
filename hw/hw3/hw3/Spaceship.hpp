@@ -20,7 +20,7 @@ class Spaceship: public GraphicObject, public AnimatedObject {
 private:
     float red_, green_, blue_, accel_;
     bool isAccelerating_;
-    BoundingBox collisionBox_;
+    std::unique_ptr<BoundingBox> collisionBox_;
     
 public:
     Spaceship(float x, float y);

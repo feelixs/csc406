@@ -15,10 +15,10 @@ Spaceship::Spaceship(float x, float y)
     AnimatedObject(x, y, 0.f, 0.f, 0.f, 0.f),
     red_(0.5f),
     green_(0.5f),
-    blue_(0.5f),
+    blue_(1.f),
     isAccelerating_(0),
     accel_(0.f),
-    collisionBox_(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)
+    collisionBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, 0.f, ColorIndex::RED))
 {
     
 }
@@ -48,7 +48,7 @@ void Spaceship::draw() const {
     }
     // spaceship model
     glColor3f(red_, green_, blue_);
-    glBegin(GL_POLYGON);
+    glBegin(GL_LINE_LOOP);
     glVertex2f(0.0f, 0.5f);
     glVertex2f(0.5f, -0.5f);
     glVertex2f(0.2f, -0.3f);
@@ -59,7 +59,7 @@ void Spaceship::draw() const {
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
     
-    collisionBox_.draw();
+    collisionBox_->draw();
 }
 
 
@@ -74,7 +74,7 @@ void Spaceship::update(float dt) {
     setVx(getVx() + cosf(getAngle() * M_PI / 180) * dt * getAccel());
     setVy(getVy() + sinf(getAngle() * M_PI / 180) * dt * getAccel());
     
-    collisionBox_.setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5);
+    collisionBox_->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, getAngle());
     
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
