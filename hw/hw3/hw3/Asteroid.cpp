@@ -8,10 +8,10 @@
 #include "Asteroid.hpp"
 
 
-Asteroid::Asteroid(float centerX, float centerY, float angle, float width, float height, float vx, float vy)
+Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float width, float height, float vx, float vy)
     :    Object(centerX, centerY, angle),
         GraphicObject(centerX, centerY, angle),
-        AnimatedObject(centerX, centerY, angle, vx, vy, 0.f),
+        AnimatedObject(centerX, centerY, angle, vx, vy, spin),
         scaleX_(width),
         scaleY_(height),
         collisionBox_(std::make_unique<BoundingBox>(centerX-(width/2), centerX+(width/2), centerY-(height/2), centerY+(height/2), 0.f, ColorIndex::RED))

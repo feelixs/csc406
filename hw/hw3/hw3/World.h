@@ -149,6 +149,12 @@ namespace earshooter {
     inline WorldPoint randomPos() {
         return WorldPoint{ World::wxDist(World::randEngine), World::wyDist(World::randEngine) };
     }
+    inline float randomPosX() {
+        return World::wxDist(World::randEngine);
+    }
+    inline float randomPosY() {
+        return World::wyDist(World::randEngine);
+    }
     inline float randWidth() {
         return World::randomWidth(World::randEngine);
     }
