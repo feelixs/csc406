@@ -8,24 +8,22 @@
 
 using namespace earshooter;
 
-BoundingBox::BoundingBox(float xmin, float xmax, float ymin, float ymax, float angle,
+BoundingBox::BoundingBox(float xmin, float xmax, float ymin, float ymax,
 						 ColorIndex color)
 	: 	xmin_(xmin),
 		xmax_(xmax),
 		ymin_(ymin),
 		ymax_(ymax),
-        angle_(angle),
 		color_(color)
 {
 }
 
-BoundingBox::BoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR, float angle,
+BoundingBox::BoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR,
 						ColorIndex color)
 	: 	xmin_(cornerUL.x),
 		xmax_(cornerLR.x),
 		ymin_(cornerUL.y),
 		ymax_(cornerLR.y),
-        angle_(angle),
 		color_(color)
 {
 }
@@ -40,13 +38,12 @@ BoundingBox::BoundingBox(ColorIndex color)
 	}
 
 
-void BoundingBox::setDimensions(float xmin, float xmax, float ymin, float ymax, float angle)
+void BoundingBox::setDimensions(float xmin, float xmax, float ymin, float ymax)
 {
 	xmin_ = xmin;
 	xmax_ = xmax;
 	ymin_ = ymin;
 	ymax_ = ymax;
-    angle_ = angle;
 }
 
 void BoundingBox::draw(void) const
