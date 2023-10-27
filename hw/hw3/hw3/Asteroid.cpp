@@ -14,7 +14,7 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float 
         AnimatedObject(centerX, centerY, angle, vx, vy, spin),
         scaleX_(width),
         scaleY_(height),
-        collisionBox_(std::make_unique<BoundingBox>(centerX-(width/2), centerX+(width/2), centerY-(height/2), centerY+(height/2), 0.f, ColorIndex::RED))
+        collisionBox_(std::make_unique<BoundingBox>(centerX-(width/2), centerX+(width/2), centerY-(height/2), centerY+(height/2), ColorIndex::RED))
 {
 }
 
@@ -25,7 +25,7 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         //
         scaleX_(width),
         scaleY_(height),
-        collisionBox_(std::make_unique<BoundingBox>(pt.x-(width/2), pt.x+(width/2), pt.y-(height/2), pt.y+(height/2), 0.f, ColorIndex::RED))
+        collisionBox_(std::make_unique<BoundingBox>(pt.x-(width/2), pt.x+(width/2), pt.y-(height/2), pt.y+(height/2), ColorIndex::RED))
 {
 }
 
@@ -61,7 +61,7 @@ void Asteroid::draw() const
 
 void Asteroid::update(float dt) {
     
-    collisionBox_->setDimensions(getX()-(getScaleX()/2), getX()+(getScaleX()/2), getY()-(getScaleY()/2), getY()+(getScaleY()/2), 0.f);
+    collisionBox_->setDimensions(getX()-(getScaleX()/2), getX()+(getScaleX()/2), getY()-(getScaleY()/2), getY()+(getScaleY()/2));
     
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
