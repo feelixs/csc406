@@ -17,8 +17,10 @@ using namespace earshooter;
 class Asteroid: public GraphicObject, public AnimatedObject {
 private:
     float scaleX_, scaleY_;
+    float boundingBoxXmin_, boundingBoxXmax_, boundingBoxYmin_, boundingBoxYmax_;
     std::unique_ptr<BoundingBox> collisionBox_;
     
+    void initBoundingBox_(float halfWidth, float halfHeight);
 public:
     Asteroid(float centerX, float centerY, float angle, float spin, float width, float height,
             float vx, float vy);
