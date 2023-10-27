@@ -52,14 +52,16 @@ void Asteroid::draw() const
     glEnd();
     
     
-    collisionBox_->draw();
+    
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
+    
+    collisionBox_->draw();
 }
 
 void Asteroid::update(float dt) {
     
-  //  collisionBox_->setDimensions(getX()-(getScaleX()/2), getX()+(getScaleX()/2), getY()-(getScaleY()/2), getY()+(getScaleY()/2), 0.f);
+    collisionBox_->setDimensions(getX()-(getScaleX()/2), getX()+(getScaleX()/2), getY()-(getScaleY()/2), getY()+(getScaleY()/2), 0.f);
     
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
