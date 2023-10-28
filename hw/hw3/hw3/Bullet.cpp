@@ -70,7 +70,7 @@ void Bullet::draw() const {
 
 void Bullet::update(float dt) {
     age_ += dt;
-    std::cout << age_ << std::endl;
+    //std::cout << age_ << std::endl;
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
     if (getVy() != 0.f)
