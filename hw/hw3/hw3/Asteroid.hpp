@@ -17,6 +17,7 @@ using namespace earshooter;
 class Asteroid: public GraphicObject, public AnimatedObject {
 private:
     float scaleX_, scaleY_;
+    Velocity initVel_; // the asteroid's starting velocity
     float boundingBoxXmin_, boundingBoxXmax_, boundingBoxYmin_, boundingBoxYmax_;
     std::unique_ptr<BoundingBox> collisionBox_;
     
@@ -35,6 +36,12 @@ public:
     }
     inline float getScaleX() {
         return scaleX_;
+    }
+    inline float getInitVx() {
+        return initVel_.vx;
+    }
+    inline float getInitVy() {
+        return initVel_.vy;
     }
 };
 

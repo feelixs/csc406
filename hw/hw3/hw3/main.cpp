@@ -69,6 +69,8 @@ using namespace earshooter;
 const char* WIN_TITLE = "Asteroids (Homework 3)";
 const int NUM_ASTEROIDS = 10;
 
+float playerAccel = 0;
+
 vector<shared_ptr<Bullet>> allBullets;
 
 const float BULLET_LIFE_SECS = 1.0;
@@ -230,7 +232,7 @@ const GLfloat* bgndColor = BGND_COLOR[0];
 
 list<shared_ptr<GraphicObject> > objectList;
 list<shared_ptr<AnimatedObject> > animatedObjectList;
-
+list<shared_ptr<Asteroid>> allAsteroids;
 WorldType World::worldType = WorldType::CYLINDER_WORLD;
 
 //--------------------------------------
@@ -439,6 +441,17 @@ void myKeyHandler(unsigned char c, int x, int y)
             exit(0);
             break;
         
+        case 'g':
+            player->setEgocentric(false);
+            player->setAccel(playerAccel);
+            playerAccel = 0;
+            break;
+        case 'e':
+            player->setEgocentric(true);
+            playerAccel = player->getAccel();
+            player->setAccel(0);
+            break;
+            
             // TODO add arrow keys
         case 'd':
             player->setSpin(-ANGLE_CHNG_RATE);
@@ -447,6 +460,7 @@ void myKeyHandler(unsigned char c, int x, int y)
             player->setSpin(ANGLE_CHNG_RATE);
             break;
         case 'w':
+            playerAccel = PLAYER_ACCEL;
             player->setAccel(PLAYER_ACCEL);
             player->setIsAccelerating(PLAYER_ACCEL);
             break;
@@ -483,6 +497,8 @@ void myKeyUpHandler(unsigned char c, int x, int y)
     switch (c) {
         case 'w':
             player->setIsAccelerating(0);
+            
+            playerAccel = 0;
             player->setAccel(0);
             break;
         case 'a':
@@ -504,7 +520,33 @@ void myTimerFunc(int value)
 	//	 do something (e.g. update the state of animated objects)
 	chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
 	float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
-	for (auto obj : animatedObjectList)
+	
+    if (player->isEgocentric()) {
+        // is the game in egocentric mode?
+        // if so, add negative the player's velocity to each asteroid
+        
+        for (auto ast : allAsteroids) {
+            if (ast != nullptr) {
+                if (player->getX() != 0) {
+                    ast->setX(ast->getX() - player->getX());
+                }
+                if (player->getY() != 0) {
+                    ast->setY(ast->getY() - player->getY());
+                }
+                
+                ast->setVx(ast->getInitVx() - player->getVx());
+                ast->setVy(ast->getInitVy() - player->getVy());
+            }
+        }
+        if (player->getX() != 0) {
+            player->setX(0);
+        }
+        if (player->getY() != 0) {
+            player->setY(0);
+        }
+    }
+    
+    for (auto obj : animatedObjectList)
 	{
 		if (obj != nullptr)
 			obj->update(dt);
@@ -686,6 +728,7 @@ void applicationInit()
         //    and add it to both lists
         objectList.push_back(new_ast);
         animatedObjectList.push_back(new_ast);
+        allAsteroids.push_back(new_ast);
     }
     
     player = make_shared<Spaceship>(0.f, 0.f);

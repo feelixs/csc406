@@ -16,6 +16,9 @@ using namespace earshooter;
 
 class Spaceship: public GraphicObject, public AnimatedObject {
 private:
+    
+    bool egocentric_;
+    
     static float boundingBoxXmin_, boundingBoxXmax_, boundingBoxYmin_, boundingBoxYmax_;
     float red_, green_, blue_, accel_;
     bool isAccelerating_;
@@ -45,6 +48,12 @@ public:
     }
     inline void setIsAccelerating(bool t) {
         isAccelerating_ = t;
+    }
+    inline bool isEgocentric() {
+        return egocentric_;
+    }
+    inline void setEgocentric(bool e) {
+        egocentric_ = e;
     }
 };
 

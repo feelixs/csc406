@@ -23,7 +23,8 @@ Spaceship::Spaceship(float x, float y)
     blue_(1.f),
     isAccelerating_(0),
     accel_(0.f),
-    collisionBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED))
+    collisionBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)),
+    egocentric_(true)
 {
     //create an absolute collision box with height & width set to the MAXIMUM possible hitbox of object
     // (when the object is rotated by 45 degrees)
@@ -110,10 +111,13 @@ void Spaceship::update(float dt) {
     
     collisionBox_->setDimensions(getX() + boundingBoxXmin_, getX() + boundingBoxXmax_, getY() + boundingBoxYmin_, getY() + boundingBoxYmax_);
   
-    if (getVx() != 0.f)
-        setX(getX() + getVx()*dt);
-    if (getVy() != 0.f)
-        setY(getY() + getVy()*dt);
+    if (!egocentric_) {
+        if (getVx() != 0.f)
+            setX(getX() + getVx()*dt);
+        if (getVy() != 0.f)
+            setY(getY() + getVy()*dt);
+    }
+    
     if (getSpin() != 0.f)
         setAngle(getAngle() + getSpin()*dt);
         

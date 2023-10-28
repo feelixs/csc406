@@ -14,7 +14,8 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float 
         AnimatedObject(centerX, centerY, angle, vx, vy, spin),
         scaleX_(width),
         scaleY_(height),
-        collisionBox_(std::make_unique<BoundingBox>(-1, 1, -1, 1, ColorIndex::RED))
+        collisionBox_(std::make_unique<BoundingBox>(-1, 1, -1, 1, ColorIndex::RED)),
+        initVel_(Velocity{vx, vy})
 {
     initBoundingBox_(width/2, height/2);
 }
@@ -26,7 +27,8 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         //
         scaleX_(width),
         scaleY_(height),
-        collisionBox_(std::make_unique<BoundingBox>(-1, 1, -1, 1, ColorIndex::RED))
+        collisionBox_(std::make_unique<BoundingBox>(-1, 1, -1, 1, ColorIndex::RED)),
+        initVel_(vel)
 {
     initBoundingBox_(width/2, height/2);
 }
