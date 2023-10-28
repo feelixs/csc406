@@ -69,6 +69,9 @@ using namespace earshooter;
 const char* WIN_TITLE = "Asteroids (Homework 3)";
 const int NUM_ASTEROIDS = 10;
 
+vector<shared_ptr<Bullet>> allBullets;
+
+const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
 const int PLAYER_ACCEL = 3;
 const int MAX_PLAYER_SPEED = 5;
@@ -460,9 +463,9 @@ void myKeyHandler(unsigned char c, int x, int y)
             
         case ' ': { // space -> shoot a bullet from the player
             WorldPoint p = WorldPoint{player->getX(), player->getY()};
-            shared_ptr<Bullet> testb = make_shared<Bullet>(p, player->getAngle(), BULLET_VEL);
-            objectList.push_back(testb);
-            animatedObjectList.push_back(testb);
+            shared_ptr<Bullet> b = make_shared<Bullet>(p, player->getAngle(), BULLET_VEL, BULLET_LIFE_SECS);
+            allBullets.push_back(b);
+            objectList.push_back(b);
             break;
         }
         
@@ -506,6 +509,20 @@ void myTimerFunc(int value)
 		if (obj != nullptr)
 			obj->update(dt);
 	}
+    
+    auto thisBullet = allBullets.begin();
+    while (thisBullet != allBullets.end()) {
+        if ((*thisBullet)->getLife() < (*thisBullet)->getAge()) {
+            auto itToRemove = std::remove(objectList.begin(), objectList.end(), *thisBullet);
+                // Erase the "removed" elements from objectList.
+                objectList.erase(itToRemove, objectList.end());
+            thisBullet = allBullets.erase(thisBullet);
+        } else {
+            (*thisBullet)->update(dt);
+            ++thisBullet;
+        }
+    }
+    
 	lastTime = currentTime;
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)
