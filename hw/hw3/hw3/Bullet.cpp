@@ -7,22 +7,27 @@
 
 #include "Bullet.hpp"
 #include <math.h>
+#include <iostream>
 
-Bullet::Bullet(float x, float y, float angle, float vel) 
+Bullet::Bullet(float x, float y, float angle, float vel, float lifetime)
     : Object(x, y, angle),
     GraphicObject(x, y, angle),
     AnimatedObject(x, y, angle, 0, 0, 0), // we will calculate vx and vy in the init
-    vel_(vel)
+    vel_(vel),
+    lifetime_(lifetime),
+    age_(0)
 {
     initVel_();
 }
 
 
-Bullet::Bullet(WorldPoint& xy, float angle, float vel)
+Bullet::Bullet(WorldPoint& xy, float angle, float vel, float lifetime)
     : Object(xy.x, xy.y, angle),
     GraphicObject(xy.x, xy.y, angle),
     AnimatedObject(xy.x, xy.y, angle, 0, 0, 0), // we will calculate vx and vy in the init
-    vel_(vel)
+    vel_(vel),
+    lifetime_(lifetime),
+    age_(0)
 {
     initVel_();
 }
@@ -62,5 +67,31 @@ void Bullet::draw() const {
     glPopMatrix();
 }
 
+
+void Bullet::update(float dt) {
+    age_ += dt;
+    std::cout << age_ << std::endl;
+    if (getVx() != 0.f)
+        setX(getX() + getVx()*dt);
+    if (getVy() != 0.f)
+        setY(getY() + getVy()*dt);
+    if (getSpin() != 0.f)
+        setAngle(getAngle() + getSpin()*dt);
+    
+    if (getX() < World::X_MIN || getX() > World::X_MAX ||
+        getY() < World::Y_MIN || getY() > World::Y_MAX)
+    {
+        if (getX() < World::X_MIN)
+            setX(getX() + World::WIDTH);
+        else if (getX() > World::X_MAX)
+            setX(getX() - World::WIDTH);
+        if (getY() < World::Y_MIN || getY() > World::Y_MAX){
+            if (getY() < World::Y_MIN)
+                setY(-World::Y_MIN);
+            else
+                setY(-World::Y_MAX);
+        }
+    }
+}
 
 

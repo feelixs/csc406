@@ -16,15 +16,31 @@ using namespace earshooter;
 
 class Bullet : public GraphicObject, public AnimatedObject {
 private:
-    const float vel_;
+    const float vel_, lifetime_;
+    float age_;
     void initVel_();
 public:
-    Bullet(float x, float y, float angle, float vel);
-    Bullet(WorldPoint& xy, float angle, float vel);
+    /**
+        @param x starting x pos of the bullet
+        @param y starting y pos of the bullet
+        @param angle starting angle of the bullet
+        @param vel velocity (magnitude) of the bullet
+        @param lifetime how many seconds the bullet should last before deleting
+     */
+    Bullet(float x, float y, float angle, float vel, float lifetime);
+    Bullet(WorldPoint& xy, float angle, float vel, float lifetime);
     
     void draw() const;
+    void update(float dt);
+    
     bool isInside(const WorldPoint& pt);
-    //void update(float dt);
+    
+    inline float getLife() {
+        return lifetime_;
+    }
+    inline float getAge() {
+        return age_;
+    }
 };
 
 #endif /* Bullet_hpp */
