@@ -41,6 +41,9 @@ public:
     inline float getAge() {
         return age_;
     }
+    inline WorldPoint getPos() {
+        return WorldPoint{getX(), getY()};
+    }
 };
 
 #endif /* Bullet_hpp */

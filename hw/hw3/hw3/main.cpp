@@ -140,6 +140,7 @@ void myTimerFunc(int val);
 void applicationInit();
 
 void correctForEgocentric();
+void detectCollisions();
 //--------------------------------------
 #if 0
 #pragma mark Constants
@@ -592,6 +593,18 @@ void correctForEgocentric() {
 }
 
 
+void detectCollisions() {
+    for (auto ast : allAsteroids) {
+        for (auto bullet : allBullets) {
+            if (ast->isInside(bullet->getPos())) {
+                ast->setVx(0);
+                ast->setVy(0);
+            }
+        }
+    }
+}
+
+
 void myTimerFunc(int value)
 {
 	static int frameIndex=0;
@@ -603,9 +616,9 @@ void myTimerFunc(int value)
 	//	 do something (e.g. update the state of animated objects)
 	chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
 	float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
-	
     
     correctForEgocentric();
+    detectCollisions();
     
     for (auto obj : animatedObjectList)
 	{
