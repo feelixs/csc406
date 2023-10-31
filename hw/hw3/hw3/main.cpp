@@ -573,6 +573,7 @@ void myTimerFunc(int value)
                     ast->setY(ast->getY() - player->getY());
                 }
             }
+            // also need to relocate bullets
             for (auto b : allBullets) {
                 if (player->getX() != 0) {
                     b->setX(b->getX() - player->getX());
