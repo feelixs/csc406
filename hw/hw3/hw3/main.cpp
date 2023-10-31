@@ -432,7 +432,10 @@ void myEntryHandler(int state)
 //
 void myKeyHandler(unsigned char c, int x, int y)
 {
+    
+   // cout << c << endl;
 	// silence warning
+    
 	(void) x;
 	(void) y;
     	
@@ -444,12 +447,14 @@ void myKeyHandler(unsigned char c, int x, int y)
             break;
         
         case 'g':
+        case 'G':
             player->setEgocentric(false);
             switchedEgocentric = true;
             player->setAccel(playerAccel);
             playerAccel = 0;
             break;
         case 'e':
+        case 'E':
             player->setEgocentric(true);
             switchedEgocentric = true;
             playerAccel = player->getAccel();
@@ -458,17 +463,21 @@ void myKeyHandler(unsigned char c, int x, int y)
             
             // TODO add arrow keys
         case 'd':
+        case 'D':
             player->setSpin(-ANGLE_CHNG_RATE);
             break;
         case 'a':
+        case 'A':
             player->setSpin(ANGLE_CHNG_RATE);
             break;
         case 'w':
+        case 'W':
             playerAccel = PLAYER_ACCEL;
             player->setAccel(PLAYER_ACCEL);
             player->setIsAccelerating(PLAYER_ACCEL);
             break;
         case 's':
+        case 'S':
             /*
              
              // pdf said no 'slow down' control
@@ -500,13 +509,16 @@ void myKeyUpHandler(unsigned char c, int x, int y)
 
     switch (c) {
         case 'w':
+        case 'W':
             player->setIsAccelerating(0);
             
             playerAccel = 0;
             player->setAccel(0);
             break;
         case 'a':
+        case 'A':
         case 'd':
+        case 'D':
             player->setSpin(0);
             break;
     }
