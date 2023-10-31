@@ -127,6 +127,11 @@ void Asteroid::update(float dt) {
 
 bool Asteroid::isInside(const WorldPoint& pt)
 {
+    if (!collisionBox_->isInside(pt.x, pt.y)) {
+        // if pt is not inside my collision box, we don't need to do any calculations
+        return false;
+    }
+    
     float dx = pt.x - getX(), dy = pt.y - getY();
     if (getAngle() != 0.f)
     {

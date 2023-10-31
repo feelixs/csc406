@@ -101,6 +101,11 @@ void Spaceship::draw() const {
 
 bool Spaceship::isInside(const WorldPoint& pt)
 {
+    if (!collisionBox_->isInside(pt.x, pt.y)) {
+        // if pt is not inside my collision box, we don't need to do any calculations
+        return false;
+    }
+    
     float h = sqrt(3) / 4;
     
     // spaceship triangle vertices
