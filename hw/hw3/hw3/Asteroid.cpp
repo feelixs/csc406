@@ -132,6 +132,7 @@ bool Asteroid::isInside(const WorldPoint& pt)
         return false;
     }
     
+    // it's inside the collisionbox, but is it inside the asteroid (rectangle)
     float dx = pt.x - getX(), dy = pt.y - getY();
     if (getAngle() != 0.f)
     {
