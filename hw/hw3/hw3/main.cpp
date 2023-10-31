@@ -139,6 +139,7 @@ void mySubmenuHandler(int colorIndex);
 void myTimerFunc(int val);
 void applicationInit();
 
+void correctForEgocentric();
 //--------------------------------------
 #if 0
 #pragma mark Constants
@@ -533,20 +534,7 @@ void myKeyUpHandler(unsigned char c, int x, int y)
     }
 }
 
-
-void myTimerFunc(int value)
-{
-	static int frameIndex=0;
-	static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
-
-	//	"re-prime the timer"
-	glutTimerFunc(1, myTimerFunc, value);
-
-	//	 do something (e.g. update the state of animated objects)
-	chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
-	float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
-	
-    
+void correctForEgocentric() {
     if (player->isEgocentric()) {
         // is the game in egocentric mode?
         for (auto ast : allAsteroids) {
@@ -601,6 +589,23 @@ void myTimerFunc(int value)
             }
         }
     }
+}
+
+
+void myTimerFunc(int value)
+{
+	static int frameIndex=0;
+	static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
+
+	//	"re-prime the timer"
+	glutTimerFunc(1, myTimerFunc, value);
+
+	//	 do something (e.g. update the state of animated objects)
+	chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
+	float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
+	
+    
+    correctForEgocentric();
     
     for (auto obj : animatedObjectList)
 	{
