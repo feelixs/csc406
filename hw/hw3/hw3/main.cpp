@@ -71,6 +71,8 @@ const int NUM_ASTEROIDS = 10;
 
 float playerAccel = 0;
 
+bool switchedEgocentric = false;
+
 vector<shared_ptr<Bullet>> allBullets;
 
 const float BULLET_LIFE_SECS = 1.0;
@@ -443,11 +445,13 @@ void myKeyHandler(unsigned char c, int x, int y)
         
         case 'g':
             player->setEgocentric(false);
+            switchedEgocentric = true;
             player->setAccel(playerAccel);
             playerAccel = 0;
             break;
         case 'e':
             player->setEgocentric(true);
+            switchedEgocentric = true;
             playerAccel = player->getAccel();
             player->setAccel(0);
             break;
@@ -521,28 +525,50 @@ void myTimerFunc(int value)
 	chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
 	float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
 	
+    
     if (player->isEgocentric()) {
         // is the game in egocentric mode?
-        // if so, add negative the player's velocity to each asteroid
-        
         for (auto ast : allAsteroids) {
             if (ast != nullptr) {
+                // if so, change each asteroid's velocity by negative the player's
+                ast->setVx(ast->getInitVx() - player->getVx());
+                ast->setVy(ast->getInitVy() - player->getVy());
+            }
+        }
+    }
+    
+    if (switchedEgocentric) {
+        // egocentric variable has changed states
+        switchedEgocentric = false; // the following code should only be run once every time the egocentric variable changes state
+        
+        if (player->isEgocentric()) {
+            // if we just switched to egocentric mode, the player might not be in the center of the screen
+            // so we need to move all asteroids by the player's offset to account for when we move the player to the center
+            for (auto ast : allAsteroids) {
                 if (player->getX() != 0) {
                     ast->setX(ast->getX() - player->getX());
                 }
                 if (player->getY() != 0) {
                     ast->setY(ast->getY() - player->getY());
                 }
-                
-                ast->setVx(ast->getInitVx() - player->getVx());
-                ast->setVy(ast->getInitVy() - player->getVy());
+            }
+            // now center the player on the screen
+            if (player->getX() != 0) {
+                player->setX(0);
+            }
+            if (player->getY() != 0) {
+                player->setY(0);
             }
         }
-        if (player->getX() != 0) {
-            player->setX(0);
-        }
-        if (player->getY() != 0) {
-            player->setY(0);
+        else {
+            // egocentric mode has been disabled
+            for (auto ast : allAsteroids) {
+                if (ast != nullptr) {
+                    // reset each asteroid velocity to its default value
+                    ast->setVx(ast->getInitVx());
+                    ast->setVy(ast->getInitVy());
+                }
+            }
         }
     }
     
@@ -732,7 +758,6 @@ void applicationInit()
     }
     
     player = make_shared<Spaceship>(0.f, 0.f);
-    
     objectList.push_back(player);
     animatedObjectList.push_back(player);
     
