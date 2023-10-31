@@ -375,7 +375,7 @@ void myMouseHandler(int button, int state, int ix, int iy)
 				// left mouse down
                 WorldPoint p = pixelToWorld(ix, iy);
                 if (player->isInside(p)) {
-                    cout << "inside" << endl;
+                    cout << "inside player" << endl;
                 }
                 for (auto ast : allAsteroids) {
                     if (ast->isInside(p)) {
