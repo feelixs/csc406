@@ -12,8 +12,8 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float 
     :    Object(centerX, centerY, angle),
         GraphicObject(centerX, centerY, angle),
         AnimatedObject(centerX, centerY, angle, vx, vy, spin),
-        scaleX_(width),
-        scaleY_(height),
+        width_(width),
+        height_(height),
         collisionBox_(std::make_unique<BoundingBox>(-1, 1, -1, 1, ColorIndex::RED)),
         initVel_(Velocity{vx, vy})
 {
@@ -25,8 +25,8 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         GraphicObject(pt, angle),
         AnimatedObject(pt.x, pt.y, angle, vel.vx, vel.vy, spin),
         //
-        scaleX_(width),
-        scaleY_(height),
+        width_(width),
+        height_(height),
         collisionBox_(std::make_unique<BoundingBox>(-1, 1, -1, 1, ColorIndex::RED)),
         initVel_(vel)
 {
@@ -76,7 +76,7 @@ void Asteroid::draw() const
     glRotatef(getAngle(), 0.f, 0.f, 1.f);
     
     //    apply the radius as a scale
-    glScalef(scaleX_, scaleY_, 1.f);
+    glScalef(width_, height_, 1.f);
     
     glColor3f(1.f, 1.f, 1.f);
     glBegin(GL_LINE_LOOP);
@@ -127,5 +127,18 @@ void Asteroid::update(float dt) {
 
 bool Asteroid::isInside(const WorldPoint& pt)
 {
-    return false;
+    float dx = pt.x - getX(), dy = pt.y - getY();
+    if (getAngle() != 0.f)
+    {
+        float ca = cosf(getAngle()), sa = sinf(getAngle());
+        float rdx = ca * dx + sa*dy;
+        float rdy = -sa *dx + ca*dy;
+    
+        return (rdx >= -width_/2 ) && (rdx <= width_/2 ) &&
+               (rdy >= -height_/2 ) && (rdy <= +height_/2 );
+    
+    }
+    else
+        return (pt.x >= getX() - width_/2 ) && (pt.x <= getX() + width_/2 ) &&
+               (pt.y >= getY() - height_/2 ) && (pt.y <= getY() + height_/2 );
 }
