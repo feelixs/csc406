@@ -573,6 +573,14 @@ void myTimerFunc(int value)
                     ast->setY(ast->getY() - player->getY());
                 }
             }
+            for (auto b : allBullets) {
+                if (player->getX() != 0) {
+                    b->setX(b->getX() - player->getX());
+                }
+                if (player->getY() != 0) {
+                    b->setY(b->getY() - player->getY());
+                }
+            }
             // now center the player on the screen
             if (player->getX() != 0) {
                 player->setX(0);
