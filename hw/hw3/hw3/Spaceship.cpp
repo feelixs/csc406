@@ -8,6 +8,7 @@
 #include "Spaceship.hpp"
 #include <math.h>
 
+const float RAD_TO_DEG = M_PI / 180;
 float Spaceship::boundingBoxXmin_ = 0;
 float Spaceship::boundingBoxXmax_ = 0;
 float Spaceship::boundingBoxYmin_ = 0;
@@ -24,7 +25,7 @@ Spaceship::Spaceship(float x, float y)
     isAccelerating_(0),
     accel_(0.f),
     collisionBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)),
-    egocentric_(true)
+    egocentric_(false)
 {
     //create an absolute collision box with height & width set to the MAXIMUM possible hitbox of object
     // (when the object is rotated by 45 degrees)
@@ -106,8 +107,8 @@ bool Spaceship::isInside(const WorldPoint& pt)
 
 void Spaceship::update(float dt) {
     
-    setVx(getVx() + cosf(getAngle() * M_PI / 180) * dt * getAccel());
-    setVy(getVy() + sinf(getAngle() * M_PI / 180) * dt * getAccel());
+    setVx(getVx() + cosf(getAngle() * RAD_TO_DEG) * dt * getAccel());
+    setVy(getVy() + sinf(getAngle() * RAD_TO_DEG) * dt * getAccel());
     
     collisionBox_->setDimensions(getX() + boundingBoxXmin_, getX() + boundingBoxXmax_, getY() + boundingBoxYmin_, getY() + boundingBoxYmax_);
   
