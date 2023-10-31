@@ -590,13 +590,15 @@ void myTimerFunc(int value)
 			obj->update(dt);
 	}
     
+    // iterate over all active bullets, deleting all expired ones and updating active ones
     auto thisBullet = allBullets.begin();
     while (thisBullet != allBullets.end()) {
         if ((*thisBullet)->getLife() < (*thisBullet)->getAge()) {
             auto itToRemove = std::remove(objectList.begin(), objectList.end(), *thisBullet);
-                // Erase the "removed" elements from objectList.
+                // erase the "removed" elements from objectList
                 objectList.erase(itToRemove, objectList.end());
             thisBullet = allBullets.erase(thisBullet);
+            // no need to ++ as this element is removed, we're now on the next one already
         } else {
             (*thisBullet)->update(dt);
             ++thisBullet;
