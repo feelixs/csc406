@@ -101,8 +101,27 @@ void Spaceship::draw() const {
 
 bool Spaceship::isInside(const WorldPoint& pt)
 {
-    return false;
+    float h = sqrt(3) / 4;
+    
+    // spaceship triangle vertices
+    WorldPoint A = WorldPoint{0, -h};
+    WorldPoint B = WorldPoint{-0.5, h};
+    WorldPoint C = WorldPoint{0.5, h};
+
+    float dx = pt.x - getX(), dy = pt.y - getY();
+    float ca = cosf(-getAngle()), sa = sinf(-getAngle());
+    float lx = ca * dx + sa * dy;
+    float ly = -sa * dx + ca * dy;
+
+    // barycentric coordinates
+    float detT = (B.y - C.y) * (A.x - C.x) + (C.x - B.x) * (A.y - C.y);
+    float alpha = ((B.y - C.y) * (lx - C.x) + (C.x - B.x) * (ly - C.y)) / detT;
+    float beta = ((C.y - A.y) * (lx - C.x) + (A.x - C.x) * (ly - C.y)) / detT;
+    float gamma = 1.0f - alpha - beta;
+
+    return (alpha >= 0) && (beta >= 0) && (gamma >= 0);
 }
+
 
 
 void Spaceship::update(float dt) {

@@ -373,6 +373,15 @@ void myMouseHandler(int button, int state, int ix, int iy)
 			if (state == GLUT_DOWN)
 			{
 				// left mouse down
+                WorldPoint p = pixelToWorld(ix, iy);
+                if (player->isInside(p)) {
+                    cout << "inside" << endl;
+                }
+                for (auto ast : allAsteroids) {
+                    if (ast->isInside(p)) {
+                        cout << "inside ast" << endl;
+                    }
+                }
 			}
 			else if (state == GLUT_UP)
             {
