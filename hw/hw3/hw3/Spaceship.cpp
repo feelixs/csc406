@@ -106,18 +106,19 @@ bool Spaceship::isInside(const WorldPoint& pt)
         return false;
     }
     
+    // it's inside the collisionbox, but is it inside the spaceship?
     float h = sqrt(3) / 4;
-    
     // spaceship triangle vertices
     WorldPoint A = WorldPoint{0, -h};
     WorldPoint B = WorldPoint{-0.5, h};
     WorldPoint C = WorldPoint{0.5, h};
-
+    
+    // prepare pt transformations
     float dx = pt.x - getX(), dy = pt.y - getY();
     float ca = cosf(-getAngle()), sa = sinf(-getAngle());
     float lx = ca * dx + sa * dy;
     float ly = -sa * dx + ca * dy;
-
+    
     // barycentric coordinates
     float detT = (B.y - C.y) * (A.x - C.x) + (C.x - B.x) * (A.y - C.y);
     float alpha = ((B.y - C.y) * (lx - C.x) + (C.x - B.x) * (ly - C.y)) / detT;
