@@ -9,6 +9,8 @@
 #include <math.h>
 #include <iostream>
 
+const float RAD_TO_DEG = M_PI / 180;
+
 Bullet::Bullet(float x, float y, float angle, float vel, float lifetime)
     : Object(x, y, angle),
     GraphicObject(x, y, angle),
@@ -34,8 +36,8 @@ Bullet::Bullet(WorldPoint& xy, float angle, float vel, float lifetime)
 
 void Bullet::initVel_() {
     // set vx and vy relative to my angle and constant vel
-    setVx(getVx() + cosf(getAngle() * M_PI / 180) * vel_);
-    setVy(getVy() + sinf(getAngle() * M_PI / 180) * vel_);
+    setVx(getVx() + cosf(getAngle() * RAD_TO_DEG) * vel_);
+    setVy(getVy() + sinf(getAngle() * RAD_TO_DEG) * vel_);
 }
 
 bool Bullet::isInside(const WorldPoint& pt) {
