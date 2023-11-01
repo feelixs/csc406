@@ -21,7 +21,7 @@ private:
     std::shared_ptr<Spaceship> obj_;
     
     static int totalLife_, curLife_; // totalLife is set to this->obj_'s life when this is initialized
-    static float** displayVertices_;
+    static float** displayLinePts_;
 public:
     ///@param pt starting coords
     ///@param obj the spaceship whose life this will keep track of
