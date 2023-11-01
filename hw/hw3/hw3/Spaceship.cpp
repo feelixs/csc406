@@ -138,7 +138,6 @@ bool Spaceship::isInside(const WorldPoint& pt)
 
 
 void Spaceship::update(float dt) {
-    
     // after going invulnerable, a timer (returnFromInvulnerabilityAfter_) is set.
     // this code handles returning from invulnerability after the timer expires
     if (invulnerable_) {
