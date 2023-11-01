@@ -65,7 +65,7 @@ namespace earshooter
              * @param ymin    lower bound of the box
              * @param ymax    upper bound of the box
              */
-            void setDimensions(float xmin, float xmax, float ymin, float ymax);
+            void setDimensions(float xmin, float xmax, float ymin, float ymax, float angle);
 
 
             /**    Updates the box's position and dimensions
