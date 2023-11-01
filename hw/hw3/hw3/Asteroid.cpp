@@ -137,19 +137,7 @@ bool Asteroid::isInside(const WorldPoint& pt)
         return false;
     }
     
-    // it's inside the collisionbox, but is it inside the asteroid (rectangle)
-    float dx = pt.x - getX(), dy = pt.y - getY();
-    if (getAngle() != 0.f)
-    {
-        float ca = cosf(getAngle()), sa = sinf(getAngle());
-        float rdx = ca * dx + sa*dy;
-        float rdy = -sa *dx + ca*dy;
-    
-        return (rdx >= -width_/2 ) && (rdx <= width_/2 ) &&
-               (rdy >= -height_/2 ) && (rdy <= +height_/2 );
-    
-    }
-    else
-        return (pt.x >= getX() - width_/2 ) && (pt.x <= getX() + width_/2 ) &&
-               (pt.y >= getY() - height_/2 ) && (pt.y <= getY() + height_/2 );
+    // it's inside the absolute box, but is it inside the asteroid?
+    // the relative box area is same as the asteroid's
+    return getRelativeBox()->isInside(pt.x, pt.y);
 }

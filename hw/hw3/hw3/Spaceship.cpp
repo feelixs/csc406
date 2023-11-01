@@ -125,8 +125,11 @@ bool Spaceship::isInside(const WorldPoint& pt)
         // if pt is not inside my collision box, we don't need to do any calculations
         return false;
     }
+    if (!getRelativeBox()->isInside(pt.x, pt.y)) {
+        return false;
+    }
     
-    // it's inside the collisionbox, but is it inside the spaceship?
+    // it's inside the collisionboxes, but is it inside the spaceship?
     float h = sqrt(3) / 4;
     // spaceship triangle vertices
     WorldPoint A = WorldPoint{0, -h};
