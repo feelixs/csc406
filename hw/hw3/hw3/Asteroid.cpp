@@ -14,7 +14,6 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float 
         AnimatedObject(centerX, centerY, angle, vx, vy, spin),
         width_(width),
         height_(height),
-        absBoundingBox_(std::make_unique<AbsBoundingBox>(-1, 1, -1, 1, ColorIndex::RED)),
         initVel_(Velocity{vx, vy})
 {
     initBoundingBox_(width/2, height/2);
@@ -27,7 +26,6 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         //
         width_(width),
         height_(height),
-        absBoundingBox_(std::make_unique<AbsBoundingBox>(-1, 1, -1, 1, ColorIndex::RED)),
         initVel_(vel)
 {
     initBoundingBox_(width/2, height/2);
@@ -40,6 +38,7 @@ void Asteroid::initBoundingBox_(float halfWidth, float halfHeight) {
     // this way, the game can first check if collisions occur within this box
     // and then do a trig calc for the object collision ONLY IF this bounding box has a collision
 
+    setAbsoluteBox(std::make_shared<AbsBoundingBox>(-1, 1, -1, 1, ColorIndex::RED));
     float corners[4][2] = {
         {-halfWidth, halfHeight},
         {halfWidth, halfHeight},
@@ -91,13 +90,12 @@ void Asteroid::draw() const
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
     
-    absBoundingBox_->draw();
+    getAbsoluteBox()->draw();
 }
 
 void Asteroid::update(float dt) {
     
-    absBoundingBox_->setDimensions(getX()+boundingBoxXmin_, getX()+boundingBoxXmax_, getY()+boundingBoxYmin_, getY()+boundingBoxYmax_);
-    
+    getAbsoluteBox()->setDimensions(getX()+boundingBoxXmin_, getX()+boundingBoxXmax_, getY()+boundingBoxYmin_, getY()+boundingBoxYmax_);
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
     if (getVy() != 0.f)
@@ -127,7 +125,7 @@ void Asteroid::update(float dt) {
 
 bool Asteroid::isInside(const WorldPoint& pt)
 {
-    if (!absBoundingBox_->isInside(pt.x, pt.y)) {
+    if (!getAbsoluteBox()->isInside(pt.x, pt.y)) {
         // if pt is not inside my collision box, we don't need to do any calculations
         return false;
     }

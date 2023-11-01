@@ -10,6 +10,7 @@
 #include "World.h"
 #include "Object.h"
 #include "AbsBoundingBox.h"
+#include "RelBoundingBox.hpp"
 
 namespace earshooter
 {
@@ -19,7 +20,7 @@ namespace earshooter
 		
 			/**	The object's relative bounding box
 			 */
-			mutable std::shared_ptr<AbsBoundingBox> relativeBox_;
+			mutable std::shared_ptr<RelBoundingBox> relativeBox_;
 
 			/**	The object's absolute bounding box
 			 */
@@ -48,12 +49,20 @@ namespace earshooter
 
 			virtual bool isInside(const WorldPoint& pt) = 0;
 			
-			const std::shared_ptr<AbsBoundingBox> getRelativeBox() const
+            void setRelativeBox(std::shared_ptr<RelBoundingBox> box) {
+                relativeBox_ = box;
+            }
+        
+            void setAbsoluteBox(std::shared_ptr<AbsBoundingBox> box) {
+                absoluteBox_ = box;
+            }
+        
+            std::shared_ptr<RelBoundingBox> getRelativeBox() const
 			{
 				return relativeBox_;
 			}
 			
-			const std::shared_ptr<AbsBoundingBox> getAbsoluteBox() const
+            std::shared_ptr<AbsBoundingBox> getAbsoluteBox() const
 			{
 				return absoluteBox_;
 			}

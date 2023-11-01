@@ -30,10 +30,12 @@ Spaceship::Spaceship(float x, float y, int life)
     isAccelerating_(0),
     accel_(0.f),
     life_(life),
-    absBoundingBox_(std::make_unique<AbsBoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)),
     egocentric_(false),
     invulnerable_(false)
 {
+    
+    setAbsoluteBox(std::make_shared<AbsBoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED));
+    
     //create an absolute collision box with height & width set to the MAXIMUM possible hitbox of object
     // (when the object is rotated by 45 degrees)
     //
@@ -111,13 +113,13 @@ void Spaceship::draw() const {
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
     
-    absBoundingBox_->draw();
+    getAbsoluteBox()->draw();
 }
 
 
 bool Spaceship::isInside(const WorldPoint& pt)
 {
-    if (!absBoundingBox_->isInside(pt.x, pt.y)) {
+    if (!getAbsoluteBox()->isInside(pt.x, pt.y)) {
         // if pt is not inside my collision box, we don't need to do any calculations
         return false;
     }
@@ -172,7 +174,8 @@ void Spaceship::update(float dt) {
     setVy(getVy() + sinf(getAngle() * RAD_TO_DEG) * dt * getAccel());
     
     // move bounding box to where the spaceship is onscreen
-    absBoundingBox_->setDimensions(getX() + boundingBoxXmin_, getX() + boundingBoxXmax_, getY() + boundingBoxYmin_, getY() + boundingBoxYmax_);
+    
+    getAbsoluteBox()->setDimensions(getX() + boundingBoxXmin_, getX() + boundingBoxXmax_, getY() + boundingBoxYmin_, getY() + boundingBoxYmax_);
     
     // if not egocentric, move the player around the screen
     if (!egocentric_) {
