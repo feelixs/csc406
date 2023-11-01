@@ -627,8 +627,7 @@ void eraseBulletByIndex(auto b) {
 
 
 void detectCollisions() {
-    
-    cout << player->getLife() << endl;
+
     // asteroid / bullet collisions
     bool deletedObj = false;
     for (int a = 0; a < allAsteroids.size(); a ++) {
