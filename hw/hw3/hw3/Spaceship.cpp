@@ -139,6 +139,8 @@ bool Spaceship::isInside(const WorldPoint& pt)
 
 void Spaceship::update(float dt) {
     
+    // after going invulnerable, a timer (returnFromInvulnerabilityAfter_) is set.
+    // this code handles returning from invulnerability after the timer expires
     if (invulnerable_) {
         if (returnFromInvulnerabilityAfter_ > 0) {
             returnFromInvulnerabilityAfter_ -= dt;
@@ -148,11 +150,14 @@ void Spaceship::update(float dt) {
         }
     }
     
+    // set x & y velocities to trig components of the spaceship's acceleration
     setVx(getVx() + cosf(getAngle() * RAD_TO_DEG) * dt * getAccel());
     setVy(getVy() + sinf(getAngle() * RAD_TO_DEG) * dt * getAccel());
     
+    // move bounding box to where the spaceship is onscreen
     collisionBox_->setDimensions(getX() + boundingBoxXmin_, getX() + boundingBoxXmax_, getY() + boundingBoxYmin_, getY() + boundingBoxYmax_);
-  
+    
+    // if not egocentric, move the player around the screen
     if (!egocentric_) {
         if (getVx() != 0.f)
             setX(getX() + getVx()*dt);
