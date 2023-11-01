@@ -76,7 +76,7 @@ namespace earshooter
         
             /// detects if this bounding box is overlapping with another
             /// @param other the other bounding box to test collision with
-            inline bool overlaps(const BoundingBox& other) const {
+            inline bool absBoxOverlaps(const BoundingBox& other) const {
                 return !(xmin_ > other.xmax_ ||
                          xmax_ < other.xmin_ ||
                          ymin_ > other.ymax_ ||
