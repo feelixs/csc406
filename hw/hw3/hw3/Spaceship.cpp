@@ -35,6 +35,7 @@ Spaceship::Spaceship(float x, float y, int life)
 {
     
     setAbsoluteBox(std::make_shared<AbsBoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED));
+    setRelativeBox(std::make_shared<RelBoundingBox>(-0.5, 0.5, -0.5, 0.5, 0, ColorIndex::RED));
     
     //create an absolute collision box with height & width set to the MAXIMUM possible hitbox of object
     // (when the object is rotated by 45 degrees)
@@ -113,6 +114,7 @@ void Spaceship::draw() const {
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
     
+    getRelativeBox()->draw();
     getAbsoluteBox()->draw();
 }
 
@@ -156,7 +158,6 @@ void Spaceship::update(float dt) {
         } else {
             returnFromInvulnerabilityAfter_ = 0;
             invulnerable_ = false;
-            blinkIsVisible_ = true;
         }
         
         // handle blinking in and out
@@ -166,6 +167,8 @@ void Spaceship::update(float dt) {
         } else {
             blinkTimer_ -= dt;
         }
+    } else {
+        blinkIsVisible_ = true;
     }
     
     
@@ -176,6 +179,7 @@ void Spaceship::update(float dt) {
     // move bounding box to where the spaceship is onscreen
     
     getAbsoluteBox()->setDimensions(getX() + absoluteBoxMinX_, getX() + absoluteBoxMax_, getY() + absoluteBoxMinY_, getY() + absoluteBoxMaxY_);
+    getRelativeBox()->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, getAngle());
     
     // if not egocentric, move the player around the screen
     if (!egocentric_) {

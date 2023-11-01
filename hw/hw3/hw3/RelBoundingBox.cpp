@@ -53,19 +53,27 @@ void RelBoundingBox::setDimensions(float xmin, float xmax, float ymin, float yma
     angle_ = angle;
 }
 
-void RelBoundingBox::draw(void) const
+void RelBoundingBox::draw() const
 {
+    float centerX = (xmin_ + xmax_) / 2.0f;
+    float centerY = (ymin_ + ymax_) / 2.0f;
+    
     glPushMatrix();
+    
+    glTranslatef(centerX, centerY, 0.f);
+    
     glRotatef(getAngle(), 0.f, 0.f, 1.f);
     glColor4fv(COLOR[static_cast<int>(color_)]);
-//    const GLfloat worldToPixel = World::getWorldToPixel();
-//    glScalef(worldToPixel, worldToPixel, worldToPixel);
+
+    // we need to draw relative to the box's center, or else its onscreen pos will be incorrect (since we're applying rotation)
+    float halfWidth = (xmax_ - xmin_) / 2.0f, halfHeight = (ymax_ - ymin_) / 2.0f;
     glBegin(GL_LINE_LOOP);
-        glVertex2f(xmin_, ymin_);
-        glVertex2f(xmax_, ymin_);
-        glVertex2f(xmax_, ymax_);
-        glVertex2f(xmin_, ymax_);
+        glVertex2f(-halfWidth, -halfHeight);
+        glVertex2f(halfWidth, -halfHeight);
+        glVertex2f(halfWidth, halfHeight);
+        glVertex2f(-halfWidth, halfHeight);
     glEnd();
+    
     glPopMatrix();
 }
 

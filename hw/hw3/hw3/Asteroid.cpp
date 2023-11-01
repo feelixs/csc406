@@ -39,6 +39,7 @@ void Asteroid::initBoundingBox_(float halfWidth, float halfHeight) {
     // and then do a trig calc for the object collision ONLY IF this bounding box has a collision
 
     setAbsoluteBox(std::make_shared<AbsBoundingBox>(-1, 1, -1, 1, ColorIndex::RED));
+    setRelativeBox(std::make_shared<RelBoundingBox>(-0.5, 0.5, -0.5, 0.5, 0, ColorIndex::RED));
     float corners[4][2] = {
         {-halfWidth, halfHeight},
         {halfWidth, halfHeight},
@@ -90,12 +91,18 @@ void Asteroid::draw() const
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
     
+    getRelativeBox()->draw();
     getAbsoluteBox()->draw();
+    
 }
 
 void Asteroid::update(float dt) {
     
+    float halfWidth = width_/2, halfHeight = height_/2;
+    
     getAbsoluteBox()->setDimensions(getX()+absoluteBoxMinX_, getX()+absoluteBoxMaxX_, getY()+absoluteBoxMinY_, getY()+absoluteBoxMaxY_);
+    getRelativeBox()->setDimensions(getX()-halfWidth, getX()+halfWidth, getY()-halfHeight, getY()+halfHeight, getAngle());
+    
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
     if (getVy() != 0.f)
