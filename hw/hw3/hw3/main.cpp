@@ -74,6 +74,7 @@ float playerAccel = 0;
 bool switchedEgocentric = false;
 
 vector<shared_ptr<Bullet>> allBullets;
+vector<shared_ptr<Asteroid>> allAsteroids;
 
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
@@ -141,6 +142,8 @@ void applicationInit();
 
 void correctForEgocentric();
 void detectCollisions();
+void eraseAsteroidByIndex(int n);
+void eraseBulletByIndex(int n);
 //--------------------------------------
 #if 0
 #pragma mark Constants
@@ -236,7 +239,7 @@ const GLfloat* bgndColor = BGND_COLOR[0];
 
 list<shared_ptr<GraphicObject> > objectList;
 list<shared_ptr<AnimatedObject> > animatedObjectList;
-list<shared_ptr<Asteroid>> allAsteroids;
+
 WorldType World::worldType = WorldType::CYLINDER_WORLD;
 
 //--------------------------------------
@@ -593,12 +596,44 @@ void correctForEgocentric() {
 }
 
 
+/// @param ast the asteroid from the allAsteroids vector to erase
+void eraseAsteroidByIndex(auto ast) {
+    auto thisAst = allAsteroids.begin();
+    while (thisAst != allAsteroids.end()) {
+        if ((*thisAst)==ast) {
+            auto itToRemove = std::remove(objectList.begin(), objectList.end(), *thisAst);
+            // erase the "removed" elements from objectList
+            objectList.erase(itToRemove, objectList.end());
+            allAsteroids.erase(thisAst);
+            return;
+        }
+        thisAst++;
+    }
+}
+
+/// @param b the bullet from the allBullets vector to erase
+void eraseBulletByIndex(auto b) {
+    auto thisBullet = allBullets.begin();
+    while (thisBullet != allBullets.end()) {
+        if ((*thisBullet)==b) {
+            auto itToRemove = std::remove(objectList.begin(), objectList.end(), *thisBullet);
+            // erase the "removed" elements from objectList
+            objectList.erase(itToRemove, objectList.end());
+            allBullets.erase(thisBullet);
+            return;
+        }
+        thisBullet++;
+    }
+}
+
+
 void detectCollisions() {
-    for (auto ast : allAsteroids) {
-        for (auto bullet : allBullets) {
-            if (ast->isInside(bullet->getPos())) {
-                ast->setVx(0);
-                ast->setVy(0);
+    for (int a = 0; a < allAsteroids.size(); a ++) {
+        for (int b = 0; b < allBullets.size(); b++) {
+            auto ast = allAsteroids.at(a);
+            if (ast->isInside(allBullets.at(b)->getPos())) {
+                eraseAsteroidByIndex(ast);
+                eraseBulletByIndex(allBullets.at(b));
             }
         }
     }
