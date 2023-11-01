@@ -26,6 +26,7 @@
 		AAD784A72AE944EF00ACA918 /* Asteroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD784A52AE944EF00ACA918 /* Asteroid.cpp */; };
 		AAD784AA2AE95B8000ACA918 /* Spaceship.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD784A82AE95B8000ACA918 /* Spaceship.cpp */; };
 		AAEF4F132AEC323E00140F64 /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEF4F112AEC323E00140F64 /* Bullet.cpp */; };
+		AAFA3F702AF291D400CBE0C5 /* RelBoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAFA3F6E2AF291D400CBE0C5 /* RelBoundingBox.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -79,6 +80,8 @@
 		AAD784A92AE95B8000ACA918 /* Spaceship.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Spaceship.hpp; sourceTree = "<group>"; };
 		AAEF4F112AEC323E00140F64 /* Bullet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bullet.cpp; sourceTree = "<group>"; };
 		AAEF4F122AEC323E00140F64 /* Bullet.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bullet.hpp; sourceTree = "<group>"; };
+		AAFA3F6E2AF291D400CBE0C5 /* RelBoundingBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RelBoundingBox.cpp; sourceTree = "<group>"; };
+		AAFA3F6F2AF291D400CBE0C5 /* RelBoundingBox.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RelBoundingBox.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +152,8 @@
 				AAEF4F122AEC323E00140F64 /* Bullet.hpp */,
 				AA889C4E2AF1DB3F00081525 /* LifeCounter.cpp */,
 				AA889C4F2AF1DB3F00081525 /* LifeCounter.hpp */,
+				AAFA3F6E2AF291D400CBE0C5 /* RelBoundingBox.cpp */,
+				AAFA3F6F2AF291D400CBE0C5 /* RelBoundingBox.hpp */,
 			);
 			path = hw3;
 			sourceTree = "<group>";
@@ -226,6 +231,7 @@
 				AA2D23972AE9444B00FE4A11 /* World.cpp in Sources */,
 				AA2D23952AE9444B00FE4A11 /* ComplexGraphicObject.cpp in Sources */,
 				AA2D23942AE9444B00FE4A11 /* Rectangle.cpp in Sources */,
+				AAFA3F702AF291D400CBE0C5 /* RelBoundingBox.cpp in Sources */,
 				AA2D23932AE9444B00FE4A11 /* AbsBoundingBox.cpp in Sources */,
 				AA2D23962AE9444B00FE4A11 /* AnimatedRectangle.cpp in Sources */,
 				AA2D238E2AE9444B00FE4A11 /* AnimatedObject.cpp in Sources */,
