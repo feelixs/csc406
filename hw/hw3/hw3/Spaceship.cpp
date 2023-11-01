@@ -8,7 +8,11 @@
 #include "Spaceship.hpp"
 #include <math.h>
 
+const float BLINK_DUR = 0.1;
 const float RAD_TO_DEG = M_PI / 180;
+
+bool Spaceship::blinkIsVisible_ = true;
+float Spaceship::blinkTimer_ = 0;
 float Spaceship::returnFromInvulnerabilityAfter_ = 0;
 float Spaceship::boundingBoxXmin_ = 0;
 float Spaceship::boundingBoxXmax_ = 0;
@@ -64,6 +68,10 @@ Spaceship::Spaceship(float x, float y)
 
 
 void Spaceship::draw() const {
+    if (!blinkIsVisible_)  // if spaceship is currently blinking, don't draw it
+        return;
+    
+    
     glPushMatrix();
     
     //    move to the center of the disk
@@ -146,8 +154,18 @@ void Spaceship::update(float dt) {
         } else {
             returnFromInvulnerabilityAfter_ = 0;
             invulnerable_ = false;
+            blinkIsVisible_ = true;
+        }
+        
+        // handle blinking in and out
+        if (blinkTimer_ <= 0) {
+            blinkIsVisible_ = !blinkIsVisible_;
+            blinkTimer_ = BLINK_DUR;
+        } else {
+            blinkTimer_ -= dt;
         }
     }
+    
     
     // set x & y velocities to trig components of the spaceship's acceleration
     setVx(getVx() + cosf(getAngle() * RAD_TO_DEG) * dt * getAccel());

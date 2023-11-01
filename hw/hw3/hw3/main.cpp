@@ -76,12 +76,11 @@ bool switchedEgocentric = false;
 vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
+const float INVINCIBILITY_FRAME_PERIOD = 1.5f; // in seconds
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
 const int PLAYER_ACCEL = 3;
-const int MAX_PLAYER_SPEED = 5;
 const float ANGLE_CHNG_RATE = 180;
-const float DECREASE_SPEED_CONST = 0.75;
 
 enum MenuItemID {	SEPARATOR = -1,
 					//
@@ -647,7 +646,7 @@ void detectCollisions() {
             if (!player->isInvulnerable()) {
                 cout << "player takes damage and goes invulnerable\n";
                 player->setLife(player->getLife() - 1);
-                player->goInvulnerableFor(3.f);
+                player->goInvulnerableFor(INVINCIBILITY_FRAME_PERIOD);
             }
         }
     }
