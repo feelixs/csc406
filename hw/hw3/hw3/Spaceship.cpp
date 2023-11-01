@@ -213,3 +213,8 @@ void Spaceship::update(float dt) {
         }
     }
 }
+
+
+bool Spaceship::collidesWith(std::shared_ptr<GraphicObject> other) {
+    return getRelativeBox()->overlaps((*other->getRelativeBox())); //TODO add hierarchical bounding box checking
+}

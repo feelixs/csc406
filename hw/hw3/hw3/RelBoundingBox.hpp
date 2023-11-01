@@ -82,6 +82,10 @@ namespace earshooter
             /// @param other the other Relative bounding box to test collision with
             bool overlaps(const RelBoundingBox& other) const;
         
+        
+            bool overlapsOneWay(const RelBoundingBox& a, const RelBoundingBox& b);
+            
+            
             /**    Returns the min value of the x coordinate
              * @RETURN min value of the x coordinate
              */
@@ -134,7 +138,17 @@ namespace earshooter
              */
             WorldPoint getCornerLR() const;
             
-
+                
+            inline float calcWidth() const {
+                return xmax_ - xmin_;
+                
+            }
+        
+            inline float calcHeight() const {
+                return ymax_ - ymin_;
+                
+            }
+            
             /**    Checks whether a point is inside the box
              * @PARAM x    horizontal coordinate of the point
              * @PARAM y    vertical coordinate of the point
