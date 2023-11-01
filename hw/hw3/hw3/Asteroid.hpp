@@ -19,7 +19,7 @@ private:
     float width_, height_;
     Velocity initVel_; // the asteroid's starting velocity
     float boundingBoxXmin_, boundingBoxXmax_, boundingBoxYmin_, boundingBoxYmax_;
-    std::unique_ptr<BoundingBox> collisionBox_;
+    std::unique_ptr<BoundingBox> absBoundingBox_;
     
     void initBoundingBox_(float halfWidth, float halfHeight);
 public:
@@ -31,8 +31,8 @@ public:
     void update(float dt);
     bool isInside(const WorldPoint& pt);
     
-    BoundingBox& getBoundingbox() {
-        return *collisionBox_;
+    inline BoundingBox& getAbsBoundingbox() {
+        return *absBoundingBox_;
     }
     inline float getScaleY() {
         return height_;

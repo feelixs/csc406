@@ -30,7 +30,7 @@ Spaceship::Spaceship(float x, float y, int life)
     isAccelerating_(0),
     accel_(0.f),
     life_(life),
-    collisionBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)),
+    absBoundingBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)),
     egocentric_(false),
     invulnerable_(false)
 {
@@ -111,13 +111,13 @@ void Spaceship::draw() const {
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
     
-    collisionBox_->draw();
+    absBoundingBox_->draw();
 }
 
 
 bool Spaceship::isInside(const WorldPoint& pt)
 {
-    if (!collisionBox_->isInside(pt.x, pt.y)) {
+    if (!absBoundingBox_->isInside(pt.x, pt.y)) {
         // if pt is not inside my collision box, we don't need to do any calculations
         return false;
     }
@@ -172,7 +172,7 @@ void Spaceship::update(float dt) {
     setVy(getVy() + sinf(getAngle() * RAD_TO_DEG) * dt * getAccel());
     
     // move bounding box to where the spaceship is onscreen
-    collisionBox_->setDimensions(getX() + boundingBoxXmin_, getX() + boundingBoxXmax_, getY() + boundingBoxYmin_, getY() + boundingBoxYmax_);
+    absBoundingBox_->setDimensions(getX() + boundingBoxXmin_, getX() + boundingBoxXmax_, getY() + boundingBoxYmin_, getY() + boundingBoxYmax_);
     
     // if not egocentric, move the player around the screen
     if (!egocentric_) {

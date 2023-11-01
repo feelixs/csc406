@@ -14,7 +14,7 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float 
         AnimatedObject(centerX, centerY, angle, vx, vy, spin),
         width_(width),
         height_(height),
-        collisionBox_(std::make_unique<BoundingBox>(-1, 1, -1, 1, ColorIndex::RED)),
+        absBoundingBox_(std::make_unique<BoundingBox>(-1, 1, -1, 1, ColorIndex::RED)),
         initVel_(Velocity{vx, vy})
 {
     initBoundingBox_(width/2, height/2);
@@ -27,7 +27,7 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         //
         width_(width),
         height_(height),
-        collisionBox_(std::make_unique<BoundingBox>(-1, 1, -1, 1, ColorIndex::RED)),
+        absBoundingBox_(std::make_unique<BoundingBox>(-1, 1, -1, 1, ColorIndex::RED)),
         initVel_(vel)
 {
     initBoundingBox_(width/2, height/2);
@@ -91,12 +91,12 @@ void Asteroid::draw() const
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
     
-    collisionBox_->draw();
+    absBoundingBox_->draw();
 }
 
 void Asteroid::update(float dt) {
     
-    collisionBox_->setDimensions(getX()+boundingBoxXmin_, getX()+boundingBoxXmax_, getY()+boundingBoxYmin_, getY()+boundingBoxYmax_);
+    absBoundingBox_->setDimensions(getX()+boundingBoxXmin_, getX()+boundingBoxXmax_, getY()+boundingBoxYmin_, getY()+boundingBoxYmax_);
     
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
@@ -127,7 +127,7 @@ void Asteroid::update(float dt) {
 
 bool Asteroid::isInside(const WorldPoint& pt)
 {
-    if (!collisionBox_->isInside(pt.x, pt.y)) {
+    if (!absBoundingBox_->isInside(pt.x, pt.y)) {
         // if pt is not inside my collision box, we don't need to do any calculations
         return false;
     }
