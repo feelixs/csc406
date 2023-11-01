@@ -140,10 +140,7 @@ namespace earshooter
              * @PARAM y    vertical coordinate of the point
              * @RETURN true if the point is inside the bounding box
              */
-            inline bool isInside(float x, float y) const
-            {
-                return ((x>=xmin_) && (x<=xmax_) && (y>=ymin_) && (y<=ymax_));
-            }
+            inline bool isInside(float x, float y) const;
         
             /** Renders the object
              */

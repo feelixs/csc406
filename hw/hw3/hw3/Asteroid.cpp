@@ -49,17 +49,17 @@ void Asteroid::initBoundingBox_(float halfWidth, float halfHeight) {
     float cosTheta = cosf(M_PI / 4); // 45 degrees = rotation with most extreme size for bounding box
     float sinTheta = sinf(M_PI / 4);
 
-    boundingBoxXmin_ = boundingBoxXmax_ = corners[0][0] * cosTheta - corners[0][1] * sinTheta;
-    boundingBoxYmin_ = boundingBoxYmax_ = corners[0][0] * sinTheta + corners[0][1] * cosTheta;
+    absoluteBoxMinX_ = absoluteBoxMaxX_ = corners[0][0] * cosTheta - corners[0][1] * sinTheta;
+    absoluteBoxMinY_ = absoluteBoxMaxY_ = corners[0][0] * sinTheta + corners[0][1] * cosTheta;
 
     for (int i = 1; i < 4; i++) {
         float xRot = corners[i][0] * cosTheta - corners[i][1] * sinTheta;
         float yRot = corners[i][0] * sinTheta + corners[i][1] * cosTheta;
 
-        boundingBoxXmin_ = fmin(boundingBoxXmin_, xRot);
-        boundingBoxXmax_ = fmax(boundingBoxXmax_, xRot);
-        boundingBoxYmin_ = fmin(boundingBoxYmin_, yRot);
-        boundingBoxYmax_ = fmax(boundingBoxYmax_, yRot);
+        absoluteBoxMinX_ = fmin(absoluteBoxMinX_, xRot);
+        absoluteBoxMaxX_ = fmax(absoluteBoxMaxX_, xRot);
+        absoluteBoxMinY_ = fmin(absoluteBoxMinY_, yRot);
+        absoluteBoxMaxY_ = fmax(absoluteBoxMaxY_, yRot);
     }
 }
 
@@ -95,7 +95,7 @@ void Asteroid::draw() const
 
 void Asteroid::update(float dt) {
     
-    getAbsoluteBox()->setDimensions(getX()+boundingBoxXmin_, getX()+boundingBoxXmax_, getY()+boundingBoxYmin_, getY()+boundingBoxYmax_);
+    getAbsoluteBox()->setDimensions(getX()+absoluteBoxMinX_, getX()+absoluteBoxMaxX_, getY()+absoluteBoxMinY_, getY()+absoluteBoxMaxY_);
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
     if (getVy() != 0.f)

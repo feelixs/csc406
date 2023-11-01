@@ -18,7 +18,7 @@ class Asteroid: public GraphicObject, public AnimatedObject {
 private:
     float width_, height_;
     Velocity initVel_; // the asteroid's starting velocity
-    float boundingBoxXmin_, boundingBoxXmax_, boundingBoxYmin_, boundingBoxYmax_;
+    float absoluteBoxMinX_, absoluteBoxMaxX_, absoluteBoxMinY_, absoluteBoxMaxY_;
     
     void initBoundingBox_(float halfWidth, float halfHeight);
 public:

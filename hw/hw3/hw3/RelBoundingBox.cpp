@@ -88,3 +88,23 @@ bool RelBoundingBox::overlaps(const RelBoundingBox& other) const {
              ymin_ > other.ymax_ ||
              ymax_ < other.ymin_);
 }
+
+bool RelBoundingBox::isInside(float x, float y) const
+{
+    float dx = x - (xmin_ + xmax_) / 2.0f;
+        float dy = y - (ymin_ + ymax_) / 2.0f;
+        
+        if (getAngle() != 0.f) {
+            float ca = cosf(-getAngle()), sa = sinf(-getAngle());
+            
+            float rdx = ca * dx - sa * dy, rdy = sa * dx + ca * dy;
+
+            float halfWidth = (xmax_ - xmin_) / 2.0f;
+            float halfHeight = (ymax_ - ymin_) / 2.0f;
+
+            return (rdx >= -halfWidth) && (rdx <= halfWidth) &&
+                   (rdy >= -halfHeight) && (rdy <= halfHeight);
+        } else {
+            return (x >= xmin_) && (x <= xmax_) && (y >= ymin_) && (y <= ymax_);
+        }
+}

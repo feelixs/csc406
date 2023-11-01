@@ -24,7 +24,7 @@ private:
     static float blinkTimer_;
     static bool blinkIsVisible_;
     static float returnFromInvulnerabilityAfter_; // after taking damage, we must store when to stop being invulnerable
-    static float boundingBoxXmin_, boundingBoxXmax_, boundingBoxYmin_, boundingBoxYmax_;
+    static float absoluteBoxMinX_, absoluteBoxMax_, absoluteBoxMinY_, absoluteBoxMaxY_;
     float red_, green_, blue_, accel_;
     bool isAccelerating_;
     
