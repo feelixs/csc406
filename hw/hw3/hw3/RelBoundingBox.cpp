@@ -91,35 +91,6 @@ WorldPoint RelBoundingBox::getCornerLR(void) const
 }
 
 
-bool RelBoundingBox::overlaps(const RelBoundingBox& other) const {
-    return !(xmin_ > other.xmax_ ||
-             xmax_ < other.xmin_ ||
-             ymin_ > other.ymax_ ||
-             ymax_ < other.ymin_);
-}
-
-
-bool RelBoundingBox::overlapsOneWay(const RelBoundingBox& a, const RelBoundingBox& b) {
-    float angle1 = a.angle_;
-    float angle2 = b.angle_ - a.angle_;
-
-    float cosa1 = cosf(angle1), sina1 = std::sin(angle1);
-    float cosa2 = cosf(angle2), sina2 = std::sin(angle2);
-
-    float dx = b.xmin_ - a.xmin_;
-    float dy = b.ymin_ - a.ymin_;
-
-    float rx = cosa1 * dx + sina1 * dy;
-    float ry = -sina1 * dx + cosa1 * dy;
-
-    float tx = cosa2 * b.calcWidth() + sina2 * b.calcHeight();
-    float ty = -sina2 * b.calcWidth() + cosa2 * b.calcHeight();
-
-    return (std::abs(rx) <= a.calcWidth() / 2 + std::abs(tx) / 2) &&
-           (std::abs(ry) <= a.calcHeight() / 2 + std::abs(ty) / 2);
-}
-
-
 bool RelBoundingBox::isInside(float x, float y) const
 {
     float dx = x - (xmin_ + xmax_) / 2.0f;
@@ -138,4 +109,55 @@ bool RelBoundingBox::isInside(float x, float y) const
         } else {
             return (x >= xmin_) && (x <= xmax_) && (y >= ymin_) && (y <= ymax_);
         }
+}
+
+
+bool RelBoundingBox::overlaps(const RelBoundingBox& other) const {
+    float myCorners[4][2], otherCorners[4][2]; // these containers will store the corner coords of the rotated bounding boxes
+    
+    // calculate the rotated corner coords
+    getCorners(myCorners, xmin_, xmax_, ymin_, ymax_, angle_);
+    getCorners(otherCorners, other.getXmin(), other.getXmax(), other.getYmin(), other.getYmax(), other.getAngle());
+
+    // is any corner of 'other' is inside 'this'?
+    for (int i = 0; i < 4; i++) {
+        if (isInside(otherCorners[i][0], otherCorners[i][1])) {
+            return true;
+        }
+    }
+
+    // is any corner of 'this' is inside 'other'?
+    for (int i = 0; i < 4; i++) {
+        if (other.isInside(myCorners[i][0], myCorners[i][1])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+void getCorners(float corners[4][2], float xmin_, float xmax_, float ymin_, float ymax_, float angle_) {
+    
+    float cx = (xmin_ + xmax_) / 2.0f, cy = (ymin_ + ymax_) / 2.0f;
+    float halfWidth = (xmax_ - xmin_) / 2.0f, halfHeight = (ymax_ - ymin_) / 2.0f;
+    
+    float unrotatedCorners[4][2] = {
+        { cx - halfWidth, cy - halfHeight },
+        { cx + halfWidth, cy - halfHeight },
+        { cx + halfWidth, cy + halfHeight },
+        { cx - halfWidth, cy + halfHeight }
+    };
+    
+    float ca = cosf(angle_), sa = sinf(angle_);
+    
+    for (int i = 0; i < 4; i++) {
+        float x = unrotatedCorners[i][0], y = unrotatedCorners[i][1];
+        
+        // calc points rotated around the center of the asteroid (rectangle)
+        float rotatedX = cx + (x - cx) * ca - (y - cy) * sa, rotatedY = cy + (x - cx) * sa + (y - cy) * ca;
+        
+        corners[i][0] = rotatedX;
+        corners[i][1] = rotatedY;
+    }
 }

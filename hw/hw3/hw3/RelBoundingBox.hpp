@@ -12,6 +12,8 @@
 #include "commonTypes.h"
 #include "World.h"
 
+void getCorners(float corners[4][2], float xmin_, float xmax_, float ymin_, float ymax_, float angle_);
+
 namespace earshooter
 {
     class RelBoundingBox
@@ -81,10 +83,6 @@ namespace earshooter
             /// detects if this bounding box is overlapping with another Relative Box
             /// @param other the other Relative bounding box to test collision with
             bool overlaps(const RelBoundingBox& other) const;
-        
-        
-            bool overlapsOneWay(const RelBoundingBox& a, const RelBoundingBox& b);
-            
             
             /**    Returns the min value of the x coordinate
              * @RETURN min value of the x coordinate
