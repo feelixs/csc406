@@ -30,11 +30,6 @@ LifeCounter::LifeCounter(WorldPoint &pt, std::shared_ptr<Spaceship> obj, float l
         displayVertices_[i][0] = getX() + (i * len_);
         displayVertices_[i][1] = getY();
     }
-    for (int i = totalLife_; i > 0; --i) {
-        displayVertices_[i] = new float[2];
-        displayVertices_[i][0] = getX() + (i * len_);
-        displayVertices_[i][1] = getY()-width_;
-    }
 }
 
 bool LifeCounter::isInside(const WorldPoint& pt) {
@@ -48,16 +43,19 @@ void LifeCounter::draw() const {
     glTranslatef(getX(), getY(), 0.f);
     
     // apply rotation
-    glRotatef(getAngle() - 90, 0.f, 0.f, 1.f); // the spaceship model is drawn wrong by 90 degrees
+    glRotatef(getAngle(), 0.f, 0.f, 1.f);
     
     //    apply the radius as a scale
     glScalef(1.f, 1.f, 1.f);
     
     glColor3f(red_, green_, blue_);
 
-    glBegin(GL_LINE_LOOP);
+    glBegin(GL_POLYGON);
     for (int k=0; k<curLife_; k++) {
         glVertex2f(displayVertices_[k][0], displayVertices_[k][1]);
+    }
+    for (int k=curLife_-1; k>=0; k--) {
+        glVertex2f(displayVertices_[k][0], displayVertices_[k][1]+width_);
     }
     glEnd();
     
@@ -65,7 +63,6 @@ void LifeCounter::draw() const {
     glPopMatrix();
 }
 
-
 void LifeCounter::update(float dt) {
-    
+    curLife_ = obj_->getLife();
 }
