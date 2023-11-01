@@ -9,7 +9,7 @@
 
 int LifeCounter::totalLife_ = 0;
 int LifeCounter::curLife_ = 0;
-float** LifeCounter::displayVertices_;
+float** LifeCounter::displayLinePts_;
 
 LifeCounter::LifeCounter(WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float width):
     Object(pt.x, pt.y, 0.f),
@@ -24,11 +24,11 @@ LifeCounter::LifeCounter(WorldPoint &pt, std::shared_ptr<Spaceship> obj, float l
 {
     totalLife_ = obj_->getLife();
     curLife_ = totalLife_;
-    displayVertices_ = new float*[totalLife_];
+    displayLinePts_ = new float*[totalLife_];
     for (int i = 0; i < totalLife_; i++) {
-        displayVertices_[i] = new float[2];
-        displayVertices_[i][0] = getX() + (i * len_);
-        displayVertices_[i][1] = getY();
+        displayLinePts_[i] = new float[2];
+        displayLinePts_[i][0] = getX() + (i * len_);
+        displayLinePts_[i][1] = getY();
     }
 }
 
@@ -50,12 +50,14 @@ void LifeCounter::draw() const {
     
     glColor3f(red_, green_, blue_);
 
+    
+    // make a square using two for loops based on one line (displayLinePts_)
     glBegin(GL_POLYGON);
     for (int k=0; k<curLife_; k++) {
-        glVertex2f(displayVertices_[k][0], displayVertices_[k][1]);
+        glVertex2f(displayLinePts_[k][0], displayLinePts_[k][1]);
     }
     for (int k=curLife_-1; k>=0; k--) {
-        glVertex2f(displayVertices_[k][0], displayVertices_[k][1]+width_);
+        glVertex2f(displayLinePts_[k][0], displayLinePts_[k][1]+width_);
     }
     glEnd();
     
