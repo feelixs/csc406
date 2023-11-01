@@ -29,6 +29,7 @@ public:
     void draw() const;
     void update(float dt);
     bool isInside(const WorldPoint& pt);
+    bool collidesWith(std::shared_ptr<GraphicObject> other);
     
     inline float getScaleY() {
         return height_;

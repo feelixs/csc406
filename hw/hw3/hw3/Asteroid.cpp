@@ -141,3 +141,8 @@ bool Asteroid::isInside(const WorldPoint& pt)
     // the relative box area is same as the asteroid's
     return getRelativeBox()->isInside(pt.x, pt.y);
 }
+
+
+bool Asteroid::collidesWith(std::shared_ptr<GraphicObject> other) {
+    return getRelativeBox()->overlaps((*other->getRelativeBox())); //TODO add hierarchical bounding box checking
+}

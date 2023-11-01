@@ -37,7 +37,8 @@ public:
     void draw() const;
     bool isInside(const WorldPoint& pt);
     void update(float dt);
-    
+    bool collidesWith(std::shared_ptr<GraphicObject> other);
+        
     inline float getRed() {
         return red_;
     }
