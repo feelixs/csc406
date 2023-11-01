@@ -635,7 +635,7 @@ void detectCollisions() {
             if (ast->isInside(allBullets.at(b)->getPos())) {
                 eraseAsteroidByIndex(ast);
                 eraseBulletByIndex(allBullets.at(b));
-                return;
+                return;  // after erasing from these vectors, we need to return to prevent out_of_range exceptions when using vector.at()
             }
         }
     }
