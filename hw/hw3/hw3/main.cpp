@@ -49,6 +49,8 @@
 #include "AnimatedEllipse.h"
 #include "AnimatedRectangle.h"
 #include "Spaceship.hpp"
+#include "LifeCounter.hpp"
+#include "LifeCounter.hpp"
 
 using namespace std;
 using namespace earshooter;
@@ -452,6 +454,7 @@ void myKeyHandler(unsigned char c, int x, int y)
 	switch (c)
     {
         case 'q':
+        case 'Q':
         case 27:
             exit(0);
             break;
@@ -862,6 +865,10 @@ void applicationInit()
     objectList.push_back(player);
     animatedObjectList.push_back(player);
     
+    WorldPoint lifepoint = WorldPoint{1, 1};
+    shared_ptr<LifeCounter> life = make_shared<LifeCounter>(lifepoint, player, 2, 10);
+    animatedObjectList.push_back(life);
+    objectList.push_back(life);
 	//	time really starts now
 	startTime = time(nullptr);
 }
