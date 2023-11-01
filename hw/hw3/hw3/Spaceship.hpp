@@ -39,6 +39,9 @@ public:
     bool isInside(const WorldPoint& pt);
     void update(float dt);
     
+    BoundingBox& getBoundingbox() {
+        return *collisionBox_;
+    }
     inline float getRed() {
         return red_;
     }

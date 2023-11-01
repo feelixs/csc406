@@ -645,16 +645,14 @@ void detectCollisions() {
         }
         
         // player / asteroid collision
-        if (ast->isInside(WorldPoint{player->getX(), player->getY()})) { // TODO add actual collision logic including player's collisionbox
+        if (ast->getBoundingbox().overlaps(player->getBoundingbox())) { // TODO add actual collision logic including player's collisionbox
             if (!player->isInvulnerable()) {
-                cout << "player takes damage and goes invulnerable\n";
+                cout << "player takes damage and goes invulnerable for " << INVINCIBILITY_FRAME_PERIOD << " secs\n";
                 player->setLife(player->getLife() - 1);
                 player->goInvulnerableFor(INVINCIBILITY_FRAME_PERIOD);
             }
         }
     }
-    
-    
 }
 
 

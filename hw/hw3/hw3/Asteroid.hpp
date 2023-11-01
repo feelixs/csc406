@@ -31,6 +31,9 @@ public:
     void update(float dt);
     bool isInside(const WorldPoint& pt);
     
+    BoundingBox& getBoundingbox() {
+        return *collisionBox_;
+    }
     inline float getScaleY() {
         return height_;
     }
