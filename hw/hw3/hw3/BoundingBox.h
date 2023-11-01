@@ -74,7 +74,7 @@ namespace earshooter
 			 */
 			void setDimensions(const WorldPoint& cornerUL, const WorldPoint& cornerLR);
         
-            /// detects if this bounding box is overlapping with another
+            /// detects if this bounding box is overlapping with another (only works for abs boxes, as it doesn't account for angle_)
             /// @param other the other bounding box to test collision with
             inline bool absBoxOverlaps(const BoundingBox& other) const {
                 return !(xmin_ > other.xmax_ ||
