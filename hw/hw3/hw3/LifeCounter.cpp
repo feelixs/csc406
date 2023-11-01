@@ -51,7 +51,7 @@ void LifeCounter::draw() const {
     glColor3f(red_, green_, blue_);
 
     
-    // make a square using two for loops based on one line (displayLinePts_)
+    // make a rectangle using two for loops based on one line (displayLinePts_)
     glBegin(GL_POLYGON);
     for (int k=0; k<curLife_; k++) {
         glVertex2f(displayLinePts_[k][0], displayLinePts_[k][1]);
