@@ -4,11 +4,11 @@
 
 #include <cfloat>
 #include "glPlatform.h"
-#include "BoundingBox.h"
+#include "AbsBoundingBox.h"
 
 using namespace earshooter;
 
-BoundingBox::BoundingBox(float xmin, float xmax, float ymin, float ymax,
+AbsBoundingBox::AbsBoundingBox(float xmin, float xmax, float ymin, float ymax,
 						 ColorIndex color)
 	: 	xmin_(xmin),
 		xmax_(xmax),
@@ -18,7 +18,7 @@ BoundingBox::BoundingBox(float xmin, float xmax, float ymin, float ymax,
 {
 }
 
-BoundingBox::BoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR,
+AbsBoundingBox::AbsBoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR,
 						ColorIndex color)
 	: 	xmin_(cornerUL.x),
 		xmax_(cornerLR.x),
@@ -28,7 +28,7 @@ BoundingBox::BoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR,
 {
 }
 
-BoundingBox::BoundingBox(ColorIndex color)
+AbsBoundingBox::AbsBoundingBox(ColorIndex color)
 	: 	xmin_(FLT_MAX),
 		xmax_(FLT_MAX),
 		ymin_(FLT_MAX),
@@ -38,7 +38,7 @@ BoundingBox::BoundingBox(ColorIndex color)
 	}
 
 
-void BoundingBox::setDimensions(float xmin, float xmax, float ymin, float ymax)
+void AbsBoundingBox::setDimensions(float xmin, float xmax, float ymin, float ymax)
 {
 	xmin_ = xmin;
 	xmax_ = xmax;
@@ -46,7 +46,7 @@ void BoundingBox::setDimensions(float xmin, float xmax, float ymin, float ymax)
 	ymax_ = ymax;
 }
 
-void BoundingBox::draw(void) const
+void AbsBoundingBox::draw(void) const
 {
 	glPushMatrix();
     //glRotatef(getAngle(), 0.f, 0.f, 1.f);
@@ -62,13 +62,13 @@ void BoundingBox::draw(void) const
 	glPopMatrix();
 }
 
-WorldPoint BoundingBox::getCornerUL(void) const
+WorldPoint AbsBoundingBox::getCornerUL(void) const
 {
 	WorldPoint pt = {xmin_, ymax_};
 	return pt;
 }
 		
-WorldPoint BoundingBox::getCornerLR(void) const
+WorldPoint AbsBoundingBox::getCornerLR(void) const
 {
 	WorldPoint pt = {xmax_, ymin_};
 	return pt;

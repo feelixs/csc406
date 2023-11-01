@@ -10,7 +10,7 @@
 #include "commonTypes.h"
 #include "ComplexGraphicObject.h"
 #include "AnimatedObject.h"
-#include "BoundingBox.h"
+#include "AbsBoundingBox.h"
 
 namespace earshooter {
 

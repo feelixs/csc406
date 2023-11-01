@@ -30,7 +30,7 @@ Spaceship::Spaceship(float x, float y, int life)
     isAccelerating_(0),
     accel_(0.f),
     life_(life),
-    absBoundingBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)),
+    absBoundingBox_(std::make_unique<AbsBoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)),
     egocentric_(false),
     invulnerable_(false)
 {

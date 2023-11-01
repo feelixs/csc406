@@ -15,7 +15,7 @@
 		AA2D23902AE9444B00FE4A11 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23802AE9444B00FE4A11 /* main.cpp */; };
 		AA2D23912AE9444B00FE4A11 /* SmilingFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23812AE9444B00FE4A11 /* SmilingFace.cpp */; };
 		AA2D23922AE9444B00FE4A11 /* Ellipse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23822AE9444B00FE4A11 /* Ellipse.cpp */; };
-		AA2D23932AE9444B00FE4A11 /* BoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23832AE9444B00FE4A11 /* BoundingBox.cpp */; };
+		AA2D23932AE9444B00FE4A11 /* AbsBoundingBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23832AE9444B00FE4A11 /* AbsBoundingBox.cpp */; };
 		AA2D23942AE9444B00FE4A11 /* Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23842AE9444B00FE4A11 /* Rectangle.cpp */; };
 		AA2D23952AE9444B00FE4A11 /* ComplexGraphicObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23882AE9444B00FE4A11 /* ComplexGraphicObject.cpp */; };
 		AA2D23962AE9444B00FE4A11 /* AnimatedRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23892AE9444B00FE4A11 /* AnimatedRectangle.cpp */; };
@@ -54,13 +54,13 @@
 		AA2D237A2AE9444B00FE4A11 /* commonTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commonTypes.h; sourceTree = "<group>"; };
 		AA2D237B2AE9444B00FE4A11 /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
 		AA2D237C2AE9444B00FE4A11 /* AnimatedEllipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedEllipse.h; sourceTree = "<group>"; };
-		AA2D237D2AE9444B00FE4A11 /* BoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBox.h; sourceTree = "<group>"; };
+		AA2D237D2AE9444B00FE4A11 /* AbsBoundingBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbsBoundingBox.h; sourceTree = "<group>"; };
 		AA2D237E2AE9444B00FE4A11 /* AnimatedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedObject.h; sourceTree = "<group>"; };
 		AA2D237F2AE9444B00FE4A11 /* Face.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Face.cpp; sourceTree = "<group>"; };
 		AA2D23802AE9444B00FE4A11 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AA2D23812AE9444B00FE4A11 /* SmilingFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmilingFace.cpp; sourceTree = "<group>"; };
 		AA2D23822AE9444B00FE4A11 /* Ellipse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ellipse.cpp; sourceTree = "<group>"; };
-		AA2D23832AE9444B00FE4A11 /* BoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BoundingBox.cpp; sourceTree = "<group>"; };
+		AA2D23832AE9444B00FE4A11 /* AbsBoundingBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AbsBoundingBox.cpp; sourceTree = "<group>"; };
 		AA2D23842AE9444B00FE4A11 /* Rectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rectangle.cpp; sourceTree = "<group>"; };
 		AA2D23852AE9444B00FE4A11 /* World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = World.h; sourceTree = "<group>"; };
 		AA2D23862AE9444B00FE4A11 /* glPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glPlatform.h; sourceTree = "<group>"; };
@@ -120,8 +120,8 @@
 				AA2D237E2AE9444B00FE4A11 /* AnimatedObject.h */,
 				AA2D23892AE9444B00FE4A11 /* AnimatedRectangle.cpp */,
 				AA2D23792AE9444B00FE4A11 /* AnimatedRectangle.h */,
-				AA2D23832AE9444B00FE4A11 /* BoundingBox.cpp */,
-				AA2D237D2AE9444B00FE4A11 /* BoundingBox.h */,
+				AA2D23832AE9444B00FE4A11 /* AbsBoundingBox.cpp */,
+				AA2D237D2AE9444B00FE4A11 /* AbsBoundingBox.h */,
 				AA2D237A2AE9444B00FE4A11 /* commonTypes.h */,
 				AA2D23882AE9444B00FE4A11 /* ComplexGraphicObject.cpp */,
 				AA2D23742AE9444B00FE4A11 /* ComplexGraphicObject.h */,
@@ -226,7 +226,7 @@
 				AA2D23972AE9444B00FE4A11 /* World.cpp in Sources */,
 				AA2D23952AE9444B00FE4A11 /* ComplexGraphicObject.cpp in Sources */,
 				AA2D23942AE9444B00FE4A11 /* Rectangle.cpp in Sources */,
-				AA2D23932AE9444B00FE4A11 /* BoundingBox.cpp in Sources */,
+				AA2D23932AE9444B00FE4A11 /* AbsBoundingBox.cpp in Sources */,
 				AA2D23962AE9444B00FE4A11 /* AnimatedRectangle.cpp in Sources */,
 				AA2D238E2AE9444B00FE4A11 /* AnimatedObject.cpp in Sources */,
 				AA2D23902AE9444B00FE4A11 /* main.cpp in Sources */,

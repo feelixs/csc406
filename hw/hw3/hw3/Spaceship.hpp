@@ -27,7 +27,7 @@ private:
     static float boundingBoxXmin_, boundingBoxXmax_, boundingBoxYmin_, boundingBoxYmax_;
     float red_, green_, blue_, accel_;
     bool isAccelerating_;
-    std::unique_ptr<BoundingBox> absBoundingBox_;
+    std::unique_ptr<AbsBoundingBox> absBoundingBox_;
     
 public:
     /// @param x the starting x pos of the spaceship
@@ -39,7 +39,7 @@ public:
     bool isInside(const WorldPoint& pt);
     void update(float dt);
     
-    inline BoundingBox& getAbsBoundingbox() {
+    inline AbsBoundingBox& getAbsBoundingbox() {
         return *absBoundingBox_;
     }
     inline float getRed() {

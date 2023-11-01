@@ -1,5 +1,5 @@
 //
-//  BoundingBox.h
+//  AbsBoundingBox.h
 //  Week 08 - Earshooter
 
 #ifndef BOUNDING_BOX_H
@@ -10,7 +10,7 @@
 
 namespace earshooter
 {
-	class BoundingBox
+	class AbsBoundingBox
 	{
 
 		private:
@@ -30,7 +30,7 @@ namespace earshooter
 			 * @param ymax	upper bound of the box
 			 * @param color	color of the box's contour
 			 */
-			BoundingBox(float xmin, float xmax, float ymin, float ymax,
+			AbsBoundingBox(float xmin, float xmax, float ymin, float ymax,
 						ColorIndex color = ColorIndex::NO_COLOR);
 
 			/**	Creates a new bounding box at set dimensions and color.
@@ -41,14 +41,14 @@ namespace earshooter
 			 * @param cornerUL	upper-left corner of the box
 			 * @param cornerLR	lower-right corner the box
 			 */
-			BoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR,
+			AbsBoundingBox(const WorldPoint& cornerUL, const WorldPoint& cornerLR,
 						ColorIndex color = ColorIndex::NO_COLOR);
 
 			/**	Creates an empty bounding box with the specified contour color
 			 *
 			 * @param color	color of the box's contour
 			 */
-			BoundingBox(ColorIndex color = ColorIndex::NO_COLOR);
+			AbsBoundingBox(ColorIndex color = ColorIndex::NO_COLOR);
 
 
 			/**	Updates the box's position and dimensions
@@ -76,7 +76,7 @@ namespace earshooter
         
             /// detects if this bounding box is overlapping with another (only works for abs boxes, as it doesn't account for angle_)
             /// @param other the other bounding box to test collision with
-            inline bool overlaps(const BoundingBox& other) const {
+            inline bool overlaps(const AbsBoundingBox& other) const {
                 return !(xmin_ > other.xmax_ ||
                          xmax_ < other.xmin_ ||
                          ymin_ > other.ymax_ ||
