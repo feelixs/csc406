@@ -6,6 +6,7 @@
 //
 
 #include <cfloat>
+#include <math.h>
 #include "glPlatform.h"
 #include "RelBoundingBox.hpp"
 
@@ -96,6 +97,28 @@ bool RelBoundingBox::overlaps(const RelBoundingBox& other) const {
              ymin_ > other.ymax_ ||
              ymax_ < other.ymin_);
 }
+
+
+bool RelBoundingBox::overlapsOneWay(const RelBoundingBox& a, const RelBoundingBox& b) {
+    float angle1 = a.angle_;
+    float angle2 = b.angle_ - a.angle_;
+
+    float cosa1 = cosf(angle1), sina1 = std::sin(angle1);
+    float cosa2 = cosf(angle2), sina2 = std::sin(angle2);
+
+    float dx = b.xmin_ - a.xmin_;
+    float dy = b.ymin_ - a.ymin_;
+
+    float rx = cosa1 * dx + sina1 * dy;
+    float ry = -sina1 * dx + cosa1 * dy;
+
+    float tx = cosa2 * b.calcWidth() + sina2 * b.calcHeight();
+    float ty = -sina2 * b.calcWidth() + cosa2 * b.calcHeight();
+
+    return (std::abs(rx) <= a.calcWidth() / 2 + std::abs(tx) / 2) &&
+           (std::abs(ry) <= a.calcHeight() / 2 + std::abs(ty) / 2);
+}
+
 
 bool RelBoundingBox::isInside(float x, float y) const
 {

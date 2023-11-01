@@ -646,7 +646,7 @@ void detectCollisions() {
         
         // player / asteroid collision
        // if (ast->getRelativeBox()->overlaps(*(player->getRelativeBox()))) {
-        if (ast->getRelativeBox()->isInside(player->getX(), player->getY())) {  // TODO add actual collision logic including player's collisionbox
+        if (ast->getRelativeBox()->overlaps((*player->getRelativeBox()))) {  // TODO add actual collision logic including player's collisionbox
             if (!player->isInvulnerable()) {
                 cout << "player takes damage and goes invulnerable for " << INVINCIBILITY_FRAME_PERIOD << " secs\n";
                 player->setLife(player->getLife() - 1);
