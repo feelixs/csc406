@@ -66,8 +66,14 @@ namespace earshooter
              * @param ymax    upper bound of the box
              */
             void setDimensions(float xmin, float xmax, float ymin, float ymax, float angle);
-
-
+        
+            bool projectionsOverlap(const RelBoundingBox& a, const RelBoundingBox& b, std::pair<float, float> axis) const;
+            void projectOntoAxis(const RelBoundingBox& box, std::pair<float, float> axis, float& minProj, float& maxProj) const;
+            float project(std::pair<float, float> point, std::pair<float, float> axis) const;
+            std::pair<float, float> getEdgeNormal(float x1, float y1, float x2, float y2) const;
+            std::pair<float, float> getRotatedCorner(float x, float y) const;
+            
+        
             /**    Updates the box's position and dimensions
              *
              * Note: Should verify that xmin ≤ xmax and ymin ≤ ymax
