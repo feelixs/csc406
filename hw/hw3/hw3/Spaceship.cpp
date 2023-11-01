@@ -20,7 +20,7 @@ float Spaceship::boundingBoxYmin_ = 0;
 float Spaceship::boundingBoxYmax_ = 0;
 
 
-Spaceship::Spaceship(float x, float y)
+Spaceship::Spaceship(float x, float y, int life)
 :   Object(x, y, 0.f),
     GraphicObject(x, y, 0.f),
     AnimatedObject(x, y, 0.f, 0.f, 0.f, 0.f),
@@ -29,7 +29,7 @@ Spaceship::Spaceship(float x, float y)
     blue_(1.f),
     isAccelerating_(0),
     accel_(0.f),
-    life_(3),
+    life_(life),
     collisionBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)),
     egocentric_(false),
     invulnerable_(false)

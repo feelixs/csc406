@@ -30,7 +30,10 @@ private:
     std::unique_ptr<BoundingBox> collisionBox_;
     
 public:
-    Spaceship(float x, float y);
+    /// @param x the starting x pos of the spaceship
+    /// @param y the starting y pos
+    /// @param life damage required before being destroyed (game over)
+    Spaceship(float x, float y, int life);
     
     void draw() const;
     bool isInside(const WorldPoint& pt);

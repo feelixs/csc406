@@ -76,7 +76,8 @@ bool switchedEgocentric = false;
 vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
-const float INVINCIBILITY_FRAME_PERIOD = 1.5f; // in seconds
+const int PLAYER_STARTING_LIFE = 10;
+const float INVINCIBILITY_FRAME_PERIOD = 0.5f; // in seconds
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
 const int PLAYER_ACCEL = 3;
@@ -857,7 +858,7 @@ void applicationInit()
         allAsteroids.push_back(new_ast);
     }
     
-    player = make_shared<Spaceship>(0.f, 0.f);
+    player = make_shared<Spaceship>(0.f, 0.f, PLAYER_STARTING_LIFE);
     objectList.push_back(player);
     animatedObjectList.push_back(player);
     
