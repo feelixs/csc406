@@ -9,6 +9,7 @@
 #include <math.h>
 
 const float RAD_TO_DEG = M_PI / 180;
+float Spaceship::returnFromInvulnerabilityAfter_ = 0;
 float Spaceship::boundingBoxXmin_ = 0;
 float Spaceship::boundingBoxXmax_ = 0;
 float Spaceship::boundingBoxYmin_ = 0;
@@ -24,8 +25,10 @@ Spaceship::Spaceship(float x, float y)
     blue_(1.f),
     isAccelerating_(0),
     accel_(0.f),
+    life_(3),
     collisionBox_(std::make_unique<BoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED)),
-    egocentric_(false)
+    egocentric_(false),
+    invulnerable_(false)
 {
     //create an absolute collision box with height & width set to the MAXIMUM possible hitbox of object
     // (when the object is rotated by 45 degrees)
@@ -82,8 +85,13 @@ void Spaceship::draw() const {
         glVertex2f(-0.2f, -0.3f);
         glEnd();
     }
+    
     // spaceship model
-    glColor3f(red_, green_, blue_);
+    if (invulnerable_) {
+        glColor3f(1.f, 1.f, 1.f);
+    } else {
+        glColor3f(red_, green_, blue_);
+    }
     glBegin(GL_LINE_LOOP);
     glVertex2f(0.0f, 0.5f);
     glVertex2f(0.5f, -0.5f);
@@ -129,8 +137,16 @@ bool Spaceship::isInside(const WorldPoint& pt)
 }
 
 
-
 void Spaceship::update(float dt) {
+    
+    if (invulnerable_) {
+        if (returnFromInvulnerabilityAfter_ > 0) {
+            returnFromInvulnerabilityAfter_ -= dt;
+        } else {
+            returnFromInvulnerabilityAfter_ = 0;
+            invulnerable_ = false;
+        }
+    }
     
     setVx(getVx() + cosf(getAngle() * RAD_TO_DEG) * dt * getAccel());
     setVy(getVy() + sinf(getAngle() * RAD_TO_DEG) * dt * getAccel());

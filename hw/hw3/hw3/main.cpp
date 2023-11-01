@@ -159,10 +159,6 @@ const float World::Y_MIN = -10.f;
 const float World::Y_MAX = +10.f;
 const float World::WIDTH = World::X_MAX - World::X_MIN;
 const float World::HEIGHT = World::Y_MAX - World::Y_MIN;
-//
-//	I set my speed range in terms of the time it takes to go across the window
-const float MIN_SPEED = World::WIDTH/20.f;
-const float MAX_SPEED = World::WIDTH/5.f;
 
 #define SMALL_DISPLAY_FONT    GLUT_BITMAP_HELVETICA_10
 #define MEDIUM_DISPLAY_FONT   GLUT_BITMAP_HELVETICA_12
@@ -628,23 +624,35 @@ void eraseBulletByIndex(auto b) {
 
 
 void detectCollisions() {
+    
+    cout << player->getLife() << endl;
     // asteroid / bullet collisions
     bool deletedObj = false;
     for (int a = 0; a < allAsteroids.size(); a ++) {
+        auto ast = allAsteroids.at(a);
         for (int b = 0; b < allBullets.size(); b++) {
-            auto ast = allAsteroids.at(a);
             if (ast->isInside(allBullets.at(b)->getPos())) {
                 eraseAsteroidByIndex(ast);
                 eraseBulletByIndex(allBullets.at(b));
                 deletedObj = true;
-                break;  // after erasing from these vectors, we need to break to prevent out_of_range exceptions when using vector.at()
+                break;
             }
         }
         if (deletedObj) {
-            break;
+            break;  // after erasing from the vector we're iterating tru, we need to break to prevent out_of_range exception
+        }
+        
+        // player / asteroid collision
+        if (ast->isInside(WorldPoint{player->getX(), player->getY()})) { // TODO add actual collision logic including player's collisionbox
+            if (!player->isInvulnerable()) {
+                cout << "player takes damage and goes invulnerable\n";
+                player->setLife(player->getLife() - 1);
+                player->goInvulnerableFor(3.f);
+            }
         }
     }
-
+    
+    
 }
 
 

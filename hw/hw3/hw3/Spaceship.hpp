@@ -18,7 +18,9 @@ class Spaceship: public GraphicObject, public AnimatedObject {
 private:
     
     bool egocentric_;
-    
+    bool invulnerable_;
+    int life_;
+    static float returnFromInvulnerabilityAfter_; // after taking damage, we must store when to stop being invulnerable
     static float boundingBoxXmin_, boundingBoxXmax_, boundingBoxYmin_, boundingBoxYmax_;
     float red_, green_, blue_, accel_;
     bool isAccelerating_;
@@ -54,6 +56,19 @@ public:
     }
     inline void setEgocentric(bool e) {
         egocentric_ = e;
+    }
+    inline bool isInvulnerable() {
+        return invulnerable_;
+    }
+    inline void setLife(int l) {
+        life_ = l;
+    }
+    inline int getLife() {
+        return life_;
+    }
+    inline void goInvulnerableFor(float invFor) {
+        invulnerable_ = true;
+        returnFromInvulnerabilityAfter_ = invFor;
     }
 };
 
