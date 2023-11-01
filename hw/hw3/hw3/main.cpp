@@ -629,14 +629,19 @@ void eraseBulletByIndex(auto b) {
 
 void detectCollisions() {
     // asteroid / bullet collisions
+    bool deletedObj = false;
     for (int a = 0; a < allAsteroids.size(); a ++) {
         for (int b = 0; b < allBullets.size(); b++) {
             auto ast = allAsteroids.at(a);
             if (ast->isInside(allBullets.at(b)->getPos())) {
                 eraseAsteroidByIndex(ast);
                 eraseBulletByIndex(allBullets.at(b));
-                return;  // after erasing from these vectors, we need to return to prevent out_of_range exceptions when using vector.at()
+                deletedObj = true;
+                break;  // after erasing from these vectors, we need to break to prevent out_of_range exceptions when using vector.at()
             }
+        }
+        if (deletedObj) {
+            break;
         }
     }
 
