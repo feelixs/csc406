@@ -628,15 +628,18 @@ void eraseBulletByIndex(auto b) {
 
 
 void detectCollisions() {
+    // asteroid / bullet collisions
     for (int a = 0; a < allAsteroids.size(); a ++) {
         for (int b = 0; b < allBullets.size(); b++) {
             auto ast = allAsteroids.at(a);
             if (ast->isInside(allBullets.at(b)->getPos())) {
                 eraseAsteroidByIndex(ast);
                 eraseBulletByIndex(allBullets.at(b));
+                return;
             }
         }
     }
+
 }
 
 
@@ -880,7 +883,7 @@ int main(int argc, char * argv[])
 	//	"lose control" over its execution.  The callback functions that
 	//	we set up earlier will be called when the corresponding event
 	//	occurs
-	glutMainLoop();
+    glutMainLoop();
 	
 	//	This will never be executed (the exit point will be in one of the
 	//	callback functions).
