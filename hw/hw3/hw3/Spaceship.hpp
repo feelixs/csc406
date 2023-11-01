@@ -39,9 +39,6 @@ public:
     bool isInside(const WorldPoint& pt);
     void update(float dt);
     
-    inline void setAccel(float a) {
-        accel_ = a;
-    }
     inline float getRed() {
         return red_;
     }
@@ -54,23 +51,30 @@ public:
     inline float getAccel() {
         return accel_;
     }
-    inline void setIsAccelerating(bool t) {
-        isAccelerating_ = t;
-    }
+    
     inline bool isEgocentric() {
         return egocentric_;
-    }
-    inline void setEgocentric(bool e) {
-        egocentric_ = e;
     }
     inline bool isInvulnerable() {
         return invulnerable_;
     }
-    inline void setLife(int l) {
-        life_ = l;
-    }
     inline int getLife() {
         return life_;
+    }
+    
+    
+    /// @param a the spaceship's new acceleration (magnitude)
+    inline void setAccel(float a) {
+        accel_ = a;
+    }
+    inline void setIsAccelerating(bool t) {
+        isAccelerating_ = t;
+    }
+    inline void setEgocentric(bool e) {
+        egocentric_ = e;
+    }
+    inline void setLife(int l) {
+        life_ = l;
     }
     inline void goInvulnerableFor(float invFor) {
         invulnerable_ = true;
