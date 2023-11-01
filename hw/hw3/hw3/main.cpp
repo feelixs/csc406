@@ -864,8 +864,8 @@ void applicationInit()
     objectList.push_back(player);
     animatedObjectList.push_back(player);
     
-    WorldPoint lifepoint = WorldPoint{1, 1};
-    shared_ptr<LifeCounter> life = make_shared<LifeCounter>(lifepoint, player, 2, 10);
+    WorldPoint lifepoint = WorldPoint{-15, 4.5};
+    shared_ptr<LifeCounter> life = make_shared<LifeCounter>(lifepoint, player, 0.5, 1);
     animatedObjectList.push_back(life);
     objectList.push_back(life);
 	//	time really starts now
