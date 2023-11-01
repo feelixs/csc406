@@ -44,12 +44,13 @@ RelBoundingBox::RelBoundingBox(ColorIndex color)
     }
 
 
-void RelBoundingBox::setDimensions(float xmin, float xmax, float ymin, float ymax)
+void RelBoundingBox::setDimensions(float xmin, float xmax, float ymin, float ymax, float angle)
 {
     xmin_ = xmin;
     xmax_ = xmax;
     ymin_ = ymin;
     ymax_ = ymax;
+    angle_ = angle;
 }
 
 void RelBoundingBox::draw(void) const
