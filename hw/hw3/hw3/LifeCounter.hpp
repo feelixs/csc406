@@ -20,7 +20,7 @@ private:
     float len_, width_, red_, green_, blue_;
     std::shared_ptr<Spaceship> obj_;
     
-    static int totalLife_, curLife_; // totalLife is set to this->obj_'s life when this is initialized
+    static float totalLife_, curLife_; // totalLife is set to this->obj_'s life when this is initialized
     static float** displayLinePts_;
 public:
     ///@param pt starting coords

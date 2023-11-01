@@ -7,8 +7,8 @@
 
 #include "LifeCounter.hpp"
 
-int LifeCounter::totalLife_ = 0;
-int LifeCounter::curLife_ = 0;
+float LifeCounter::totalLife_ = 0;
+float LifeCounter::curLife_ = 0;
 float** LifeCounter::displayLinePts_;
 
 LifeCounter::LifeCounter(WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float width):
@@ -49,7 +49,6 @@ void LifeCounter::draw() const {
     glScalef(1.f, 1.f, 1.f);
     
     glColor3f(red_, green_, blue_);
-
     
     // make a rectangle using two for loops based on one line (displayLinePts_)
     glBegin(GL_POLYGON);
@@ -67,4 +66,9 @@ void LifeCounter::draw() const {
 
 void LifeCounter::update(float dt) {
     curLife_ = obj_->getLife();
+    float lifeRatio = curLife_ / totalLife_;
+    // slowly interpolate from green to red based on current health
+    red_ = 1.0f - lifeRatio;
+    green_ = lifeRatio;
+    blue_ = 0.0f;
 }
