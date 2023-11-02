@@ -16,8 +16,8 @@ using namespace earshooter;
 
 class Bullet : public GraphicObject, public AnimatedObject {
 private:
-    const float vel_, lifetime_;
-    float age_;
+    const float lifetime_;
+    float age_, vel_;
     void initVel_();
 public:
     /**
@@ -34,6 +34,12 @@ public:
     void update(float dt);
     
     bool isInside(const WorldPoint& pt);
+    
+    inline void setVel(float v) {
+        vel_ = 0;
+        setVx(0);
+        setVy(0);
+    }
     
     inline float getLife() {
         return lifetime_;
