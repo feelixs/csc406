@@ -255,20 +255,25 @@ void setEgocentricGlobal(bool val) {
         // if we just switched to egocentric mode, the player might not be in the center of the screen
         // so we need to move all asteroids by the player's offset to account for when we move the player to the center
         for (auto ast : allAsteroids) {
-            if (player->getX() != 0) {
-                ast->setX(ast->getX() - player->getX());
-            }
-            if (player->getY() != 0) {
-                ast->setY(ast->getY() - player->getY());
+            if (ast != nullptr) {
+                if (player->getX() != 0) {
+                    ast->setX(ast->getX() - player->getX());
+                }
+                if (player->getY() != 0) {
+                    ast->setY(ast->getY() - player->getY());
+                }
+                ast->setEgocentric(true);
             }
         }
         // also need to relocate bullets
         for (auto b : allBullets) {
-            if (player->getX() != 0) {
-                b->setX(b->getX() - player->getX());
-            }
-            if (player->getY() != 0) {
-                b->setY(b->getY() - player->getY());
+            if (b != nullptr) {
+                if (player->getX() != 0) {
+                    b->setX(b->getX() - player->getX());
+                }
+                if (player->getY() != 0) {
+                    b->setY(b->getY() - player->getY());
+                }
             }
         }
         // now center the player on the screen
@@ -290,6 +295,7 @@ void setEgocentricGlobal(bool val) {
                 // reset each asteroid velocity to its default value
                 ast->setVx(ast->getInitVx());
                 ast->setVy(ast->getInitVy());
+                ast->setEgocentric(false);
             }
         }
     }
