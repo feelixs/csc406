@@ -76,8 +76,9 @@ float playerAccel = 0;
 vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
-const int PLAYER_STARTING_LIFE = 10;
-const float INVINCIBILITY_FRAME_PERIOD = 0.1f; // in seconds
+const int PLAYER_STARTING_LIFE = 25;
+const float HEALTHBAR_SCALE = 0.87;
+const float INVINCIBILITY_FRAME_PERIOD = 0.5f; // in seconds
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
 const int PLAYER_ACCEL = 5;
@@ -852,8 +853,8 @@ void applicationInit()
     objectList.push_back(player);
     animatedObjectList.push_back(player);
     
-    WorldPoint healthpos = WorldPoint{-15, 4.5};
-    shared_ptr<LifeCounter> healthbar = make_shared<LifeCounter>(healthpos, player, 0.5, 1);
+    WorldPoint healthpos = WorldPoint{-15, -5};
+    shared_ptr<LifeCounter> healthbar = make_shared<LifeCounter>(healthpos, player, HEALTHBAR_SCALE, 0.5);
     animatedObjectList.push_back(healthbar);
     objectList.push_back(healthbar);
 	//	time really starts now
