@@ -79,9 +79,10 @@ float playerAccel = 0;
 vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
-const WorldPoint HEALTHBAR_POS = WorldPoint{-15, -5};
-const int PLAYER_STARTING_LIFE = 25;
-const float HEALTHBAR_SCALE = 0.87;
+const int PLAYER_STARTING_INTEGRITY = 20;
+const int PLAYER_STARTING_LIVES = 3;
+const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-15, 4.75};
+const float INTEGRITY_BAR_SCALE = 0.25;
 const float INVINCIBILITY_FRAME_PERIOD = 0.5f; // in seconds
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
@@ -652,7 +653,7 @@ void detectCollisions() {
         if (!player->isInvulnerable()) {
             if (player->collidesWith(ast)) {
             //    cout << "player takes damage and goes invulnerable for " << INVINCIBILITY_FRAME_PERIOD << " secs\n";
-                player->setLife(player->getLife() - 1);
+                player->setIntegtrity(player->getIntegrity() - 1);
                 player->goInvulnerableFor(INVINCIBILITY_FRAME_PERIOD);
             }
         }
@@ -863,13 +864,13 @@ void applicationInit()
         allAsteroids.push_back(new_ast);
     }
     
-    player = make_shared<Spaceship>(0.f, 0.f, PLAYER_STARTING_LIFE);
+    player = make_shared<Spaceship>(0.f, 0.f, PLAYER_STARTING_INTEGRITY, PLAYER_STARTING_LIVES);
     objectList.push_back(player);
     animatedObjectList.push_back(player);
     
-    shared_ptr<LifeCounter> healthbar = make_shared<LifeCounter>(HEALTHBAR_POS, player, HEALTHBAR_SCALE, 0.5);
-    animatedObjectList.push_back(healthbar);
-    objectList.push_back(healthbar);
+    shared_ptr<LifeCounter> integrity_bar = make_shared<LifeCounter>(INTEGRITY_BAR_POS, player, INTEGRITY_BAR_SCALE, 0.5);
+    animatedObjectList.push_back(integrity_bar);
+    objectList.push_back(integrity_bar);
 	//	time really starts now
 	startTime = time(nullptr);
 }

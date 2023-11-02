@@ -7,8 +7,8 @@
 
 #include "LifeCounter.hpp"
 
-float LifeCounter::totalLife_ = 0;
-float LifeCounter::curLife_ = 0;
+float LifeCounter::totalHealth_ = 0;
+float LifeCounter::curHealth_ = 0;
 float** LifeCounter::displayLinePts_;
 
 LifeCounter::LifeCounter(const WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float width):
@@ -22,10 +22,10 @@ LifeCounter::LifeCounter(const WorldPoint &pt, std::shared_ptr<Spaceship> obj, f
     green_(1.f),
     obj_(obj)
 {
-    totalLife_ = obj_->getLife();
-    curLife_ = totalLife_;
-    displayLinePts_ = new float*[totalLife_];
-    for (int i = 0; i < totalLife_; i++) {
+    totalHealth_ = obj_->getIntegrity();
+    curHealth_ = totalHealth_;
+    displayLinePts_ = new float*[totalHealth_];
+    for (int i = 0; i < totalHealth_; i++) {
         displayLinePts_[i] = new float[2];
         displayLinePts_[i][0] = getX() + (i * len_);
         displayLinePts_[i][1] = getY();
@@ -52,10 +52,10 @@ void LifeCounter::draw() const {
     
     // make a rectangle using two for loops based on one line (displayLinePts_)
     glBegin(GL_POLYGON);
-    for (int k=0; k<curLife_; k++) {
+    for (int k=0; k<curHealth_; k++) {
         glVertex2f(displayLinePts_[k][0], displayLinePts_[k][1]);
     }
-    for (int k=curLife_-1; k>=0; k--) {
+    for (int k=curHealth_-1; k>=0; k--) {
         glVertex2f(displayLinePts_[k][0], displayLinePts_[k][1]+width_);
     }
     glEnd();
@@ -65,9 +65,9 @@ void LifeCounter::draw() const {
 }
 
 void LifeCounter::update(float dt) {
-    curLife_ = obj_->getLife();
-    float lifeRatio = curLife_ / totalLife_;
-    // slowly interpolate from green to red based on current health
+    curHealth_ = obj_->getIntegrity();
+    float lifeRatio = curHealth_ / totalHealth_;
+    // slowly interpolate from green to red based on current health (spaceship integtrity)
     red_ = 1.0f - lifeRatio;
     green_ = lifeRatio;
     blue_ = 0.0f;

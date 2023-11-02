@@ -20,7 +20,7 @@ float Spaceship::absoluteBoxMinY_ = 0;
 float Spaceship::absoluteBoxMaxY_ = 0;
 
 
-Spaceship::Spaceship(float x, float y, int life)
+Spaceship::Spaceship(float x, float y, int integtrity, int lives)
 :   Object(x, y, 0.f),
     GraphicObject(x, y, 0.f),
     AnimatedObject(x, y, 0.f, 0.f, 0.f, 0.f),
@@ -29,7 +29,8 @@ Spaceship::Spaceship(float x, float y, int life)
     blue_(1.f),
     isAccelerating_(0),
     accel_(0.f),
-    life_(life),
+    integrity_(integtrity),
+    lives_(lives),
     egocentric_(false),
     invulnerable_(false)
 {
