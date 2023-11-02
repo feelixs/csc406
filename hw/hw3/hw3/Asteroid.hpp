@@ -16,11 +16,12 @@ using namespace earshooter;
 
 class Asteroid: public GraphicObject, public AnimatedObject {
 private:
-    float width_, height_;
+    float width_, height_, halfWidth_, halfHeight_;
+    bool gameIsEgocentric_;
     Velocity initVel_; // the asteroid's starting velocity
     float absoluteBoxMinX_, absoluteBoxMaxX_, absoluteBoxMinY_, absoluteBoxMaxY_;
     
-    void initBoundingBox_(float halfWidth, float halfHeight);
+    void initBoundingBox_();
 public:
     Asteroid(float centerX, float centerY, float angle, float spin, float width, float height,
             float vx, float vy);
@@ -42,6 +43,9 @@ public:
     }
     inline float getInitVy() {
         return initVel_.vy;
+    }
+    inline void setEgocentric(bool to) {
+        gameIsEgocentric_ = to;
     }
 };
 
