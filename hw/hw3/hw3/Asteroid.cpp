@@ -133,16 +133,22 @@ void Asteroid::update(float dt) {
 bool Asteroid::isInside(const WorldPoint& pt)
 {
     if (!getAbsoluteBox()->isInside(pt.x, pt.y)) {
-        // if pt is not inside my collision box, we don't need to do any calculations
+        // if pt is not inside Absolute Boundingbox, we don't need to do any calculations
         return false;
     }
     
     // it's inside the absolute box, but is it inside the asteroid?
-    // the relative box area is same as the asteroid's
+    // the relative box's area is same as the asteroid's
     return getRelativeBox()->isInside(pt.x, pt.y);
 }
 
 
 bool Asteroid::collidesWith(std::shared_ptr<GraphicObject> other) {
-    return getRelativeBox()->overlaps((*other->getRelativeBox())); //TODO add hierarchical bounding box checking
+    if (!getAbsoluteBox()->overlaps((*other->getAbsoluteBox()))) {
+        // if not overlapping the Absolute Boundingbox, we don't need to do any calculations
+        return false;
+    }
+    
+    // it's inside the absolute box, meaning we must check if it's also inside the inner Relative box
+    return getRelativeBox()->overlaps((*other->getRelativeBox()));
 }
