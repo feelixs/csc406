@@ -94,37 +94,29 @@ WorldPoint RelBoundingBox::getCornerLR(void) const
 bool RelBoundingBox::isInside(float x, float y) const
 {
     float dx = x - (xmin_ + xmax_) / 2.0f;
-        float dy = y - (ymin_ + ymax_) / 2.0f;
+    float dy = y - (ymin_ + ymax_) / 2.0f;
+    
+    if (getAngle() != 0.f) {
+        float ca = cosf(getAngle()), sa = sinf(getAngle());
         
-        if (getAngle() != 0.f) {
-            float ca = cosf(-getAngle()), sa = sinf(-getAngle());
-            
-            float rdx = ca * dx - sa * dy, rdy = sa * dx + ca * dy;
+        float rdx = ca * dx - sa * dy, rdy = sa * dx + ca * dy;
 
-            float halfWidth = (xmax_ - xmin_) / 2.0f;
-            float halfHeight = (ymax_ - ymin_) / 2.0f;
+        float halfWidth = (xmax_ - xmin_) / 2.0f;
+        float halfHeight = (ymax_ - ymin_) / 2.0f;
 
-            return (rdx >= -halfWidth) && (rdx <= halfWidth) &&
-                   (rdy >= -halfHeight) && (rdy <= halfHeight);
-        } else {
-            return (x >= xmin_) && (x <= xmax_) && (y >= ymin_) && (y <= ymax_);
-        }
+        return (rdx >= -halfWidth) && (rdx <= halfWidth) &&
+               (rdy >= -halfHeight) && (rdy <= halfHeight);
+    } else {
+        return (x >= xmin_) && (x <= xmax_) && (y >= ymin_) && (y <= ymax_);
+    }
 }
 
 
 bool RelBoundingBox::overlaps(const RelBoundingBox& other) const {
-    float myCorners[4][2], otherCorners[4][2]; // these containers will store the corner coords of the rotated bounding boxes
+    float myCorners[4][2]; // these containers will store the corner coords of the rotated bounding boxes
     
     // calculate the rotated corner coords
     getCorners(myCorners, xmin_, xmax_, ymin_, ymax_, angle_);
-    getCorners(otherCorners, other.getXmin(), other.getXmax(), other.getYmin(), other.getYmax(), other.getAngle());
-
-    // is any corner of 'other' is inside 'this'?
-    for (int i = 0; i < 4; i++) {
-        if (isInside(otherCorners[i][0], otherCorners[i][1])) {
-            return true;
-        }
-    }
 
     // is any corner of 'this' is inside 'other'?
     for (int i = 0; i < 4; i++) {
