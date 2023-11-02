@@ -141,6 +141,8 @@ void myMousePassiveMotionHandler(int x, int y);
 void myEntryHandler(int state);
 void myKeyHandler(unsigned char c, int x, int y);
 void myKeyUpHandler(unsigned char c, int x, int y);
+void mySpecialKeyHandler(int key, int x, int y);
+void mySpecialKeyUpHandler(int key, int x, int y);
 void myMenuHandler(int value);
 void mySubmenuHandler(int colorIndex);
 void myTimerFunc(int val);
@@ -511,6 +513,43 @@ void myEntryHandler(int state)
 }
 
 
+void mySpecialKeyHandler(int key, int x, int y) {
+    switch (key)
+    {
+        case GLUT_KEY_RIGHT:
+            player->setSpin(-ANGLE_CHNG_RATE);
+            break;
+        case GLUT_KEY_LEFT:
+            player->setSpin(ANGLE_CHNG_RATE);
+            break;
+        case GLUT_KEY_UP:
+            playerAccel = PLAYER_ACCEL;
+            player->setAccel(PLAYER_ACCEL);
+            player->setIsAccelerating(PLAYER_ACCEL);
+            break;
+        default:
+            break;
+    }
+}
+
+void mySpecialKeyUpHandler(int key, int x, int y) {
+    switch (key)
+    {
+        case GLUT_KEY_RIGHT:
+        case GLUT_KEY_LEFT:
+            player->setSpin(0);
+            break;
+        case GLUT_KEY_UP:
+            player->setIsAccelerating(0);
+            playerAccel = 0;
+            player->setAccel(0);
+            break;
+        default:
+            break;
+    }
+}
+
+
 //	This callback function is called when a keyboard event occurs
 //
 void myKeyHandler(unsigned char c, int x, int y)
@@ -589,7 +628,6 @@ void myKeyUpHandler(unsigned char c, int x, int y)
         case 'w':
         case 'W':
             player->setIsAccelerating(0);
-            
             playerAccel = 0;
             player->setAccel(0);
             break;
@@ -894,6 +932,8 @@ int main(int argc, char * argv[])
 	glutEntryFunc(myEntryHandler);
 	glutKeyboardFunc(myKeyHandler);
     glutKeyboardUpFunc(myKeyUpHandler);
+    glutSpecialFunc(mySpecialKeyHandler);
+    glutSpecialUpFunc(mySpecialKeyUpHandler);
 	glutTimerFunc(1,	myTimerFunc,		0);
 	//			  time	    name of		value to pass
 	//			  in ms		function	to the func
