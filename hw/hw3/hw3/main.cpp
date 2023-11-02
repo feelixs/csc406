@@ -144,8 +144,8 @@ void applicationInit();
 
 void correctForEgocentric();
 void detectCollisions();
-void eraseAsteroidByIndex(int n);
-void eraseBulletByIndex(int n);
+void eraseAsteroid(shared_ptr<Asteroid> ast);
+void eraseBullet(shared_ptr<Bullet> b);
 //--------------------------------------
 #if 0
 #pragma mark Constants
@@ -595,35 +595,19 @@ void correctForEgocentric() {
 }
 
 
-/// @param ast the asteroid from the allAsteroids vector to erase
-void eraseAsteroidByIndex(auto ast) {
-    auto thisAst = allAsteroids.begin();
-    while (thisAst != allAsteroids.end()) {
-        if ((*thisAst)==ast) {
-            auto itToRemove = std::remove(objectList.begin(), objectList.end(), *thisAst);
-            // erase the "removed" elements from objectList
-            objectList.erase(itToRemove, objectList.end());
-            allAsteroids.erase(thisAst);
-            return;
-        }
-        thisAst++;
-    }
+/// @param ast the asteroid from the allAsteroids vector to erase from allAsteroids and objectList
+void eraseAsteroid(shared_ptr<Asteroid> ast) {
+    allAsteroids.erase(std::remove(allAsteroids.begin(), allAsteroids.end(), ast), allAsteroids.end());
+    objectList.erase(std::remove(objectList.begin(), objectList.end(), ast), objectList.end());
 }
 
-/// @param b the bullet from the allBullets vector to erase
-void eraseBulletByIndex(auto b) {
-    auto thisBullet = allBullets.begin();
-    while (thisBullet != allBullets.end()) {
-        if ((*thisBullet)==b) {
-            auto itToRemove = std::remove(objectList.begin(), objectList.end(), *thisBullet);
-            // erase the "removed" elements from objectList
-            objectList.erase(itToRemove, objectList.end());
-            allBullets.erase(thisBullet);
-            return;
-        }
-        thisBullet++;
-    }
+/// @param b the bullet from the allBullets vector to erase from allBullets and objectList
+void eraseBullet(shared_ptr<Bullet> b) {
+    // erase 'b' from allBullets & objectList
+    allBullets.erase(std::remove(allBullets.begin(), allBullets.end(), b), allBullets.end());
+    objectList.erase(std::remove(objectList.begin(), objectList.end(), b), objectList.end());
 }
+
 
 
 void detectCollisions() {
@@ -631,11 +615,11 @@ void detectCollisions() {
     // asteroid / bullet collisions
     bool deletedObj = false;
     for (int a = 0; a < allAsteroids.size(); a ++) {
-        auto ast = allAsteroids.at(a);
+        shared_ptr<Asteroid> ast = allAsteroids.at(a);
         for (int b = 0; b < allBullets.size(); b++) {
             if (ast->isInside(allBullets.at(b)->getPos())) {
-                eraseAsteroidByIndex(ast);
-                eraseBulletByIndex(allBullets.at(b));
+                eraseAsteroid(ast);
+                eraseBullet(allBullets.at(b));
                 deletedObj = true;
                 break;
             }
