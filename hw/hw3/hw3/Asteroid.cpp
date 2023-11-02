@@ -54,13 +54,11 @@ void Asteroid::initBoundingBox_() {
     float cosTheta = cosf(M_PI / 4); // 45 degrees = rotation with most extreme size for bounding box
     float sinTheta = sinf(M_PI / 4);
 
-    absoluteBoxMinX_ = absoluteBoxMaxX_ = corners[0][0] * cosTheta - corners[0][1] * sinTheta;
-    absoluteBoxMinY_ = absoluteBoxMaxY_ = corners[0][0] * sinTheta + corners[0][1] * cosTheta;
-
-    for (int i = 1; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
         float xRot = corners[i][0] * cosTheta - corners[i][1] * sinTheta;
         float yRot = corners[i][0] * sinTheta + corners[i][1] * cosTheta;
-
+        // after rotating this corner, is it lower (for min) or higher (for max) than the unrotated corner?
+        // if so, replace the min/max coords
         absoluteBoxMinX_ = fmin(absoluteBoxMinX_, xRot);
         absoluteBoxMaxX_ = fmax(absoluteBoxMaxX_, xRot);
         absoluteBoxMinY_ = fmin(absoluteBoxMinY_, yRot);
