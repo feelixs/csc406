@@ -37,6 +37,8 @@
 #include <random>
 #include <chrono>
 #include <ctime>
+#include <iomanip>
+#include <sstream>
 //
 #include "Asteroid.hpp"
 #include "Bullet.hpp"
@@ -71,6 +73,7 @@ using namespace earshooter;
 const char* WIN_TITLE = "Asteroids (Homework 3)";
 const int NUM_STARTING_ASTEROIDS = 1;
 
+float curScore = 0;
 float playerAccel = 0;
 
 vector<shared_ptr<Bullet>> allBullets;
@@ -345,6 +348,15 @@ void myDisplayFunc(void)
 	}
 
 	glPopMatrix();
+    
+    glTranslatef(World::X_MIN, World::Y_MAX, 0.f);
+    glScalef(World::drawInPixelScale, -World::drawInPixelScale, 1.f);
+    
+    std::ostringstream stream;
+    stream << std::fixed << std::setprecision(2) << curScore; // only display 2 decimal points after score
+    displayTextualInfo(stream.str(), 0);
+
+    
 	glutSwapBuffers();
 }
 
@@ -684,6 +696,7 @@ void myTimerFunc(int value)
         }
     }
     
+    curScore += dt;
 	lastTime = currentTime;
 	//	And finally I perform the rendering
 	if (frameIndex++ % 10 == 0)
