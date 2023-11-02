@@ -69,7 +69,7 @@ using namespace earshooter;
 //	bothersome to do the casting to int each each time.
 
 const char* WIN_TITLE = "Asteroids (Homework 3)";
-const int NUM_ASTEROIDS = 10;
+const int NUM_ASTEROIDS = 1;
 
 float playerAccel = 0;
 
@@ -629,9 +629,9 @@ void detectCollisions() {
         }
         
         // player / asteroid collision
-        if (player->collidesWith(ast)) {
-            if (!player->isInvulnerable()) {
-                cout << "player takes damage and goes invulnerable for " << INVINCIBILITY_FRAME_PERIOD << " secs\n";
+        if (!player->isInvulnerable()) {
+            if (player->collidesWith(ast)) {
+            //    cout << "player takes damage and goes invulnerable for " << INVINCIBILITY_FRAME_PERIOD << " secs\n";
                 player->setLife(player->getLife() - 1);
                 player->goInvulnerableFor(INVINCIBILITY_FRAME_PERIOD);
             }
@@ -835,7 +835,7 @@ void printMatrix(const GLfloat* m) {
 void applicationInit()
 {
     for (int i = 0; i < NUM_ASTEROIDS; i++) {
-        shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(randomPos(), randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-1.f, 1.f));
+        shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(randomPos(), randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-0.f, 0.f));
         //    and add it to both lists
         objectList.push_back(new_ast);
         animatedObjectList.push_back(new_ast);
