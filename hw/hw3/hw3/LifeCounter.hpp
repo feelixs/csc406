@@ -27,7 +27,7 @@ public:
     ///@param obj the spaceship whose life this will keep track of
     ///@param len horizontal length constant for the onscreen display
     ///@param width virtical width of the healthbar
-    LifeCounter(WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float width);
+    LifeCounter(const WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float width);
     void draw() const;
     void update(float dt);
     bool isInside(const WorldPoint& pt);

@@ -11,7 +11,7 @@ float LifeCounter::totalLife_ = 0;
 float LifeCounter::curLife_ = 0;
 float** LifeCounter::displayLinePts_;
 
-LifeCounter::LifeCounter(WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float width):
+LifeCounter::LifeCounter(const WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float width):
     Object(pt.x, pt.y, 0.f),
     GraphicObject(pt.x, pt.y, 0.f),
     AnimatedObject(pt.x, pt.y, 0.f, 0.f, 0.f, 0.f),
