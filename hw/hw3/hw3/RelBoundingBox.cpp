@@ -97,7 +97,7 @@ bool RelBoundingBox::isInside(float x, float y) const
     float dy = y - (ymin_ + ymax_) / 2.0f;
     
     if (getAngle() != 0.f) {
-        float ca = cosf(getAngle()), sa = sinf(getAngle());
+        float ca = cosf(-getAngle()), sa = sinf(-getAngle());
         
         float rdx = ca * dx - sa * dy, rdy = sa * dx + ca * dy;
 
