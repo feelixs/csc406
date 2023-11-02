@@ -69,11 +69,9 @@ using namespace earshooter;
 //	bothersome to do the casting to int each each time.
 
 const char* WIN_TITLE = "Asteroids (Homework 3)";
-const int NUM_ASTEROIDS = 1;
+const int NUM_STARTING_ASTEROIDS = 1;
 
 float playerAccel = 0;
-
-bool switchedEgocentric = false;
 
 vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
@@ -82,7 +80,7 @@ const int PLAYER_STARTING_LIFE = 10;
 const float INVINCIBILITY_FRAME_PERIOD = 0.1f; // in seconds
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
-const int PLAYER_ACCEL = 3;
+const int PLAYER_ACCEL = 5;
 const float ANGLE_CHNG_RATE = 180;
 
 enum MenuItemID {	SEPARATOR = -1,
@@ -142,6 +140,7 @@ void mySubmenuHandler(int colorIndex);
 void myTimerFunc(int val);
 void applicationInit();
 
+void setEgocentricGlobal(bool val);
 void correctForEgocentric();
 void detectCollisions();
 void eraseAsteroid(shared_ptr<Asteroid> ast);
@@ -246,6 +245,57 @@ WorldType World::worldType = WorldType::CYLINDER_WORLD;
 #pragma mark Callback functions
 #endif
 //--------------------------------------
+
+void setEgocentricGlobal(bool val) {
+    if (val) {
+        player->setEgocentric(true);
+        playerAccel = player->getAccel();
+        player->setAccel(0);
+        
+        // if we just switched to egocentric mode, the player might not be in the center of the screen
+        // so we need to move all asteroids by the player's offset to account for when we move the player to the center
+        for (auto ast : allAsteroids) {
+            if (player->getX() != 0) {
+                ast->setX(ast->getX() - player->getX());
+            }
+            if (player->getY() != 0) {
+                ast->setY(ast->getY() - player->getY());
+            }
+        }
+        // also need to relocate bullets
+        for (auto b : allBullets) {
+            if (player->getX() != 0) {
+                b->setX(b->getX() - player->getX());
+            }
+            if (player->getY() != 0) {
+                b->setY(b->getY() - player->getY());
+            }
+        }
+        // now center the player on the screen
+        if (player->getX() != 0) {
+            player->setX(0);
+        }
+        if (player->getY() != 0) {
+            player->setY(0);
+        }
+        
+    } else {
+        player->setEgocentric(false);
+        player->setAccel(playerAccel);
+        playerAccel = 0;
+        
+        // egocentric mode has been disabled
+        for (auto ast : allAsteroids) {
+            if (ast != nullptr) {
+                // reset each asteroid velocity to its default value
+                ast->setVx(ast->getInitVx());
+                ast->setVy(ast->getInitVy());
+            }
+        }
+    }
+    
+    
+}
 
 void myDisplayFunc(void)
 {
@@ -461,17 +511,11 @@ void myKeyHandler(unsigned char c, int x, int y)
         
         case 'g':
         case 'G':
-            player->setEgocentric(false);
-            switchedEgocentric = true;
-            player->setAccel(playerAccel);
-            playerAccel = 0;
+            setEgocentricGlobal(false);
             break;
         case 'e':
         case 'E':
-            player->setEgocentric(true);
-            switchedEgocentric = true;
-            playerAccel = player->getAccel();
-            player->setAccel(0);
+            setEgocentricGlobal(true);
             break;
             
             // TODO add arrow keys
@@ -545,50 +589,6 @@ void correctForEgocentric() {
                 // if so, change each asteroid's velocity by negative the player's
                 ast->setVx(ast->getInitVx() - player->getVx());
                 ast->setVy(ast->getInitVy() - player->getVy());
-            }
-        }
-    }
-    
-    if (switchedEgocentric) {
-        // egocentric variable has changed states
-        switchedEgocentric = false; // the following code should only be run once every time the egocentric variable changes state
-        
-        if (player->isEgocentric()) {
-            // if we just switched to egocentric mode, the player might not be in the center of the screen
-            // so we need to move all asteroids by the player's offset to account for when we move the player to the center
-            for (auto ast : allAsteroids) {
-                if (player->getX() != 0) {
-                    ast->setX(ast->getX() - player->getX());
-                }
-                if (player->getY() != 0) {
-                    ast->setY(ast->getY() - player->getY());
-                }
-            }
-            // also need to relocate bullets
-            for (auto b : allBullets) {
-                if (player->getX() != 0) {
-                    b->setX(b->getX() - player->getX());
-                }
-                if (player->getY() != 0) {
-                    b->setY(b->getY() - player->getY());
-                }
-            }
-            // now center the player on the screen
-            if (player->getX() != 0) {
-                player->setX(0);
-            }
-            if (player->getY() != 0) {
-                player->setY(0);
-            }
-        }
-        else {
-            // egocentric mode has been disabled
-            for (auto ast : allAsteroids) {
-                if (ast != nullptr) {
-                    // reset each asteroid velocity to its default value
-                    ast->setVx(ast->getInitVx());
-                    ast->setVy(ast->getInitVy());
-                }
             }
         }
     }
@@ -834,8 +834,8 @@ void printMatrix(const GLfloat* m) {
 
 void applicationInit()
 {
-    for (int i = 0; i < NUM_ASTEROIDS; i++) {
-        shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(randomPos(), randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-0.f, 0.f));
+    for (int i = 0; i < NUM_STARTING_ASTEROIDS; i++) {
+        shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(randomPos(), randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-1.f, 1.f));
         //    and add it to both lists
         objectList.push_back(new_ast);
         animatedObjectList.push_back(new_ast);
