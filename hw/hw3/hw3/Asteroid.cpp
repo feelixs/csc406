@@ -7,16 +7,16 @@
 
 #include "Asteroid.hpp"
 
-
 Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float width, float height, float vx, float vy)
     :    Object(centerX, centerY, angle),
         GraphicObject(centerX, centerY, angle),
         AnimatedObject(centerX, centerY, angle, vx, vy, spin),
         width_(width),
         height_(height),
-        initVel_(Velocity{vx, vy})
+        initVel_(Velocity{vx, vy}),
+        gameIsEgocentric_(false)
 {
-    initBoundingBox_(width/2, height/2);
+    initBoundingBox_();
 }
 
 Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, float height, const Velocity& vel)
@@ -26,25 +26,28 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         //
         width_(width),
         height_(height),
-        initVel_(vel)
+        initVel_(vel),
+        gameIsEgocentric_(false)
 {
-    initBoundingBox_(width/2, height/2);
+    initBoundingBox_();
 }
 
-void Asteroid::initBoundingBox_(float halfWidth, float halfHeight) {
+void Asteroid::initBoundingBox_() {
     //create an absolute collision box with height & width set to the MAXIMUM possible hitbox of object
     // (when the object is rotated by 45 degrees)
     //
     // this way, the game can first check if collisions occur within this box
     // and then do a trig calc for the object collision ONLY IF this bounding box has a collision
-
+    halfWidth_ = width_/2;
+    halfHeight_ = height_/2;
+    
     setAbsoluteBox(std::make_shared<AbsBoundingBox>(-1, 1, -1, 1, ColorIndex::RED));
     setRelativeBox(std::make_shared<RelBoundingBox>(-0.5, 0.5, -0.5, 0.5, 0, ColorIndex::RED));
     float corners[4][2] = {
-        {-halfWidth, halfHeight},
-        {halfWidth, halfHeight},
-        {halfWidth, -halfHeight},
-        {-halfWidth, -halfHeight}
+        {-halfWidth_, halfHeight_},
+        {halfWidth_, halfHeight_},
+        {halfWidth_, -halfHeight_},
+        {-halfWidth_, -halfHeight_}
     };
     
     float cosTheta = cosf(M_PI / 4); // 45 degrees = rotation with most extreme size for bounding box
@@ -97,19 +100,13 @@ void Asteroid::draw() const
 }
 
 void Asteroid::update(float dt) {
-    
-    float halfWidth = width_/2, halfHeight = height_/2;
-    
-    getAbsoluteBox()->setDimensions(getX()+absoluteBoxMinX_, getX()+absoluteBoxMaxX_, getY()+absoluteBoxMinY_, getY()+absoluteBoxMaxY_);
-    getRelativeBox()->setDimensions(getX()-halfWidth, getX()+halfWidth, getY()-halfHeight, getY()+halfHeight, getAngle());
-    
     if (getVx() != 0.f)
         setX(getX() + getVx()*dt);
     if (getVy() != 0.f)
         setY(getY() + getVy()*dt);
     if (getSpin() != 0.f)
         setAngle(getAngle() + getSpin()*dt);
-        
+    
     if (getX() < World::X_MIN || getX() > World::X_MAX || getY() < World::Y_MIN || getY() > World::Y_MAX) {
         // this is for cylinder world
         if (getX() < World::X_MIN) {
@@ -127,6 +124,9 @@ void Asteroid::update(float dt) {
             }
         }
     }
+    
+    getAbsoluteBox()->setDimensions(getX()+absoluteBoxMinX_, getX()+absoluteBoxMaxX_, getY()+absoluteBoxMinY_, getY()+absoluteBoxMaxY_);
+    getRelativeBox()->setDimensions(getX()-halfWidth_, getX()+halfWidth_, getY()-halfHeight_, getY()+halfHeight_, getAngle());
 }
 
 
