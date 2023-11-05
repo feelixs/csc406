@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA06B8392AF7F8F8002D8DC8 /* LivesDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA06B8372AF7F8F8002D8DC8 /* LivesDisplay.cpp */; };
 		AA2D238B2AE9444B00FE4A11 /* AnimatedEllipse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23712AE9444B00FE4A11 /* AnimatedEllipse.cpp */; };
 		AA2D238C2AE9444B00FE4A11 /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23732AE9444B00FE4A11 /* Object.cpp */; };
 		AA2D238D2AE9444B00FE4A11 /* GraphicObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23762AE9444B00FE4A11 /* GraphicObject.cpp */; };
@@ -20,7 +21,7 @@
 		AA2D23952AE9444B00FE4A11 /* ComplexGraphicObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23882AE9444B00FE4A11 /* ComplexGraphicObject.cpp */; };
 		AA2D23962AE9444B00FE4A11 /* AnimatedRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D23892AE9444B00FE4A11 /* AnimatedRectangle.cpp */; };
 		AA2D23972AE9444B00FE4A11 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA2D238A2AE9444B00FE4A11 /* World.cpp */; };
-		AA889C502AF1DB3F00081525 /* LifeCounter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA889C4E2AF1DB3F00081525 /* LifeCounter.cpp */; };
+		AA889C502AF1DB3F00081525 /* Healthbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA889C4E2AF1DB3F00081525 /* Healthbar.cpp */; };
 		AAC32B812AE010B600CB5A41 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC32B802AE010B600CB5A41 /* GLUT.framework */; };
 		AAC32B832AE010BD00CB5A41 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC32B822AE010BD00CB5A41 /* OpenGL.framework */; };
 		AAD784A72AE944EF00ACA918 /* Asteroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD784A52AE944EF00ACA918 /* Asteroid.cpp */; };
@@ -42,6 +43,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA06B8372AF7F8F8002D8DC8 /* LivesDisplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LivesDisplay.cpp; sourceTree = "<group>"; };
+		AA06B8382AF7F8F8002D8DC8 /* LivesDisplay.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LivesDisplay.hpp; sourceTree = "<group>"; };
 		AA2D23702AE9444B00FE4A11 /* Ellipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ellipse.h; sourceTree = "<group>"; };
 		AA2D23712AE9444B00FE4A11 /* AnimatedEllipse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimatedEllipse.cpp; sourceTree = "<group>"; };
 		AA2D23722AE9444B00FE4A11 /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
@@ -69,8 +72,8 @@
 		AA2D23882AE9444B00FE4A11 /* ComplexGraphicObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComplexGraphicObject.cpp; sourceTree = "<group>"; };
 		AA2D23892AE9444B00FE4A11 /* AnimatedRectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimatedRectangle.cpp; sourceTree = "<group>"; };
 		AA2D238A2AE9444B00FE4A11 /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
-		AA889C4E2AF1DB3F00081525 /* LifeCounter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LifeCounter.cpp; sourceTree = "<group>"; };
-		AA889C4F2AF1DB3F00081525 /* LifeCounter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LifeCounter.hpp; sourceTree = "<group>"; };
+		AA889C4E2AF1DB3F00081525 /* Healthbar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Healthbar.cpp; sourceTree = "<group>"; };
+		AA889C4F2AF1DB3F00081525 /* Healthbar.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Healthbar.hpp; sourceTree = "<group>"; };
 		AAC32B752AE00FF400CB5A41 /* hw3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hw3; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAC32B802AE010B600CB5A41 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		AAC32B822AE010BD00CB5A41 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -150,10 +153,12 @@
 				AAD784A92AE95B8000ACA918 /* Spaceship.hpp */,
 				AAEF4F112AEC323E00140F64 /* Bullet.cpp */,
 				AAEF4F122AEC323E00140F64 /* Bullet.hpp */,
-				AA889C4E2AF1DB3F00081525 /* LifeCounter.cpp */,
-				AA889C4F2AF1DB3F00081525 /* LifeCounter.hpp */,
+				AA889C4E2AF1DB3F00081525 /* Healthbar.cpp */,
+				AA889C4F2AF1DB3F00081525 /* Healthbar.hpp */,
 				AAFA3F6E2AF291D400CBE0C5 /* RelBoundingBox.cpp */,
 				AAFA3F6F2AF291D400CBE0C5 /* RelBoundingBox.hpp */,
+				AA06B8372AF7F8F8002D8DC8 /* LivesDisplay.cpp */,
+				AA06B8382AF7F8F8002D8DC8 /* LivesDisplay.hpp */,
 			);
 			path = hw3;
 			sourceTree = "<group>";
@@ -234,6 +239,7 @@
 				AAFA3F702AF291D400CBE0C5 /* RelBoundingBox.cpp in Sources */,
 				AA2D23932AE9444B00FE4A11 /* AbsBoundingBox.cpp in Sources */,
 				AA2D23962AE9444B00FE4A11 /* AnimatedRectangle.cpp in Sources */,
+				AA06B8392AF7F8F8002D8DC8 /* LivesDisplay.cpp in Sources */,
 				AA2D238E2AE9444B00FE4A11 /* AnimatedObject.cpp in Sources */,
 				AA2D23902AE9444B00FE4A11 /* main.cpp in Sources */,
 				AA2D238D2AE9444B00FE4A11 /* GraphicObject.cpp in Sources */,
@@ -241,7 +247,7 @@
 				AAD784A72AE944EF00ACA918 /* Asteroid.cpp in Sources */,
 				AAD784AA2AE95B8000ACA918 /* Spaceship.cpp in Sources */,
 				AA2D238F2AE9444B00FE4A11 /* Face.cpp in Sources */,
-				AA889C502AF1DB3F00081525 /* LifeCounter.cpp in Sources */,
+				AA889C502AF1DB3F00081525 /* Healthbar.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

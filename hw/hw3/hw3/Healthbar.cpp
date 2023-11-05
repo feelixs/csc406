@@ -1,17 +1,20 @@
 //
-//  LifeCounter.cpp
+//  Healthbar.cpp
 //  hw3
+//
+//
+//  Displays a healthbar of the Player's remaining hull integrity as a Graphic object
 //
 //  Created by Michael Felix on 10/31/23.
 //
 
-#include "LifeCounter.hpp"
+#include "Healthbar.hpp"
 
-float LifeCounter::totalHealth_ = 0;
-float LifeCounter::curHealth_ = 0;
-float** LifeCounter::displayLinePts_;
+float Healthbar::totalHealth_ = 0;
+float Healthbar::curHealth_ = 0;
+float** Healthbar::displayLinePts_;
 
-LifeCounter::LifeCounter(const WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float width):
+Healthbar::Healthbar(const WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float width):
     Object(pt.x, pt.y, 0.f),
     GraphicObject(pt.x, pt.y, 0.f),
     AnimatedObject(pt.x, pt.y, 0.f, 0.f, 0.f, 0.f),
@@ -32,11 +35,11 @@ LifeCounter::LifeCounter(const WorldPoint &pt, std::shared_ptr<Spaceship> obj, f
     }
 }
 
-bool LifeCounter::isInside(const WorldPoint& pt) {
+bool Healthbar::isInside(const WorldPoint& pt) {
     return false;
 }
 
-void LifeCounter::draw() const {
+void Healthbar::draw() const {
     glPushMatrix();
     
     //    move to the center of the disk
@@ -64,7 +67,7 @@ void LifeCounter::draw() const {
     glPopMatrix();
 }
 
-void LifeCounter::update(float dt) {
+void Healthbar::update(float dt) {
     curHealth_ = obj_->getIntegrity();
     float lifeRatio = curHealth_ / totalHealth_;
     // slowly interpolate from green to red based on current health (spaceship integtrity)

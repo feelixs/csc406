@@ -51,8 +51,8 @@
 #include "AnimatedEllipse.h"
 #include "AnimatedRectangle.h"
 #include "Spaceship.hpp"
-#include "LifeCounter.hpp"
-#include "LifeCounter.hpp"
+#include "Healthbar.hpp"
+#include "Healthbar.hpp"
 
 using namespace std;
 using namespace earshooter;
@@ -906,7 +906,7 @@ void applicationInit()
     objectList.push_back(player);
     animatedObjectList.push_back(player);
     
-    shared_ptr<LifeCounter> integrity_bar = make_shared<LifeCounter>(INTEGRITY_BAR_POS, player, INTEGRITY_BAR_SCALE, 0.5);
+    shared_ptr<Healthbar> integrity_bar = make_shared<Healthbar>(INTEGRITY_BAR_POS, player, INTEGRITY_BAR_SCALE, 0.5);
     animatedObjectList.push_back(integrity_bar);
     objectList.push_back(integrity_bar);
 	//	time really starts now
