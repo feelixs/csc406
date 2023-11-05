@@ -236,6 +236,8 @@ float World::pixelToWorldRatio;
 float World::worldToPixelRatio;
 float World::drawInPixelScale;
 
+bool GAME_PAUSED = false;
+
 bool pointerInWindow = false;
 GLint lastX = -1, lastY = -1;
 
@@ -361,6 +363,12 @@ void myDisplayFunc(void)
 
     
 	glutSwapBuffers();
+    
+    if (player->getLives() <= 0) {
+        // we're putting 'game over detection' in the draw function
+        //so that the life count is drawn 1 last time (with no lives remaining) before pausing everything
+        GAME_PAUSED = true;
+    }
 }
 
 void myResizeFunc(int w, int h)
@@ -699,47 +707,51 @@ void detectCollisions() {
 
 void myTimerFunc(int value)
 {
-	static int frameIndex=0;
-	static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
+    if (!GAME_PAUSED) {
+        static int frameIndex=0;
+        static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
 
-	//	"re-prime the timer"
-	glutTimerFunc(1, myTimerFunc, value);
+        //	"re-prime the timer"
+        glutTimerFunc(1, myTimerFunc, value);
 
-	//	 do something (e.g. update the state of animated objects)
-	chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
-	float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
-    
-    correctForEgocentric();
-    detectCollisions();
-    
-    for (auto obj : animatedObjectList)
-	{
-		if (obj != nullptr)
-			obj->update(dt);
-	}
-    
-    // iterate over all active bullets, deleting all expired ones and updating active ones
-    auto thisBullet = allBullets.begin();
-    while (thisBullet != allBullets.end()) {
-        if ((*thisBullet)->getLife() < (*thisBullet)->getAge()) {
-            auto itToRemove = std::remove(objectList.begin(), objectList.end(), *thisBullet);
+        //	 do something (e.g. update the state of animated objects)
+        chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
+        float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
+        
+        correctForEgocentric();
+        
+        
+        detectCollisions();
+        
+        for (auto obj : animatedObjectList)
+        {
+            if (obj != nullptr)
+                obj->update(dt);
+        }
+        
+        // iterate over all active bullets, deleting all expired ones and updating active ones
+        auto thisBullet = allBullets.begin();
+        while (thisBullet != allBullets.end()) {
+            if ((*thisBullet)->getLife() < (*thisBullet)->getAge()) {
+                auto itToRemove = std::remove(objectList.begin(), objectList.end(), *thisBullet);
                 // erase the "removed" elements from objectList
                 objectList.erase(itToRemove, objectList.end());
-            thisBullet = allBullets.erase(thisBullet);
-            // no need to ++ as this element is removed, we're now on the next one already
-        } else {
-            (*thisBullet)->update(dt);
-            ++thisBullet;
+                thisBullet = allBullets.erase(thisBullet);
+                // no need to ++ as this element is removed, we're now on the next one already
+            } else {
+                (*thisBullet)->update(dt);
+                ++thisBullet;
+            }
+        }
+        
+        curScore += dt;
+        lastTime = currentTime;
+        //	And finally I perform the rendering
+        if (frameIndex++ % 10 == 0)
+        {
+            glutPostRedisplay();
         }
     }
-    
-    curScore += dt;
-	lastTime = currentTime;
-	//	And finally I perform the rendering
-	if (frameIndex++ % 10 == 0)
-	{
-		glutPostRedisplay();
-	}
 }
 
 //--------------------------------------

@@ -126,7 +126,9 @@ void Spaceship::takeHits(float dmg) {
     goInvulnerableFor(invulnerableSecs_);
     if (integrity_ <= 0) {
         lives_--;
-        integrity_ = startingIntegrity_;
+        if (lives_ > 0) {
+            integrity_ = startingIntegrity_;
+        }
     }
 }
 
