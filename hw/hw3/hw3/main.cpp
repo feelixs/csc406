@@ -80,10 +80,10 @@ vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
 const WorldPoint LIVES_COUNTER_POS = WorldPoint{-29.5, 8.75};
-const int PLAYER_STARTING_LIVES = 3;
+const int PLAYER_STARTING_LIVES = 1;
 const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-15, 4.75};
-const int PLAYER_STARTING_INTEGRITY = 10;
-const float INTEGRITY_BAR_SCALE = 0.5;
+const int PLAYER_STARTING_INTEGRITY = 5;
+const float INTEGRITY_BAR_SCALE = 1;
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
 const int PLAYER_ACCEL = 5;
@@ -152,6 +152,7 @@ void setEgocentricGlobal(bool val);
 void correctForEgocentric();
 void detectCollisions();
 void eraseAsteroid(shared_ptr<Asteroid> ast);
+void clearAsteroids();
 void eraseBullet(shared_ptr<Bullet> b);
 //--------------------------------------
 #if 0
@@ -237,6 +238,7 @@ float World::worldToPixelRatio;
 float World::drawInPixelScale;
 
 bool GAME_PAUSED = false;
+bool GAME_OVER = false;
 
 bool pointerInWindow = false;
 GLint lastX = -1, lastY = -1;
@@ -244,7 +246,7 @@ GLint lastX = -1, lastY = -1;
 const GLfloat* textColor = TEXT_COLOR[0];
 const GLfloat* bgndColor = BGND_COLOR[0];
 
-list<shared_ptr<GraphicObject> > objectList;
+vector<shared_ptr<GraphicObject> > objectList;
 list<shared_ptr<AnimatedObject> > animatedObjectList;
 
 WorldType World::worldType = WorldType::CYLINDER_WORLD;
@@ -359,16 +361,17 @@ void myDisplayFunc(void)
     
     std::ostringstream stream;
     stream << std::fixed << std::setprecision(2) << curScore; // only display 2 decimal points after score
-    displayTextualInfo(stream.str(), 0);
-
-    
-	glutSwapBuffers();
-    
-    if (player->getLives() <= 0) {
+    if (player->getLives() > 0) {
+        displayTextualInfo(stream.str(), 0);
+    } else {
         // we're putting 'game over detection' in the draw function
         //so that the life count is drawn 1 last time (with no lives remaining) before pausing everything
         GAME_PAUSED = true;
+        GAME_OVER = true;
+        displayTextualInfo("GAME OVER: PRESS 'R' TO RESTART     " + stream.str(), 0);
     }
+
+	glutSwapBuffers();
 }
 
 void myResizeFunc(int w, int h)
@@ -612,6 +615,23 @@ void myKeyHandler(unsigned char c, int x, int y)
                 player->setVy(player->getVy() * DECREASE_SPEED_CONST);
             */
             break;
+        case 'r':
+            if (GAME_OVER) {
+                clearAsteroids(); // on game restart, remove all asteroids that were spawned last game
+                
+                curScore = 0;
+                player->setX(0);
+                player->setY(0);
+                player->setAccel(0);
+                player->setAngle(0);
+                player->setVx(0);
+                player->setVy(0);
+                player->setLives(PLAYER_STARTING_LIVES);
+                player->setIntegtrity(PLAYER_STARTING_INTEGRITY);
+                GAME_OVER = false;
+                GAME_PAUSED = false;
+            }
+            break;
             
         case ' ': { // space -> shoot a bullet from the player
             WorldPoint p = WorldPoint{player->getX(), player->getY()};
@@ -668,6 +688,26 @@ void eraseAsteroid(shared_ptr<Asteroid> ast) {
     objectList.erase(std::remove(objectList.begin(), objectList.end(), ast), objectList.end());
 }
 
+void clearAsteroids() {
+    // first remove all asteroids from objectlist
+    bool erased;
+    for (int i = 0; i < objectList.size(); /* we will manually increment */) {
+        erased = false;
+        for (auto ast: allAsteroids) {
+            if (objectList.at(i) == ast) {
+                objectList.erase(objectList.begin() + i);
+                erased = true;
+                break;
+            }
+        }
+        if (!erased) { // only increment if we haven't deleted from objectlist in this iteration
+            i++;
+        }
+    }
+    
+    allAsteroids.clear(); // then clear asteroid list
+}
+
 /// @param b the bullet from the allBullets vector to erase from allBullets and objectList
 void eraseBullet(shared_ptr<Bullet> b) {
     // erase 'b' from allBullets & objectList
@@ -707,20 +747,19 @@ void detectCollisions() {
 
 void myTimerFunc(int value)
 {
-    if (!GAME_PAUSED) {
-        static int frameIndex=0;
-        static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
+    static int frameIndex=0;
+    static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
 
-        //	"re-prime the timer"
-        glutTimerFunc(1, myTimerFunc, value);
+    //    "re-prime the timer"
+    glutTimerFunc(1, myTimerFunc, value);
+    
+    if (!GAME_PAUSED) {
 
         //	 do something (e.g. update the state of animated objects)
         chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
         float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
         
         correctForEgocentric();
-        
-        
         detectCollisions();
         
         for (auto obj : animatedObjectList)
@@ -746,11 +785,12 @@ void myTimerFunc(int value)
         
         curScore += dt;
         lastTime = currentTime;
-        //	And finally I perform the rendering
-        if (frameIndex++ % 10 == 0)
-        {
-            glutPostRedisplay();
-        }
+    }
+    
+    //    And finally I perform the rendering
+    if (frameIndex++ % 10 == 0)
+    {
+        glutPostRedisplay();
     }
 }
 
