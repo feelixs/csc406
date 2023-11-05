@@ -19,9 +19,9 @@ private:
     
     bool egocentric_;
     bool invulnerable_;
-    int integrity_, lives_;
+    int integrity_, lives_, startingIntegrity_;
     
-    static float blinkTimer_;
+    static float blinkTimer_, invulnerableSecs_;
     static bool blinkIsVisible_;
     static float returnFromInvulnerabilityAfter_; // after taking damage, we must store when to stop being invulnerable
     static float absoluteBoxMinX_, absoluteBoxMax_, absoluteBoxMinY_, absoluteBoxMaxY_;
@@ -39,7 +39,9 @@ public:
     bool isInside(const WorldPoint& pt);
     void update(float dt);
     bool collidesWith(std::shared_ptr<GraphicObject> other);
-        
+    
+    void takeHits(float dmg);
+    
     inline float getRed() {
         return red_;
     }

@@ -84,7 +84,6 @@ const int PLAYER_STARTING_LIVES = 3;
 const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-15, 4.75};
 const int PLAYER_STARTING_INTEGRITY = 10;
 const float INTEGRITY_BAR_SCALE = 0.5;
-const float INVINCIBILITY_FRAME_PERIOD = 0.5f; // in seconds
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
 const int PLAYER_ACCEL = 5;
@@ -691,9 +690,7 @@ void detectCollisions() {
         // player / asteroid collision
         if (!player->isInvulnerable()) {
             if (player->collidesWith(ast)) {
-            //    cout << "player takes damage and goes invulnerable for " << INVINCIBILITY_FRAME_PERIOD << " secs\n";
-                player->setIntegtrity(player->getIntegrity() - 1);
-                player->goInvulnerableFor(INVINCIBILITY_FRAME_PERIOD);
+                player->takeHits(1);
             }
         }
     }
