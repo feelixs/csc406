@@ -52,7 +52,7 @@
 #include "AnimatedRectangle.h"
 #include "Spaceship.hpp"
 #include "Healthbar.hpp"
-#include "Healthbar.hpp"
+#include "LivesDisplay.hpp"
 
 using namespace std;
 using namespace earshooter;
@@ -79,10 +79,11 @@ float playerAccel = 0;
 vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
-const int PLAYER_STARTING_INTEGRITY = 20;
+const WorldPoint LIVES_COUNTER_POS = WorldPoint{-29.5, 8.75};
 const int PLAYER_STARTING_LIVES = 3;
 const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-15, 4.75};
-const float INTEGRITY_BAR_SCALE = 0.25;
+const int PLAYER_STARTING_INTEGRITY = 10;
+const float INTEGRITY_BAR_SCALE = 0.5;
 const float INVINCIBILITY_FRAME_PERIOD = 0.5f; // in seconds
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
@@ -909,6 +910,11 @@ void applicationInit()
     shared_ptr<Healthbar> integrity_bar = make_shared<Healthbar>(INTEGRITY_BAR_POS, player, INTEGRITY_BAR_SCALE, 0.5);
     animatedObjectList.push_back(integrity_bar);
     objectList.push_back(integrity_bar);
+    
+    shared_ptr<LivesDisplay> lives_counter = make_shared<LivesDisplay>(LIVES_COUNTER_POS, player, 1.2, 0.75);
+    
+    animatedObjectList.push_back(lives_counter);
+    objectList.push_back(lives_counter);
 	//	time really starts now
 	startTime = time(nullptr);
 }
