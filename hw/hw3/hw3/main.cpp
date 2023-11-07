@@ -84,12 +84,6 @@ const float ANGLE_CHNG_RATE = 180;
 
 const int STARTING_PLAYER_ACCEL = 5;
 
-enum MenuItemID {	SEPARATOR = -1,
-					//
-					QUIT_MENU = 0,
-					OTHER_MENU_ITEM,
-					SOME_ITEM = 10
-};
 
 enum TextColorSubmenuItemID {	FIRST_TEXT = 11,
 								RED_TEXT = 11,
@@ -401,15 +395,6 @@ void myMenuHandler(int choice)
 {
 	switch (choice)
 	{
-		//	Exit/Quit
-		case QUIT_MENU:
-			exit(0);
-			break;
-		
-		//	Do something
-		case OTHER_MENU_ITEM:
-			break;
-		
 		default:	//	this should not happen
 			break;
 	
