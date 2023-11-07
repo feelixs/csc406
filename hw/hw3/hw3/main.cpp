@@ -324,23 +324,41 @@ void myDisplayFunc(void)
 			obj->draw();
 	}
 
-	if (World::worldType == WorldType::CYLINDER_WORLD)
-	{
-		glTranslatef(-World::WIDTH, 0, 0);
-		for (auto obj : objectList)
-			{
-				if (obj != nullptr)
-					obj->draw();
-			}
-		glTranslatef(2*World::WIDTH, 0, 0);
-		for (auto obj : objectList)
-			{
-				if (obj != nullptr)
-					obj->draw();
-			}
-		
-	
-	}
+    if (!player->isEgocentric()) { // if we're egocentric, we don't want objects to wrap around
+        if (World::worldType == WorldType::CYLINDER_WORLD)
+        {
+            // draw x offscreen
+            glTranslatef(-World::WIDTH, 0, 0);
+            for (auto obj : objectList)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+            glTranslatef(2*World::WIDTH, 0, 0);
+            for (auto obj : objectList)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+            
+            // recenter
+            glTranslatef(-World::WIDTH, 0, 0);
+            
+            // now draw y
+            glTranslatef(0, -World::HEIGHT,  0);
+            for (auto obj : objectList)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+            glTranslatef(0, 2*World::HEIGHT,  0);
+            for (auto obj : objectList)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+        }
+    }
 
 	glPopMatrix();
     
