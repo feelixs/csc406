@@ -80,7 +80,7 @@ vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
 const WorldPoint LIVES_COUNTER_POS = WorldPoint{-29.5, 8.75};
-const int PLAYER_STARTING_LIVES = 1;
+const int PLAYER_STARTING_LIVES = 3;
 const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-15, 4.75};
 const int PLAYER_STARTING_INTEGRITY = 5;
 const float INTEGRITY_BAR_SCALE = 1;
