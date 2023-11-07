@@ -31,4 +31,5 @@ AnimatedObject::AnimatedObject(const WorldPoint& pt, float angle, const Velocity
 
 
 void AnimatedObject::update(float dt) {
+    
 }
