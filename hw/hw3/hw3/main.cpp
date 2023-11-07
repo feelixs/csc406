@@ -80,7 +80,7 @@ const int PLAYER_STARTING_INTEGRITY = 5;
 const float INTEGRITY_BAR_SCALE = 1;
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
-const float ANGLE_CHNG_RATE = 180;
+const float PLAYER_ROTATION_RATE = 180;
 
 const int STARTING_PLAYER_ACCEL = 5;
 
@@ -119,7 +119,6 @@ enum FontSize {
 #pragma mark Function prototypes
 #endif
 //--------------------------------------
-void printMatrix(const GLfloat* m);
 void displayTextualInfo(const string& infoStr, int textRow);
 void displayTextualInfo(const char* infoStr, int textRow);
 void myDisplayFunc(void);
@@ -409,21 +408,6 @@ void mySubmenuHandler(int choice)
 {
 	switch (choice)
 	{
-		case RED_TEXT:
-		case GREEN_TEXT:
-		case WHITE_TEXT:
-		case MAGENTA_TEXT:
-			textColor = TEXT_COLOR[choice - FIRST_TEXT];
-			break;
-			
-		case LIGHT_GREY_BGND:
-		case DARK_GREY_BGND:
-		case GREEN_BGND:
-		case BLUE_BGND:
-		case BROWN_BGND:
-			bgndColor = BGND_COLOR[choice - FIRST_BGND];
-			break;
-		
 		default:
 			break;
 	}
@@ -440,15 +424,6 @@ void myMouseHandler(int button, int state, int ix, int iy)
 			if (state == GLUT_DOWN)
 			{
 				// left mouse down
-                WorldPoint p = pixelToWorld(ix, iy);
-                if (player->isInside(p)) {
-                    cout << "inside player" << endl;
-                }
-                for (auto ast : allAsteroids) {
-                    if (ast->isInside(p)) {
-                        cout << "inside ast" << endl;
-                    }
-                }
 			}
 			else if (state == GLUT_UP)
             {
@@ -471,11 +446,12 @@ void myMouseMotionHandler(int ix, int iy)
 
 void myMousePassiveMotionHandler(int ix, int iy)
 {
+    /*
 	lastX = ix;
 	lastY = iy;
 	pointerInWindow = (ix >= 0 && ix < winWidth && iy >= 0 && iy < winHeight);
 
-	/*if (trackPassiveMousePointer)
+	if (trackPassiveMousePointer)
 	{
 		cout << "Passive mouse at (" << ix << ", " << iy << ")" << endl;
 	}
@@ -508,10 +484,10 @@ void mySpecialKeyHandler(int key, int x, int y) {
     switch (key)
     {
         case GLUT_KEY_RIGHT:
-            player->setSpin(-ANGLE_CHNG_RATE);
+            player->setSpin(-PLAYER_ROTATION_RATE);
             break;
         case GLUT_KEY_LEFT:
-            player->setSpin(ANGLE_CHNG_RATE);
+            player->setSpin(PLAYER_ROTATION_RATE);
             break;
         case GLUT_KEY_UP:
             curPlayerAccel = player->getAccelRate();
@@ -572,11 +548,11 @@ void myKeyHandler(unsigned char c, int x, int y)
             // TODO add arrow keys
         case 'd':
         case 'D':
-            player->setSpin(-ANGLE_CHNG_RATE);
+            player->setSpin(-PLAYER_ROTATION_RATE);
             break;
         case 'a':
         case 'A':
-            player->setSpin(ANGLE_CHNG_RATE);
+            player->setSpin(PLAYER_ROTATION_RATE);
             break;
         case 'w':
         case 'W':
@@ -907,13 +883,6 @@ void displayTextualInfo(const char* infoStr, int textRow)
     //  6.  Restore reference frame
     //-----------------------------------------------
     glPopMatrix();
-}
-
-void printMatrix(const GLfloat* m) {
-    cout << "((" << m[0] << "\t" << m[4] << "\t" << m[8] << "\t" << m[12] << ")" << endl;
-    cout << " (" << m[1] << "\t" << m[5] << "\t" << m[9] << "\t" << m[13] << ")" << endl;
-    cout << " (" << m[2] << "\t" << m[6] << "\t" << m[10] << "\t" << m[14] << ")" << endl;
-    cout << " (" << m[3] << "\t" << m[7] << "\t" << m[11] << "\t" << m[15] << "))" << endl;
 }
 
 //--------------------------------------
