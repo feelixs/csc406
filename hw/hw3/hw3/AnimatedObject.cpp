@@ -30,28 +30,5 @@ AnimatedObject::AnimatedObject(const WorldPoint& pt, float angle, const Velocity
 }
 
 
-void AnimatedObject::update(float dt)
-{
-	if (vx_ != 0.f)
-		setX(getX() + vx_*dt);
-	if (vy_ != 0.f)
-		setY(getY() + vy_*dt);
-	if (spin_ != 0.f)
-		setAngle(getAngle() + spin_*dt);
-    
-	if (getX() < World::X_MIN || getX() > World::X_MAX ||
-		getY() < World::Y_MIN || getY() > World::Y_MAX)
-	{
-        if (getX() < World::X_MIN)
-            setX(getX() + World::WIDTH);
-        else if (getX() > World::X_MAX)
-            setX(getX() - World::WIDTH);
-        if (getY() < World::Y_MIN || getY() > World::Y_MAX){
-            if (getY() < World::Y_MIN)
-                setY(-World::Y_MIN);
-            else
-                setY(-World::Y_MAX);
-            //vy_ = -vy_;
-        }
-	}
+void AnimatedObject::update(float dt) {
 }
