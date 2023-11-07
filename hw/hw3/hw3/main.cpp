@@ -73,9 +73,9 @@ float curPlayerAccel = 0;
 vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
-const WorldPoint LIVES_COUNTER_POS = WorldPoint{-29.5, 8.75};
+const WorldPoint LIVES_COUNTER_POS = WorldPoint{-9.5, 8.75};
 const int PLAYER_STARTING_LIVES = 3;
-const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-15, 4.75};
+const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-5, 4.75};
 const int PLAYER_STARTING_INTEGRITY = 5;
 const float INTEGRITY_BAR_SCALE = 1;
 const float BULLET_LIFE_SECS = 1.0;
@@ -327,35 +327,53 @@ void myDisplayFunc(void)
     if (!player->isEgocentric()) { // if we're egocentric, we don't want objects to wrap around
         if (World::worldType == WorldType::CYLINDER_WORLD)
         {
-            // draw x offscreen
+            // draw x on left
             glTranslatef(-World::WIDTH, 0, 0);
             for (auto obj : objectList)
             {
                 if (obj != nullptr)
                     obj->draw();
             }
-            glTranslatef(2*World::WIDTH, 0, 0);
-            for (auto obj : objectList)
-            {
-                if (obj != nullptr)
-                    obj->draw();
-            }
-            
-            // recenter
-            glTranslatef(-World::WIDTH, 0, 0);
-            
-            // now draw y
+            // now draw y under left
             glTranslatef(0, -World::HEIGHT,  0);
             for (auto obj : objectList)
             {
                 if (obj != nullptr)
                     obj->draw();
             }
+            // y above left
             glTranslatef(0, 2*World::HEIGHT,  0);
             for (auto obj : objectList)
             {
                 if (obj != nullptr)
                     obj->draw();
+            }
+            // recenter x, y is currently one screen up
+            glTranslatef(World::WIDTH, 0, 0);
+            // draw y above center
+            for (auto obj : objectList)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+            // draw y under center
+            glTranslatef(0, -2*World::HEIGHT,  0);
+            for (auto obj : objectList)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+            
+            // now draw x on right
+            glTranslatef(World::WIDTH, 0, 0);
+            // we're currently at y under the main screen on the right, so we can draw all remaining screens in 3 final iterations
+            for (int i = 0; i < 3; i++) {
+                for (auto obj : objectList)
+                {
+                    if (obj != nullptr)
+                        obj->draw();
+                }
+                glTranslatef(0, World::HEIGHT,  0);
             }
         }
     }
