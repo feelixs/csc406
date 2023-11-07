@@ -74,6 +74,7 @@ const char* WIN_TITLE = "Asteroids (Homework 3)";
 const int NUM_STARTING_ASTEROIDS = 1;
 
 float curScore = 0;
+float playerAccel = 0;
 
 vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
@@ -260,6 +261,7 @@ WorldType World::worldType = WorldType::CYLINDER_WORLD;
 void setEgocentricGlobal(bool val) {
     if (val) {
         player->setEgocentric(true);
+        playerAccel = player->getAccel();
         player->setAccel(0);
         
         // if we just switched to egocentric mode, the player might not be in the center of the screen
@@ -296,7 +298,8 @@ void setEgocentricGlobal(bool val) {
         
     } else {
         player->setEgocentric(false);
-        player->setAccel(PLAYER_ACCEL);
+        player->setAccel(playerAccel);
+        playerAccel = 0;
         
         // egocentric mode has been disabled
         for (auto ast : allAsteroids) {
@@ -531,6 +534,7 @@ void mySpecialKeyHandler(int key, int x, int y) {
             player->setSpin(ANGLE_CHNG_RATE);
             break;
         case GLUT_KEY_UP:
+            playerAccel = PLAYER_ACCEL;
             player->setAccel(PLAYER_ACCEL);
             player->setIsAccelerating(true);
             break;
@@ -548,6 +552,7 @@ void mySpecialKeyUpHandler(int key, int x, int y) {
             break;
         case GLUT_KEY_UP:
             player->setIsAccelerating(false);
+            playerAccel = 0;
             player->setAccel(0);
             break;
         default:
@@ -595,6 +600,7 @@ void myKeyHandler(unsigned char c, int x, int y)
             break;
         case 'w':
         case 'W':
+            playerAccel = PLAYER_ACCEL;
             player->setAccel(PLAYER_ACCEL);
             player->setIsAccelerating(true);
             break;
@@ -650,6 +656,7 @@ void myKeyUpHandler(unsigned char c, int x, int y)
         case 'w':
         case 'W':
             player->setIsAccelerating(false);
+            playerAccel = 0;
             player->setAccel(0);
             break;
         case 'a':
