@@ -536,7 +536,7 @@ void mySpecialKeyHandler(int key, int x, int y) {
         case GLUT_KEY_UP:
             playerAccel = PLAYER_ACCEL;
             player->setAccel(PLAYER_ACCEL);
-            player->setIsAccelerating(PLAYER_ACCEL);
+            player->setIsAccelerating(true);
             break;
         default:
             break;
@@ -551,7 +551,7 @@ void mySpecialKeyUpHandler(int key, int x, int y) {
             player->setSpin(0);
             break;
         case GLUT_KEY_UP:
-            player->setIsAccelerating(0);
+            player->setIsAccelerating(false);
             playerAccel = 0;
             player->setAccel(0);
             break;
@@ -602,7 +602,7 @@ void myKeyHandler(unsigned char c, int x, int y)
         case 'W':
             playerAccel = PLAYER_ACCEL;
             player->setAccel(PLAYER_ACCEL);
-            player->setIsAccelerating(PLAYER_ACCEL);
+            player->setIsAccelerating(true);
             break;
         case 's':
         case 'S':
@@ -655,7 +655,7 @@ void myKeyUpHandler(unsigned char c, int x, int y)
     switch (c) {
         case 'w':
         case 'W':
-            player->setIsAccelerating(0);
+            player->setIsAccelerating(false);
             playerAccel = 0;
             player->setAccel(0);
             break;
