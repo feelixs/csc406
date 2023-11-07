@@ -32,6 +32,13 @@ public:
     bool isInside(const WorldPoint& pt);
     bool collidesWith(std::shared_ptr<GraphicObject> other);
     
+    //disabled constructors & operators
+    Asteroid() = delete;
+    Asteroid(const Asteroid& obj) = delete;    // copy
+    Asteroid(Asteroid&& obj) = delete;        // move
+    Asteroid& operator = (const Asteroid& obj) = delete;    // copy operator
+    Asteroid& operator = (Asteroid&& obj) = delete;        // move operator
+    
     inline float getScaleY() {
         return height_;
     }
