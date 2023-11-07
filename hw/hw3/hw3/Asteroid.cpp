@@ -68,6 +68,12 @@ void Asteroid::initBoundingBox_() {
 
 void Asteroid::draw() const
 {
+    
+    if ((getX() > World::X_MAX) || (getX() < World::X_MIN)) {
+        return;
+    }
+    
+    
     //    save the current coordinate system (origin, axes, scale)
     glPushMatrix();
     
@@ -106,20 +112,22 @@ void Asteroid::update(float dt) {
     if (getSpin() != 0.f)
         setAngle(getAngle() + getSpin()*dt);
     
-    if (getX() < World::X_MIN || getX() > World::X_MAX || getY() < World::Y_MIN || getY() > World::Y_MAX) {
-        // this is for cylinder world
-        if (getX() < World::X_MIN) {
-            setX(getX() + World::WIDTH);
-        }
-        else if (getX() > World::X_MAX) {
-            setX(getX() - World::WIDTH);
-        }
-        if (getY() < World::Y_MIN || getY() > World::Y_MAX) {
-            if (getY() < World::Y_MIN) {
-                setY(-World::Y_MIN);
+    if (!gameIsEgocentric_) {
+        if (getX() < World::X_MIN || getX() > World::X_MAX || getY() < World::Y_MIN || getY() > World::Y_MAX) {
+            // this is for cylinder world
+            if (getX() < World::X_MIN) {
+                setX(getX() + World::WIDTH);
             }
-            else {
-                setY(-World::Y_MAX);
+            else if (getX() > World::X_MAX) {
+                setX(getX() - World::WIDTH);
+            }
+            if (getY() < World::Y_MIN || getY() > World::Y_MAX) {
+                if (getY() < World::Y_MIN) {
+                    setY(-World::Y_MIN);
+                }
+                else {
+                    setY(-World::Y_MAX);
+                }
             }
         }
     }
