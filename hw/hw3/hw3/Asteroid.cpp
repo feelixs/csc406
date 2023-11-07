@@ -69,11 +69,6 @@ void Asteroid::initBoundingBox_() {
 void Asteroid::draw() const
 {
     
-    if ((getX() > World::X_MAX) || (getX() < World::X_MIN)) {
-        return;
-    }
-    
-    
     //    save the current coordinate system (origin, axes, scale)
     glPushMatrix();
     
