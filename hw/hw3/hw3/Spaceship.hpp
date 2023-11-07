@@ -20,8 +20,9 @@ private:
     bool egocentric_;
     bool invulnerable_;
     int integrity_, lives_, startingIntegrity_;
+    float accelRate_;
     
-    static float blinkTimer_, invulnerableSecs_;
+    static float blinkTimer_, invulnerableSecs_, startingAccelRate_;
     static bool blinkIsVisible_;
     static float returnFromInvulnerabilityAfter_; // after taking damage, we must store when to stop being invulnerable
     static float absoluteBoxMinX_, absoluteBoxMax_, absoluteBoxMinY_, absoluteBoxMaxY_;
@@ -32,8 +33,9 @@ public:
     /// @param x the starting x pos of the spaceship
     /// @param y the starting y pos
     /// @param integrity damage required before being destroyed (losing a life)
+    /// @param accel_rate how fast the spaceship should accelerate
     /// @param lives number of lives to lose before game over
-    Spaceship(float x, float y, int integrity, int lives);
+    Spaceship(float x, float y, int integrity, int accel_rate, int lives);
     
     void draw() const;
     bool isInside(const WorldPoint& pt);
@@ -67,6 +69,9 @@ public:
     inline int getIntegrity() {
         return integrity_;
     }
+    inline float getAccelRate() {
+        return accelRate_;
+    }
     
     /// @param a the spaceship's new acceleration (magnitude)
     inline void setAccel(float a) {
@@ -87,6 +92,9 @@ public:
     inline void goInvulnerableFor(float invFor) {
         invulnerable_ = true;
         returnFromInvulnerabilityAfter_ = invFor;
+    }
+    inline void setAccelRate(float a) {
+        accelRate_ = a;
     }
 };
 

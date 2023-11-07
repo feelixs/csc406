@@ -18,11 +18,12 @@ float Spaceship::absoluteBoxMinX_ = 0;
 float Spaceship::absoluteBoxMax_ = 0;
 float Spaceship::absoluteBoxMinY_ = 0;
 float Spaceship::absoluteBoxMaxY_ = 0;
+float Spaceship::startingAccelRate_ = 0;
 
 
 float Spaceship::invulnerableSecs_ = 0.5f; // in seconds - amound of time to be invulnerable after taking dmg
 
-Spaceship::Spaceship(float x, float y, int integtrity, int lives)
+Spaceship::Spaceship(float x, float y, int integtrity, int accel_rate, int lives)
 :   Object(x, y, 0.f),
     GraphicObject(x, y, 0.f),
     AnimatedObject(x, y, 0.f, 0.f, 0.f, 0.f),
@@ -31,6 +32,7 @@ Spaceship::Spaceship(float x, float y, int integtrity, int lives)
     blue_(1.f),
     isAccelerating_(0),
     accel_(0.f),
+    accelRate_(accel_rate),
     integrity_(integtrity),
     startingIntegrity_(integtrity),
     lives_(lives),
@@ -40,6 +42,8 @@ Spaceship::Spaceship(float x, float y, int integtrity, int lives)
     
     setAbsoluteBox(std::make_shared<AbsBoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED));
     setRelativeBox(std::make_shared<RelBoundingBox>(-0.5, 0.5, -0.5, 0.5, 0, ColorIndex::RED));
+    
+    startingAccelRate_ = accelRate_;
     
     //create an absolute collision box with height & width set to the MAXIMUM possible hitbox of object
     // (when the object is rotated by 45 degrees)
@@ -88,15 +92,32 @@ void Spaceship::draw() const {
     //    apply the radius as a scale
     glScalef(1.f, 1.f, 1.f);
     
-    
+    // thrust flame
     if (isAccelerating_) {
-        // thrust flame
-        glColor3f(1.0f, 0.5f, 0.0f);
-        glBegin(GL_POLYGON);
-        glVertex2f(0.0f, -0.7f);
-        glVertex2f(0.2f, -0.3f);
-        glVertex2f(-0.2f, -0.3f);
-        glEnd();
+        switch (lives_) {
+            case 3:
+                // full thrust
+                glColor3f(1.0f, 0.5f, 0.0f);
+                glBegin(GL_POLYGON);
+                glVertex2f(0.0f, -0.7f);
+                glVertex2f(0.2f, -0.3f);
+                glVertex2f(-0.2f, -0.3f);
+                glEnd();
+                break;
+            case 2:
+                // half thrust
+                glColor3f(1.0f, 0.5f, 0.0f);
+                glBegin(GL_POLYGON);
+                glVertex2f(0.0f, -0.5f);
+                glVertex2f(0.15f, -0.3f);
+                glVertex2f(-0.15f, -0.3f);
+                glEnd();
+                break;
+            default:
+                // lives <2 means spaceship is so damaged that its engines are non-functional
+                // here we assume that lives will never go higher than 3, which is impossible unless we manually set it
+                break;
+        }
     }
     
     // spaceship model
@@ -196,6 +217,22 @@ void Spaceship::update(float dt) {
     
     getAbsoluteBox()->setDimensions(getX() + absoluteBoxMinX_, getX() + absoluteBoxMax_, getY() + absoluteBoxMinY_, getY() + absoluteBoxMaxY_);
     getRelativeBox()->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, getAngle());
+    
+    // set player acceleration based on remaining lives
+    // >2 lives -> normal acceleration
+    // 2 lives -> half acceleration
+    // 1 lives -> no acceleration
+    // 0 lives -> ship destroyed (game over)
+    switch (lives_) {
+        case 2:
+            accelRate_ = startingAccelRate_ / 2;
+            break;
+        case 1:
+            accelRate_ = 0;
+            break;
+        default:
+            break;
+    }
     
     // if not egocentric, move the player around the screen
     if (!egocentric_) {

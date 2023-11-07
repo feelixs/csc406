@@ -86,8 +86,9 @@ const int PLAYER_STARTING_INTEGRITY = 5;
 const float INTEGRITY_BAR_SCALE = 1;
 const float BULLET_LIFE_SECS = 1.0;
 const int BULLET_VEL = 10;
-const int PLAYER_ACCEL = 5;
 const float ANGLE_CHNG_RATE = 180;
+
+const int STARTING_PLAYER_ACCEL = 5;
 
 enum MenuItemID {	SEPARATOR = -1,
 					//
@@ -534,8 +535,8 @@ void mySpecialKeyHandler(int key, int x, int y) {
             player->setSpin(ANGLE_CHNG_RATE);
             break;
         case GLUT_KEY_UP:
-            curPlayerAccel = PLAYER_ACCEL;
-            player->setAccel(PLAYER_ACCEL);
+            curPlayerAccel = player->getAccelRate();
+            player->setAccel(curPlayerAccel);
             player->setIsAccelerating(true);
             break;
         default:
@@ -600,8 +601,8 @@ void myKeyHandler(unsigned char c, int x, int y)
             break;
         case 'w':
         case 'W':
-            curPlayerAccel = PLAYER_ACCEL;
-            player->setAccel(PLAYER_ACCEL);
+            curPlayerAccel = player->getAccelRate();
+            player->setAccel(curPlayerAccel);
             player->setIsAccelerating(true);
             break;
         case 's':
@@ -628,6 +629,7 @@ void myKeyHandler(unsigned char c, int x, int y)
                 player->setVy(0);
                 player->setLives(PLAYER_STARTING_LIVES);
                 player->setIntegtrity(PLAYER_STARTING_INTEGRITY);
+                player->setAccelRate(STARTING_PLAYER_ACCEL);
                 GAME_OVER = false;
                 GAME_PAUSED = false;
             }
@@ -952,7 +954,7 @@ void applicationInit()
         allAsteroids.push_back(new_ast);
     }
     
-    player = make_shared<Spaceship>(0.f, 0.f, PLAYER_STARTING_INTEGRITY, PLAYER_STARTING_LIVES);
+    player = make_shared<Spaceship>(0.f, 0.f, PLAYER_STARTING_INTEGRITY, STARTING_PLAYER_ACCEL, PLAYER_STARTING_LIVES);
     objectList.push_back(player);
     animatedObjectList.push_back(player);
     
