@@ -65,24 +65,30 @@ using namespace earshooter;
 //	bothersome to do the casting to int each each time.
 
 const char* WIN_TITLE = "Asteroids (Homework 3)";
-const int NUM_STARTING_ASTEROIDS = 1;
-
-float curScore = 0;
-float curPlayerAccel = 0;
 
 vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
-const WorldPoint LIVES_COUNTER_POS = WorldPoint{-9.5, 8.75};
-const int PLAYER_STARTING_LIVES = 3;
-const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-5, 4.75};
-const int PLAYER_STARTING_INTEGRITY = 5;
-const float INTEGRITY_BAR_SCALE = 1;
-const float BULLET_LIFE_SECS = 1.0;
-const int BULLET_VEL = 10;
-const float PLAYER_ROTATION_RATE = 180;
+float curScore = 0;
 
-const int STARTING_PLAYER_ACCEL = 5;
+const WorldPoint LIVES_COUNTER_POS = WorldPoint{-9.5, 8.75};
+const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-5, 4.75};
+const float INTEGRITY_BAR_SCALE = 1;  // higher values make the integrity bar appear wider on screen
+const int PLAYER_STARTING_INTEGRITY = 5; // number of hits player can take before losing a life
+const int PLAYER_STARTING_LIVES = 3; // number of lives to lose before game over
+const float PLAYER_ROTATION_RATE = 180; // how fast should the player rotate (constant angular velocity)
+const int STARTING_PLAYER_ACCEL = 5;  // how fast should the player accelerate when 'w' or up arrow is pressed
+float curPlayerAccel = 0;
+
+const float BULLET_LIFE_SECS = 1.0; // how long do bullets last
+const int BULLET_VEL = 10;
+
+const int NUM_STARTING_ASTEROIDS = 0;  // number of asteroids that start onscreen
+const float STARTING_ASTEROID_SPAWN_TIME = 3.f; // time to wait before spawning new asteroids
+const int STARTING_MAX_NUM_ASTEROIDS_SPAWN = 3; // maximum number of asteroids that can be made per spawn (random value from 1 to this)
+float TIME_BETWEEN_ASTEROID_SPAWN = STARTING_ASTEROID_SPAWN_TIME;
+int MAX_NUM_ASTEROIDS_SPAWN = STARTING_MAX_NUM_ASTEROIDS_SPAWN;
+float asteroidSpawnTimer = 0;
 
 
 enum TextColorSubmenuItemID {	FIRST_TEXT = 11,
