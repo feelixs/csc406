@@ -42,6 +42,20 @@ class Ellipse
         Ellipse& operator = (const Ellipse& obj) = delete;    // copy operator
         Ellipse& operator = (Ellipse&& obj) = delete;        // move operator
 
+        bool isInside(float x, float y);
+    
+    inline float getX() {
+        return centerX_;
+    }
+    inline float getY() {
+        return centerY_;
+    }
+    inline float getRadiusX() {
+        return radiusX_;
+    }
+    inline float getRadiusY() {
+        return radiusY_;
+    }
 };
 
 bool initEllipseFunc();

@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <vector>
 #include <memory>
+#include <iostream>
 // C++ wrappers around C headers
 #include <cstdlib>
 #include <cmath>
@@ -194,6 +195,11 @@ void myMouseHandler(int button, int state, int ix, int iy)
        case GLUT_LEFT_BUTTON:
            if (state == GLUT_DOWN)
            {
+               for (auto obj : ellipseList) {
+                   if (obj->isInside(ix, iy)) {
+                       cout << "mouse inside!!!!\n";
+                   }
+               }
                //    do something
            }
            else if (state == GLUT_UP)
@@ -201,9 +207,6 @@ void myMouseHandler(int button, int state, int ix, int iy)
                // create a new disk
                Point worldPt = pixelToWorld(ix, iy);
                ellipseList.push_back(make_shared<Ellipse>(worldPt.x, worldPt.y, diskRad, 1.f, 1.f, 0.f));
-
-               if (clickCount < 4)
-                   ellipseList[clickCount++] = nullptr;
            }
            break;
            

@@ -31,8 +31,25 @@ namespace earshooter
 			AnimatedObject& operator = (AnimatedObject&& obj) = delete;		// move operator
 
 			virtual void update(float dt);
-
-		
+            
+            inline float getVx() {
+                return vx_;
+            }
+            inline float getVy() {
+                return vy_;
+            }
+            inline float getSpin() {
+                return spin_;
+            }
+            inline void setVx(float vx) {
+                vx_ = vx;
+            }
+            inline void setVy(float vy) {
+                vy_ = vy;
+            }
+            inline void setSpin(float s) {
+                spin_ = s;
+            }
 	};
 }
 

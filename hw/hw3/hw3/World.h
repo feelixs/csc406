@@ -4,6 +4,8 @@
 #include <random>
 #include <cmath>
 #include "commonTypes.h"
+#include "glPlatform.h"
+
 
 namespace earshooter {
 
@@ -92,10 +94,9 @@ namespace earshooter {
 		static std::uniform_real_distribution<float> angleRadDist;
 		static std::uniform_real_distribution<float> velocityDist;
 		static std::uniform_real_distribution<float> spinDegDist;
-		static std::bernoulli_distribution animatedChoiceDist;
 		static std::bernoulli_distribution headsOrTailsDist;
-		static std::uniform_real_distribution<float> radiusDist;
-
+        static std::uniform_real_distribution<float> randomWidth;
+        static std::uniform_int_distribution<int> randomEdge;
 
 	};
 
@@ -126,12 +127,6 @@ namespace earshooter {
 		return World::spinDegDist(World::randEngine) *
 				(World::headsOrTailsDist(World::randEngine) ? (+1.f) : (-1.f));
 	}
-	inline Velocity randomVelocity(float vmin, float vmax)
-	{
-		float speed = World::normalDist(World::randEngine)*(vmax-vmin) + vmin;
-		float angle = randomAngleRad();
-		return Velocity{speed*cosf(angle), speed*sinf(angle)};
-	}
 	inline float randomColor()
 	{
 		return World::colorDist(World::randEngine);
@@ -140,10 +135,68 @@ namespace earshooter {
 	{
 		return World::headsOrTailsDist(World::randEngine);
 	}
-	inline bool isAnimated()
-	{
-		return World::animatedChoiceDist(World::randEngine);
-	}
+
+    /// generate a random velocity
+    /// @param vmin lowest possible velocity
+    /// @param vmax highest possible velocity
+    inline Velocity randomVelocity(float vmin, float vmax)
+    {
+        float speed = World::normalDist(World::randEngine)*(vmax-vmin) + vmin;
+        float angle = randomAngleRad();
+        return Velocity{speed*cosf(angle), speed*sinf(angle)};
+    }
+
+    /// generate a random velocity pointing towards the center of the screen based on the object's onscreen position
+    /// @param pos the object's position
+    /// @param vmin lowest possible velocity
+    /// @param vmax highest possible velocity
+    inline Velocity randomEdgeVelocity(WorldPoint& pos, float vmin, float vmax)
+    {
+        float speed = World::normalDist(World::randEngine)*(vmax-vmin) + vmin;
+        float angle = randomAngleRad();
+        float speedy = speed;
+        float speedx = speed;
+        if (((pos.x < 0) & (speedx < 0)) | ((pos.x > 0) & (speedx > 0))) {
+            speedx *= -1; // invert to make it directed towards the center
+        }
+        if (((pos.y < 0) & (speedy < 0)) | ((pos.y > 0) & (speedy > 0))) {
+            speedy *= -1; // invert to make it directed towards the center
+        }
+        return Velocity{speedx*cosf(angle), speedy*sinf(angle)};
+    }
+    
+    /// generate a random position anywhere on the screen
+    inline WorldPoint randomPos() {
+        return WorldPoint{ World::wxDist(World::randEngine), World::wyDist(World::randEngine) };
+    }
+    
+    /// generate a random position on the edge of the screen
+    inline WorldPoint randomEdgePos() {
+        // choose random from 4 choices (top, right, bottom, left)
+        switch (World::randomEdge(World::randEngine)) {
+            case 1:
+                // top of screen
+                return WorldPoint{ World::wxDist(World::randEngine), World::Y_MAX };
+            case 2:
+                // right of screen
+                return WorldPoint{ World::X_MAX, World::wyDist(World::randEngine) };
+            case 3:
+                // bottom of screen
+                return WorldPoint{ World::wxDist(World::randEngine), World::Y_MIN };
+            case 4:
+                // left of screen
+                return WorldPoint{ World::X_MIN, World::wyDist(World::randEngine) };
+                
+            default:
+                // default should never occur, but let's just return top of screen
+                return WorldPoint{ World::wxDist(World::randEngine), World::Y_MAX };
+        }
+    }
+    
+    /// generate a random asteroid width
+    inline float randWidth() {
+        return World::randomWidth(World::randEngine);
+    }
 }
 
 #endif  //  WORLD_H

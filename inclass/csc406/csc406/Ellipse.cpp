@@ -133,3 +133,10 @@ bool initEllipseFunc()
 #endif
     return true;
 }
+
+
+bool Ellipse::isInside(float x, float y) {
+    float dx = (x - getX())/getRadiusX();
+    float dy = (y - getY())/getRadiusY();
+    return dx*dx + dy*dy < 1.f;
+}

@@ -30,55 +30,6 @@ AnimatedObject::AnimatedObject(const WorldPoint& pt, float angle, const Velocity
 }
 
 
-void AnimatedObject::update(float dt)
-{
-	if (vx_ != 0.f)
-		setX(getX() + vx_*dt);
-	if (vy_ != 0.f)
-		setY(getY() + vy_*dt);
-	if (spin_ != 0.f)
-		setAngle(getAngle() + spin_*dt);
-		
-	//	Temporary stuff:  Freeze motion if the object's origin reaches the edges
-	//	of the world
-	if (getX() < World::X_MIN || getX() > World::X_MAX ||
-		getY() < World::Y_MIN || getY() > World::Y_MAX)
-	{
-		switch (World::worldType)
-		{
-			case WorldType::BOX_WORLD:
-			if (getX() < World::X_MIN || getX() > World::X_MAX){
-				if (getX() < World::X_MIN)
-					setX(World::X_MIN);
-				else
-					setX(World::X_MAX);
-				vx_ = -vx_;
-			}
-			if (getY() < World::Y_MIN || getY() > World::Y_MAX){
-				if (getY() < World::Y_MIN)
-					setY(World::Y_MIN);
-				else
-					setY(World::Y_MAX);
-				vy_ = -vy_;
-			}
-			break;
-			
-			case WorldType::CYLINDER_WORLD:
-				if (getX() < World::X_MIN)
-					setX(getX() + World::WIDTH);
-				else if (getX() > World::X_MAX)
-					setX(getX() - World::WIDTH);
-			if (getY() < World::Y_MIN || getY() > World::Y_MAX){
-				if (getY() < World::Y_MIN)
-					setY(World::Y_MIN);
-				else
-					setY(World::Y_MAX);
-				vy_ = -vy_;
-			}
-			break;
-				
-			default:
-			break;
-		}
-	}
+void AnimatedObject::update(float dt) {
+    
 }

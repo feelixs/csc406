@@ -37,15 +37,16 @@
 #include <random>
 #include <chrono>
 #include <ctime>
+#include <iomanip>
+#include <sstream>
 //
+#include "Asteroid.hpp"
+#include "Bullet.hpp"
 #include "glPlatform.h"
 #include "World.h"
-#include "Ellipse.h"
-#include "Rectangle.h"
-#include "Face.h"
-#include "SmilingFace.h"
-#include "AnimatedEllipse.h"
-#include "AnimatedRectangle.h"
+#include "Spaceship.hpp"
+#include "Healthbar.hpp"
+#include "LivesDisplay.hpp"
 
 using namespace std;
 using namespace earshooter;
@@ -63,12 +64,40 @@ using namespace earshooter;
 //	here these are meant to be used with my glut interface, and it's really
 //	bothersome to do the casting to int each each time.
 
-enum MenuItemID {	SEPARATOR = -1,
-					//
-					QUIT_MENU = 0,
-					OTHER_MENU_ITEM,
-					SOME_ITEM = 10
-};
+const char* WIN_TITLE = "Asteroids (Homework 3)";
+
+vector<shared_ptr<Bullet>> allBullets;
+vector<shared_ptr<Asteroid>> allAsteroids;
+
+float curScore = 0;
+bool showBoxes = false; // show bounding boxed (debug)
+
+const WorldPoint LIVES_COUNTER_POS = WorldPoint{-9.5, 8.75};
+const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-5, 4.75};
+const float INTEGRITY_BAR_SCALE = 1;  // higher values make the integrity bar appear wider on screen
+const int PLAYER_STARTING_INTEGRITY = 5; // number of hits player can take before losing a life
+const int PLAYER_STARTING_LIVES = 3; // number of lives to lose before game over
+const float PLAYER_ROTATION_RATE = 180; // how fast should the player rotate (constant angular velocity)
+const int STARTING_PLAYER_ACCEL = 5;  // how fast should the player accelerate when 'w' or up arrow is pressed
+float curPlayerAccel = 0;
+
+const float BULLET_LIFE_SECS = 1.0; // how long do bullets last
+const int BULLET_VEL = 10;
+const float SCORE_PER_ASTEROID_SHOT = 10; // how many points are awarded for destroying an asteroid?
+const float SCORE_PER_SECOND = 5; // how many points for second spent alive?
+const float TIME_BETWEEN_SHOOTING = 0.75; // number of seconds to wait before allowing player to shoot another bullet (prevent 'bullet spam')
+float timeFromLastShot = 0; // keeps track of how much time has passed since player's last shot
+bool playerCanShoot = true; // becomes false after shooting until TIME_BETWEEN_SHOOTING has elapsed
+
+const int NUM_STARTING_ASTEROIDS = 5;  // number of asteroids that start onscreen
+const float STARTING_ASTEROID_SPAWN_TIME = 3.f; // time to wait before spawning new asteroids
+const int STARTING_MAX_NUM_ASTEROIDS_SPAWN = 3; // maximum number of asteroids that can be made per spawn (random value from 1 to this)
+const int STARTING_MIN_NUM_ASTEROIDS_SPAWN = 1; // minimum number of asteroids that can be made per spawn
+float TIME_BETWEEN_ASTEROID_SPAWN = STARTING_ASTEROID_SPAWN_TIME;
+int MIN_NUM_ASTEROIDS_SPAWN = STARTING_MIN_NUM_ASTEROIDS_SPAWN;
+int MAX_NUM_ASTEROIDS_SPAWN = STARTING_MAX_NUM_ASTEROIDS_SPAWN;  // these values can change to make the game more difficult as time progresses
+float asteroidSpawnTimer = 0;
+
 
 enum TextColorSubmenuItemID {	FIRST_TEXT = 11,
 								RED_TEXT = 11,
@@ -99,31 +128,49 @@ enum FontSize {
 					NUM_FONT_SIZES
 };
 
-enum AppMode {
-				CREATION_MODE = 0,
-				TEST_MODE
-};
-
 //--------------------------------------
 #if 0
 #pragma mark Function prototypes
 #endif
 //--------------------------------------
-void printMatrix(const GLfloat* m);
 void displayTextualInfo(const string& infoStr, int textRow);
 void displayTextualInfo(const char* infoStr, int textRow);
 void myDisplayFunc(void);
 void myResizeFunc(int w, int h);
-void myMouseHandler(int b, int s, int x, int y);
-void myMouseMotionHandler(int x, int y);
-void myMousePassiveMotionHandler(int x, int y);
-void myEntryHandler(int state);
 void myKeyHandler(unsigned char c, int x, int y);
-void myMenuHandler(int value);
-void mySubmenuHandler(int colorIndex);
+void myKeyUpHandler(unsigned char c, int x, int y);
+void mySpecialKeyHandler(int key, int x, int y);
+void mySpecialKeyUpHandler(int key, int x, int y);
 void myTimerFunc(int val);
 void applicationInit();
 
+/// switch between the two view modes
+/// @param mode the mode to switch to: false = geocentric, true = egocentric
+void setEgocentricGlobal(bool mode);
+
+/// constantly called to apply the player's velocity to each asteroid
+void correctForEgocentric();
+
+/// handles collision detection between player & asteroids, and asteroids & bullets
+void detectCollisions();
+
+/// erase a specific asteroid from the game
+/// @param ast the asteroid from the allAsteroids vector to erase from allAsteroids and objectList
+void eraseAsteroid(shared_ptr<Asteroid> ast);
+
+/// clear ALL asteroids
+void clearAsteroids();
+
+/// clear all asteroids not within the specified bounding box of xmin : xmax, and ymin : ymax
+/// @param xmin lowest x value to 'keep' asteroids within
+/// @param xmax highest x value
+/// @param ymin lowest y value to keep asteroids within
+/// @param ymax highest y value
+void clearAsteroids(float xmin, float xmax, float ymin, float ymax);
+
+/// erase a specific bullet obj from the game
+/// @param b the bullet from the allBullets vector to erase from allBullets and objectList
+void eraseBullet(shared_ptr<Bullet> b);
 //--------------------------------------
 #if 0
 #pragma mark Constants
@@ -131,16 +178,14 @@ void applicationInit();
 //--------------------------------------
 const int INIT_WIN_X = 10, INIT_WIN_Y = 32;
 
+shared_ptr<Spaceship> player;
+
 const float World::X_MIN = -10.f;
 const float World::X_MAX = +10.f;
 const float World::Y_MIN = -10.f;
 const float World::Y_MAX = +10.f;
 const float World::WIDTH = World::X_MAX - World::X_MIN;
 const float World::HEIGHT = World::Y_MAX - World::Y_MIN;
-//
-//	I set my speed range in terms of the time it takes to go across the window
-const float MIN_SPEED = World::WIDTH/20.f;
-const float MAX_SPEED = World::WIDTH/5.f;
 
 #define SMALL_DISPLAY_FONT    GLUT_BITMAP_HELVETICA_10
 #define MEDIUM_DISPLAY_FONT   GLUT_BITMAP_HELVETICA_12
@@ -193,38 +238,31 @@ uniform_real_distribution<float> World::colorDist(0.f, 1.f);
 uniform_real_distribution<float> World::normalDist(0.f, 1.f);
 uniform_real_distribution<float> World::angleDegDist(0.f, 360.f);
 uniform_real_distribution<float> World::angleRadDist(0.f, 2.f*M_PI);
+uniform_real_distribution<float> World::randomWidth(0.5f, 2.5f);
+uniform_int_distribution<int> World::randomEdge(1, 4); // used to determine which edge to spawn asteroids (1=top, 2=right, 3=bottom, 4=left)
 //	In non-simulation contexts, I like to specify velocities in terms of the time it goes
 //	to go cross the world (in seconds).  For simulations, the problem dictates speed.
 // re-initialized when the window is resized
 uniform_real_distribution<float> World::spinDegDist(360.f/15.f, 360.f/5.f);
-// 8 chance out of 10 for an ellipse generated by click to be animated
-bernoulli_distribution World::animatedChoiceDist(8.0/10.0f);
 bernoulli_distribution World::headsOrTailsDist(0.5f);
 
-// re-initialized when the window is resized
-uniform_real_distribution<float> World::radiusDist;
+uniform_int_distribution<int> NumAsteroidSpawn = uniform_int_distribution<int>(MIN_NUM_ASTEROIDS_SPAWN, MAX_NUM_ASTEROIDS_SPAWN);
 
 float World::pixelToWorldRatio;
 float World::worldToPixelRatio;
 float World::drawInPixelScale;
 
-bool trackEntry = false;
-bool trackMousePointer = false;
-bool trackPassiveMousePointer = false;
-bool pointerInWindow = false;
-GLint lastX = -1, lastY = -1;
+bool GAME_PAUSED = false;
+bool GAME_OVER = false;
 
-bool displayText = false;
-bool displayBgnd = false;
-string stringLine = "";
 const GLfloat* textColor = TEXT_COLOR[0];
 const GLfloat* bgndColor = BGND_COLOR[0];
 
-list<shared_ptr<GraphicObject> > objectList;
-list<shared_ptr<AnimatedObject> > animatedObjectList;
+// use vectors for these so we can use more utility functions on them
+vector<shared_ptr<GraphicObject> > allObjects;
+vector<shared_ptr<AnimatedObject> > allAnimatedObjects;
 
 WorldType World::worldType = WorldType::CYLINDER_WORLD;
-AppMode appMode = AppMode::CREATION_MODE;
 
 //--------------------------------------
 #if 0
@@ -232,6 +270,63 @@ AppMode appMode = AppMode::CREATION_MODE;
 #pragma mark Callback functions
 #endif
 //--------------------------------------
+
+void setEgocentricGlobal(bool mode) {
+    if (mode) {
+        player->setEgocentric(true);
+        curPlayerAccel = player->getAccel(); // we will not be using the player->accel_ variable to deternmine the asteroids' movemnt
+        player->setAccel(0); // because we need to set it to 0 in egocentric mode so the player doesn't move
+        
+        // if we just switched to egocentric mode, the player might not be in the center of the screen
+        // so we need to move all asteroids by the player's offset to account for when we move the player to the center
+        for (auto ast : allAsteroids) {
+            if (ast != nullptr) {
+                if (player->getX() != 0) {
+                    ast->setX(ast->getX() - player->getX());
+                }
+                if (player->getY() != 0) {
+                    ast->setY(ast->getY() - player->getY());
+                }
+                ast->setEgocentric(true);
+            }
+        }
+        // also need to relocate bullets
+        for (auto b : allBullets) {
+            if (b != nullptr) {
+                if (player->getX() != 0) {
+                    b->setX(b->getX() - player->getX());
+                }
+                if (player->getY() != 0) {
+                    b->setY(b->getY() - player->getY());
+                }
+            }
+        }
+        // now center the player on the screen
+        if (player->getX() != 0) {
+            player->setX(0);
+        }
+        if (player->getY() != 0) {
+            player->setY(0);
+        }
+        
+    } else {
+        player->setEgocentric(false);
+        player->setAccel(curPlayerAccel);
+        curPlayerAccel = 0;
+        clearAsteroids(World::X_MIN, World::X_MAX, World::Y_MIN, World::Y_MAX);
+        // egocentric mode has been disabled
+        for (auto ast : allAsteroids) {
+            if (ast != nullptr) {
+                // reset each asteroid velocity to its default value
+                ast->setVx(ast->getInitVx());
+                ast->setVy(ast->getInitVy());
+                ast->setEgocentric(false);
+            }
+        }
+    }
+    
+    
+}
 
 void myDisplayFunc(void)
 {
@@ -247,80 +342,84 @@ void myDisplayFunc(void)
 	//	(in the 2D case) coincide with that of the world's orogin.
 	glLoadIdentity();
 	glPushMatrix();
-	
-	//--------------------------
-	//	Draw stuff
-	//--------------------------
-	glColor3f(1.f, 0.5f, 0.f);
-	glBegin(GL_POLYGON);
-		glVertex2f(1.5f, -5.0f);
-		glVertex2f(4.f, 1.0f);
-		glVertex2f(-1.f, 3.f);
-	glEnd();
 
-	for (auto obj : objectList)
+	for (auto obj : allObjects)
 	{
 		if (obj != nullptr)
 			obj->draw();
 	}
 
-	if (World::worldType == WorldType::CYLINDER_WORLD)
-	{
-		glTranslatef(-World::WIDTH, 0, 0);
-		for (auto obj : objectList)
-			{
-				if (obj != nullptr)
-					obj->draw();
-			}
-		glTranslatef(2*World::WIDTH, 0, 0);
-		for (auto obj : objectList)
-			{
-				if (obj != nullptr)
-					obj->draw();
-			}
-		
-	
-	}
+    if (!player->isEgocentric()) { // if we're egocentric, we don't want objects to wrap around
+        if (World::worldType == WorldType::CYLINDER_WORLD)
+        {
+            // draw x on left
+            glTranslatef(-World::WIDTH, 0, 0);
+            for (auto obj : allObjects)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+            // now draw y under left
+            glTranslatef(0, -World::HEIGHT,  0);
+            for (auto obj : allObjects)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+            // y above left
+            glTranslatef(0, 2*World::HEIGHT,  0);
+            for (auto obj : allObjects)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+            // recenter x, y is currently one screen up
+            glTranslatef(World::WIDTH, 0, 0);
+            // draw y above center
+            for (auto obj : allObjects)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+            // draw y under center
+            glTranslatef(0, -2*World::HEIGHT,  0);
+            for (auto obj : allObjects)
+            {
+                if (obj != nullptr)
+                    obj->draw();
+            }
+            
+            // now draw x on right
+            glTranslatef(World::WIDTH, 0, 0);
+            // we're currently at y under the main screen on the right, so we can draw all remaining screens in 3 final iterations
+            for (int i = 0; i < 3; i++) {
+                for (auto obj : allObjects)
+                {
+                    if (obj != nullptr)
+                        obj->draw();
+                }
+                glTranslatef(0, World::HEIGHT,  0);
+            }
+        }
+    }
 
 	glPopMatrix();
+    
+    glTranslatef(World::X_MIN, World::Y_MAX, 0.f);
+    glScalef(World::drawInPixelScale, -World::drawInPixelScale, 1.f);
+    
+    std::ostringstream stream;
+    stream << std::fixed << std::setprecision(2) << curScore; // only display 2 decimal points after score
+    if (player->getLives() > 0) {
+        displayTextualInfo(stream.str(), 0);
+    } else {
+        // we're putting 'game over detection' in the draw function
+        //so that the life count is drawn 1 last time (with no lives remaining) before pausing everything
+        GAME_PAUSED = true;
+        GAME_OVER = true;
+        displayTextualInfo("GAME OVER: PRESS 'R' TO RESTART     " + stream.str(), 0);
+    }
 
-	//	Reminder:	Not really needed here, but this is how to display the current
-	//				transformation matrix in case you need it.
-	static bool isFirstDraw = true;
-	if (isFirstDraw)
-	{
-		GLfloat A[16];
-		glGetFloatv(GL_MODELVIEW_MATRIX, A);
-		cout << "Back to origin" << endl;
-		printMatrix(A);
-		isFirstDraw = false;
-	}
-	
-	//	Display textual info
-	//---------------------------------
-	//	We are back at the world's origin (by the glPopMatrix() just above), in world coordinates.
-	//	So we must undo the scaling to be back in pixels, which how text is drawn for now.
-	if (displayText)
-	{
-	//	First, translate to the upper-left corner
-		glTranslatef(World::X_MIN, World::Y_MAX, 0.f);
-		
-		//	Then reverse the scaling: back in pixels, making sure that y now points down
-		glScalef(World::drawInPixelScale, -World::drawInPixelScale, 1.f);
-
-		char statusLine[256];
-		sprintf(statusLine, "Runtime: %d s   |   Number of objects: %d   |   Mouse last seen at (%d, %d)",
-								static_cast<int>(time(nullptr)-startTime),
-								static_cast<int>(objectList.size()),
-								lastX, lastY);
-		displayTextualInfo(statusLine, 0);		//	first row
-
-		if (stringLine != "")
-		displayTextualInfo(stringLine, 1);		//	second row
-	}
-
-	//	We were drawing into the back buffer, now it should be brought
-	//	to the forefront.
 	glutSwapBuffers();
 }
 
@@ -356,15 +455,6 @@ void myMenuHandler(int choice)
 {
 	switch (choice)
 	{
-		//	Exit/Quit
-		case QUIT_MENU:
-			exit(0);
-			break;
-		
-		//	Do something
-		case OTHER_MENU_ITEM:
-			break;
-		
 		default:	//	this should not happen
 			break;
 	
@@ -379,185 +469,46 @@ void mySubmenuHandler(int choice)
 {
 	switch (choice)
 	{
-		case RED_TEXT:
-		case GREEN_TEXT:
-		case WHITE_TEXT:
-		case MAGENTA_TEXT:
-			textColor = TEXT_COLOR[choice - FIRST_TEXT];
-			break;
-			
-		case LIGHT_GREY_BGND:
-		case DARK_GREY_BGND:
-		case GREEN_BGND:
-		case BLUE_BGND:
-		case BROWN_BGND:
-			bgndColor = BGND_COLOR[choice - FIRST_BGND];
-			break;
-		
 		default:
 			break;
 	}
 }
 
-//	This function is called when a mouse event occurs.  This event, of type s
-//	(up, down, dragged, etc.), occurs on a particular button of the mouse.
-//
-void myMouseHandler(int button, int state, int ix, int iy)
-{
-	switch (button)
-	{
-		case GLUT_LEFT_BUTTON:
-			if (state == GLUT_DOWN)
-			{
-				//	do something
-				cout << "Click at: (" << ix << ", " << iy << ")" << endl;
-				WorldPoint wPt = pixelToWorld(ix, iy);
-				cout << "Corresponding world point: (" << wPt.x << ", " <<
-						wPt.y << ")" << endl;
-				PixelPoint pPt = worldToPixel(wPt.x, wPt.y);
-				cout << "Back to pixels: (" << pPt.x << ", " <<
-						pPt.y << ")" << endl;
-				
-			}
-			else if (state == GLUT_UP)
-			{
-				WorldPoint clickPt = pixelToWorld(ix, iy);
-				
-				if (appMode == AppMode::TEST_MODE)
-				{
-					for (auto obj : objectList)
-					{
-						if (obj->isInside(clickPt)) {
-							cout << "Clicked inside object" << endl;
-							// check if the object was animated
-//							vector<shared_ptr<AnimatedObject> >::iterator iter = find(animatedObjectList.begin(),
-//																		 animatedObjectList.end(),
-//																		 obj);
-//							if (iter != animatedObjectList.end())
-//								*iter = nullptr;
-//							objectList.remove(obj);
-						}
-					}
-				}
-				//	Creation mode
-				else
-				{
-					//----------------
-					//	ellipse
-					//----------------
-					if (headsOrTails())
-					{
-						//	create a randomly-colored ellipse centered at the click location
-						WorldPoint clickPt = pixelToWorld(ix, iy);
-						if (isAnimated())
-						{
-							shared_ptr<AnimatedEllipse> ell  = make_shared<AnimatedEllipse>(
-									clickPt,								//	{x, y}
-									randomAngleDeg(),						//	angle
-									randomObjectScale()*0.5f,				//	h radius
-									randomObjectScale()*0.5f,				//	v radius
-									randomVelocity(MIN_SPEED, MAX_SPEED),	//	{vx, vy}
-									randomSpinDeg(),						//	spin
-									randomColor(),							//	red
-									randomColor(),							//	green
-									randomColor());							//	blue
-							animatedObjectList.push_back(ell);
-							objectList.push_back(ell);
-						}
-						else
-						{
-							objectList.push_back(make_shared<Ellipse>(
-									clickPt,								//	{x, y}
-									randomAngleDeg(),						//	angle
-									randomObjectScale()*0.5f,				//	h radius
-									randomObjectScale()*0.5f,				//	v radius
-									randomColor(),							//	red
-									randomColor(),							//	green
-									randomColor()));						//	blue
-						}
-					}
-					//----------------
-					//	Rectangle
-					//----------------
-					else
-					{
-						//	create a randomly-colored ellipse centered at the click location
-						WorldPoint clickPt = pixelToWorld(ix, iy);
-						if (isAnimated())
-						{
-							shared_ptr<AnimatedRectangle> rect = make_shared<AnimatedRectangle>(
-									clickPt,								//	{x, y}
-									randomAngleDeg(),						//	angle
-									randomObjectScale(),					//	width
-									randomObjectScale(),					//	height
-									randomVelocity(MIN_SPEED, MAX_SPEED),	//	{vx, vy}
-									randomSpinDeg(),						//	spin
-									randomColor(),							//	red
-									randomColor(),							//	green
-									randomColor());							//	blue
-							animatedObjectList.push_back(rect);
-							objectList.push_back(rect);
-						}
-						else
-						{
-							objectList.push_back(make_shared<Rectangle>(
-									clickPt,								//	{x, y}
-									randomAngleDeg(),						//	angle
-									randomObjectScale(),					//	width
-									randomObjectScale(),					//	height
-									randomColor(),							//	red
-									randomColor(),							//	green
-									randomColor()));						//	blue
-						}
-						
-					}
-				
-				}
-			}
-		break;
-		
-		case GLUT_RIGHT_BUTTON:
-			break;
-		
-		default:
-		break;
-	}
+
+void mySpecialKeyHandler(int key, int x, int y) {
+    switch (key)
+    {
+        case GLUT_KEY_RIGHT:
+            player->setSpin(-PLAYER_ROTATION_RATE);
+            break;
+        case GLUT_KEY_LEFT:
+            player->setSpin(PLAYER_ROTATION_RATE);
+            break;
+        case GLUT_KEY_UP:
+            curPlayerAccel = player->getAccelRate();
+            player->setAccel(curPlayerAccel);
+            player->setIsAccelerating(true);
+            break;
+        default:
+            break;
+    }
 }
 
-void myMouseMotionHandler(int ix, int iy)
-{
-	if (trackMousePointer)
-	{
-		cout << "Active mouse at (" << ix << ", " << iy << ")" << endl;
-	}
-}
-void myMousePassiveMotionHandler(int ix, int iy)
-{
-	lastX = ix;
-	lastY = iy;
-	pointerInWindow = (ix >= 0 && ix < winWidth && iy >= 0 && iy < winHeight);
-
-	if (trackPassiveMousePointer)
-	{
-		cout << "Passive mouse at (" << ix << ", " << iy << ")" << endl;
-	}
-
-}
-void myEntryHandler(int state)
-{
-	if (trackEntry)
-	{
-		if (state == GLUT_ENTERED)
-		{
-			pointerInWindow = true;
-			cout << "===> Pointer entered" << endl;
-		}
-		else	// GLUT_LEFT
-		{
-			pointerInWindow = false;
-			cout << "<=== Pointer exited" << endl;
-		}
-	}
+void mySpecialKeyUpHandler(int key, int x, int y) {
+    switch (key)
+    {
+        case GLUT_KEY_RIGHT:
+        case GLUT_KEY_LEFT:
+            player->setSpin(0);
+            break;
+        case GLUT_KEY_UP:
+            player->setIsAccelerating(false);
+            curPlayerAccel = 0;
+            player->setAccel(0);
+            break;
+        default:
+            break;
+    }
 }
 
 
@@ -565,77 +516,310 @@ void myEntryHandler(int state)
 //
 void myKeyHandler(unsigned char c, int x, int y)
 {
+    
+   // cout << c << endl;
 	// silence warning
+    
 	(void) x;
 	(void) y;
-	
+    	
 	switch (c)
-	{
-		case 'q':
-		case 27:
-			exit(0);
-			break;
-		
-		case 'm':
-			trackMousePointer = !trackMousePointer;
-			break;
-
-		case 'p':
-			trackPassiveMousePointer = !trackPassiveMousePointer;
-			break;
-			
-		case 'e':
-			trackEntry = !trackEntry;
-			break;
-			
-		case 'i':
-			cout << "Enter a new line of text: ";
-			getline(cin, stringLine);
-			break;
-			
-		case 't':
-			displayText = !displayText;
-			
-		case 'b':
-			displayBgnd = !displayBgnd;
-			break;
-		
-		case 'c':
-			if (appMode == AppMode::CREATION_MODE)
-				appMode = AppMode::TEST_MODE;
-			else
-				appMode = AppMode::CREATION_MODE;
-			
-			break;
-
-		default:
-			break;
+    {
+        case 'q':
+        case 'Q':
+        case 27:
+            exit(0);
+            break;
+        
+        case 'g':
+        case 'G':
+            setEgocentricGlobal(false);
+            break;
+        case 'e':
+        case 'E':
+            setEgocentricGlobal(true);
+            break;
+            
+            // TODO add arrow keys
+        case 'd':
+        case 'D':
+            player->setSpin(-PLAYER_ROTATION_RATE);
+            break;
+        case 'a':
+        case 'A':
+            player->setSpin(PLAYER_ROTATION_RATE);
+            break;
+        case 'w':
+        case 'W':
+            curPlayerAccel = player->getAccelRate();
+            player->setAccel(curPlayerAccel);
+            player->setIsAccelerating(true);
+            break;
+        case 's':
+        case 'S':
+            /*
+             
+             // pdf said no 'slow down' control
+            if (player->getVx() != 0.f)
+                player->setVx(player->getVx() * DECREASE_SPEED_CONST);
+            if (player->getVy() != 0.f)
+                player->setVy(player->getVy() * DECREASE_SPEED_CONST);
+            */
+            break;
+        case 'r':
+            if (GAME_OVER) {
+                clearAsteroids(); // on game restart, remove all asteroids that were spawned last game
+                
+                curScore = 0;
+                player->setX(0);
+                player->setY(0);
+                player->setAccel(0);
+                player->setAngle(0);
+                player->setVx(0);
+                player->setVy(0);
+                player->setLives(PLAYER_STARTING_LIVES);
+                player->setIntegtrity(PLAYER_STARTING_INTEGRITY);
+                player->setAccelRate(STARTING_PLAYER_ACCEL);
+                GAME_OVER = false;
+                GAME_PAUSED = false;
+            }
+            break;
+            
+        case 'c': {
+            if (showBoxes) {
+                showBoxes = false;
+                for (auto ast : allAsteroids) {
+                    ast->getAbsoluteBox()->setColor(ColorIndex::NO_COLOR);
+                    ast->getRelativeBox()->setColor(ColorIndex::NO_COLOR);
+                }
+                player->getAbsoluteBox()->setColor(ColorIndex::NO_COLOR);
+                player->getRelativeBox()->setColor(ColorIndex::NO_COLOR);
+            } else {
+                showBoxes = true;
+                for (auto ast : allAsteroids) {
+                    ast->getAbsoluteBox()->setColor(ColorIndex::RED);
+                    ast->getRelativeBox()->setColor(ColorIndex::RED);
+                }
+                player->getAbsoluteBox()->setColor(ColorIndex::RED);
+                player->getRelativeBox()->setColor(ColorIndex::RED);
+            }
+            break;
+        }
+                    
+        case ' ': { // space -> shoot a bullet from the player
+            if (playerCanShoot) {
+                WorldPoint p = WorldPoint{player->getX(), player->getY()};
+                shared_ptr<Bullet> b = make_shared<Bullet>(p, player->getAngle(), BULLET_VEL, BULLET_LIFE_SECS);
+                allBullets.push_back(b);
+                allObjects.push_back(b);
+                playerCanShoot = false;
+            }
+            break;
+        }
+        
+        default:
+            break;
 	}
+}
+
+void myKeyUpHandler(unsigned char c, int x, int y)
+{
+    // silence warning
+    (void) x;
+    (void) y;
+
+    switch (c) {
+        case 'w':
+        case 'W':
+            player->setIsAccelerating(false);
+            curPlayerAccel = 0;
+            player->setAccel(0);
+            break;
+        case 'a':
+        case 'A':
+        case 'd':
+        case 'D':
+            player->setSpin(0);
+            break;
+    }
+}
+
+
+void correctForEgocentric() {
+    if (player->isEgocentric()) {
+        // is the game in egocentric mode?
+        for (auto ast : allAsteroids) {
+            if (ast != nullptr) {
+                // if so, change each asteroid's velocity by negative the player's
+                ast->setVx(ast->getInitVx() - player->getVx());
+                ast->setVy(ast->getInitVy() - player->getVy());
+            }
+        }
+    }
+}
+
+
+void eraseAsteroid(shared_ptr<Asteroid> ast) {
+    allAsteroids.erase(std::remove(allAsteroids.begin(), allAsteroids.end(), ast), allAsteroids.end());
+    allObjects.erase(std::remove(allObjects.begin(), allObjects.end(), ast), allObjects.end());
+}
+
+
+void clearAsteroids() {
+    // first remove all asteroids from objectlist
+    bool erased;
+    for (int i = 0; i < allObjects.size(); /* we will manually increment */) {
+        erased = false;
+        for (auto ast: allAsteroids) {
+            if (allObjects.at(i) == ast) {
+                allObjects.erase(allObjects.begin() + i);
+                erased = true;
+                break;
+            }
+        }
+        if (!erased) { // only increment if we haven't deleted from objectlist in this iteration
+            i++;
+        }
+    }
+    
+    allAsteroids.clear(); // then clear asteroid list
+}
+
+
+void clearAsteroids(float xmin, float xmax, float ymin, float ymax) {
+    // first remove all asteroids from objectlist
+    bool erased;
+    for (int i = 0; i < allObjects.size(); /* we will manually increment */) {
+        erased = false;
+        if ((allObjects.at(i)->getX() < xmin) | (allObjects.at(i)->getX() > xmax)  | (allObjects.at(i)->getY() < ymin) | (allObjects.at(i)->getY() > ymax)) {
+            for (auto ast: allAsteroids) {
+                if (allObjects.at(i) == ast) {
+                    allObjects.erase(allObjects.begin() + i);
+                    erased = true;
+                    break;
+                }
+            }
+        }
+        if (!erased) { // only increment if we haven't deleted from objectlist in this iteration
+            i++;
+        }
+    }
+    
+    for (int i = 0; i < allAsteroids.size();) {
+        if ((allAsteroids.at(i)->getX() < xmin) | (allAsteroids.at(i)->getX() > xmax)  | (allAsteroids.at(i)->getY() < ymin) | (allAsteroids.at(i)->getY() > ymax)) {
+            allAsteroids.erase(allAsteroids.begin() + i);
+        } else {
+            i++;
+        }
+    }
+}
+
+
+void eraseBullet(shared_ptr<Bullet> b) {
+    // erase 'b' from allBullets & objectList
+    allBullets.erase(std::remove(allBullets.begin(), allBullets.end(), b), allBullets.end());
+    allObjects.erase(std::remove(allObjects.begin(), allObjects.end(), b), allObjects.end());
+}
+
+
+
+void detectCollisions() {
+    // asteroid / bullet collisions
+    bool deletedObj = false;
+    for (int a = 0; a < allAsteroids.size(); a ++) {
+        shared_ptr<Asteroid> ast = allAsteroids.at(a);
+        for (int b = 0; b < allBullets.size(); b++) {
+            if (ast->isInside(allBullets.at(b)->getPos())) {
+                eraseAsteroid(ast);
+                curScore += SCORE_PER_ASTEROID_SHOT;
+                eraseBullet(allBullets.at(b));
+                deletedObj = true;
+                break;
+            }
+        }
+        if (deletedObj) {
+            break;  // after erasing from the vector we're iterating tru, we need to break to prevent out_of_range exception
+        }
+        
+        // player / asteroid collision
+        if (!player->isInvulnerable()) {
+            if (player->collidesWith(ast)) {
+                player->takeHits(1);
+            }
+        }
+    }
 }
 
 
 void myTimerFunc(int value)
 {
-	static int frameIndex=0;
-	static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
+    static int frameIndex=0;
+    static chrono::high_resolution_clock::time_point lastTime = chrono::high_resolution_clock::now();
 
-	//	"re-prime the timer"
-	glutTimerFunc(1, myTimerFunc, value);
+    //    "re-prime the timer"
+    glutTimerFunc(1, myTimerFunc, value);
+    
+    if (!GAME_PAUSED) {
 
-	//	 do something (e.g. update the state of animated objects)
-	chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
-	float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
-	for (auto obj : animatedObjectList)
-	{
-		if (obj != nullptr)
-			obj->update(dt);
-	}
-	lastTime = currentTime;
-	//	And finally I perform the rendering
-	if (frameIndex++ % 10 == 0)
-	{
-		glutPostRedisplay();
-	}
+        //	 do something (e.g. update the state of animated objects)
+        chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
+        float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
+        
+        correctForEgocentric();
+        detectCollisions();
+        
+        for (auto obj : allAnimatedObjects)
+        {
+            if (obj != nullptr)
+                obj->update(dt);
+        }
+        
+        // iterate over all active bullets, deleting all expired ones and updating active ones
+        auto thisBullet = allBullets.begin();
+        while (thisBullet != allBullets.end()) {
+            if ((*thisBullet)->getLife() < (*thisBullet)->getAge()) {
+                auto itToRemove = std::remove(allObjects.begin(), allObjects.end(), *thisBullet);
+                // erase the "removed" elements from objectList
+                allObjects.erase(itToRemove, allObjects.end());
+                thisBullet = allBullets.erase(thisBullet);
+                // no need to ++ as this element is removed, we're now on the next one already
+            } else {
+                (*thisBullet)->update(dt);
+                ++thisBullet;
+            }
+        }
+        
+        if (timeFromLastShot >= TIME_BETWEEN_SHOOTING) {
+            timeFromLastShot = 0;
+            playerCanShoot = true;
+        } else {
+            timeFromLastShot += dt;
+        }
+        
+        // spawn new asteroids if needed
+        if (asteroidSpawnTimer >= TIME_BETWEEN_ASTEROID_SPAWN) {
+            for (int i = 0; i < NumAsteroidSpawn(World::randEngine); i++) {
+                WorldPoint astPos = randomEdgePos();
+                shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(astPos, randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomEdgeVelocity(astPos, -1.f, 1.f), showBoxes);
+                //    and add it to both lists
+                allObjects.push_back(new_ast);
+                allAnimatedObjects.push_back(new_ast);
+                allAsteroids.push_back(new_ast);
+            }
+            asteroidSpawnTimer = 0;
+        } else {
+            asteroidSpawnTimer += dt;
+        }
+        
+        curScore += dt * SCORE_PER_SECOND;
+        lastTime = currentTime;
+    }
+    
+    //    And finally I perform the rendering
+    if (frameIndex++ % 10 == 0)
+    {
+        glutPostRedisplay();
+    }
 }
 
 //--------------------------------------
@@ -712,16 +896,6 @@ void displayTextualInfo(const char* infoStr, int textRow)
     //-----------------------------------------------
     //  3.  Clear background rectangle if required
     //-----------------------------------------------
-    if (displayBgnd)
-    {
-		glColor3fv(bgndColor);
-		glBegin(GL_POLYGON);
-			glVertex2i(0, 0);
-			glVertex2i(0, fontHeight + 2*V_PAD);
-			glVertex2i(winWidth, fontHeight + 2*V_PAD);
-			glVertex2i(winWidth, 0);
-		glEnd();
-	}
 	
 	//	Move "up" from current plane, to make sure that we overwrite
 	glTranslatef(0.f, 0.f, 0.1f);
@@ -782,13 +956,6 @@ void displayTextualInfo(const char* infoStr, int textRow)
     glPopMatrix();
 }
 
-void printMatrix(const GLfloat* m) {
-    cout << "((" << m[0] << "\t" << m[4] << "\t" << m[8] << "\t" << m[12] << ")" << endl;
-    cout << " (" << m[1] << "\t" << m[5] << "\t" << m[9] << "\t" << m[13] << ")" << endl;
-    cout << " (" << m[2] << "\t" << m[6] << "\t" << m[10] << "\t" << m[14] << ")" << endl;
-    cout << " (" << m[3] << "\t" << m[7] << "\t" << m[11] << "\t" << m[15] << "))" << endl;
-}
-
 //--------------------------------------
 #if 0
 #pragma mark -
@@ -798,57 +965,26 @@ void printMatrix(const GLfloat* m) {
 
 void applicationInit()
 {
-	// Create Menus
-	int myMenu;
-	
-	//	Submenu for changing keyboard handling function
-	int myTextColorSubmenu = glutCreateMenu(mySubmenuHandler);
-	for (int k=0, t=FIRST_TEXT; k<NUM_TEXT_COLORS; k++, t++)
-		glutAddMenuEntry(TEXT_COLOR_STR[k].c_str(), t);
-	int myBgndColorSubmenu = glutCreateMenu(mySubmenuHandler);
-	for (int k=0, b=FIRST_BGND; k<NUM_BGND_COLORS; k++, b++)
-		glutAddMenuEntry(BGND_COLOR_STR[k].c_str(), b);
-
-	// Main menu that the submenus are connected to
-	myMenu = glutCreateMenu(myMenuHandler);
-	glutAddMenuEntry("Quit", MenuItemID::QUIT_MENU);
-	//
-	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
-	glutAddMenuEntry("Other stuff", MenuItemID::OTHER_MENU_ITEM);
-	glutAddMenuEntry("New entry", 64);
-	
-	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
-	glutAddSubMenu("Text color:", myTextColorSubmenu);
-	glutAddSubMenu("Background color:", myBgndColorSubmenu);
-	glutAddMenuEntry("-", MenuItemID::SEPARATOR);
-	glutAttachMenu(GLUT_RIGHT_BUTTON);
-
-	objectList.push_back(make_shared<Face>(-3.f, -2.f));
-
-	objectList.push_back(make_shared<Ellipse>(4, 4, 2, 0.f, 1.f, 1.f));
-	objectList.push_back(make_shared<Ellipse>(4, -4, 3, 0.f, 1.f, 1.f));
-
-
-	objectList.push_back(make_shared<Ellipse>(7, 2, 0, 0.3f, .25f, 1.f, 1.f, 1.f));
-	objectList.push_back(make_shared<Ellipse>(2, 7, 0, .250f, 0.6f, 0.f, 0.f, 1.f));
-	objectList.push_back(make_shared<Ellipse>(6, 5, 0, 0.25f, 0.15f, 1.f, 0.f, 0.f));
-
-	objectList.push_back(make_shared<Face>(-5.f, -6.f));
-
-	objectList.push_back(make_shared<Rectangle>(-8, 6, 45, 4, 2, 1.f, 1.f, 0.f));
-	
-	World::worldType = WorldType::BOX_WORLD;
-	
-	for (int k=0; k<8; k++)
-	{
-		//	create the object
-		shared_ptr<SmilingFace> face = make_shared<SmilingFace>();
-		//	and add it to both lists
-		objectList.push_back(face);
-		animatedObjectList.push_back(face);
-	}
-	
-	
+    for (int i = 0; i < NUM_STARTING_ASTEROIDS; i++) {
+        shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(randomPos(), randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-1.f, 1.f));
+        //    and add it to both lists
+        allObjects.push_back(new_ast);
+        allAnimatedObjects.push_back(new_ast);
+        allAsteroids.push_back(new_ast);
+    }
+    
+    player = make_shared<Spaceship>(0.f, 0.f, PLAYER_STARTING_INTEGRITY, STARTING_PLAYER_ACCEL, PLAYER_STARTING_LIVES);
+    allObjects.push_back(player);
+    allAnimatedObjects.push_back(player);
+    
+    shared_ptr<Healthbar> integrity_bar = make_shared<Healthbar>(INTEGRITY_BAR_POS, player, INTEGRITY_BAR_SCALE, 0.5);
+    allAnimatedObjects.push_back(integrity_bar);
+    allObjects.push_back(integrity_bar);
+    
+    shared_ptr<LivesDisplay> lives_counter = make_shared<LivesDisplay>(LIVES_COUNTER_POS, player, 1.2, 0.75);
+    
+    allAnimatedObjects.push_back(lives_counter);
+    allObjects.push_back(lives_counter);
 	//	time really starts now
 	startTime = time(nullptr);
 }
@@ -861,16 +997,15 @@ int main(int argc, char * argv[])
 
 	glutInitWindowSize(winWidth, winHeight);
 	glutInitWindowPosition(INIT_WIN_X, INIT_WIN_Y);
-	glutCreateWindow("demo CSC406");
+	glutCreateWindow(WIN_TITLE);
 	
 	//	set up the callbacks
 	glutDisplayFunc(myDisplayFunc);
 	glutReshapeFunc(myResizeFunc);
-	glutMouseFunc(myMouseHandler);
-	glutMotionFunc(myMouseMotionHandler);
-	glutPassiveMotionFunc(myMousePassiveMotionHandler);
-	glutEntryFunc(myEntryHandler);
 	glutKeyboardFunc(myKeyHandler);
+    glutKeyboardUpFunc(myKeyUpHandler);
+    glutSpecialFunc(mySpecialKeyHandler);
+    glutSpecialUpFunc(mySpecialKeyUpHandler);
 	glutTimerFunc(1,	myTimerFunc,		0);
 	//			  time	    name of		value to pass
 	//			  in ms		function	to the func
@@ -882,7 +1017,7 @@ int main(int argc, char * argv[])
 	//	"lose control" over its execution.  The callback functions that
 	//	we set up earlier will be called when the corresponding event
 	//	occurs
-	glutMainLoop();
+    glutMainLoop();
 	
 	//	This will never be executed (the exit point will be in one of the
 	//	callback functions).

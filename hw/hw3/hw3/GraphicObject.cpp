@@ -22,3 +22,6 @@ GraphicObject::GraphicObject(const WorldPoint& pt, float angle)
 		relativeBox_(nullptr)
 {}
 
+void GraphicObject::draw() const {
+    
+}

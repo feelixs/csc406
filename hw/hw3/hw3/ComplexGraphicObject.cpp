@@ -10,7 +10,7 @@
 #include <cmath>
 #include <iostream>
 #include "glPlatform.h"
-#include "Face.h"
+#include "ComplexGraphicObject.h"
 
 using namespace std;
 using namespace earshooter;
