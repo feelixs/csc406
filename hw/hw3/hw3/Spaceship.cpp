@@ -39,9 +39,9 @@ Spaceship::Spaceship(float x, float y, int integtrity, int accel_rate, int lives
     egocentric_(false),
     invulnerable_(false)
 {
-    
-    setAbsoluteBox(std::make_shared<AbsBoundingBox>(-0.5, 0.5, -0.5, 0.5, ColorIndex::RED));
-    setRelativeBox(std::make_shared<RelBoundingBox>(-0.5, 0.5, -0.5, 0.5, 0, ColorIndex::RED));
+    ColorIndex boundingColor = ColorIndex::NO_COLOR;
+    setAbsoluteBox(std::make_shared<AbsBoundingBox>(-0.5, 0.5, -0.5, 0.5, boundingColor));
+    setRelativeBox(std::make_shared<RelBoundingBox>(-0.5, 0.5, -0.5, 0.5, 0, boundingColor));
     
     startingAccelRate_ = accelRate_;
     
@@ -77,6 +77,9 @@ Spaceship::Spaceship(float x, float y, int integtrity, int accel_rate, int lives
 
 
 void Spaceship::draw() const {
+    getRelativeBox()->draw();
+    getAbsoluteBox()->draw();
+    
     if (!blinkIsVisible_)  // if spaceship is currently blinking, don't draw it
         return;
     
@@ -136,9 +139,6 @@ void Spaceship::draw() const {
     
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
-    
-    getRelativeBox()->draw();
-    getAbsoluteBox()->draw();
 }
 
 void Spaceship::takeHits(float dmg) {

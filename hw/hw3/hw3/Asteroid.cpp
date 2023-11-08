@@ -42,8 +42,10 @@ void Asteroid::initBoundingBox_() {
     //
     // this way, the game can first check if collisions occur within this box
     // and then do a trig calc for the object collision ONLY IF this bounding box has a collision
-    setAbsoluteBox(std::make_shared<AbsBoundingBox>(-1, 1, -1, 1, ColorIndex::RED));
-    setRelativeBox(std::make_shared<RelBoundingBox>(-0.5, 0.5, -0.5, 0.5, 0, ColorIndex::RED));
+    
+    ColorIndex boundingColor = ColorIndex::NO_COLOR;
+    setAbsoluteBox(std::make_shared<AbsBoundingBox>(-1, 1, -1, 1, boundingColor));
+    setRelativeBox(std::make_shared<RelBoundingBox>(-0.5, 0.5, -0.5, 0.5, 0, boundingColor));
     float corners[4][2] = {
         {-halfWidth_, halfHeight_},
         {halfWidth_, halfHeight_},
@@ -71,6 +73,8 @@ void Asteroid::initBoundingBox_() {
 
 void Asteroid::draw() const
 {
+    getRelativeBox()->draw();
+    getAbsoluteBox()->draw();
     
     //    save the current coordinate system (origin, axes, scale)
     glPushMatrix();
@@ -96,10 +100,6 @@ void Asteroid::draw() const
     
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
-    
-    getRelativeBox()->draw();
-    getAbsoluteBox()->draw();
-    
 }
 
 void Asteroid::update(float dt) {
