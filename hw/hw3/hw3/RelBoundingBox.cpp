@@ -56,6 +56,9 @@ void RelBoundingBox::setDimensions(float xmin, float xmax, float ymin, float yma
 
 void RelBoundingBox::draw() const
 {
+    if (color_ == ColorIndex::NO_COLOR) {
+        return;
+    }
     float centerX = (xmin_ + xmax_) / 2.0f;
     float centerY = (ymin_ + ymax_) / 2.0f;
     

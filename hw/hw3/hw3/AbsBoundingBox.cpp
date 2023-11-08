@@ -48,6 +48,9 @@ void AbsBoundingBox::setDimensions(float xmin, float xmax, float ymin, float yma
 
 void AbsBoundingBox::draw(void) const
 {
+    if (color_ == ColorIndex::NO_COLOR) {
+        return;
+    }
 	glPushMatrix();
     //glRotatef(getAngle(), 0.f, 0.f, 1.f);
 	glColor4fv(COLOR[static_cast<int>(color_)]);

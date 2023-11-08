@@ -77,9 +77,6 @@ Spaceship::Spaceship(float x, float y, int integtrity, int accel_rate, int lives
 
 
 void Spaceship::draw() const {
-    getRelativeBox()->draw();
-    getAbsoluteBox()->draw();
-    
     if (!blinkIsVisible_)  // if spaceship is currently blinking, don't draw it
         return;
     
@@ -139,6 +136,9 @@ void Spaceship::draw() const {
     
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
+    
+    getRelativeBox()->draw();
+    getAbsoluteBox()->draw();
 }
 
 void Spaceship::takeHits(float dmg) {

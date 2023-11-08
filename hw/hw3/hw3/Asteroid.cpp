@@ -93,9 +93,6 @@ void Asteroid::initBoundingBox_(bool showBox) {
 
 void Asteroid::draw() const
 {
-    getRelativeBox()->draw();
-    getAbsoluteBox()->draw();
-    
     //    save the current coordinate system (origin, axes, scale)
     glPushMatrix();
     
@@ -116,10 +113,11 @@ void Asteroid::draw() const
         glVertex2f(-0.5f, +0.5f);
     glEnd();
     
-    
-    
     //    restore the original coordinate system (origin, axes, scale)
     glPopMatrix();
+    
+    getRelativeBox()->draw();
+    getAbsoluteBox()->draw();
 }
 
 void Asteroid::update(float dt) {
