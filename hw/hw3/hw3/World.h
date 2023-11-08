@@ -146,7 +146,7 @@ namespace earshooter {
         return Velocity{speed*cosf(angle), speed*sinf(angle)};
     }
 
-    /// generate a random velocity pointing towards the center of the screen based on the object's position
+    /// generate a random velocity pointing towards the center of the screen based on the object's onscreen position
     /// @param pos the object's position
     /// @param vmin lowest possible velocity
     /// @param vmax highest possible velocity
@@ -165,10 +165,12 @@ namespace earshooter {
         return Velocity{speedx*cosf(angle), speedy*sinf(angle)};
     }
     
+    /// generate a random position anywhere on the screen
     inline WorldPoint randomPos() {
         return WorldPoint{ World::wxDist(World::randEngine), World::wyDist(World::randEngine) };
     }
     
+    /// generate a random position on the edge of the screen
     inline WorldPoint randomEdgePos() {
         // choose random from 4 choices (top, right, bottom, left)
         switch (World::randomEdge(World::randEngine)) {
@@ -191,12 +193,7 @@ namespace earshooter {
         }
     }
     
-    inline float randomPosX() {
-        return World::wxDist(World::randEngine);
-    }
-    inline float randomPosY() {
-        return World::wyDist(World::randEngine);
-    }
+    /// generate a random asteroid width
     inline float randWidth() {
         return World::randomWidth(World::randEngine);
     }
