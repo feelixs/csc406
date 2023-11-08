@@ -136,16 +136,10 @@ void displayTextualInfo(const string& infoStr, int textRow);
 void displayTextualInfo(const char* infoStr, int textRow);
 void myDisplayFunc(void);
 void myResizeFunc(int w, int h);
-void myMouseHandler(int b, int s, int x, int y);
-void myMouseMotionHandler(int x, int y);
-void myMousePassiveMotionHandler(int x, int y);
-void myEntryHandler(int state);
 void myKeyHandler(unsigned char c, int x, int y);
 void myKeyUpHandler(unsigned char c, int x, int y);
 void mySpecialKeyHandler(int key, int x, int y);
 void mySpecialKeyUpHandler(int key, int x, int y);
-void myMenuHandler(int value);
-void mySubmenuHandler(int colorIndex);
 void myTimerFunc(int val);
 void applicationInit();
 
