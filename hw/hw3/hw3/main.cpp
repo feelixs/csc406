@@ -143,12 +143,32 @@ void mySpecialKeyUpHandler(int key, int x, int y);
 void myTimerFunc(int val);
 void applicationInit();
 
-void setEgocentricGlobal(bool val);
+/// switch between the two view modes
+/// @param mode the mode to switch to: false = geocentric, true = egocentric
+void setEgocentricGlobal(bool mode);
+
+/// constantly called to apply the player's velocity to each asteroid
 void correctForEgocentric();
+
+/// handles collision detection between player & asteroids, and asteroids & bullets
 void detectCollisions();
+
+/// erase a specific asteroid from the game
+/// @param ast the asteroid from the allAsteroids vector to erase from allAsteroids and objectList
 void eraseAsteroid(shared_ptr<Asteroid> ast);
+
+/// clear ALL asteroids
 void clearAsteroids();
+
+/// clear all asteroids not within the specified bounding box of xmin : xmax, and ymin : ymax
+/// @param xmin lowest x value to 'keep' asteroids within
+/// @param xmax highest x value
+/// @param ymin lowest y value to keep asteroids within
+/// @param ymax highest y value
 void clearAsteroids(float xmin, float xmax, float ymin, float ymax);
+
+/// erase a specific bullet obj from the game
+/// @param b the bullet from the allBullets vector to erase from allBullets and objectList
 void eraseBullet(shared_ptr<Bullet> b);
 //--------------------------------------
 #if 0
@@ -603,7 +623,6 @@ void myKeyUpHandler(unsigned char c, int x, int y)
 }
 
 
-/// constantly called to apply the player's velocity to each asteroid
 void correctForEgocentric() {
     if (player->isEgocentric()) {
         // is the game in egocentric mode?
@@ -618,15 +637,12 @@ void correctForEgocentric() {
 }
 
 
-/// erase a specific asteroid from the game
-/// @param ast the asteroid from the allAsteroids vector to erase from allAsteroids and objectList
 void eraseAsteroid(shared_ptr<Asteroid> ast) {
     allAsteroids.erase(std::remove(allAsteroids.begin(), allAsteroids.end(), ast), allAsteroids.end());
     allObjects.erase(std::remove(allObjects.begin(), allObjects.end(), ast), allObjects.end());
 }
 
 
-/// clear ALL asteroids
 void clearAsteroids() {
     // first remove all asteroids from objectlist
     bool erased;
@@ -648,11 +664,6 @@ void clearAsteroids() {
 }
 
 
-/// clear all asteroids not within the specified bounding box of xmin : xmax, and ymin : ymax
-/// @param xmin lowest x value to 'keep' asteroids within
-/// @param xmax highest x value
-/// @param ymin lowest y value to keep asteroids within
-/// @param ymax highest y value
 void clearAsteroids(float xmin, float xmax, float ymin, float ymax) {
     // first remove all asteroids from objectlist
     bool erased;
@@ -682,7 +693,6 @@ void clearAsteroids(float xmin, float xmax, float ymin, float ymax) {
 }
 
 
-/// @param b the bullet from the allBullets vector to erase from allBullets and objectList
 void eraseBullet(shared_ptr<Bullet> b) {
     // erase 'b' from allBullets & objectList
     allBullets.erase(std::remove(allBullets.begin(), allBullets.end(), b), allBullets.end());
@@ -692,7 +702,6 @@ void eraseBullet(shared_ptr<Bullet> b) {
 
 
 void detectCollisions() {
-
     // asteroid / bullet collisions
     bool deletedObj = false;
     for (int a = 0; a < allAsteroids.size(); a ++) {
