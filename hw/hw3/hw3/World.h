@@ -94,9 +94,7 @@ namespace earshooter {
 		static std::uniform_real_distribution<float> angleRadDist;
 		static std::uniform_real_distribution<float> velocityDist;
 		static std::uniform_real_distribution<float> spinDegDist;
-		static std::bernoulli_distribution animatedChoiceDist;
 		static std::bernoulli_distribution headsOrTailsDist;
-		static std::uniform_real_distribution<float> radiusDist;
         static std::uniform_real_distribution<float> randomWidth;
         static std::uniform_int_distribution<int> randomEdge;
 
@@ -136,10 +134,6 @@ namespace earshooter {
 	inline bool headsOrTails()
 	{
 		return World::headsOrTailsDist(World::randEngine);
-	}
-	inline bool isAnimated()
-	{
-		return World::animatedChoiceDist(World::randEngine);
 	}
 
     /// generate a random velocity
