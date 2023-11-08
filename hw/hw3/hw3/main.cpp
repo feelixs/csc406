@@ -87,7 +87,7 @@ const int NUM_STARTING_ASTEROIDS = 0;  // number of asteroids that start onscree
 const float STARTING_ASTEROID_SPAWN_TIME = 3.f; // time to wait before spawning new asteroids
 const int STARTING_MAX_NUM_ASTEROIDS_SPAWN = 3; // maximum number of asteroids that can be made per spawn (random value from 1 to this)
 float TIME_BETWEEN_ASTEROID_SPAWN = STARTING_ASTEROID_SPAWN_TIME;
-int MAX_NUM_ASTEROIDS_SPAWN = STARTING_MAX_NUM_ASTEROIDS_SPAWN;
+int MAX_NUM_ASTEROIDS_SPAWN = STARTING_MAX_NUM_ASTEROIDS_SPAWN;  // these values can change to make the game more difficult as time progresses
 float asteroidSpawnTimer = 0;
 
 
@@ -240,8 +240,9 @@ GLint lastX = -1, lastY = -1;
 const GLfloat* textColor = TEXT_COLOR[0];
 const GLfloat* bgndColor = BGND_COLOR[0];
 
-vector<shared_ptr<GraphicObject> > objectList;
-list<shared_ptr<AnimatedObject> > animatedObjectList;
+// use vectors for these so we can use more utility functions on them
+vector<shared_ptr<GraphicObject> > allObjects;
+vector<shared_ptr<AnimatedObject> > allAnimatedObjects;
 
 WorldType World::worldType = WorldType::CYLINDER_WORLD;
 
@@ -324,7 +325,7 @@ void myDisplayFunc(void)
 	glLoadIdentity();
 	glPushMatrix();
 
-	for (auto obj : objectList)
+	for (auto obj : allObjects)
 	{
 		if (obj != nullptr)
 			obj->draw();
@@ -335,21 +336,21 @@ void myDisplayFunc(void)
         {
             // draw x on left
             glTranslatef(-World::WIDTH, 0, 0);
-            for (auto obj : objectList)
+            for (auto obj : allObjects)
             {
                 if (obj != nullptr)
                     obj->draw();
             }
             // now draw y under left
             glTranslatef(0, -World::HEIGHT,  0);
-            for (auto obj : objectList)
+            for (auto obj : allObjects)
             {
                 if (obj != nullptr)
                     obj->draw();
             }
             // y above left
             glTranslatef(0, 2*World::HEIGHT,  0);
-            for (auto obj : objectList)
+            for (auto obj : allObjects)
             {
                 if (obj != nullptr)
                     obj->draw();
@@ -357,14 +358,14 @@ void myDisplayFunc(void)
             // recenter x, y is currently one screen up
             glTranslatef(World::WIDTH, 0, 0);
             // draw y above center
-            for (auto obj : objectList)
+            for (auto obj : allObjects)
             {
                 if (obj != nullptr)
                     obj->draw();
             }
             // draw y under center
             glTranslatef(0, -2*World::HEIGHT,  0);
-            for (auto obj : objectList)
+            for (auto obj : allObjects)
             {
                 if (obj != nullptr)
                     obj->draw();
@@ -374,7 +375,7 @@ void myDisplayFunc(void)
             glTranslatef(World::WIDTH, 0, 0);
             // we're currently at y under the main screen on the right, so we can draw all remaining screens in 3 final iterations
             for (int i = 0; i < 3; i++) {
-                for (auto obj : objectList)
+                for (auto obj : allObjects)
                 {
                     if (obj != nullptr)
                         obj->draw();
@@ -636,7 +637,7 @@ void myKeyHandler(unsigned char c, int x, int y)
             WorldPoint p = WorldPoint{player->getX(), player->getY()};
             shared_ptr<Bullet> b = make_shared<Bullet>(p, player->getAngle(), BULLET_VEL, BULLET_LIFE_SECS);
             allBullets.push_back(b);
-            objectList.push_back(b);
+            allObjects.push_back(b);
             break;
         }
         
@@ -684,17 +685,17 @@ void correctForEgocentric() {
 /// @param ast the asteroid from the allAsteroids vector to erase from allAsteroids and objectList
 void eraseAsteroid(shared_ptr<Asteroid> ast) {
     allAsteroids.erase(std::remove(allAsteroids.begin(), allAsteroids.end(), ast), allAsteroids.end());
-    objectList.erase(std::remove(objectList.begin(), objectList.end(), ast), objectList.end());
+    allObjects.erase(std::remove(allObjects.begin(), allObjects.end(), ast), allObjects.end());
 }
 
 void clearAsteroids() {
     // first remove all asteroids from objectlist
     bool erased;
-    for (int i = 0; i < objectList.size(); /* we will manually increment */) {
+    for (int i = 0; i < allObjects.size(); /* we will manually increment */) {
         erased = false;
         for (auto ast: allAsteroids) {
-            if (objectList.at(i) == ast) {
-                objectList.erase(objectList.begin() + i);
+            if (allObjects.at(i) == ast) {
+                allObjects.erase(allObjects.begin() + i);
                 erased = true;
                 break;
             }
@@ -711,7 +712,7 @@ void clearAsteroids() {
 void eraseBullet(shared_ptr<Bullet> b) {
     // erase 'b' from allBullets & objectList
     allBullets.erase(std::remove(allBullets.begin(), allBullets.end(), b), allBullets.end());
-    objectList.erase(std::remove(objectList.begin(), objectList.end(), b), objectList.end());
+    allObjects.erase(std::remove(allObjects.begin(), allObjects.end(), b), allObjects.end());
 }
 
 
@@ -761,7 +762,7 @@ void myTimerFunc(int value)
         correctForEgocentric();
         detectCollisions();
         
-        for (auto obj : animatedObjectList)
+        for (auto obj : allAnimatedObjects)
         {
             if (obj != nullptr)
                 obj->update(dt);
@@ -771,15 +772,22 @@ void myTimerFunc(int value)
         auto thisBullet = allBullets.begin();
         while (thisBullet != allBullets.end()) {
             if ((*thisBullet)->getLife() < (*thisBullet)->getAge()) {
-                auto itToRemove = std::remove(objectList.begin(), objectList.end(), *thisBullet);
+                auto itToRemove = std::remove(allObjects.begin(), allObjects.end(), *thisBullet);
                 // erase the "removed" elements from objectList
-                objectList.erase(itToRemove, objectList.end());
+                allObjects.erase(itToRemove, allObjects.end());
                 thisBullet = allBullets.erase(thisBullet);
                 // no need to ++ as this element is removed, we're now on the next one already
             } else {
                 (*thisBullet)->update(dt);
                 ++thisBullet;
             }
+        }
+        
+        // spawn new asteroids if needed
+        if (asteroidSpawnTimer >= TIME_BETWEEN_ASTEROID_SPAWN) {
+            
+        } else {
+            asteroidSpawnTimer += dt;
         }
         
         curScore += dt;
@@ -939,23 +947,23 @@ void applicationInit()
     for (int i = 0; i < NUM_STARTING_ASTEROIDS; i++) {
         shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(randomPos(), randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-1.f, 1.f));
         //    and add it to both lists
-        objectList.push_back(new_ast);
-        animatedObjectList.push_back(new_ast);
+        allObjects.push_back(new_ast);
+        allAnimatedObjects.push_back(new_ast);
         allAsteroids.push_back(new_ast);
     }
     
     player = make_shared<Spaceship>(0.f, 0.f, PLAYER_STARTING_INTEGRITY, STARTING_PLAYER_ACCEL, PLAYER_STARTING_LIVES);
-    objectList.push_back(player);
-    animatedObjectList.push_back(player);
+    allObjects.push_back(player);
+    allAnimatedObjects.push_back(player);
     
     shared_ptr<Healthbar> integrity_bar = make_shared<Healthbar>(INTEGRITY_BAR_POS, player, INTEGRITY_BAR_SCALE, 0.5);
-    animatedObjectList.push_back(integrity_bar);
-    objectList.push_back(integrity_bar);
+    allAnimatedObjects.push_back(integrity_bar);
+    allObjects.push_back(integrity_bar);
     
     shared_ptr<LivesDisplay> lives_counter = make_shared<LivesDisplay>(LIVES_COUNTER_POS, player, 1.2, 0.75);
     
-    animatedObjectList.push_back(lives_counter);
-    objectList.push_back(lives_counter);
+    allAnimatedObjects.push_back(lives_counter);
+    allObjects.push_back(lives_counter);
 	//	time really starts now
 	startTime = time(nullptr);
 }
