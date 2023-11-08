@@ -83,10 +83,12 @@ float curPlayerAccel = 0;
 const float BULLET_LIFE_SECS = 1.0; // how long do bullets last
 const int BULLET_VEL = 10;
 
-const int NUM_STARTING_ASTEROIDS = 0;  // number of asteroids that start onscreen
+const int NUM_STARTING_ASTEROIDS = 10;  // number of asteroids that start onscreen
 const float STARTING_ASTEROID_SPAWN_TIME = 3.f; // time to wait before spawning new asteroids
 const int STARTING_MAX_NUM_ASTEROIDS_SPAWN = 3; // maximum number of asteroids that can be made per spawn (random value from 1 to this)
+const int STARTING_MIN_NUM_ASTEROIDS_SPAWN = 1; // minimum number of asteroids that can be made per spawn
 float TIME_BETWEEN_ASTEROID_SPAWN = STARTING_ASTEROID_SPAWN_TIME;
+int MIN_NUM_ASTEROIDS_SPAWN = STARTING_MIN_NUM_ASTEROIDS_SPAWN;
 int MAX_NUM_ASTEROIDS_SPAWN = STARTING_MAX_NUM_ASTEROIDS_SPAWN;  // these values can change to make the game more difficult as time progresses
 float asteroidSpawnTimer = 0;
 
@@ -147,6 +149,7 @@ void correctForEgocentric();
 void detectCollisions();
 void eraseAsteroid(shared_ptr<Asteroid> ast);
 void clearAsteroids();
+void clearAsteroids(float xmin, float xmax, float ymin, float ymax);
 void eraseBullet(shared_ptr<Bullet> b);
 //--------------------------------------
 #if 0
@@ -227,6 +230,8 @@ bernoulli_distribution World::headsOrTailsDist(0.5f);
 // re-initialized when the window is resized
 uniform_real_distribution<float> World::radiusDist;
 
+uniform_int_distribution<int> NumAsteroidSpawn = uniform_int_distribution<int>(MIN_NUM_ASTEROIDS_SPAWN, MAX_NUM_ASTEROIDS_SPAWN);
+
 float World::pixelToWorldRatio;
 float World::worldToPixelRatio;
 float World::drawInPixelScale;
@@ -253,8 +258,8 @@ WorldType World::worldType = WorldType::CYLINDER_WORLD;
 #endif
 //--------------------------------------
 
-void setEgocentricGlobal(bool val) {
-    if (val) {
+void setEgocentricGlobal(bool mode) {
+    if (mode) {
         player->setEgocentric(true);
         curPlayerAccel = player->getAccel(); // we will not be using the player->accel_ variable to deternmine the asteroids' movemnt
         player->setAccel(0); // because we need to set it to 0 in egocentric mode so the player doesn't move
@@ -295,7 +300,7 @@ void setEgocentricGlobal(bool val) {
         player->setEgocentric(false);
         player->setAccel(curPlayerAccel);
         curPlayerAccel = 0;
-        
+        clearAsteroids(World::X_MIN, World::X_MAX, World::Y_MIN, World::Y_MAX);
         // egocentric mode has been disabled
         for (auto ast : allAsteroids) {
             if (ast != nullptr) {
@@ -668,6 +673,8 @@ void myKeyUpHandler(unsigned char c, int x, int y)
     }
 }
 
+
+/// constantly called to apply the player's velocity to each asteroid
 void correctForEgocentric() {
     if (player->isEgocentric()) {
         // is the game in egocentric mode?
@@ -682,12 +689,15 @@ void correctForEgocentric() {
 }
 
 
+/// erase a specific asteroid from the game
 /// @param ast the asteroid from the allAsteroids vector to erase from allAsteroids and objectList
 void eraseAsteroid(shared_ptr<Asteroid> ast) {
     allAsteroids.erase(std::remove(allAsteroids.begin(), allAsteroids.end(), ast), allAsteroids.end());
     allObjects.erase(std::remove(allObjects.begin(), allObjects.end(), ast), allObjects.end());
 }
 
+
+/// clear ALL asteroids
 void clearAsteroids() {
     // first remove all asteroids from objectlist
     bool erased;
@@ -707,6 +717,41 @@ void clearAsteroids() {
     
     allAsteroids.clear(); // then clear asteroid list
 }
+
+
+/// clear all asteroids not within the specified bounding box of xmin : xmax, and ymin : ymax
+/// @param xmin lowest x value to 'keep' asteroids within
+/// @param xmax highest x value
+/// @param ymin lowest y value to keep asteroids within
+/// @param ymax highest y value
+void clearAsteroids(float xmin, float xmax, float ymin, float ymax) {
+    // first remove all asteroids from objectlist
+    bool erased;
+    for (int i = 0; i < allObjects.size(); /* we will manually increment */) {
+        erased = false;
+        if ((allObjects.at(i)->getX() < xmin) | (allObjects.at(i)->getX() > xmax)  | (allObjects.at(i)->getY() < ymin) | (allObjects.at(i)->getY() > ymax)) {
+            for (auto ast: allAsteroids) {
+                if (allObjects.at(i) == ast) {
+                    allObjects.erase(allObjects.begin() + i);
+                    erased = true;
+                    break;
+                }
+            }
+        }
+        if (!erased) { // only increment if we haven't deleted from objectlist in this iteration
+            i++;
+        }
+    }
+    
+    for (int i = 0; i < allAsteroids.size();) {
+        if ((allAsteroids.at(i)->getX() < xmin) | (allAsteroids.at(i)->getX() > xmax)  | (allAsteroids.at(i)->getY() < ymin) | (allAsteroids.at(i)->getY() > ymax)) {
+            allAsteroids.erase(allAsteroids.begin() + i);
+        } else {
+            i++;
+        }
+    }
+}
+
 
 /// @param b the bullet from the allBullets vector to erase from allBullets and objectList
 void eraseBullet(shared_ptr<Bullet> b) {
@@ -783,12 +828,22 @@ void myTimerFunc(int value)
             }
         }
         
+        /*
         // spawn new asteroids if needed
         if (asteroidSpawnTimer >= TIME_BETWEEN_ASTEROID_SPAWN) {
-            
+            for (int i = 0; i < NumAsteroidSpawn(World::randEngine); i++) {
+                WorldPoint astPos = randomPos();
+                shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(astPos, randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-1.f, 1.f));
+                //    and add it to both lists
+                allObjects.push_back(new_ast);
+                allAnimatedObjects.push_back(new_ast);
+                allAsteroids.push_back(new_ast);
+            }
+            asteroidSpawnTimer = 0;
         } else {
             asteroidSpawnTimer += dt;
         }
+        */
         
         curScore += dt;
         lastTime = currentTime;
