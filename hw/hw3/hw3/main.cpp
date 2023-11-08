@@ -84,7 +84,7 @@ const float BULLET_LIFE_SECS = 1.0; // how long do bullets last
 const int BULLET_VEL = 10;
 const float SCORE_PER_ASTEROID_SHOT = 10; // how many points are awarded for destroying an asteroid?
 const float SCORE_PER_SECOND = 5; // how many points for second spent alive?
-const float TIME_BETWEEN_SHOOTING = 0.5; // number of seconds to wait before allowing player to shoot another bullet (prevent 'bullet spam')
+const float TIME_BETWEEN_SHOOTING = 0.75; // number of seconds to wait before allowing player to shoot another bullet (prevent 'bullet spam')
 float timeFromLastShot = 0; // keeps track of how much time has passed since player's last shot
 bool playerCanShoot = true; // becomes false after shooting until TIME_BETWEEN_SHOOTING has elapsed
 
