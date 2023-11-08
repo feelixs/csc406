@@ -220,7 +220,12 @@ void Spaceship::update(float dt) {
     // move bounding box to where the spaceship is onscreen
     
     getAbsoluteBox()->setDimensions(getX() + absoluteBoxMinX_, getX() + absoluteBoxMax_, getY() + absoluteBoxMinY_, getY() + absoluteBoxMaxY_);
-    getRelativeBox()->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, getAngle());
+    
+    if (egocentric_) {
+        getRelativeBox()->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, 0);
+    } else {
+        getRelativeBox()->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, getAngle());
+    }
     
     // set player acceleration based on remaining lives
     // >2 lives -> normal acceleration

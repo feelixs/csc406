@@ -89,7 +89,7 @@ const float TIME_BETWEEN_SHOOTING = 0.75; // number of seconds to wait before al
 float timeFromLastShot = 0; // keeps track of how much time has passed since player's last shot
 bool playerCanShoot = true; // becomes false after shooting until TIME_BETWEEN_SHOOTING has elapsed
 
-const int NUM_STARTING_ASTEROIDS = 5;  // number of asteroids that start onscreen
+const int NUM_STARTING_ASTEROIDS = 2;  // number of asteroids that start onscreen
 const float STARTING_ASTEROID_SPAWN_TIME = 3.f; // time to wait before spawning new asteroids
 const int STARTING_MAX_NUM_ASTEROIDS_SPAWN = 3; // maximum number of asteroids that can be made per spawn (random value from 1 to this)
 const int STARTING_MIN_NUM_ASTEROIDS_SPAWN = 1; // minimum number of asteroids that can be made per spawn
@@ -147,9 +147,6 @@ void applicationInit();
 /// switch between the two view modes
 /// @param mode the mode to switch to: false = geocentric, true = egocentric
 void setEgocentricGlobal(bool mode);
-
-/// constantly called to apply the player's velocity to each asteroid
-void correctForEgocentric();
 
 /// handles collision detection between player & asteroids, and asteroids & bullets
 void detectCollisions();
@@ -316,11 +313,20 @@ void setEgocentricGlobal(bool mode) {
         curPlayerAccel = 0;
         clearAsteroids(World::X_MIN, World::X_MAX, World::Y_MIN, World::Y_MAX);
         // egocentric mode has been disabled
+        
+        // undo the rotation that was being set in egocentric mode
+        float angle = player->getAngle();
         for (auto ast : allAsteroids) {
             if (ast != nullptr) {
                 // reset each asteroid velocity to its default value
                 ast->setVx(ast->getInitVx());
                 ast->setVy(ast->getInitVy());
+                
+                WorldPoint rotatedPoint = ast->getRelativePos(); // set it to asteroid's original pos of location before rotation
+                rotatePointAround(&rotatedPoint, 0, 0, angle); // rotate original point around the player's location (0, 0) by player's angle
+                ast->setX(rotatedPoint.x); // the updated point is our asteroid's new x & y
+                ast->setY(rotatedPoint.y);
+                
                 ast->setEgocentric(false);
             }
         }
@@ -646,27 +652,6 @@ void myKeyUpHandler(unsigned char c, int x, int y)
 }
 
 
-void correctForEgocentric() {
-    if (player->isEgocentric()) {
-        // is the game in egocentric mode?
-        float angle = -player->getAngle();
-        for (auto ast : allAsteroids) {
-            if (ast != nullptr) {
-                // if so, change each asteroid's velocity by negative the player's
-                ast->setVx(ast->getInitVx() - player->getVx());
-                ast->setVy(ast->getInitVy() - player->getVy());
-                
-                // instead of the player rotating, rotate asteroids around the player
-                WorldPoint rotatedPoint = ast->getRelativePos(); // set it to asteroid's original pos of location before rotation
-                rotatePointAround(&rotatedPoint, 0, 0, angle); // rotate original point around the player's location (0, 0) by player's angle
-                ast->setX(rotatedPoint.x); // the updated point is our asteroid's new x & y
-                ast->setY(rotatedPoint.y);
-            }
-        }
-    }
-}
-
-
 void eraseAsteroid(shared_ptr<Asteroid> ast) {
     allAsteroids.erase(std::remove(allAsteroids.begin(), allAsteroids.end(), ast), allAsteroids.end());
     allObjects.erase(std::remove(allObjects.begin(), allObjects.end(), ast), allObjects.end());
@@ -779,6 +764,12 @@ void myTimerFunc(int value)
                 obj->update(dt);
         }
         
+        for (auto obj : allAsteroids)
+        {
+            if (obj != nullptr)
+                obj->update(dt, player->getVx(), player->getVy(), player->getAngle());
+        }
+        
         // iterate over all active bullets, deleting all expired ones and updating active ones
         auto thisBullet = allBullets.begin();
         while (thisBullet != allBullets.end()) {
@@ -800,7 +791,7 @@ void myTimerFunc(int value)
         } else {
             timeFromLastShot += dt;
         }
-        
+        /*
         // spawn new asteroids if needed
         if (asteroidSpawnTimer >= TIME_BETWEEN_ASTEROID_SPAWN) {
             for (int i = 0; i < NumAsteroidSpawn(World::randEngine); i++) {
@@ -808,15 +799,14 @@ void myTimerFunc(int value)
                 shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(astPos, randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomEdgeVelocity(astPos, -1.f, 1.f), showBoxes);
                 //    and add it to both lists
                 allObjects.push_back(new_ast);
-                allAnimatedObjects.push_back(new_ast);
                 allAsteroids.push_back(new_ast);
             }
             asteroidSpawnTimer = 0;
         } else {
             asteroidSpawnTimer += dt;
         }
+         */
         
-        correctForEgocentric();
         detectCollisions();
         
         curScore += dt * SCORE_PER_SECOND;
@@ -977,7 +967,6 @@ void applicationInit()
         shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(randomPos(), randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-1.f, 1.f));
         //    and add it to both lists
         allObjects.push_back(new_ast);
-        allAnimatedObjects.push_back(new_ast);
         allAsteroids.push_back(new_ast);
     }
     

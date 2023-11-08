@@ -124,6 +124,10 @@ void Asteroid::draw() const
 }
 
 void Asteroid::update(float dt) {
+    // asteroids use a different update fn
+}
+
+void Asteroid::update(float dt, float playerVx, float playerVy, float playerAngle) {
     if (gameIsEgocentric_) {
         // in egocentric mode, the main x_ and y_ variables will be my position after rotation
         // origpos will store my "original" positions without rotation
@@ -131,6 +135,15 @@ void Asteroid::update(float dt) {
             setRelativeX(getRelativePos().x + getVx()*dt);
         if (getVy() != 0.f)
             setRelativeY(getRelativePos().y + getVy()*dt);
+        
+        setVx(getInitVx() - playerVx);
+        setVy(getInitVy() - playerVy);
+        
+        // instead of the player rotating, rotate asteroids around the player
+        WorldPoint rotatedPoint = getRelativePos(); // set it to asteroid's original pos of location before rotation
+        rotatePointAround(&rotatedPoint, 0, 0, -playerAngle); // rotate original point around the player's location (0, 0) by player's angle
+        setX(rotatedPoint.x); // the updated point is our asteroid's new x & y
+        setY(rotatedPoint.y);
     } else {
         if (getVx() != 0.f)
             setX(getX() + getVx()*dt);

@@ -34,6 +34,7 @@ public:
     
     void draw() const;
     void update(float dt);
+    void update(float dt, float playerVx, float playerVy, float playerAngle);
     bool isInside(const WorldPoint& pt);
     bool collidesWith(std::shared_ptr<GraphicObject> other);
     
