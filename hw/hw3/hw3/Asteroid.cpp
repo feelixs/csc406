@@ -64,6 +64,9 @@ void Asteroid::initBoundingBox_() {
         absoluteBoxMinY_ = fmin(absoluteBoxMinY_, yRot);
         absoluteBoxMaxY_ = fmax(absoluteBoxMaxY_, yRot);
     }
+    
+    getAbsoluteBox()->setDimensions(getX()+absoluteBoxMinX_, getX()+absoluteBoxMaxX_, getY()+absoluteBoxMinY_, getY()+absoluteBoxMaxY_);
+    getRelativeBox()->setDimensions(getX()-halfWidth_, getX()+halfWidth_, getY()-halfHeight_, getY()+halfHeight_, getAngle());
 }
 
 void Asteroid::draw() const
