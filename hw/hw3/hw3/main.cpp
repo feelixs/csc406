@@ -84,6 +84,9 @@ const float BULLET_LIFE_SECS = 1.0; // how long do bullets last
 const int BULLET_VEL = 10;
 const float SCORE_PER_ASTEROID_SHOT = 10; // how many points are awarded for destroying an asteroid?
 const float SCORE_PER_SECOND = 5; // how many points for second spent alive?
+const float TIME_BETWEEN_SHOOTING = 0.5; // number of seconds to wait before allowing player to shoot another bullet (prevent 'bullet spam')
+float timeFromLastShot = 0; // keeps track of how much time has passed since player's last shot
+bool playerCanShoot = true; // becomes false after shooting until TIME_BETWEEN_SHOOTING has elapsed
 
 const int NUM_STARTING_ASTEROIDS = 5;  // number of asteroids that start onscreen
 const float STARTING_ASTEROID_SPAWN_TIME = 3.f; // time to wait before spawning new asteroids
@@ -641,10 +644,13 @@ void myKeyHandler(unsigned char c, int x, int y)
             break;
             
         case ' ': { // space -> shoot a bullet from the player
-            WorldPoint p = WorldPoint{player->getX(), player->getY()};
-            shared_ptr<Bullet> b = make_shared<Bullet>(p, player->getAngle(), BULLET_VEL, BULLET_LIFE_SECS);
-            allBullets.push_back(b);
-            allObjects.push_back(b);
+            if (playerCanShoot) {
+                WorldPoint p = WorldPoint{player->getX(), player->getY()};
+                shared_ptr<Bullet> b = make_shared<Bullet>(p, player->getAngle(), BULLET_VEL, BULLET_LIFE_SECS);
+                allBullets.push_back(b);
+                allObjects.push_back(b);
+                playerCanShoot = false;
+            }
             break;
         }
         
@@ -829,6 +835,13 @@ void myTimerFunc(int value)
                 (*thisBullet)->update(dt);
                 ++thisBullet;
             }
+        }
+        
+        if (timeFromLastShot >= TIME_BETWEEN_SHOOTING) {
+            timeFromLastShot = 0;
+            playerCanShoot = true;
+        } else {
+            timeFromLastShot += dt;
         }
         
         // spawn new asteroids if needed
