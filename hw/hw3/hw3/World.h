@@ -105,6 +105,10 @@ namespace earshooter {
 	WorldPoint pixelToWorld(const PixelPoint& pt);
 	PixelPoint worldToPixel(const WorldPoint& pt);
 	
+    void rotatePointBy(WorldPoint* pt, float degrees);
+    void rotatePointAround(WorldPoint* first, WorldPoint* other, float degrees);
+    void rotatePointAround(WorldPoint* first, float x, float y, float degrees);
+
 	inline WorldPoint randomWorldPoint()
 	{
 		return WorldPoint{ World::wxDist(World::randEngine),

@@ -288,6 +288,7 @@ void setEgocentricGlobal(bool mode) {
                     ast->setY(ast->getY() - player->getY());
                 }
                 ast->setEgocentric(true);
+                ast->setOrigPos(ast->getPos());
             }
         }
         // also need to relocate bullets
@@ -648,11 +649,18 @@ void myKeyUpHandler(unsigned char c, int x, int y)
 void correctForEgocentric() {
     if (player->isEgocentric()) {
         // is the game in egocentric mode?
+        float angle = -player->getAngle();
         for (auto ast : allAsteroids) {
             if (ast != nullptr) {
                 // if so, change each asteroid's velocity by negative the player's
                 ast->setVx(ast->getInitVx() - player->getVx());
                 ast->setVy(ast->getInitVy() - player->getVy());
+                
+                // instead of the player rotating, rotate asteroids around the player
+                WorldPoint rotatedPoint = ast->getRelativePos(); // set it to asteroid's original pos of location before rotation
+                rotatePointAround(&rotatedPoint, 0, 0, angle); // rotate original point around the player's location (0, 0) by player's angle
+                ast->setX(rotatedPoint.x); // the updated point is our asteroid's new x & y
+                ast->setY(rotatedPoint.y);
             }
         }
     }
@@ -765,9 +773,6 @@ void myTimerFunc(int value)
         chrono::high_resolution_clock::time_point currentTime = chrono::high_resolution_clock::now();
         float dt = chrono::duration_cast<chrono::duration<float> >(currentTime - lastTime).count();
         
-        correctForEgocentric();
-        detectCollisions();
-        
         for (auto obj : allAnimatedObjects)
         {
             if (obj != nullptr)
@@ -810,6 +815,9 @@ void myTimerFunc(int value)
         } else {
             asteroidSpawnTimer += dt;
         }
+        
+        correctForEgocentric();
+        detectCollisions();
         
         curScore += dt * SCORE_PER_SECOND;
         lastTime = currentTime;

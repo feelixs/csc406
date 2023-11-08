@@ -18,6 +18,8 @@ class Asteroid: public GraphicObject, public AnimatedObject {
 private:
     float width_, height_, halfWidth_, halfHeight_;
     bool gameIsEgocentric_;
+    
+    WorldPoint relativePos_;
     Velocity initVel_; // the asteroid's starting velocity
     float absoluteBoxMinX_, absoluteBoxMaxX_, absoluteBoxMinY_, absoluteBoxMaxY_;
     
@@ -53,6 +55,22 @@ public:
     }
     inline float getInitVy() {
         return initVel_.vy;
+    }
+    inline WorldPoint getPos() {
+        return WorldPoint{getX(), getY()};
+    }
+    inline void setOrigPos(WorldPoint pt) {
+        relativePos_ = pt;
+    }
+    inline void setRelativeX(float x) {
+        relativePos_.x = x;
+    }
+    inline void setRelativeY(float y) {
+        relativePos_.y = y;
+    }
+    
+    inline WorldPoint getRelativePos() {
+        return relativePos_;
     }
     
     /// set this asteroid's reference to what view mode the game is currently in

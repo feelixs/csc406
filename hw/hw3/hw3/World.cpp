@@ -52,3 +52,33 @@ PixelPoint earshooter::worldToPixel(const WorldPoint& pt)
 
 }
 
+void earshooter::rotatePointBy(WorldPoint* pt, float degrees) {
+    degrees *= (M_PI/180.f); // convert from degrees to radians
+    float xo = pt->x; // store our original x before we change it
+    pt->x = pt->x * cosf(degrees) - pt->y * sinf(degrees);
+    pt->y = xo * sinf(degrees) + pt->y * cosf(degrees);
+}
+
+void earshooter::rotatePointAround(WorldPoint* first, WorldPoint* other, float degrees) {
+    /// rotate this point around another one
+    
+    // find this point's position relative to the origin, if the origin was 'other'
+    WorldPoint relativePoint{first->x - other->x, first->y - other->y};
+    rotatePointBy(&relativePoint, degrees); // apply rotation around temp origin
+
+    // undo the temporary relative origin
+    first->x = other->x + relativePoint.x;
+    first->y = other->y + relativePoint.y;
+}
+
+void earshooter::rotatePointAround(WorldPoint* first, float x, float y, float degrees) {
+    /// rotate this point around another one
+    
+    // find this point's position relative to the origin, if the origin was 'other'
+    WorldPoint relativePoint{first->x - x, first->y - y};
+    rotatePointBy(&relativePoint, degrees); // apply rotation around temp origin
+
+    // undo the temporary relative origin
+    first->x = x + relativePoint.x;
+    first->y = y + relativePoint.y;
+}

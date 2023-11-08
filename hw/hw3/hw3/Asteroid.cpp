@@ -16,7 +16,8 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float 
         initVel_(Velocity{vx, vy}),
         halfWidth_(width/2),
         halfHeight_(height/2),
-        gameIsEgocentric_(false)
+        gameIsEgocentric_(false),
+        relativePos_(WorldPoint{centerX, centerY})
 {
     initBoundingBox_(false);
 }
@@ -31,7 +32,8 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         initVel_(vel),
         halfWidth_(width/2),
         halfHeight_(height/2),
-        gameIsEgocentric_(false)
+        gameIsEgocentric_(false),
+        relativePos_(WorldPoint{pt.x, pt.y})
 {
     initBoundingBox_(false);
 }
@@ -46,7 +48,8 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         initVel_(vel),
         halfWidth_(width/2),
         halfHeight_(height/2),
-        gameIsEgocentric_(false)
+        gameIsEgocentric_(false),
+        relativePos_(WorldPoint{pt.x, pt.y})
 {
     initBoundingBox_(showBoundingBox);
 }
@@ -121,10 +124,19 @@ void Asteroid::draw() const
 }
 
 void Asteroid::update(float dt) {
-    if (getVx() != 0.f)
-        setX(getX() + getVx()*dt);
-    if (getVy() != 0.f)
-        setY(getY() + getVy()*dt);
+    if (gameIsEgocentric_) {
+        // in egocentric mode, the main x_ and y_ variables will be my position after rotation
+        // origpos will store my "original" positions without rotation
+        if (getVx() != 0.f)
+            setRelativeX(getRelativePos().x + getVx()*dt);
+        if (getVy() != 0.f)
+            setRelativeY(getRelativePos().y + getVy()*dt);
+    } else {
+        if (getVx() != 0.f)
+            setX(getX() + getVx()*dt);
+        if (getVy() != 0.f)
+            setY(getY() + getVy()*dt);
+    }
     if (getSpin() != 0.f)
         setAngle(getAngle() + getSpin()*dt);
     
