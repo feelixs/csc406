@@ -224,6 +224,7 @@ uniform_real_distribution<float> World::normalDist(0.f, 1.f);
 uniform_real_distribution<float> World::angleDegDist(0.f, 360.f);
 uniform_real_distribution<float> World::angleRadDist(0.f, 2.f*M_PI);
 uniform_real_distribution<float> World::randomWidth(0.5f, 2.5f);
+uniform_int_distribution<int> World::randomEdge(1, 4); // (1=top, 2=right, 3=bottom, 4=left)
 //	In non-simulation contexts, I like to specify velocities in terms of the time it goes
 //	to go cross the world (in seconds).  For simulations, the problem dictates speed.
 // re-initialized when the window is resized
@@ -847,8 +848,8 @@ void myTimerFunc(int value)
         // spawn new asteroids if needed
         if (asteroidSpawnTimer >= TIME_BETWEEN_ASTEROID_SPAWN) {
             for (int i = 0; i < NumAsteroidSpawn(World::randEngine); i++) {
-                WorldPoint astPos = randomPos();
-                shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(astPos, randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomVelocity(-1.f, 1.f));
+                WorldPoint astPos = randomEdgePos();
+                shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(astPos, randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomEdgeVelocity(astPos, -1.f, 1.f));
                 //    and add it to both lists
                 allObjects.push_back(new_ast);
                 allAnimatedObjects.push_back(new_ast);

@@ -98,6 +98,7 @@ namespace earshooter {
 		static std::bernoulli_distribution headsOrTailsDist;
 		static std::uniform_real_distribution<float> radiusDist;
         static std::uniform_real_distribution<float> randomWidth;
+        static std::uniform_int_distribution<int> randomEdge;
 
 	};
 
@@ -151,7 +152,6 @@ namespace earshooter {
         return Velocity{speed*cosf(angle), speed*sinf(angle)};
     }
 
-    /*
     /// generate a random velocity pointing towards the center of the screen based on the object's position
     /// @param pos the object's position
     /// @param vmin lowest possible velocity
@@ -170,15 +170,33 @@ namespace earshooter {
         }
         return Velocity{speedx*cosf(angle), speedy*sinf(angle)};
     }
-    */
+    
     inline WorldPoint randomPos() {
         return WorldPoint{ World::wxDist(World::randEngine), World::wyDist(World::randEngine) };
     }
-    /*
+    
     inline WorldPoint randomEdgePos() {
-        return WorldPoint{ World::wxDist(World::randEngine), World::wyDist(World::randEngine) };
+        // choose random from 4 choices (top, right, bottom, left)
+        switch (World::randomEdge(World::randEngine)) {
+            case 1:
+                // top of screen
+                return WorldPoint{ World::wxDist(World::randEngine), World::Y_MAX };
+            case 2:
+                // right of screen
+                return WorldPoint{ World::X_MAX, World::wyDist(World::randEngine) };
+            case 3:
+                // bottom of screen
+                return WorldPoint{ World::wxDist(World::randEngine), World::Y_MIN };
+            case 4:
+                // left of screen
+                return WorldPoint{ World::X_MIN, World::wyDist(World::randEngine) };
+                
+            default:
+                // default should never occur, but let's just return top of screen
+                return WorldPoint{ World::wxDist(World::randEngine), World::Y_MAX };
+        }
     }
-    */
+    
     inline float randomPosX() {
         return World::wxDist(World::randEngine);
     }
