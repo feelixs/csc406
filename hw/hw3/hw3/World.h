@@ -128,12 +128,6 @@ namespace earshooter {
 		return World::spinDegDist(World::randEngine) *
 				(World::headsOrTailsDist(World::randEngine) ? (+1.f) : (-1.f));
 	}
-	inline Velocity randomVelocity(float vmin, float vmax)
-	{
-		float speed = World::normalDist(World::randEngine)*(vmax-vmin) + vmin;
-		float angle = randomAngleRad();
-		return Velocity{speed*cosf(angle), speed*sinf(angle)};
-	}
 	inline float randomColor()
 	{
 		return World::colorDist(World::randEngine);
@@ -146,9 +140,45 @@ namespace earshooter {
 	{
 		return World::animatedChoiceDist(World::randEngine);
 	}
+
+    /// generate a random velocity
+    /// @param vmin lowest possible velocity
+    /// @param vmax highest possible velocity
+    inline Velocity randomVelocity(float vmin, float vmax)
+    {
+        float speed = World::normalDist(World::randEngine)*(vmax-vmin) + vmin;
+        float angle = randomAngleRad();
+        return Velocity{speed*cosf(angle), speed*sinf(angle)};
+    }
+
+    /*
+    /// generate a random velocity pointing towards the center of the screen based on the object's position
+    /// @param pos the object's position
+    /// @param vmin lowest possible velocity
+    /// @param vmax highest possible velocity
+    inline Velocity randomEdgeVelocity(WorldPoint& pos, float vmin, float vmax)
+    {
+        float speed = World::normalDist(World::randEngine)*(vmax-vmin) + vmin;
+        float angle = randomAngleRad();
+        float speedy = speed;
+        float speedx = speed;
+        if (((pos.x < 0) & (speedx < 0)) | ((pos.x > 0) & (speedx > 0))) {
+            speedx *= -1; // invert to make it directed towards the center
+        }
+        if (((pos.y < 0) & (speedy < 0)) | ((pos.y > 0) & (speedy > 0))) {
+            speedy *= -1; // invert to make it directed towards the center
+        }
+        return Velocity{speedx*cosf(angle), speedy*sinf(angle)};
+    }
+    */
     inline WorldPoint randomPos() {
         return WorldPoint{ World::wxDist(World::randEngine), World::wyDist(World::randEngine) };
     }
+    /*
+    inline WorldPoint randomEdgePos() {
+        return WorldPoint{ World::wxDist(World::randEngine), World::wyDist(World::randEngine) };
+    }
+    */
     inline float randomPosX() {
         return World::wxDist(World::randEngine);
     }
