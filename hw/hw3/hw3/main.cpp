@@ -82,8 +82,10 @@ float curPlayerAccel = 0;
 
 const float BULLET_LIFE_SECS = 1.0; // how long do bullets last
 const int BULLET_VEL = 10;
+const float SCORE_PER_ASTEROID_SHOT = 10; // how many points are awarded for destroying an asteroid?
+const float SCORE_PER_SECOND = 5; // how many points for second spent alive?
 
-const int NUM_STARTING_ASTEROIDS = 10;  // number of asteroids that start onscreen
+const int NUM_STARTING_ASTEROIDS = 5;  // number of asteroids that start onscreen
 const float STARTING_ASTEROID_SPAWN_TIME = 3.f; // time to wait before spawning new asteroids
 const int STARTING_MAX_NUM_ASTEROIDS_SPAWN = 3; // maximum number of asteroids that can be made per spawn (random value from 1 to this)
 const int STARTING_MIN_NUM_ASTEROIDS_SPAWN = 1; // minimum number of asteroids that can be made per spawn
@@ -771,6 +773,7 @@ void detectCollisions() {
         for (int b = 0; b < allBullets.size(); b++) {
             if (ast->isInside(allBullets.at(b)->getPos())) {
                 eraseAsteroid(ast);
+                curScore += SCORE_PER_ASTEROID_SHOT;
                 eraseBullet(allBullets.at(b));
                 deletedObj = true;
                 break;
@@ -828,7 +831,6 @@ void myTimerFunc(int value)
             }
         }
         
-        /*
         // spawn new asteroids if needed
         if (asteroidSpawnTimer >= TIME_BETWEEN_ASTEROID_SPAWN) {
             for (int i = 0; i < NumAsteroidSpawn(World::randEngine); i++) {
@@ -843,9 +845,8 @@ void myTimerFunc(int value)
         } else {
             asteroidSpawnTimer += dt;
         }
-        */
         
-        curScore += dt;
+        curScore += dt * SCORE_PER_SECOND;
         lastTime = currentTime;
     }
     
