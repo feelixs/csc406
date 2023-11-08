@@ -70,6 +70,7 @@ vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
 float curScore = 0;
+bool showBoxes = false; // show bounding boxed (debug)
 
 const WorldPoint LIVES_COUNTER_POS = WorldPoint{-9.5, 8.75};
 const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-5, 4.75};
@@ -584,6 +585,27 @@ void myKeyHandler(unsigned char c, int x, int y)
             }
             break;
             
+        case 'c': {
+            if (showBoxes) {
+                showBoxes = false;
+                for (auto ast : allAsteroids) {
+                    ast->getAbsoluteBox()->setColor(ColorIndex::NO_COLOR);
+                    ast->getRelativeBox()->setColor(ColorIndex::NO_COLOR);
+                }
+                player->getAbsoluteBox()->setColor(ColorIndex::NO_COLOR);
+                player->getRelativeBox()->setColor(ColorIndex::NO_COLOR);
+            } else {
+                showBoxes = true;
+                for (auto ast : allAsteroids) {
+                    ast->getAbsoluteBox()->setColor(ColorIndex::RED);
+                    ast->getRelativeBox()->setColor(ColorIndex::RED);
+                }
+                player->getAbsoluteBox()->setColor(ColorIndex::RED);
+                player->getRelativeBox()->setColor(ColorIndex::RED);
+            }
+            break;
+        }
+                    
         case ' ': { // space -> shoot a bullet from the player
             if (playerCanShoot) {
                 WorldPoint p = WorldPoint{player->getX(), player->getY()};
@@ -778,7 +800,7 @@ void myTimerFunc(int value)
         if (asteroidSpawnTimer >= TIME_BETWEEN_ASTEROID_SPAWN) {
             for (int i = 0; i < NumAsteroidSpawn(World::randEngine); i++) {
                 WorldPoint astPos = randomEdgePos();
-                shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(astPos, randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomEdgeVelocity(astPos, -1.f, 1.f));
+                shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(astPos, randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomEdgeVelocity(astPos, -1.f, 1.f), showBoxes);
                 //    and add it to both lists
                 allObjects.push_back(new_ast);
                 allAnimatedObjects.push_back(new_ast);

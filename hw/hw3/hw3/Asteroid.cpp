@@ -18,7 +18,7 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float 
         halfHeight_(height/2),
         gameIsEgocentric_(false)
 {
-    initBoundingBox_();
+    initBoundingBox_(false);
 }
 
 Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, float height, const Velocity& vel)
@@ -33,17 +33,37 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         halfHeight_(height/2),
         gameIsEgocentric_(false)
 {
-    initBoundingBox_();
+    initBoundingBox_(false);
 }
 
-void Asteroid::initBoundingBox_() {
+Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, float height, const Velocity& vel, bool showBoundingBox)
+    :    Object(pt, angle),
+        GraphicObject(pt, angle),
+        AnimatedObject(pt.x, pt.y, angle, vel.vx, vel.vy, spin),
+        //
+        width_(width),
+        height_(height),
+        initVel_(vel),
+        halfWidth_(width/2),
+        halfHeight_(height/2),
+        gameIsEgocentric_(false)
+{
+    initBoundingBox_(showBoundingBox);
+}
+
+void Asteroid::initBoundingBox_(bool showBox) {
     //create an absolute collision box with height & width set to the MAXIMUM possible hitbox of object
     // (when the object is rotated by 45 degrees)
     //
     // this way, the game can first check if collisions occur within this box
     // and then do a trig calc for the object collision ONLY IF this bounding box has a collision
     
-    ColorIndex boundingColor = ColorIndex::NO_COLOR;
+    ColorIndex boundingColor;
+    if (showBox) {
+        boundingColor = ColorIndex::RED;
+    } else {
+        boundingColor = ColorIndex::NO_COLOR;
+    }
     setAbsoluteBox(std::make_shared<AbsBoundingBox>(-1, 1, -1, 1, boundingColor));
     setRelativeBox(std::make_shared<RelBoundingBox>(-0.5, 0.5, -0.5, 0.5, 0, boundingColor));
     float corners[4][2] = {

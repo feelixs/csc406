@@ -74,6 +74,14 @@ namespace earshooter
 			 */
 			void setDimensions(const WorldPoint& cornerUL, const WorldPoint& cornerLR);
         
+            void setColor(ColorIndex color) {
+                color_ = color;
+            }
+            
+            ColorIndex getColor() {
+                return color_;
+            }
+        
             /// detects if this bounding box is overlapping with another Absolute Box (only works for abs boxes, as it doesn't account for angle_)
             /// @param other the other Absolute bounding box to test collision with
             inline bool overlaps(const AbsBoundingBox& other) const {

@@ -21,11 +21,14 @@ private:
     Velocity initVel_; // the asteroid's starting velocity
     float absoluteBoxMinX_, absoluteBoxMaxX_, absoluteBoxMinY_, absoluteBoxMaxY_;
     
-    void initBoundingBox_();
+    void initBoundingBox_(bool showBox);
 public:
     Asteroid(float centerX, float centerY, float angle, float spin, float width, float height,
             float vx, float vy);
     Asteroid(const WorldPoint& pt, float angle, float spin, float width, float height, const Velocity& vel);
+    
+    ///@param showBoundingBoxes should we render the bounding box?
+    Asteroid(const WorldPoint& pt, float angle, float spin, float width, float height, const Velocity& vel, bool showBoundingBoxes);
     
     void draw() const;
     void update(float dt);
@@ -51,6 +54,9 @@ public:
     inline float getInitVy() {
         return initVel_.vy;
     }
+    
+    /// set this asteroid's reference to what view mode the game is currently in
+    /// @param to if the game is egocentric (true) or geocentric (false)
     inline void setEgocentric(bool to) {
         gameIsEgocentric_ = to;
     }

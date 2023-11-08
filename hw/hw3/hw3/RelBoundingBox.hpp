@@ -80,6 +80,14 @@ namespace earshooter
              */
             void setDimensions(const WorldPoint& cornerUL, const WorldPoint& cornerLR);
         
+            void setColor(ColorIndex color) {
+                color_ = color;
+            }
+            
+            ColorIndex getColor() {
+                return color_;
+            }
+        
             /// detects if this bounding box is overlapping with another Relative Box
             /// @param other the other Relative bounding box to test collision with
             bool overlaps(const RelBoundingBox& other) const;
