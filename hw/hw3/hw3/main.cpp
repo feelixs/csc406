@@ -319,10 +319,15 @@ void setEgocentricGlobal(bool mode) {
             }
         }
         
-        // undo the rotation that was being set in egocentric mode
         float angle = player->getAngle();
         for (auto ast : allAsteroids) {
             if (ast != nullptr) {
+                // undo the rotation that was being set in egocentric mode
+                WorldPoint rotatedPoint = ast->getPos();
+                rotatePointAround(&rotatedPoint, 0, 0, angle);
+                ast->setX(rotatedPoint.x);
+                ast->setY(rotatedPoint.y);
+                
                 // reset each asteroid velocity to its default value
                 ast->setVx(ast->getInitVx());
                 ast->setVy(ast->getInitVy());
