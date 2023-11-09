@@ -16,7 +16,6 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float 
         initVel_(Velocity{vx, vy}),
         halfWidth_(width/2),
         halfHeight_(height/2),
-        gameIsEgocentric_(false),
         relativePos_(WorldPoint{centerX, centerY})
 {
     initBoundingBox_(false);
@@ -32,7 +31,6 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         initVel_(vel),
         halfWidth_(width/2),
         halfHeight_(height/2),
-        gameIsEgocentric_(false),
         relativePos_(WorldPoint{pt.x, pt.y})
 {
     initBoundingBox_(false);
@@ -48,7 +46,6 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         initVel_(vel),
         halfWidth_(width/2),
         halfHeight_(height/2),
-        gameIsEgocentric_(false),
         relativePos_(WorldPoint{pt.x, pt.y})
 {
     initBoundingBox_(showBoundingBox);
@@ -127,10 +124,10 @@ void Asteroid::update(float dt) {
     // asteroids use a different update fn
 }
 
-void Asteroid::update(float dt, float playerVx, float playerVy, float playerAngle) {
-    if (gameIsEgocentric_) {
+void Asteroid::update(float dt, float playerVx, float playerVy, float playerAngle, bool egocentric) {
+    if (egocentric) {
         // in egocentric mode, the main x_ and y_ variables will be my position after rotation
-        // origpos will store my "original" positions without rotation
+        // relativepos will store my "original" positions without rotation
         if (getVx() != 0.f)
             setRelativeX(getRelativePos().x + getVx()*dt);
         if (getVy() != 0.f)
@@ -153,7 +150,7 @@ void Asteroid::update(float dt, float playerVx, float playerVy, float playerAngl
     if (getSpin() != 0.f)
         setAngle(getAngle() + getSpin()*dt);
     
-    if (!gameIsEgocentric_) {
+    if (!egocentric) {
         if (getX() < World::X_MIN || getX() > World::X_MAX || getY() < World::Y_MIN || getY() > World::Y_MAX) {
             // this is for cylinder world
             if (getX() < World::X_MIN) {
