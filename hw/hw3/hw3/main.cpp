@@ -85,7 +85,7 @@ const float BULLET_LIFE_SECS = 1.0; // how long do bullets last
 const int BULLET_VEL = 10;
 const float SCORE_PER_ASTEROID_SHOT = 10; // how many points are awarded for destroying an asteroid?
 const float SCORE_PER_SECOND = 5; // how many points for second spent alive?
-const float TIME_BETWEEN_SHOOTING = 0.75; // number of seconds to wait before allowing player to shoot another bullet (prevent 'bullet spam')
+const float TIME_BETWEEN_SHOOTING = 1.0; // number of seconds to wait before allowing player to shoot another bullet (prevent 'bullet spam')
 float timeFromLastShot = 0; // keeps track of how much time has passed since player's last shot
 bool playerCanShoot = true; // becomes false after shooting until TIME_BETWEEN_SHOOTING has elapsed
 
@@ -284,7 +284,6 @@ void setEgocentricGlobal(bool mode) {
                 if (player->getY() != 0) {
                     ast->setY(ast->getY() - player->getY());
                 }
-                ast->setEgocentric(true);
                 ast->setRelativePos(ast->getPos());
             }
         }
@@ -320,7 +319,6 @@ void setEgocentricGlobal(bool mode) {
                 // reset each asteroid velocity to its default value
                 ast->setVx(ast->getInitVx());
                 ast->setVy(ast->getInitVy());
-                ast->setEgocentric(false);
             }
         }
     }
@@ -608,14 +606,8 @@ void myKeyHandler(unsigned char c, int x, int y)
                     
         case ' ': { // space -> shoot a bullet from the player
             if (playerCanShoot) {
-                float bulletAngle;
-                if (player->isEgocentric()) {
-                    bulletAngle = 0;
-                } else {
-                    bulletAngle = player->getAngle();
-                }
                 WorldPoint p = WorldPoint{player->getX(), player->getY()};
-                shared_ptr<Bullet> b = make_shared<Bullet>(p, bulletAngle, BULLET_VEL, BULLET_LIFE_SECS);
+                shared_ptr<Bullet> b = make_shared<Bullet>(p, player->getAngle(), BULLET_VEL, BULLET_LIFE_SECS);
                 allBullets.push_back(b);
                 allObjects.push_back(b);
                 playerCanShoot = false;
@@ -766,7 +758,7 @@ void myTimerFunc(int value)
         for (auto obj : allAsteroids)
         {
             if (obj != nullptr)
-                obj->update(dt, player->getVx(), player->getVy(), player->getAngle());
+                obj->update(dt, player->getVx(), player->getVy(), player->getAngle(), player->isEgocentric());
         }
         
         // iterate over all active bullets, deleting all expired ones and updating active ones
@@ -779,7 +771,7 @@ void myTimerFunc(int value)
                 thisBullet = allBullets.erase(thisBullet);
                 // no need to ++ as this element is removed, we're now on the next one already
             } else {
-                (*thisBullet)->update(dt);
+                (*thisBullet)->update(dt, player->getAngle(), player->isEgocentric());
                 ++thisBullet;
             }
         }

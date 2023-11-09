@@ -17,7 +17,8 @@ Bullet::Bullet(float x, float y, float angle, float vel, float lifetime)
     AnimatedObject(x, y, angle, 0, 0, 0), // we will calculate vx and vy in the init
     vel_(vel),
     lifetime_(lifetime),
-    age_(0)
+    age_(0),
+    relativePos_(WorldPoint{x, y})
 {
     initVel_();
 }
@@ -29,7 +30,8 @@ Bullet::Bullet(WorldPoint& xy, float angle, float vel, float lifetime)
     AnimatedObject(xy.x, xy.y, angle, 0, 0, 0), // we will calculate vx and vy in the init
     vel_(vel),
     lifetime_(lifetime),
-    age_(0)
+    age_(0),
+    relativePos_(WorldPoint{xy.x, xy.y})
 {
     initVel_();
 }
@@ -71,12 +73,32 @@ void Bullet::draw() const {
 
 
 void Bullet::update(float dt) {
+    // bullets need references to some player variables in their update fn
+}
+
+void Bullet::update(float dt, float playerAngle, bool egocentric) {
     age_ += dt;
-    //std::cout << age_ << std::endl;
-    if (getVx() != 0.f)
-        setX(getX() + getVx()*dt);
-    if (getVy() != 0.f)
-        setY(getY() + getVy()*dt);
+
+    if (egocentric) {
+        // in egocentric mode, the main x_ and y_ variables will be my position after rotation
+        // relativepos will store my "original" positions without rotation
+        if (getVx() != 0.f)
+            setRelativeX(getRelativePos().x + getVx()*dt);
+        if (getVy() != 0.f)
+            setRelativeY(getRelativePos().y + getVy()*dt);
+        
+        // instead of the player rotating, rotate around the player
+        WorldPoint rotatedPoint = getRelativePos(); // set it to our original pos of location before rotation
+        rotatePointAround(&rotatedPoint, 0, 0, -playerAngle); // rotate original point around the player's location (0, 0) by player's angle
+        setX(rotatedPoint.x); // the updated point is our new x & y
+        setY(rotatedPoint.y);
+    } else {
+        if (getVx() != 0.f)
+            setX(getX() + getVx()*dt);
+        if (getVy() != 0.f)
+            setY(getY() + getVy()*dt);
+    }
+    
     if (getSpin() != 0.f)
         setAngle(getAngle() + getSpin()*dt);
     

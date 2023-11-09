@@ -18,6 +18,8 @@ class Bullet : public GraphicObject, public AnimatedObject {
 private:
     const float lifetime_;
     float age_, vel_;
+    WorldPoint relativePos_;
+    
     void initVel_();
 public:
     /**
@@ -32,6 +34,7 @@ public:
     
     void draw() const;
     void update(float dt);
+    void update(float dt, float playerAngle, bool egocentric);
     
     bool isInside(const WorldPoint& pt);
     
@@ -41,6 +44,19 @@ public:
         setVy(0);
     }
     
+    inline void setRelativePos(WorldPoint pt) {
+        relativePos_ = pt;
+    }
+    inline void setRelativeX(float x) {
+        relativePos_.x = x;
+    }
+    inline void setRelativeY(float y) {
+        relativePos_.y = y;
+    }
+    
+    inline WorldPoint getRelativePos() {
+        return relativePos_;
+    }
     inline float getLife() {
         return lifetime_;
     }
