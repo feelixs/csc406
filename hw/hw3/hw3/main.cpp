@@ -296,6 +296,7 @@ void setEgocentricGlobal(bool mode) {
                 if (player->getY() != 0) {
                     b->setY(b->getY() - player->getY());
                 }
+                b->setRelativePos(b->getPos());
             }
         }
         // now center the player on the screen
@@ -305,7 +306,6 @@ void setEgocentricGlobal(bool mode) {
         if (player->getY() != 0) {
             player->setY(0);
         }
-        
     } else {
         player->setEgocentric(false);
         player->setAccel(curPlayerAccel);
@@ -313,6 +313,13 @@ void setEgocentricGlobal(bool mode) {
         clearAsteroids(World::X_MIN, World::X_MAX, World::Y_MIN, World::Y_MAX);
         // egocentric mode has been disabled
         player->setAngle(0);
+        for (auto b : allBullets) {
+            if (b != nullptr) {
+                b->setAngle(0);
+                b->calcVel();
+            }
+        }
+        
         // undo the rotation that was being set in egocentric mode
         for (auto ast : allAsteroids) {
             if (ast != nullptr) {

@@ -19,8 +19,6 @@ private:
     const float lifetime_;
     float age_, vel_;
     WorldPoint relativePos_;
-    
-    void initVel_();
 public:
     /**
         @param x starting x pos of the bullet
@@ -38,11 +36,8 @@ public:
     
     bool isInside(const WorldPoint& pt);
     
-    inline void setVel(float v) {
-        vel_ = 0;
-        setVx(0);
-        setVy(0);
-    }
+    /// calculate the bullet's velocity based on its angle
+    void calcVel();
     
     inline void setRelativePos(WorldPoint pt) {
         relativePos_ = pt;

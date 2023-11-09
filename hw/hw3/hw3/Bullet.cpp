@@ -20,7 +20,7 @@ Bullet::Bullet(float x, float y, float angle, float vel, float lifetime)
     age_(0),
     relativePos_(WorldPoint{x, y})
 {
-    initVel_();
+    calcVel();
 }
 
 
@@ -33,13 +33,13 @@ Bullet::Bullet(WorldPoint& xy, float angle, float vel, float lifetime)
     age_(0),
     relativePos_(WorldPoint{xy.x, xy.y})
 {
-    initVel_();
+    calcVel();
 }
 
-void Bullet::initVel_() {
+void Bullet::calcVel() {
     // set vx and vy relative to my angle and constant vel
-    setVx(getVx() + cosf(getAngle() * RAD_TO_DEG) * vel_);
-    setVy(getVy() + sinf(getAngle() * RAD_TO_DEG) * vel_);
+    setVx(cosf(getAngle() * RAD_TO_DEG) * vel_);
+    setVy(sinf(getAngle() * RAD_TO_DEG) * vel_);
 }
 
 bool Bullet::isInside(const WorldPoint& pt) {
