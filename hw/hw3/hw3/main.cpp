@@ -313,7 +313,7 @@ void setEgocentricGlobal(bool mode) {
         curPlayerAccel = 0;
         clearAsteroids(World::X_MIN, World::X_MAX, World::Y_MIN, World::Y_MAX);
         // egocentric mode has been disabled
-        
+        player->setAngle(0);
         // undo the rotation that was being set in egocentric mode
         for (auto ast : allAsteroids) {
             if (ast != nullptr) {
@@ -531,11 +531,13 @@ void myKeyHandler(unsigned char c, int x, int y)
         
         case 'g':
         case 'G':
-            setEgocentricGlobal(false);
+            if (player->isEgocentric())
+                setEgocentricGlobal(false);
             break;
         case 'e':
         case 'E':
-            setEgocentricGlobal(true);
+            if (!player->isEgocentric())
+                setEgocentricGlobal(true);
             break;
             
             // TODO add arrow keys
@@ -606,8 +608,14 @@ void myKeyHandler(unsigned char c, int x, int y)
                     
         case ' ': { // space -> shoot a bullet from the player
             if (playerCanShoot) {
+                float bulletAngle;
+                if (player->isEgocentric()) {
+                    bulletAngle = 0;
+                } else {
+                    bulletAngle = player->getAngle();
+                }
                 WorldPoint p = WorldPoint{player->getX(), player->getY()};
-                shared_ptr<Bullet> b = make_shared<Bullet>(p, player->getAngle(), BULLET_VEL, BULLET_LIFE_SECS);
+                shared_ptr<Bullet> b = make_shared<Bullet>(p, bulletAngle, BULLET_VEL, BULLET_LIFE_SECS);
                 allBullets.push_back(b);
                 allObjects.push_back(b);
                 playerCanShoot = false;
