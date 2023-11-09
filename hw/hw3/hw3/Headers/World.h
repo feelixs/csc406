@@ -174,9 +174,36 @@ namespace earshooter {
         return WorldPoint{ World::wxDist(World::randEngine), World::wyDist(World::randEngine) };
     }
     
-    /// generate a random position on the edge of the screen
-    inline WorldPoint randomEdgePos() {
-        // choose random from 4 choices (top, right, bottom, left)
+    /// Used for spawning asteroids at the edge of the screen, generates a random position on the edge of the screen
+    ///   If the game is egocentric, we will want to only generate positions across from where the player is traveling, or else they will instantly travel offscreen
+    ///  @param isEgocentric is the game in egocentric mode?
+    inline WorldPoint generateEdgePosition(bool isEgocentric, float playerVx, float playerVy) {
+        if (isEgocentric) {
+            if (abs(playerVx) >= abs(playerVy)) {
+                // we're going faster in the x direction, so choose random location along the y
+                if (playerVx > 0) {
+                    // we're going right
+                    return WorldPoint{ World::X_MAX, World::wyDist(World::randEngine) };
+                }
+                else if (playerVx < 0) {
+                    // we're going left
+                    return WorldPoint{ World::X_MIN, World::wyDist(World::randEngine) };
+                }
+            } else {
+                // we're going faster in the y direction (or theyre equal), so choose random location along the x
+                if (playerVy > 0) {
+                    // we're going up
+                    return WorldPoint{ World::wxDist(World::randEngine), World::Y_MAX };
+                }
+                else if (playerVy < 0) {
+                    // we're going down
+                    return WorldPoint{ World::wxDist(World::randEngine), World::X_MIN };
+                }
+            }
+        }
+        
+        // in Geocentric mode, we don't care about the player's velocity and can generate a random edge to spawn the asteroid at.
+        // Choose random from 4 choices (top, right, bottom, left)
         switch (World::randomEdge(World::randEngine)) {
             case 1:
                 // top of screen
@@ -195,6 +222,7 @@ namespace earshooter {
                 // default should never occur, but let's just return top of screen
                 return WorldPoint{ World::wxDist(World::randEngine), World::Y_MAX };
         }
+    
     }
     
     /// generate a random asteroid width
