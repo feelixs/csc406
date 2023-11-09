@@ -96,6 +96,8 @@ const int STARTING_MIN_NUM_ASTEROIDS_SPAWN = 1; // minimum number of asteroids t
 float TIME_BETWEEN_ASTEROID_SPAWN = STARTING_ASTEROID_SPAWN_TIME;
 int MIN_NUM_ASTEROIDS_SPAWN = STARTING_MIN_NUM_ASTEROIDS_SPAWN;
 int MAX_NUM_ASTEROIDS_SPAWN = STARTING_MAX_NUM_ASTEROIDS_SPAWN;  // these values can change to make the game more difficult as time progresses
+float SCORE_GAME_GET_HARDER_INTERVAL = 300; // how much score to get to make the game progressively get harder?
+float LAST_GOT_HARDER = 0; // what was the score at when we last made the game harder?
 float asteroidSpawnTimer = 0;
 
 
@@ -600,6 +602,9 @@ void myKeyHandler(unsigned char c, int x, int y)
                 player->setAccelRate(STARTING_PLAYER_ACCEL);
                 GAME_OVER = false;
                 GAME_PAUSED = false;
+                MAX_NUM_ASTEROIDS_SPAWN = STARTING_MAX_NUM_ASTEROIDS_SPAWN;
+                MIN_NUM_ASTEROIDS_SPAWN = STARTING_MIN_NUM_ASTEROIDS_SPAWN;
+                TIME_BETWEEN_ASTEROID_SPAWN = STARTING_ASTEROID_SPAWN_TIME;
             }
             break;
             
@@ -818,6 +823,14 @@ void myTimerFunc(int value)
         }
         
         detectCollisions();
+        
+        // make the game progressively harder by increasing the number of asteroids spawne at lesser time intervals
+        if (curScore >= SCORE_GAME_GET_HARDER_INTERVAL + LAST_GOT_HARDER) {
+            MAX_NUM_ASTEROIDS_SPAWN++;
+            MIN_NUM_ASTEROIDS_SPAWN++;
+            TIME_BETWEEN_ASTEROID_SPAWN/=2;
+            LAST_GOT_HARDER = curScore;
+        }
         
         curScore += dt * SCORE_PER_SECOND;
         lastTime = currentTime;
