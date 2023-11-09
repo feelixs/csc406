@@ -790,7 +790,7 @@ void myTimerFunc(int value)
         } else {
             timeFromLastShot += dt;
         }
-        /*
+        
         // spawn new asteroids if needed
         if (asteroidSpawnTimer >= TIME_BETWEEN_ASTEROID_SPAWN) {
             for (int i = 0; i < NumAsteroidSpawn(World::randEngine); i++) {
@@ -804,7 +804,6 @@ void myTimerFunc(int value)
         } else {
             asteroidSpawnTimer += dt;
         }
-         */
         
         detectCollisions();
         
