@@ -82,6 +82,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA968D672AFD4CEA006F5394 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				AA2D23742AE9444B00FE4A11 /* ComplexGraphicObject.h */,
+				AA2D23862AE9444B00FE4A11 /* glPlatform.h */,
+				AA2D23782AE9444B00FE4A11 /* GraphicObject.h */,
+				AA2D237B2AE9444B00FE4A11 /* Object.h */,
+				AAD784A62AE944EF00ACA918 /* Asteroid.hpp */,
+				AAD784A92AE95B8000ACA918 /* Spaceship.hpp */,
+				AA06B8382AF7F8F8002D8DC8 /* LivesDisplay.hpp */,
+				AA889C4F2AF1DB3F00081525 /* Healthbar.hpp */,
+				AA2D23852AE9444B00FE4A11 /* World.h */,
+				AAFA3F6F2AF291D400CBE0C5 /* RelBoundingBox.hpp */,
+				AAEF4F122AEC323E00140F64 /* Bullet.hpp */,
+				AA2D237A2AE9444B00FE4A11 /* commonTypes.h */,
+				AA2D237D2AE9444B00FE4A11 /* AbsBoundingBox.h */,
+				AA2D237E2AE9444B00FE4A11 /* AnimatedObject.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		AA968D682AFD4D4A006F5394 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				AA06B8372AF7F8F8002D8DC8 /* LivesDisplay.cpp */,
+				AA889C4E2AF1DB3F00081525 /* Healthbar.cpp */,
+				AA2D23832AE9444B00FE4A11 /* AbsBoundingBox.cpp */,
+				AAD784A82AE95B8000ACA918 /* Spaceship.cpp */,
+				AA2D23882AE9444B00FE4A11 /* ComplexGraphicObject.cpp */,
+				AAD784A52AE944EF00ACA918 /* Asteroid.cpp */,
+				AA2D238A2AE9444B00FE4A11 /* World.cpp */,
+				AAEF4F112AEC323E00140F64 /* Bullet.cpp */,
+				AAFA3F6E2AF291D400CBE0C5 /* RelBoundingBox.cpp */,
+				AA2D23762AE9444B00FE4A11 /* GraphicObject.cpp */,
+				AA2D23732AE9444B00FE4A11 /* Object.cpp */,
+				AA2D23772AE9444B00FE4A11 /* AnimatedObject.cpp */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		AAC32B6C2AE00FF400CB5A41 = {
 			isa = PBXGroup;
 			children = (
@@ -102,33 +142,9 @@
 		AAC32B772AE00FF400CB5A41 /* hw3 */ = {
 			isa = PBXGroup;
 			children = (
-				AA2D23772AE9444B00FE4A11 /* AnimatedObject.cpp */,
-				AA2D237E2AE9444B00FE4A11 /* AnimatedObject.h */,
-				AA2D23832AE9444B00FE4A11 /* AbsBoundingBox.cpp */,
-				AA2D237D2AE9444B00FE4A11 /* AbsBoundingBox.h */,
-				AA2D237A2AE9444B00FE4A11 /* commonTypes.h */,
-				AA2D23882AE9444B00FE4A11 /* ComplexGraphicObject.cpp */,
-				AA2D23742AE9444B00FE4A11 /* ComplexGraphicObject.h */,
-				AA2D23862AE9444B00FE4A11 /* glPlatform.h */,
-				AA2D23762AE9444B00FE4A11 /* GraphicObject.cpp */,
-				AA2D23782AE9444B00FE4A11 /* GraphicObject.h */,
+				AA968D682AFD4D4A006F5394 /* Source */,
+				AA968D672AFD4CEA006F5394 /* Headers */,
 				AA2D23802AE9444B00FE4A11 /* main.cpp */,
-				AA2D23732AE9444B00FE4A11 /* Object.cpp */,
-				AA2D237B2AE9444B00FE4A11 /* Object.h */,
-				AA2D238A2AE9444B00FE4A11 /* World.cpp */,
-				AA2D23852AE9444B00FE4A11 /* World.h */,
-				AAD784A52AE944EF00ACA918 /* Asteroid.cpp */,
-				AAD784A62AE944EF00ACA918 /* Asteroid.hpp */,
-				AAD784A82AE95B8000ACA918 /* Spaceship.cpp */,
-				AAD784A92AE95B8000ACA918 /* Spaceship.hpp */,
-				AAEF4F112AEC323E00140F64 /* Bullet.cpp */,
-				AAEF4F122AEC323E00140F64 /* Bullet.hpp */,
-				AA889C4E2AF1DB3F00081525 /* Healthbar.cpp */,
-				AA889C4F2AF1DB3F00081525 /* Healthbar.hpp */,
-				AAFA3F6E2AF291D400CBE0C5 /* RelBoundingBox.cpp */,
-				AAFA3F6F2AF291D400CBE0C5 /* RelBoundingBox.hpp */,
-				AA06B8372AF7F8F8002D8DC8 /* LivesDisplay.cpp */,
-				AA06B8382AF7F8F8002D8DC8 /* LivesDisplay.hpp */,
 			);
 			path = hw3;
 			sourceTree = "<group>";
