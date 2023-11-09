@@ -325,8 +325,6 @@ void setEgocentricGlobal(bool mode) {
             }
         }
     }
-    
-    
 }
 
 void myDisplayFunc(void)
