@@ -7,7 +7,6 @@
 
 #include "Bullet.hpp"
 #include <math.h>
-#include <iostream>
 
 const float RAD_TO_DEG = M_PI / 180;
 
@@ -42,10 +41,6 @@ void Bullet::calcVel() {
     setVy(sinf(getAngle() * RAD_TO_DEG) * vel_);
 }
 
-bool Bullet::isInside(const WorldPoint& pt) {
-    return (pt.x == getX() && pt.y == getY());
-}
-
 void Bullet::draw() const {
     //    save the current coordinate system (origin, axes, scale)
     glPushMatrix();
@@ -73,7 +68,7 @@ void Bullet::draw() const {
 
 
 void Bullet::update(float dt) {
-    // bullets need references to some player variables in their update fn
+    // we won't be using this update function
 }
 
 void Bullet::update(float dt, float playerAngle, bool egocentric) {

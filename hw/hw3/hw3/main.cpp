@@ -175,7 +175,9 @@ void eraseBullet(shared_ptr<Bullet> b);
 //--------------------------------------
 const int INIT_WIN_X = 10, INIT_WIN_Y = 32;
 
-shared_ptr<Spaceship> player;
+shared_ptr<Spaceship> player; // the player's Spaceship
+shared_ptr<LivesDisplay> lives_counter; // displays player's remaining lives
+shared_ptr<Healthbar> integrity_bar; // displays player's hull integrity
 
 const float World::X_MIN = -10.f;
 const float World::X_MAX = +10.f;
@@ -331,8 +333,8 @@ void setEgocentricGlobal(bool mode) {
                 ast->setY(rotatedPoint.y);
                 
                 // reset each asteroid velocity to its default value
-                ast->setVx(ast->getInitVx());
-                ast->setVy(ast->getInitVy());
+                ast->setVx(ast->getRelativeVx());
+                ast->setVy(ast->getRelativeVy());
             }
         }
     }
@@ -411,8 +413,13 @@ void myDisplayFunc(void)
                 glTranslatef(0, World::HEIGHT,  0);
             }
         }
+        glPopMatrix();
     }
-
+    
+    glPushMatrix();
+    // instead of adding these to objectList, we will draw them separately so they're always on top
+    lives_counter->draw();
+    integrity_bar->draw();
 	glPopMatrix();
     
     glTranslatef(World::X_MIN, World::Y_MAX, 0.f);
@@ -552,7 +559,6 @@ void myKeyHandler(unsigned char c, int x, int y)
                 setEgocentricGlobal(true);
             break;
             
-            // TODO add arrow keys
         case 'd':
         case 'D':
             player->setSpin(-PLAYER_ROTATION_RATE);
@@ -590,7 +596,7 @@ void myKeyHandler(unsigned char c, int x, int y)
                 player->setVx(0);
                 player->setVy(0);
                 player->setLives(PLAYER_STARTING_LIVES);
-                player->setIntegtrity(PLAYER_STARTING_INTEGRITY);
+                player->setIntegrity(PLAYER_STARTING_INTEGRITY);
                 player->setAccelRate(STARTING_PLAYER_ACCEL);
                 GAME_OVER = false;
                 GAME_PAUSED = false;
@@ -978,14 +984,11 @@ void applicationInit()
     allObjects.push_back(player);
     allAnimatedObjects.push_back(player);
     
-    shared_ptr<Healthbar> integrity_bar = make_shared<Healthbar>(INTEGRITY_BAR_POS, player, INTEGRITY_BAR_SCALE, 0.5);
+    integrity_bar = make_shared<Healthbar>(INTEGRITY_BAR_POS, player, INTEGRITY_BAR_SCALE, 0.5);
     allAnimatedObjects.push_back(integrity_bar);
-    allObjects.push_back(integrity_bar);
     
-    shared_ptr<LivesDisplay> lives_counter = make_shared<LivesDisplay>(LIVES_COUNTER_POS, player, 1.2, 0.75);
-    
+    lives_counter = make_shared<LivesDisplay>(LIVES_COUNTER_POS, player, 1.2, 0.75);
     allAnimatedObjects.push_back(lives_counter);
-    allObjects.push_back(lives_counter);
 	//	time really starts now
 	startTime = time(nullptr);
 }

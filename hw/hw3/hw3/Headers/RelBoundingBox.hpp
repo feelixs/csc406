@@ -8,7 +8,6 @@
 #ifndef RelBoundingBox_hpp
 #define RelBoundingBox_hpp
 
-#include <stdio.h>
 #include "commonTypes.h"
 #include "World.h"
 
@@ -87,10 +86,6 @@ namespace earshooter
             ColorIndex getColor() {
                 return color_;
             }
-        
-            /// detects if this bounding box is overlapping with another Relative Box
-            /// @param other the other Relative bounding box to test collision with
-            bool overlaps(const RelBoundingBox& other) const;
             
             /**    Returns the min value of the x coordinate
              * @RETURN min value of the x coordinate
@@ -161,6 +156,10 @@ namespace earshooter
              * @RETURN true if the point is inside the bounding box
              */
             bool isInside(float x, float y) const;
+        
+            /// Detects if this bounding box is overlapping with another Relative Box
+            /// @param other the other Relative bounding box to test collision with
+            bool overlaps(const RelBoundingBox& other) const;
         
             /** Renders the object
              */
