@@ -87,7 +87,11 @@ void Spaceship::draw() const {
     glTranslatef(getX(), getY(), 0.f);
     
     // apply rotation
-    glRotatef(getAngle() - 90, 0.f, 0.f, 1.f); // the spaceship model is drawn wrong by 90 degrees
+    if (egocentric_) {
+        glRotatef(-90, 0.f, 0.f, 1.f); // in egocentric, spaceship is always at original degrees
+    } else {
+        glRotatef(getAngle() - 90, 0.f, 0.f, 1.f); // the spaceship model is drawn wrong by 90 degrees
+    }
     
     //    apply the radius as a scale
     glScalef(1.f, 1.f, 1.f);
@@ -216,7 +220,12 @@ void Spaceship::update(float dt) {
     // move bounding box to where the spaceship is onscreen
     
     getAbsoluteBox()->setDimensions(getX() + absoluteBoxMinX_, getX() + absoluteBoxMax_, getY() + absoluteBoxMinY_, getY() + absoluteBoxMaxY_);
-    getRelativeBox()->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, getAngle());
+    
+    if (egocentric_) {
+        getRelativeBox()->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, 0);
+    } else {
+        getRelativeBox()->setDimensions(getX() - 0.5, getX() + 0.5, getY() - 0.5, getY() + 0.5, getAngle());
+    }
     
     // set player acceleration based on remaining lives
     // >2 lives -> normal acceleration

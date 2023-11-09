@@ -17,7 +17,8 @@ using namespace earshooter;
 class Asteroid: public GraphicObject, public AnimatedObject {
 private:
     float width_, height_, halfWidth_, halfHeight_;
-    bool gameIsEgocentric_;
+    
+    WorldPoint relativePos_;
     Velocity initVel_; // the asteroid's starting velocity
     float absoluteBoxMinX_, absoluteBoxMaxX_, absoluteBoxMinY_, absoluteBoxMaxY_;
     
@@ -32,6 +33,7 @@ public:
     
     void draw() const;
     void update(float dt);
+    void update(float dt, float playerVx, float playerVy, float playerAngle, bool egocentric);
     bool isInside(const WorldPoint& pt);
     bool collidesWith(std::shared_ptr<GraphicObject> other);
     
@@ -54,11 +56,21 @@ public:
     inline float getInitVy() {
         return initVel_.vy;
     }
+    inline WorldPoint getPos() {
+        return WorldPoint{getX(), getY()};
+    }
+    inline void setRelativePos(WorldPoint pt) {
+        relativePos_ = pt;
+    }
+    inline void setRelativeX(float x) {
+        relativePos_.x = x;
+    }
+    inline void setRelativeY(float y) {
+        relativePos_.y = y;
+    }
     
-    /// set this asteroid's reference to what view mode the game is currently in
-    /// @param to if the game is egocentric (true) or geocentric (false)
-    inline void setEgocentric(bool to) {
-        gameIsEgocentric_ = to;
+    inline WorldPoint getRelativePos() {
+        return relativePos_;
     }
 };
 
