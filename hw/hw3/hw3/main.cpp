@@ -285,7 +285,7 @@ void setEgocentricGlobal(bool mode) {
                     ast->setY(ast->getY() - player->getY());
                 }
                 ast->setEgocentric(true);
-                ast->setOrigPos(ast->getPos());
+                ast->setRelativePos(ast->getPos());
             }
         }
         // also need to relocate bullets
@@ -321,12 +321,6 @@ void setEgocentricGlobal(bool mode) {
                 // reset each asteroid velocity to its default value
                 ast->setVx(ast->getInitVx());
                 ast->setVy(ast->getInitVy());
-                
-                WorldPoint rotatedPoint = ast->getRelativePos(); // set it to asteroid's original pos of location before rotation
-                rotatePointAround(&rotatedPoint, 0, 0, angle); // rotate original point around the player's location (0, 0) by player's angle
-                ast->setX(rotatedPoint.x); // the updated point is our asteroid's new x & y
-                ast->setY(rotatedPoint.y);
-                
                 ast->setEgocentric(false);
             }
         }
