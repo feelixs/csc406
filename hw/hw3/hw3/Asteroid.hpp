@@ -60,7 +60,7 @@ public:
     inline WorldPoint getPos() {
         return WorldPoint{getX(), getY()};
     }
-    inline void setOrigPos(WorldPoint pt) {
+    inline void setRelativePos(WorldPoint pt) {
         relativePos_ = pt;
     }
     inline void setRelativeX(float x) {
