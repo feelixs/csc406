@@ -275,5 +275,11 @@ void Spaceship::update(float dt) {
 
 
 bool Spaceship::collidesWith(std::shared_ptr<GraphicObject> other) {
-    return getRelativeBox()->overlaps((*other->getRelativeBox())); //TODO add hierarchical bounding box checking
+    if (!getAbsoluteBox()->overlaps((*other->getAbsoluteBox()))) {
+        // if not overlapping the Absolute Boundingbox, we don't need to do any calculations
+        return false;
+    }
+    
+    // it's inside the absolute box, meaning we must check if it's also inside the inner Relative box
+    return getRelativeBox()->overlaps((*other->getRelativeBox()));
 }
