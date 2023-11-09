@@ -85,7 +85,7 @@ const float BULLET_LIFE_SECS = 1.0; // how long do bullets last
 const int BULLET_VEL = 10;
 const float SCORE_PER_ASTEROID_SHOT = 10; // how many points are awarded for destroying an asteroid?
 const float SCORE_PER_SECOND = 5; // how many points for second spent alive?
-const float TIME_BETWEEN_SHOOTING = 1.0; // number of seconds to wait before allowing player to shoot another bullet (prevent 'bullet spam')
+const float TIME_BETWEEN_SHOOTING = 0.5; // number of seconds to wait before allowing player to shoot another bullet (prevent 'bullet spam')
 float timeFromLastShot = 0; // keeps track of how much time has passed since player's last shot
 bool playerCanShoot = true; // becomes false after shooting until TIME_BETWEEN_SHOOTING has elapsed
 
@@ -311,14 +311,16 @@ void setEgocentricGlobal(bool mode) {
             player->setY(0);
         }
     } else {
+        // switching from egocentric mode to geocentric mode
         player->setEgocentric(false);
         player->setAccel(curPlayerAccel);
         curPlayerAccel = 0;
-        clearAsteroids(World::X_MIN, World::X_MAX, World::Y_MIN, World::Y_MAX);
-        // egocentric mode has been disabled
         
-        float angle = player->getAngle();
+        // destroy asteroids that have traveled out of the player's FOV
+        clearAsteroids(World::X_MIN-2, World::X_MAX+2, World::Y_MIN-2, World::Y_MAX+2);
+        
         // undo the rotation that was being set in egocentric mode for bullets and asteroids
+        float angle = player->getAngle();
         for (auto b : allBullets) {
             if (b != nullptr) {
                 WorldPoint rotatedPoint = b->getPos();
@@ -811,8 +813,8 @@ void myTimerFunc(int value)
         // spawn new asteroids if needed
         if (asteroidSpawnTimer >= TIME_BETWEEN_ASTEROID_SPAWN) {
             for (int i = 0; i < NumAsteroidSpawn(World::randEngine); i++) {
-                WorldPoint astPos = randomEdgePos();
-                shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(astPos, randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomEdgeVelocity(astPos, -1.f, 1.f), showBoxes);
+                WorldPoint astPos = generateEdgePosition(player->isEgocentric(), player->getVx(), player->getVy());
+                shared_ptr<Asteroid> new_ast = make_shared<Asteroid>(astPos, randomAngleDeg(), randomSpinDeg(), randWidth(), randWidth(), randomEdgeVelocity(astPos, -2.f, 2.f), showBoxes);
                 //    and add it to both lists
                 allObjects.push_back(new_ast);
                 allAsteroids.push_back(new_ast);
@@ -827,8 +829,8 @@ void myTimerFunc(int value)
         // make the game progressively harder by increasing the number of asteroids spawne at lesser time intervals
         if (curScore >= SCORE_GAME_GET_HARDER_INTERVAL + LAST_GOT_HARDER) {
             MAX_NUM_ASTEROIDS_SPAWN++;
-            MIN_NUM_ASTEROIDS_SPAWN++;
-            TIME_BETWEEN_ASTEROID_SPAWN/=2;
+            MIN_NUM_ASTEROIDS_SPAWN++; // increase the number of asteroids to spawn
+            TIME_BETWEEN_ASTEROID_SPAWN /= 1.2; // slightly lessen the amount of time to wait before spawning new asteroids
             LAST_GOT_HARDER = curScore;
         }
         
