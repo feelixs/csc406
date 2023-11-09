@@ -13,7 +13,7 @@ Asteroid::Asteroid(float centerX, float centerY, float angle, float spin, float 
         AnimatedObject(centerX, centerY, angle, vx, vy, spin),
         width_(width),
         height_(height),
-        initVel_(Velocity{vx, vy}),
+        relativeVel_(Velocity{vx, vy}),
         halfWidth_(width/2),
         halfHeight_(height/2),
         relativePos_(WorldPoint{centerX, centerY})
@@ -28,7 +28,7 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         //
         width_(width),
         height_(height),
-        initVel_(vel),
+        relativeVel_(vel),
         halfWidth_(width/2),
         halfHeight_(height/2),
         relativePos_(WorldPoint{pt.x, pt.y})
@@ -43,7 +43,7 @@ Asteroid::Asteroid(const WorldPoint& pt, float angle, float spin, float width, f
         //
         width_(width),
         height_(height),
-        initVel_(vel),
+        relativeVel_(vel),
         halfWidth_(width/2),
         halfHeight_(height/2),
         relativePos_(WorldPoint{pt.x, pt.y})
@@ -133,8 +133,8 @@ void Asteroid::update(float dt, float playerVx, float playerVy, float playerAngl
         if (getVy() != 0.f)
             setRelativeY(getRelativePos().y + getVy()*dt);
         
-        setVx(getInitVx() - playerVx);
-        setVy(getInitVy() - playerVy);
+        setVx(getRelativeVx() - playerVx);
+        setVy(getRelativeVy() - playerVy);
         
         // instead of the player rotating, rotate asteroids around the player
         WorldPoint rotatedPoint = getRelativePos(); // set it to asteroid's original pos of location before rotation

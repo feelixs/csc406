@@ -12,14 +12,14 @@
 
 float Healthbar::totalHealth_ = 0;
 float Healthbar::curHealth_ = 0;
-float** Healthbar::displayLinePts_;
+float** Healthbar::rectVertices_;
 
-Healthbar::Healthbar(const WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float width):
+Healthbar::Healthbar(const WorldPoint &pt, std::shared_ptr<Spaceship> obj, float len, float height):
     Object(pt.x, pt.y, 0.f),
     GraphicObject(pt.x, pt.y, 0.f),
     AnimatedObject(pt.x, pt.y, 0.f, 0.f, 0.f, 0.f),
     len_(len),
-    width_(width),
+    height_(height),
     red_(0.f),
     blue_(0.f),
     green_(1.f),
@@ -27,16 +27,16 @@ Healthbar::Healthbar(const WorldPoint &pt, std::shared_ptr<Spaceship> obj, float
 {
     totalHealth_ = obj_->getIntegrity();
     curHealth_ = totalHealth_;
-    displayLinePts_ = new float*[totalHealth_];
+    rectVertices_ = new float*[totalHealth_];
     for (int i = 0; i < totalHealth_; i++) {
-        displayLinePts_[i] = new float[2];
-        displayLinePts_[i][0] = getX() + (i * len_);
-        displayLinePts_[i][1] = getY();
+        rectVertices_[i] = new float[2];
+        rectVertices_[i][0] = getX() + (i * len_);
+        rectVertices_[i][1] = getY();
     }
 }
 
 bool Healthbar::isInside(const WorldPoint& pt) {
-    return false;
+    return false; // we aren't interested in collisions with the healthbar
 }
 
 void Healthbar::draw() const {
@@ -56,10 +56,10 @@ void Healthbar::draw() const {
     // make a rectangle using two for loops based on one line (displayLinePts_)
     glBegin(GL_POLYGON);
     for (int k=0; k<curHealth_; k++) {
-        glVertex2f(displayLinePts_[k][0], displayLinePts_[k][1]);
+        glVertex2f(rectVertices_[k][0], rectVertices_[k][1]);
     }
     for (int k=curHealth_-1; k>=0; k--) {
-        glVertex2f(displayLinePts_[k][0], displayLinePts_[k][1]+width_);
+        glVertex2f(rectVertices_[k][0], rectVertices_[k][1]+height_);
     }
     glEnd();
     
