@@ -21,7 +21,7 @@ float Spaceship::absoluteBoxMaxY_ = 0;
 float Spaceship::startingAccelRate_ = 0;
 
 
-float Spaceship::invulnerableSecs_ = 0.5f; // in seconds - amound of time to be invulnerable after taking dmg
+float Spaceship::INVULNERABLE_SECS = 0.5f; // in seconds - amound of time to be invulnerable after taking dmg
 
 Spaceship::Spaceship(float x, float y, int integtrity, int accel_rate, int lives)
 :   Object(x, y, 0.f),
@@ -145,10 +145,9 @@ void Spaceship::draw() const {
     getAbsoluteBox()->draw();
 }
 
-void Spaceship::takeHits(float dmg) {
-//    cout << "player takes damage and goes invulnerable for " << invulnerableSecs_ << " secs\n";
-    setIntegtrity(integrity_ - dmg);
-    goInvulnerableFor(invulnerableSecs_);
+void Spaceship::takeHits(int dmg) {
+    setIntegrity(integrity_ - dmg);
+    goInvulnerableFor(INVULNERABLE_SECS);
     if (integrity_ <= 0) {
         lives_--;
         if (lives_ > 0) {

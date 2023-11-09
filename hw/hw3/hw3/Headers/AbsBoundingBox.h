@@ -82,15 +82,6 @@ namespace earshooter
                 return color_;
             }
         
-            /// detects if this bounding box is overlapping with another Absolute Box (only works for abs boxes, as it doesn't account for angle_)
-            /// @param other the other Absolute bounding box to test collision with
-            inline bool overlaps(const AbsBoundingBox& other) const {
-                return !(xmin_ > other.xmax_ ||
-                         xmax_ < other.xmin_ ||
-                         ymin_ > other.ymax_ ||
-                         ymax_ < other.ymin_);
-            }
-        
 			/**	Returns the min value of the x coordinate
 			 * @RETURN min value of the x coordinate
 			 */
@@ -147,6 +138,15 @@ namespace earshooter
 				return ((x>=xmin_) && (x<=xmax_) && (y>=ymin_) && (y<=ymax_));
 			}
 		
+            /// Detects if this bounding box is overlapping with another Absolute Box (only works for abs boxes, as it doesn't account for angle)
+            /// @param other the other Absolute bounding box to test collision with
+            inline bool overlaps(const AbsBoundingBox& other) const {
+                return !(xmin_ > other.xmax_ ||
+                         xmax_ < other.xmin_ ||
+                         ymin_ > other.ymax_ ||
+                         ymax_ < other.ymin_);
+            }
+        
 			/** Renders the object
 			 */
 			void draw() const;

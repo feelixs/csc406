@@ -142,9 +142,9 @@
 		AAC32B772AE00FF400CB5A41 /* hw3 */ = {
 			isa = PBXGroup;
 			children = (
+				AA2D23802AE9444B00FE4A11 /* main.cpp */,
 				AA968D682AFD4D4A006F5394 /* Source */,
 				AA968D672AFD4CEA006F5394 /* Headers */,
-				AA2D23802AE9444B00FE4A11 /* main.cpp */,
 			);
 			path = hw3;
 			sourceTree = "<group>";
