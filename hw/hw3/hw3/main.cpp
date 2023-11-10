@@ -70,7 +70,7 @@ vector<shared_ptr<Bullet>> allBullets;
 vector<shared_ptr<Asteroid>> allAsteroids;
 
 float curScore = 0;
-bool showBoxes = false; // show bounding boxed (debug)
+bool showBoxes = false; // show bounding boxes? (debug)
 
 const WorldPoint LIVES_COUNTER_POS = WorldPoint{-9.5, 8.75};
 const WorldPoint INTEGRITY_BAR_POS = WorldPoint{-5, 4.75};
@@ -82,23 +82,23 @@ const int STARTING_PLAYER_ACCEL = 5;  // how fast should the player accelerate w
 float curPlayerAccel = 0;
 
 const float BULLET_LIFE_SECS = 1.0; // how long do bullets last
-const int BULLET_VEL = 10;
+const int BULLET_VEL = 10;  // how fast bullets move
 const float SCORE_PER_ASTEROID_SHOT = 10; // how many points are awarded for destroying an asteroid?
 const float SCORE_PER_SECOND = 5; // how many points for second spent alive?
-const float TIME_BETWEEN_SHOOTING = 0.5; // number of seconds to wait before allowing player to shoot another bullet (prevent 'bullet spam')
+const float TIME_BETWEEN_SHOOTING = 0.5; // number of seconds to wait before allowing player to shoot another bullet (prevent bullet spam)
 float timeFromLastShot = 0; // keeps track of how much time has passed since player's last shot
 bool playerCanShoot = true; // becomes false after shooting until TIME_BETWEEN_SHOOTING has elapsed
 
 const int NUM_STARTING_ASTEROIDS = 2;  // number of asteroids that start onscreen
 const float STARTING_ASTEROID_SPAWN_TIME = 3.f; // time to wait before spawning new asteroids
-const int STARTING_MAX_NUM_ASTEROIDS_SPAWN = 3; // maximum number of asteroids that can be made per spawn (random value from 1 to this)
 const int STARTING_MIN_NUM_ASTEROIDS_SPAWN = 1; // minimum number of asteroids that can be made per spawn
+const int STARTING_MAX_NUM_ASTEROIDS_SPAWN = 3; // maximum number of asteroids that can be made per spawn (random value from MIN to this)
 float TIME_BETWEEN_ASTEROID_SPAWN = STARTING_ASTEROID_SPAWN_TIME;
 int MIN_NUM_ASTEROIDS_SPAWN = STARTING_MIN_NUM_ASTEROIDS_SPAWN;
 int MAX_NUM_ASTEROIDS_SPAWN = STARTING_MAX_NUM_ASTEROIDS_SPAWN;  // these values can change to make the game more difficult as time progresses
+float asteroidSpawnTimer = 0; // seconds passed since last spawning asteroids
 float SCORE_GAME_GET_HARDER_INTERVAL = 300; // how much score to get to make the game progressively get harder?
 float LAST_GOT_HARDER = 0; // what was the score at when we last made the game harder?
-float asteroidSpawnTimer = 0;
 
 
 enum TextColorSubmenuItemID {	FIRST_TEXT = 11,
@@ -146,30 +146,31 @@ void mySpecialKeyUpHandler(int key, int x, int y);
 void myTimerFunc(int val);
 void applicationInit();
 
-/// switch between the two view modes
+/// Switch between the two view modes
 /// @param mode the mode to switch to: false = geocentric, true = egocentric
 void setEgocentricGlobal(bool mode);
 
-/// handles collision detection between player & asteroids, and asteroids & bullets
+/// Handles collision detection between player & asteroids, and asteroids & bullets
 void detectCollisions();
 
-/// erase a specific asteroid from the game
-/// @param ast the asteroid from the allAsteroids vector to erase from allAsteroids and objectList
+/// Erase a specific asteroid from the game
+/// @param ast the asteroid from the allAsteroids vector to erase from allAsteroids and allObjects
 void eraseAsteroid(shared_ptr<Asteroid> ast);
 
-/// clear ALL asteroids
+/// Erase ALL asteroids
 void clearAsteroids();
 
-/// clear all asteroids not within the specified bounding box of xmin : xmax, and ymin : ymax
+/// Erase all asteroids not within the specified bounding box of xmin : xmax, and ymin : ymax
 /// @param xmin lowest x value to 'keep' asteroids within
 /// @param xmax highest x value
 /// @param ymin lowest y value to keep asteroids within
 /// @param ymax highest y value
 void clearAsteroids(float xmin, float xmax, float ymin, float ymax);
 
-/// erase a specific bullet obj from the game
-/// @param b the bullet from the allBullets vector to erase from allBullets and objectList
+/// Erase a specific bullet obj from the game
+/// @param b the bullet from the allBullets vector to erase from allBullets and allObjects
 void eraseBullet(shared_ptr<Bullet> b);
+
 //--------------------------------------
 #if 0
 #pragma mark Constants
@@ -421,7 +422,7 @@ void myDisplayFunc(void)
     }
     
     glPushMatrix();
-    // instead of adding these to objectList, we will draw them separately so they're always on top
+    // instead of adding these to allObjects, we will draw them separately so they're always on top
     lives_counter->draw();
     integrity_bar->draw();
 	glPopMatrix();
@@ -677,7 +678,7 @@ void eraseAsteroid(shared_ptr<Asteroid> ast) {
 
 
 void clearAsteroids() {
-    // first remove all asteroids from objectlist
+    // first remove all asteroids from allObjects
     bool erased;
     for (int i = 0; i < allObjects.size(); /* we will manually increment */) {
         erased = false;
@@ -688,7 +689,7 @@ void clearAsteroids() {
                 break;
             }
         }
-        if (!erased) { // only increment if we haven't deleted from objectlist in this iteration
+        if (!erased) { // only increment if we haven't deleted from allObjects in this iteration
             i++;
         }
     }
@@ -698,7 +699,7 @@ void clearAsteroids() {
 
 
 void clearAsteroids(float xmin, float xmax, float ymin, float ymax) {
-    // first remove all asteroids from objectlist
+    // first remove all asteroids from allObjects
     bool erased;
     for (int i = 0; i < allObjects.size(); /* we will manually increment */) {
         erased = false;
@@ -711,7 +712,7 @@ void clearAsteroids(float xmin, float xmax, float ymin, float ymax) {
                 }
             }
         }
-        if (!erased) { // only increment if we haven't deleted from objectlist in this iteration
+        if (!erased) { // only increment if we haven't deleted from allObjects in this iteration
             i++;
         }
     }
@@ -727,7 +728,7 @@ void clearAsteroids(float xmin, float xmax, float ymin, float ymax) {
 
 
 void eraseBullet(shared_ptr<Bullet> b) {
-    // erase 'b' from allBullets & objectList
+    // erase 'b' from allBullets & allObjects
     allBullets.erase(std::remove(allBullets.begin(), allBullets.end(), b), allBullets.end());
     allObjects.erase(std::remove(allObjects.begin(), allObjects.end(), b), allObjects.end());
 }
@@ -793,7 +794,7 @@ void myTimerFunc(int value)
         while (thisBullet != allBullets.end()) {
             if ((*thisBullet)->getLife() < (*thisBullet)->getAge()) {
                 auto itToRemove = std::remove(allObjects.begin(), allObjects.end(), *thisBullet);
-                // erase the "removed" elements from objectList
+                // erase the "removed" elements from allObjects
                 allObjects.erase(itToRemove, allObjects.end());
                 thisBullet = allBullets.erase(thisBullet);
                 // no need to ++ as this element is removed, we're now on the next one already
