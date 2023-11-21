@@ -6,11 +6,6 @@
 //
 
 #include "House3D.h"
-#include "common.h"
-#include <math.h>
-#include <fstream>
-#include <iostream>
-#include <vector>
 
 using namespace graphics3d;
 
@@ -24,7 +19,7 @@ House3D::House3D(float scaleX, float scaleY, const Pose& pose, const Motion& mot
     scaleX_(scaleX),
     scaleY_(scaleY)
 {
-    initFromFile("/Users/michaelfelix/Desktop/house.obj");
+    initFromFile_("/Users/michaelfelix/Desktop/house.obj");
 }
 
 void House3D::initascone_() {
@@ -49,12 +44,37 @@ void House3D::initascone_() {
             XYZ_[i][j][1] = scaleY_*st;
             XYZ_[i][j][2] = scaleY_*i/numFaces_;
         }
-        
-
     }
 }
 
-void House3D::initFromFile(const char* filepath) {
+
+void House3D::initFromVectors_(std::vector<std::vector<float>>& vertices, std::vector<std::vector<int>>& faces) {
+    numFaces_ = (int)faces.size();
+    numVertices_ = (int)vertices.size();
+    
+    XYZ_ = new GLfloat**[numFaces_+1];
+    for (unsigned int i=0; i<=numFaces_; i++)
+    {
+        XYZ_[i] = new GLfloat*[numVertices_];
+        for (unsigned int j=0; j<numVertices_; j++)
+        {
+            XYZ_[i][j] = new GLfloat[3];
+        }
+    }
+   
+    for (unsigned int j=0; j<numVertices_; j++)
+    {
+        for (unsigned int i=0; i<=numFaces_; i++)
+        {
+            XYZ_[i][j][0] = scaleX_;
+            XYZ_[i][j][1] = scaleY_;
+            XYZ_[i][j][2] = scaleY_*i/numFaces_;
+        }
+    }
+}
+
+
+void House3D::initFromFile_(const char* filepath) {
     std::ifstream file_data(filepath);
     std::vector<std::vector<float>> vertices;
     std::vector<std::vector<int>> faces;
@@ -133,7 +153,6 @@ void House3D::initFromFile(const char* filepath) {
                 y = stof(curVal);
                 z = stof(tempVal);
                 vertices.push_back(std::vector<float>{x, y, z});
-                numVertices_++;
              //   std::cout << firstVal << ", " << curVal << ", " << tempVal << std::endl;
             } catch (const std::invalid_argument& ia) {} // no conversion in stof()
         } else if ((!vertex) && (face)) {
@@ -152,7 +171,6 @@ void House3D::initFromFile(const char* filepath) {
                 std::cout << std::endl;
                 */
                 
-                numFaces_++;
                 thisFace.clear();
             }
         }
@@ -160,7 +178,9 @@ void House3D::initFromFile(const char* filepath) {
         curVal = "";
         tempVal = "";
     }
+    initFromVectors_(vertices, faces);
 }
+
 
 House3D::~House3D() {
     for (unsigned int i=0; i<numFaces_; i++)
