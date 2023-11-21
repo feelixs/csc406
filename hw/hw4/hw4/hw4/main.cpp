@@ -162,6 +162,7 @@ void myKeyboardFunc(unsigned char c, int x, int y)
 {
     switch (c)
     {
+        case 'q':
         case 27:
             exit(0);
             break;
