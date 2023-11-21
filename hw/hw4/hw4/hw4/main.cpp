@@ -16,6 +16,7 @@
 #include "Quad3D.h"
 #include "QuadMesh3D.h"
 #include "Cylinder3D.h"
+#include "House3D.h"
 
 using namespace std;
 using namespace graphics3d;
@@ -314,8 +315,10 @@ void myInit(void)
     //    create a quad object
 //    objList.push_back(make_shared<Quad3D>(1.f, 1.5f, Pose{-1.f, 0.f, 0.f, 15.f, 0.f, -15.f}));
 //    objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
-    objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, 0.10f, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
-//    objList.push_back(make_shared<Cylinder3D>(0.5f, 0.5f, 1.f, 12, 8, true, Pose{0.f, 2.f, -0.5f, 45.f, 45.f, 0.f}));
+   // objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, 0.10f, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
+    
+    objList.push_back(make_shared<House3D>(1.f, 1.f, Pose{0.f, 2.f, -0.5f, 0.f, 0.f, 0.f}));
+ //   objList.push_back(make_shared<Cylinder3D>(0.5f, 0.5f, 1.f, 12, 8, true, Pose{0.f, 2.f, -0.5f, 0.f, 0.f, 0.f}));
     objList.back()->setMaterial(specRed1);
 }
 

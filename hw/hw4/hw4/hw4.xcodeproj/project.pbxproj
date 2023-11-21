@@ -15,6 +15,7 @@
 		AA17E9F82B0CED7500F2AB30 /* GraphicObject3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9F72B0CED7500F2AB30 /* GraphicObject3D.cpp */; };
 		AA17E9FC2B0CEDA700F2AB30 /* Cylinder3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9FB2B0CEDA700F2AB30 /* Cylinder3D.cpp */; };
 		AA17E9FF2B0CEE2100F2AB30 /* drawingUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9FE2B0CEE2100F2AB30 /* drawingUtilities.cpp */; };
+		AA17EA022B0CF1A700F2AB30 /* House3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17EA002B0CF1A700F2AB30 /* House3D.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +47,8 @@
 		AA17E9FB2B0CEDA700F2AB30 /* Cylinder3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cylinder3D.cpp; sourceTree = "<group>"; };
 		AA17E9FD2B0CEE1400F2AB30 /* drawingUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = drawingUtilities.h; sourceTree = "<group>"; };
 		AA17E9FE2B0CEE2100F2AB30 /* drawingUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = drawingUtilities.cpp; sourceTree = "<group>"; };
+		AA17EA002B0CF1A700F2AB30 /* House3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = House3D.cpp; sourceTree = "<group>"; };
+		AA17EA012B0CF1A700F2AB30 /* House3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = House3D.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +103,7 @@
 		AA17E9ED2B0CEC4E00F2AB30 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AA17EA002B0CF1A700F2AB30 /* House3D.cpp */,
 				AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */,
 				AA17E9FE2B0CEE2100F2AB30 /* drawingUtilities.cpp */,
 				AA17E9F72B0CED7500F2AB30 /* GraphicObject3D.cpp */,
@@ -119,6 +123,7 @@
 				AA17E9F92B0CED8000F2AB30 /* GraphicObject3D.h */,
 				AA17E9F62B0CED3E00F2AB30 /* common.h */,
 				AA17E9F32B0CECEC00F2AB30 /* Quad3D.h */,
+				AA17EA012B0CF1A700F2AB30 /* House3D.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 				AA17E9F82B0CED7500F2AB30 /* GraphicObject3D.cpp in Sources */,
 				AA17E9FF2B0CEE2100F2AB30 /* drawingUtilities.cpp in Sources */,
 				AA17E9F12B0CECA500F2AB30 /* QuadMesh3D.cpp in Sources */,
+				AA17EA022B0CF1A700F2AB30 /* House3D.cpp in Sources */,
 				AA17E9FC2B0CEDA700F2AB30 /* Cylinder3D.cpp in Sources */,
 				AA17E9E22B0CEC3900F2AB30 /* main.cpp in Sources */,
 				AA17E9F42B0CECEC00F2AB30 /* Quad3D.cpp in Sources */,
