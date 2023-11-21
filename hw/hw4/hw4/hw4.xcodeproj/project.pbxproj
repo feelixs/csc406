@@ -36,6 +36,7 @@
 		AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quad3D.cpp; sourceTree = "<group>"; };
 		AA17E9F32B0CECEC00F2AB30 /* Quad3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quad3D.h; sourceTree = "<group>"; };
 		AA17E9F52B0CED1F00F2AB30 /* glPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glPlatform.h; sourceTree = "<group>"; };
+		AA17E9F62B0CED3E00F2AB30 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +91,7 @@
 		AA17E9ED2B0CEC4E00F2AB30 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */,
 				AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */,
 			);
 			path = Source;
@@ -100,7 +102,7 @@
 			children = (
 				AA17E9F52B0CED1F00F2AB30 /* glPlatform.h */,
 				AA17E9F02B0CECA500F2AB30 /* QuadMesh3D.h */,
-				AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */,
+				AA17E9F62B0CED3E00F2AB30 /* common.h */,
 				AA17E9F32B0CECEC00F2AB30 /* Quad3D.h */,
 			);
 			path = Headers;
