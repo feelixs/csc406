@@ -12,6 +12,7 @@
 		AA17E9EC2B0CEC4900F2AB30 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA17E9EB2B0CEC4900F2AB30 /* OpenGL.framework */; };
 		AA17E9F12B0CECA500F2AB30 /* QuadMesh3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */; };
 		AA17E9F42B0CECEC00F2AB30 /* Quad3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */; };
+		AA17E9F82B0CED7500F2AB30 /* GraphicObject3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9F72B0CED7500F2AB30 /* GraphicObject3D.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,8 @@
 		AA17E9F32B0CECEC00F2AB30 /* Quad3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quad3D.h; sourceTree = "<group>"; };
 		AA17E9F52B0CED1F00F2AB30 /* glPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glPlatform.h; sourceTree = "<group>"; };
 		AA17E9F62B0CED3E00F2AB30 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		AA17E9F72B0CED7500F2AB30 /* GraphicObject3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicObject3D.cpp; sourceTree = "<group>"; };
+		AA17E9F92B0CED8000F2AB30 /* GraphicObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GraphicObject3D.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */,
+				AA17E9F72B0CED7500F2AB30 /* GraphicObject3D.cpp */,
 				AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */,
 			);
 			path = Source;
@@ -102,6 +106,7 @@
 			children = (
 				AA17E9F52B0CED1F00F2AB30 /* glPlatform.h */,
 				AA17E9F02B0CECA500F2AB30 /* QuadMesh3D.h */,
+				AA17E9F92B0CED8000F2AB30 /* GraphicObject3D.h */,
 				AA17E9F62B0CED3E00F2AB30 /* common.h */,
 				AA17E9F32B0CECEC00F2AB30 /* Quad3D.h */,
 			);
@@ -165,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA17E9F82B0CED7500F2AB30 /* GraphicObject3D.cpp in Sources */,
 				AA17E9F12B0CECA500F2AB30 /* QuadMesh3D.cpp in Sources */,
 				AA17E9E22B0CEC3900F2AB30 /* main.cpp in Sources */,
 				AA17E9F42B0CECEC00F2AB30 /* Quad3D.cpp in Sources */,
