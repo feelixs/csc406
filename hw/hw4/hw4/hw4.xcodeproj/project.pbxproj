@@ -10,6 +10,7 @@
 		AA17E9E22B0CEC3900F2AB30 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9E12B0CEC3900F2AB30 /* main.cpp */; };
 		AA17E9EA2B0CEC4500F2AB30 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA17E9E92B0CEC4500F2AB30 /* GLUT.framework */; };
 		AA17E9EC2B0CEC4900F2AB30 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA17E9EB2B0CEC4900F2AB30 /* OpenGL.framework */; };
+		AA17E9F12B0CECA500F2AB30 /* QuadMesh3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,8 @@
 		AA17E9E12B0CEC3900F2AB30 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AA17E9E92B0CEC4500F2AB30 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		AA17E9EB2B0CEC4900F2AB30 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QuadMesh3D.cpp; sourceTree = "<group>"; };
+		AA17E9F02B0CECA500F2AB30 /* QuadMesh3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuadMesh3D.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,9 +67,9 @@
 		AA17E9E02B0CEC3900F2AB30 /* hw4 */ = {
 			isa = PBXGroup;
 			children = (
+				AA17E9E12B0CEC3900F2AB30 /* main.cpp */,
 				AA17E9EE2B0CEC5400F2AB30 /* Headers */,
 				AA17E9ED2B0CEC4E00F2AB30 /* Source */,
-				AA17E9E12B0CEC3900F2AB30 /* main.cpp */,
 			);
 			path = hw4;
 			sourceTree = "<group>";
@@ -83,6 +86,7 @@
 		AA17E9ED2B0CEC4E00F2AB30 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -90,6 +94,7 @@
 		AA17E9EE2B0CEC5400F2AB30 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				AA17E9F02B0CECA500F2AB30 /* QuadMesh3D.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -151,6 +156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA17E9F12B0CECA500F2AB30 /* QuadMesh3D.cpp in Sources */,
 				AA17E9E22B0CEC3900F2AB30 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
