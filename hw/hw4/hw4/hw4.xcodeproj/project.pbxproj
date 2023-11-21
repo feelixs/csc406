@@ -10,6 +10,11 @@
 		AA17E9E22B0CEC3900F2AB30 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9E12B0CEC3900F2AB30 /* main.cpp */; };
 		AA17E9EA2B0CEC4500F2AB30 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA17E9E92B0CEC4500F2AB30 /* GLUT.framework */; };
 		AA17E9EC2B0CEC4900F2AB30 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA17E9EB2B0CEC4900F2AB30 /* OpenGL.framework */; };
+		AA17E9F12B0CECA500F2AB30 /* QuadMesh3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */; };
+		AA17E9F42B0CECEC00F2AB30 /* Quad3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */; };
+		AA17E9F82B0CED7500F2AB30 /* GraphicObject3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9F72B0CED7500F2AB30 /* GraphicObject3D.cpp */; };
+		AA17E9FC2B0CEDA700F2AB30 /* Cylinder3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9FB2B0CEDA700F2AB30 /* Cylinder3D.cpp */; };
+		AA17E9FF2B0CEE2100F2AB30 /* drawingUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9FE2B0CEE2100F2AB30 /* drawingUtilities.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +34,18 @@
 		AA17E9E12B0CEC3900F2AB30 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AA17E9E92B0CEC4500F2AB30 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		AA17E9EB2B0CEC4900F2AB30 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QuadMesh3D.cpp; sourceTree = "<group>"; };
+		AA17E9F02B0CECA500F2AB30 /* QuadMesh3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuadMesh3D.h; sourceTree = "<group>"; };
+		AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quad3D.cpp; sourceTree = "<group>"; };
+		AA17E9F32B0CECEC00F2AB30 /* Quad3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quad3D.h; sourceTree = "<group>"; };
+		AA17E9F52B0CED1F00F2AB30 /* glPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glPlatform.h; sourceTree = "<group>"; };
+		AA17E9F62B0CED3E00F2AB30 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		AA17E9F72B0CED7500F2AB30 /* GraphicObject3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicObject3D.cpp; sourceTree = "<group>"; };
+		AA17E9F92B0CED8000F2AB30 /* GraphicObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GraphicObject3D.h; sourceTree = "<group>"; };
+		AA17E9FA2B0CED9F00F2AB30 /* Cylinder3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cylinder3D.h; sourceTree = "<group>"; };
+		AA17E9FB2B0CEDA700F2AB30 /* Cylinder3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cylinder3D.cpp; sourceTree = "<group>"; };
+		AA17E9FD2B0CEE1400F2AB30 /* drawingUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = drawingUtilities.h; sourceTree = "<group>"; };
+		AA17E9FE2B0CEE2100F2AB30 /* drawingUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = drawingUtilities.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,9 +81,9 @@
 		AA17E9E02B0CEC3900F2AB30 /* hw4 */ = {
 			isa = PBXGroup;
 			children = (
+				AA17E9E12B0CEC3900F2AB30 /* main.cpp */,
 				AA17E9EE2B0CEC5400F2AB30 /* Headers */,
 				AA17E9ED2B0CEC4E00F2AB30 /* Source */,
-				AA17E9E12B0CEC3900F2AB30 /* main.cpp */,
 			);
 			path = hw4;
 			sourceTree = "<group>";
@@ -83,6 +100,11 @@
 		AA17E9ED2B0CEC4E00F2AB30 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */,
+				AA17E9FE2B0CEE2100F2AB30 /* drawingUtilities.cpp */,
+				AA17E9F72B0CED7500F2AB30 /* GraphicObject3D.cpp */,
+				AA17E9FB2B0CEDA700F2AB30 /* Cylinder3D.cpp */,
+				AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -90,6 +112,13 @@
 		AA17E9EE2B0CEC5400F2AB30 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				AA17E9F52B0CED1F00F2AB30 /* glPlatform.h */,
+				AA17E9FD2B0CEE1400F2AB30 /* drawingUtilities.h */,
+				AA17E9F02B0CECA500F2AB30 /* QuadMesh3D.h */,
+				AA17E9FA2B0CED9F00F2AB30 /* Cylinder3D.h */,
+				AA17E9F92B0CED8000F2AB30 /* GraphicObject3D.h */,
+				AA17E9F62B0CED3E00F2AB30 /* common.h */,
+				AA17E9F32B0CECEC00F2AB30 /* Quad3D.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -151,7 +180,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA17E9F82B0CED7500F2AB30 /* GraphicObject3D.cpp in Sources */,
+				AA17E9FF2B0CEE2100F2AB30 /* drawingUtilities.cpp in Sources */,
+				AA17E9F12B0CECA500F2AB30 /* QuadMesh3D.cpp in Sources */,
+				AA17E9FC2B0CEDA700F2AB30 /* Cylinder3D.cpp in Sources */,
 				AA17E9E22B0CEC3900F2AB30 /* main.cpp in Sources */,
+				AA17E9F42B0CECEC00F2AB30 /* Quad3D.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
