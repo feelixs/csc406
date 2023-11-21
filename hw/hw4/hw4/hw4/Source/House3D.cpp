@@ -53,7 +53,7 @@ void House3D::initFromVectors_(std::vector<std::vector<float>>& vertices, std::v
     numVertices_ = (int)vertices.size();
     
     XYZ_ = new GLfloat**[numFaces_+1];
-    for (unsigned int i=0; i<=numFaces_; i++)
+    for (unsigned int i=0; i< numFaces_; i++)
     {
         XYZ_[i] = new GLfloat*[numVertices_];
         for (unsigned int j=0; j<numVertices_; j++)
@@ -62,19 +62,23 @@ void House3D::initFromVectors_(std::vector<std::vector<float>>& vertices, std::v
         }
     }
    
-    for (unsigned int j=0; j<numVertices_; j++)
+    unsigned int j=0;
+    for (unsigned int i=0; i<numFaces_; i++)
     {
-        for (unsigned int i=0; i<=numFaces_; i++)
-        {
-            XYZ_[i][j][0] = scaleX_;
-            XYZ_[i][j][1] = scaleY_;
-            XYZ_[i][j][2] = scaleY_*i/numFaces_;
+        for (unsigned int k = 0; k < faces[i].size(); k++) {
+            j = faces[i][k];
+            XYZ_[i][j][0] = vertices[j][0];
+            XYZ_[i][j][1] = vertices[j][1];
+            XYZ_[i][j][2] = vertices[j][2];
         }
     }
+
+    
 }
 
 
 void House3D::initFromFile_(const char* filepath) {
+    // load from an obj file
     std::ifstream file_data(filepath);
     std::vector<std::vector<float>> vertices;
     std::vector<std::vector<int>> faces;
@@ -208,7 +212,6 @@ void House3D::draw() const
             for (unsigned int j=0; j<numVertices_; j++)
             {
                 glVertex3fv(XYZ_[i][j]);
-                glVertex3fv(XYZ_[i+1][j]);
             }
             
         glEnd();
