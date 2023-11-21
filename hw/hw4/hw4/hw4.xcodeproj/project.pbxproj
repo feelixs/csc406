@@ -11,6 +11,7 @@
 		AA17E9EA2B0CEC4500F2AB30 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA17E9E92B0CEC4500F2AB30 /* GLUT.framework */; };
 		AA17E9EC2B0CEC4900F2AB30 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA17E9EB2B0CEC4900F2AB30 /* OpenGL.framework */; };
 		AA17E9F12B0CECA500F2AB30 /* QuadMesh3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */; };
+		AA17E9F42B0CECEC00F2AB30 /* Quad3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +33,8 @@
 		AA17E9EB2B0CEC4900F2AB30 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		AA17E9EF2B0CECA500F2AB30 /* QuadMesh3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QuadMesh3D.cpp; sourceTree = "<group>"; };
 		AA17E9F02B0CECA500F2AB30 /* QuadMesh3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuadMesh3D.h; sourceTree = "<group>"; };
+		AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quad3D.cpp; sourceTree = "<group>"; };
+		AA17E9F32B0CECEC00F2AB30 /* Quad3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quad3D.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +98,8 @@
 			isa = PBXGroup;
 			children = (
 				AA17E9F02B0CECA500F2AB30 /* QuadMesh3D.h */,
+				AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */,
+				AA17E9F32B0CECEC00F2AB30 /* Quad3D.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -158,6 +163,7 @@
 			files = (
 				AA17E9F12B0CECA500F2AB30 /* QuadMesh3D.cpp in Sources */,
 				AA17E9E22B0CEC3900F2AB30 /* main.cpp in Sources */,
+				AA17E9F42B0CECEC00F2AB30 /* Quad3D.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
