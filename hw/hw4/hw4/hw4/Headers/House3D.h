@@ -15,10 +15,13 @@ class House3D: public GraphicObject3D {
 private:
     float scaleX_, scaleY_;
     
-    static const unsigned int numVertices_;
-    static const unsigned int numFaces_;
+    static unsigned int numVertices_;
+    static unsigned int numFaces_;
     
     GLfloat*** XYZ_;
+    
+    void initascone_();
+    void initFromFile(const char* fp);
 public:
     House3D(float scaleX, float scaleY, const Pose& pose, const Motion& motion = Motion::NULL_MOTION);
     
