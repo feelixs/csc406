@@ -163,19 +163,20 @@ void Cone3D::initMeshAndNormals_() {
         for (unsigned int i = 0; i <= numRings_; i++) {
             // decrease the radius as we go up the cone
             float decRate = (float)i / numRings_;
-            float curRad = radiusX_ * (1 - decRate);
-            XYZ_[i][j][0] = curRad * ct;
-            XYZ_[i][j][1] = curRad * st;
+            float curRadX = radiusX_ * (1 - decRate);
+            float curRadY = radiusY_ * (1 - decRate);
+            XYZ_[i][j][0] = curRadX * ct;
+            XYZ_[i][j][1] = curRadY * st;
             XYZ_[i][j][2] = height_ * decRate;
 
             // Calculate normals for the cone surface
-            float normalLength = sqrt(ct*ct + st*st + (radiusX_ / height_)*(radiusX_ / height_));
-            normals_[j][0] = ct / normalLength;
-            normals_[j][1] = st / normalLength;
-            normals_[j][2] = (radiusX_ / height_) / normalLength;
+            float normalLength = sqrt(ct*ct / (curRadX*curRadX) + st*st / (curRadY*curRadY) + 1);
+            normals_[j][0] = ct / (curRadX * normalLength);
+            normals_[j][1] = st / (curRadY * normalLength);
+            normals_[j][2] = 1 / normalLength;
         }
     }
-
+    
     // Take care of top and bottom sides if the cone is closed
     if (isClosed_) {
         topNormal_ = new GLfloat[3];
