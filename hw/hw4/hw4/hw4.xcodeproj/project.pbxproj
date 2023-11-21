@@ -16,6 +16,7 @@
 		AA17E9FC2B0CEDA700F2AB30 /* Cylinder3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9FB2B0CEDA700F2AB30 /* Cylinder3D.cpp */; };
 		AA17E9FF2B0CEE2100F2AB30 /* drawingUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17E9FE2B0CEE2100F2AB30 /* drawingUtilities.cpp */; };
 		AA17EA022B0CF1A700F2AB30 /* House3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA17EA002B0CF1A700F2AB30 /* House3D.cpp */; };
+		AA7CEE952B0D2E03007BABC5 /* Cone3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA7CEE942B0D2E03007BABC5 /* Cone3D.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +50,8 @@
 		AA17E9FE2B0CEE2100F2AB30 /* drawingUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = drawingUtilities.cpp; sourceTree = "<group>"; };
 		AA17EA002B0CF1A700F2AB30 /* House3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = House3D.cpp; sourceTree = "<group>"; };
 		AA17EA012B0CF1A700F2AB30 /* House3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = House3D.h; sourceTree = "<group>"; };
+		AA7CEE932B0D2DEE007BABC5 /* Cone3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cone3D.h; sourceTree = "<group>"; };
+		AA7CEE942B0D2E03007BABC5 /* Cone3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cone3D.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				AA17EA002B0CF1A700F2AB30 /* House3D.cpp */,
+				AA7CEE942B0D2E03007BABC5 /* Cone3D.cpp */,
 				AA17E9F22B0CECEC00F2AB30 /* Quad3D.cpp */,
 				AA17E9FE2B0CEE2100F2AB30 /* drawingUtilities.cpp */,
 				AA17E9F72B0CED7500F2AB30 /* GraphicObject3D.cpp */,
@@ -118,6 +122,7 @@
 			children = (
 				AA17E9F52B0CED1F00F2AB30 /* glPlatform.h */,
 				AA17E9FD2B0CEE1400F2AB30 /* drawingUtilities.h */,
+				AA7CEE932B0D2DEE007BABC5 /* Cone3D.h */,
 				AA17E9F02B0CECA500F2AB30 /* QuadMesh3D.h */,
 				AA17E9FA2B0CED9F00F2AB30 /* Cylinder3D.h */,
 				AA17E9F92B0CED8000F2AB30 /* GraphicObject3D.h */,
@@ -192,6 +197,7 @@
 				AA17E9FC2B0CEDA700F2AB30 /* Cylinder3D.cpp in Sources */,
 				AA17E9E22B0CEC3900F2AB30 /* main.cpp in Sources */,
 				AA17E9F42B0CECEC00F2AB30 /* Quad3D.cpp in Sources */,
+				AA7CEE952B0D2E03007BABC5 /* Cone3D.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
