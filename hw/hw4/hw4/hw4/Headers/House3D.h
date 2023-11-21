@@ -21,12 +21,11 @@ class House3D: public GraphicObject3D {
 private:
     float scaleX_, scaleY_;
     
-    static unsigned int numVertices_;
+    static std::vector<unsigned int> faceVertexCounts_;
     static unsigned int numFaces_;
     
     GLfloat*** XYZ_;
     
-    void initascone_();
     void initFromFile_(const char* fp);
     void initFromVectors_(std::vector<std::vector<float>>& vertices, std::vector<std::vector<int>>& faces);
     
