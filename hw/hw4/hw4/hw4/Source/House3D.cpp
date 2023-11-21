@@ -10,8 +10,6 @@
 using namespace graphics3d;
 
 std::vector<unsigned int> House3D::faceVertexCounts_;
-unsigned int House3D::numFaces_ = 0;
-
 
 House3D::House3D(float scaleX, float scaleY, const Pose& pose, const Motion& motion)
 :   GraphicObject3D(pose, motion),
@@ -20,26 +18,6 @@ House3D::House3D(float scaleX, float scaleY, const Pose& pose, const Motion& mot
     scaleY_(scaleY)
 {
     initFromFile_("/Users/michaelfelix/Desktop/house.obj");
-}
-
-
-void House3D::initFromVectors_(std::vector<std::vector<float>>& vertices, std::vector<std::vector<int>>& faces) {
-    numFaces_ = (int)faces.size();
-    
-    XYZ_ = new GLfloat**[numFaces_];
-    for (unsigned int i = 0; i < numFaces_; i++) {
-        XYZ_[i] = new GLfloat*[faces[i].size()];
-        faceVertexCounts_.push_back((int)faces[i].size());
-        for (unsigned int j = 0; j < faces[i].size(); j++) {
-            XYZ_[i][j] = new GLfloat[3];
-            XYZ_[i][j][0] = vertices[faces[i][j]][0];
-            XYZ_[i][j][1] = vertices[faces[i][j]][1];
-            XYZ_[i][j][2] = vertices[faces[i][j]][2];
-            
-           // std::cout << "(" << XYZ_[i][j][0] << ", " << XYZ_[i][j][1] << "," << XYZ_[i][j][2]<< "," << ") ";
-        }
-        //std::cout << std::endl;
-    }
 }
 
 
@@ -124,8 +102,7 @@ void House3D::initFromFile_(const char* filepath) {
                 y = stof(curVal);
                 z = stof(tempVal);
                 vertices.push_back(std::vector<float>{x, y, z});
-             //   std::cout << firstVal << ", " << curVal << ", " << tempVal << std::endl;
-            } catch (const std::invalid_argument& ia) {} // no conversion in stof()
+            } catch (const std::invalid_argument& ia) {} // no valid conversion in stof() for the current string
         } else if ((!vertex) && (face)) {
             if (thisFace.size() > 0) {
                 try {
@@ -133,15 +110,6 @@ void House3D::initFromFile_(const char* filepath) {
                     thisFace.push_back(stoi(tempVal) - 1);
                 } catch (const std::invalid_argument& ia) {}
                 faces.push_back(thisFace);
-                
-                /*
-                std::cout << "(" << thisFace.size() << ")\n";
-                for (int j = 0; j < thisFace.size(); j++) {
-                    std::cout<< thisFace.at(j) << ", ";
-                }
-                std::cout << std::endl;
-                */
-                
                 thisFace.clear();
             }
         }
@@ -149,14 +117,29 @@ void House3D::initFromFile_(const char* filepath) {
         curVal = "";
         tempVal = "";
     }
-    initFromVectors_(vertices, faces);
+    
+    // finally, translate the vectors we parsed from the obj file into our actual shape
+    XYZ_ = new GLfloat**[faces.size()];
+    for (unsigned int i = 0; i < faces.size(); i++) {
+        // each face has a different number of vertices
+        XYZ_[i] = new GLfloat*[faces[i].size()];
+        faceVertexCounts_.push_back((int)faces[i].size());
+        
+        // iterate over all this face's vertices and add them to my shape
+        for (unsigned int j = 0; j < faces[i].size(); j++) {
+            XYZ_[i][j] = new GLfloat[3];
+            XYZ_[i][j][0] = vertices[faces[i][j]][0];
+            XYZ_[i][j][1] = vertices[faces[i][j]][1];
+            XYZ_[i][j][2] = vertices[faces[i][j]][2];
+        }
+    }
 }
 
 
 House3D::~House3D() {
-    for (unsigned int i=0; i<numFaces_; i++)
+    for (unsigned int i=0; i < faceVertexCounts_.size(); i++)
     {
-        for (unsigned int j=0; j<faceVertexCounts_[i]; j++)
+        for (unsigned int j=0; j < faceVertexCounts_[i]; j++)
         {
             delete []XYZ_[i][j];
         }
@@ -173,10 +156,10 @@ void House3D::draw() const
 
     setCurrentMaterial(getMaterial());
 
-    for (unsigned int i=0; i<numFaces_; i++)
+    for (unsigned int i=0; i < faceVertexCounts_.size(); i++)
     {
         glBegin(GL_TRIANGLE_STRIP);
-            for (unsigned int j=0; j<faceVertexCounts_[i]; j++)
+            for (unsigned int j = 0; j < faceVertexCounts_[i]; j++)
             {
                 glVertex3fv(XYZ_[i][j]);
             }

@@ -21,13 +21,14 @@ class House3D: public GraphicObject3D {
 private:
     float scaleX_, scaleY_;
     
+    /// stores the number of vertices for each face
     static std::vector<unsigned int> faceVertexCounts_;
-    static unsigned int numFaces_;
     
     GLfloat*** XYZ_;
     
+    /// Load the shape from an obj file
+    /// @param fp the system filepath to the .obj file
     void initFromFile_(const char* fp);
-    void initFromVectors_(std::vector<std::vector<float>>& vertices, std::vector<std::vector<int>>& faces);
     
 public:
     House3D(float scaleX, float scaleY, const Pose& pose, const Motion& motion = Motion::NULL_MOTION);
