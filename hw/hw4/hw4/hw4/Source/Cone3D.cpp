@@ -169,16 +169,20 @@ void Cone3D::initMeshAndNormals_() {
             XYZ_[i][j][1] = curRadY * st;
             XYZ_[i][j][2] = height_ * decRate;
 
-            // Calculate normals for the cone surface
+            // normals for the cone are more complex than cylinder as they're not constant
+            
+            // formula for length of normals
             float normalLength = sqrt(ct*ct / (curRadX*curRadX) + st*st / (curRadY*curRadY) + 1);
-            normals_[j][0] = ct / (curRadX * normalLength);
-            normals_[j][1] = st / (curRadY * normalLength);
-            normals_[j][2] = 1 / normalLength;
+            
+            normals_[j][0] = ct / (curRadX * normalLength); // normal x component
+            normals_[j][1] = st / (curRadY * normalLength); // normal y component
+            normals_[j][2] = 1 / normalLength; // normal z component
         }
     }
     
     // Take care of top and bottom sides if the cone is closed
-    if (isClosed_) {
+    if (isClosed_)
+    {
         topNormal_ = new GLfloat[3];
         bottomNormal_ = new GLfloat[3];
         topNormal_[0] = topNormal_[1] = bottomNormal_[0] = bottomNormal_[1] = 0.f;
