@@ -30,6 +30,9 @@ private:
     /// @param fp the system filepath to the .obj file
     void initFromFile_(const char* fp);
     
+    /// if the obj file provided to this class is invalid, revert to this init
+    void defaultInit_();
+    
 public:
     House3D(float scaleX, float scaleY, const Pose& pose, const Motion& motion = Motion::NULL_MOTION);
     House3D(const char* filepath, float scaleX, float scaleY, const Pose& pose, const Motion& motion =  Motion::NULL_MOTION);

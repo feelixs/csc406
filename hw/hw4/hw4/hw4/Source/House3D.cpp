@@ -18,8 +18,7 @@ House3D::House3D(float scaleX, float scaleY, const Pose& pose, const Motion& mot
     scaleX_(scaleX),
     scaleY_(scaleY)
 {
-    initFromFile_("/Users/michaelfelix/Downloads/Week 08 - Simple OBJ Models/1. Only Geometry/cube1.obj");
-    //initFromFile_("/Users/michaelfelix/Desktop/house.obj");
+    defaultInit_();
 }
 
 House3D::House3D(const char* filepath, float scaleX, float scaleY, const Pose& pose, const Motion& motion)
@@ -31,6 +30,10 @@ House3D::House3D(const char* filepath, float scaleX, float scaleY, const Pose& p
     initFromFile_(filepath);
 }
 
+void House3D::defaultInit_() {
+    // hardcoded house vertices
+    initFromFile_("/Users/michaelfelix/Downloads/Week 08 - Simple OBJ Models/1. Only Geometry/cube1.obj");
+}
 
 void House3D::initFromFile_(const char* filepath) {
     // load from an obj file
@@ -38,9 +41,9 @@ void House3D::initFromFile_(const char* filepath) {
     std::vector<std::vector<float>> vertices;
     std::vector<std::vector<int>> faces;
     if (!file_data.is_open()) {
-        std::cout << "Error: Unable to open file " << filepath << std::endl;
+        std::cout << "\nHouse3D ERROR: Unable to open file " << filepath << ", reverting to default initialization\n\n";
         // if the file can't be opened, load the hard-coded values instead
-        return;
+        return defaultInit_();
     }
     
     std::string tempVal = "";
