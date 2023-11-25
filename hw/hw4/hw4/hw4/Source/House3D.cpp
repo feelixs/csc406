@@ -10,6 +10,7 @@
 using namespace graphics3d;
 
 std::vector<unsigned int> House3D::faceVertexCounts_;
+unsigned int House3D::numFaces_;
 
 House3D::House3D(float scaleX, float scaleY, const Pose& pose, const Motion& motion)
 :   GraphicObject3D(pose, motion),
@@ -17,7 +18,8 @@ House3D::House3D(float scaleX, float scaleY, const Pose& pose, const Motion& mot
     scaleX_(scaleX),
     scaleY_(scaleY)
 {
-    initFromFile_("/Users/michaelfelix/Desktop/house.obj");
+    initFromFile_("/Users/michaelfelix/Downloads/Week 08 - Simple OBJ Models/1. Only Geometry/cube1.obj");
+   // initFromFile_("/Users/michaelfelix/Desktop/house.obj");
 }
 
 
@@ -46,17 +48,20 @@ void House3D::initFromFile_(const char* filepath) {
     while (std::getline(file_data, line)) {
         for (int i = 0; i < line.size(); i++) {
             letter = line.at(i);
+            if (line.at(0) == *"#") { // line is a comment
+                break; // go to the next line
+            }
             if ((!vertex) && (!face)) {
-                if ((letter == *"v") && (i == 0)) { // line starts with a v
+                if ((line.at(0) == *"v") && (line.at(1) == *" ")) { // line starts with a 'v '
                     vertex = true;
                 }
             } else if ((vertex) && (!face)) {
                 if ((line.at(0) == *"f") && (line.at(1) == *" ")) { // line starts with 'f '
                     vertex = false;
                     face = true;
-                    continue;
-                } else if ((line.at(0) != *"v") && (line.at(1) != *" ")) { // line doesn't start with v
-                    continue;
+                    continue; // switch to the 'face' else if
+                } else if ((line.at(0) != *"v") && (line.at(1) != *" ")) { // line doesn't start with v or f
+                    break; // go to the next line
                 }
                 if (letter == *" ") {
                     // space means a value ended
@@ -77,7 +82,7 @@ void House3D::initFromFile_(const char* filepath) {
                 }
             } else if ((!vertex) && (face)) {
                 if ((line.at(0) != *"f") && (line.at(1) != *" ")) { // line doesn't start with 'f '
-                    continue;
+                    break;
                 }
                 if (letter == *" ") {
                     // space means a value ended
@@ -120,6 +125,7 @@ void House3D::initFromFile_(const char* filepath) {
     
     // finally, translate the vectors we parsed from the obj file into our actual shape
     XYZ_ = new GLfloat**[faces.size()];
+    numFaces_ = (int)faces.size();
     for (unsigned int i = 0; i < faces.size(); i++) {
         // each face has a different number of vertices
         XYZ_[i] = new GLfloat*[faces[i].size()];
@@ -128,10 +134,13 @@ void House3D::initFromFile_(const char* filepath) {
         // iterate over all this face's vertices and add them to my shape
         for (unsigned int j = 0; j < faces[i].size(); j++) {
             XYZ_[i][j] = new GLfloat[3];
+            
+            std::cout << "(" << vertices[faces[i][j]][0] << ", " << vertices[faces[i][j]][1] << ", " << vertices[faces[i][j]][2] << ") ";
             XYZ_[i][j][0] = vertices[faces[i][j]][0];
             XYZ_[i][j][1] = vertices[faces[i][j]][1];
             XYZ_[i][j][2] = vertices[faces[i][j]][2];
         }
+        std :: cout << std::endl;
     }
 }
 
@@ -156,7 +165,7 @@ void House3D::draw() const
 
     setCurrentMaterial(getMaterial());
 
-    for (unsigned int i=0; i < faceVertexCounts_.size(); i++)
+    for (unsigned int i=0; i < numFaces_; i++)
     {
         glBegin(GL_TRIANGLE_STRIP);
             for (unsigned int j = 0; j < faceVertexCounts_[i]; j++)

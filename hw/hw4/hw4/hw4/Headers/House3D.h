@@ -23,7 +23,7 @@ private:
     
     /// stores the number of vertices for each face
     static std::vector<unsigned int> faceVertexCounts_;
-    
+    static unsigned int numFaces_;
     GLfloat*** XYZ_;
     
     /// Load the shape from an obj file
