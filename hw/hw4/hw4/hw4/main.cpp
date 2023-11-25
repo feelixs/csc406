@@ -308,7 +308,7 @@ void myInit(void)
 //    objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
    // objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, 0.10f, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
     
-    houseObj = make_shared<House3D>(1.f, 1.f, Pose{0.f, 4.f, -1.5f, 0.f, 0.f, 0.f});
+    houseObj = make_shared<House3D>("/Users/michaelfelix/Desktop/house.obj", 1.f, 1.f, Pose{0.f, 4.f, -1.5f, 0.f, 0.f, 0.f});
     coneObj = make_shared<Cone3D>(0.5f, 0.25f, 1.f, 24, 8, false, Pose{0.f, 2.f, -0.5f, 0.f, 40.f, -10.f});
     
     houseObj->setMaterial(specRed1);

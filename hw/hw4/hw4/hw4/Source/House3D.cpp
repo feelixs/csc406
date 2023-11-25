@@ -18,8 +18,17 @@ House3D::House3D(float scaleX, float scaleY, const Pose& pose, const Motion& mot
     scaleX_(scaleX),
     scaleY_(scaleY)
 {
-    //initFromFile_("/Users/michaelfelix/Downloads/Week 08 - Simple OBJ Models/1. Only Geometry/cube1.obj");
-    initFromFile_("/Users/michaelfelix/Desktop/house.obj");
+    initFromFile_("/Users/michaelfelix/Downloads/Week 08 - Simple OBJ Models/1. Only Geometry/cube1.obj");
+    //initFromFile_("/Users/michaelfelix/Desktop/house.obj");
+}
+
+House3D::House3D(const char* filepath, float scaleX, float scaleY, const Pose& pose, const Motion& motion)
+:   GraphicObject3D(pose, motion),
+    XYZ_(nullptr),
+    scaleX_(scaleX),
+    scaleY_(scaleY)
+{
+    initFromFile_(filepath);
 }
 
 

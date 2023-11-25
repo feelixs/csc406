@@ -32,7 +32,7 @@ private:
     
 public:
     House3D(float scaleX, float scaleY, const Pose& pose, const Motion& motion = Motion::NULL_MOTION);
-    
+    House3D(const char* filepath, float scaleX, float scaleY, const Pose& pose, const Motion& motion =  Motion::NULL_MOTION);
     ~House3D();
     
     House3D(const House3D& obj) = delete;
