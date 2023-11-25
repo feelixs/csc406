@@ -125,6 +125,8 @@ void House3D::initFromFile_(const char* filepath) {
                 try {
                     // add final face value
                     thisFace.push_back(stoi(tempVal) - 1);
+                    // when faces are listed in obj files they index starting at 1
+                    // but vectors are indexed starting at 0
                 } catch (const std::invalid_argument& ia) {}
                 faces.push_back(thisFace);
                 thisFace.clear();
