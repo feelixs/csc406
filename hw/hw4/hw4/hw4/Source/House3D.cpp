@@ -18,8 +18,8 @@ House3D::House3D(float scaleX, float scaleY, const Pose& pose, const Motion& mot
     scaleX_(scaleX),
     scaleY_(scaleY)
 {
-    initFromFile_("/Users/michaelfelix/Downloads/Week 08 - Simple OBJ Models/1. Only Geometry/cube1.obj");
-   // initFromFile_("/Users/michaelfelix/Desktop/house.obj");
+    //initFromFile_("/Users/michaelfelix/Downloads/Week 08 - Simple OBJ Models/1. Only Geometry/cube1.obj");
+    initFromFile_("/Users/michaelfelix/Desktop/house.obj");
 }
 
 
