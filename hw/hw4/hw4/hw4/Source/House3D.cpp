@@ -179,7 +179,7 @@ void House3D::draw() const
 
     for (unsigned int i=0; i < numFaces_; i++)
     {
-        glBegin(GL_POLYGON);
+        glBegin(GL_POLYGON); // in obj files faces are polygons (shapes with any number of vertices)
             for (unsigned int j = 0; j < faceVertexCounts_[i]; j++)
             {
                 glVertex3fv(XYZ_[i][j]);
