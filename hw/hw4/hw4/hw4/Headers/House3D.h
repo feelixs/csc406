@@ -30,6 +30,11 @@ private:
     /// @param fp the system filepath to the .obj file
     void initFromFile_(const char* fp);
     
+    /// Load the shape from vectors containing vertex points and faces pointing to the vertex indices
+    /// @param vertices a list of vertex points, where each vector index is 3 floating points {x, y, x}
+    /// @param faces a list of int lists vect<vect<int>> where each index of the int vector refers to an index of the vertices vect (just like how obj files work)
+    void initFromVectors_(std::vector<std::vector<float>>& vertices, std::vector<std::vector<int>>& faces);
+    
     /// if the obj file provided to this class is invalid, revert to this init
     void defaultInit_();
     

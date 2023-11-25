@@ -32,8 +32,65 @@ House3D::House3D(const char* filepath, float scaleX, float scaleY, const Pose& p
 
 void House3D::defaultInit_() {
     // hardcoded house vertices
-    initFromFile_("/Users/michaelfelix/Downloads/Week 08 - Simple OBJ Models/1. Only Geometry/cube1.obj");
+    
+    std::vector<std::vector<float>> hardCodedVertices =
+    {
+        {-1.0, -1.0, +1.0},
+        {+1.0, -1.0, +1.0},
+        {+1.0, +1.0, +1.0},
+        {-1.0, +1.0, +1.0},
+        {-1.0, -1.0, -1.0},
+        {+1.0, -1.0, -1.0},
+        {+1.0, +1.0, -1.0},
+        {-1.0, +1.0, -1.0},
+        {0, -1.0, +1.5},
+        {0, +1.0, +1.5},
+        {-0.15, -1.0, -1.0},
+        {-0.15, -1.0, -0.5},
+        {+0.15, -1.0, -0.5},
+        {+0.15, -1.0, +1.0},
+        {+0.15, -1.0, -1.0}
+    };
+    
+    std::vector<std::vector<int>> hardCodedFaces =
+    {
+        {1, 2, 3, 4},
+        {1, 4, 8, 5},
+        {2, 6, 7, 3},
+        {4, 3, 7, 8},
+        {1, 2, 9},
+        {3, 4, 10},
+        {3, 10, 9, 2},
+        {1, 9, 10, 4},
+        {1, 5, 11, 12, 13, 14},
+        {2, 14, 15, 6}
+    };
+    
+    initFromVectors_(hardCodedVertices, hardCodedFaces);
 }
+
+
+void House3D::initFromVectors_(std::vector<std::vector<float>>& vertices, std::vector<std::vector<int>>& faces) {
+    XYZ_ = new GLfloat**[faces.size()];
+    numFaces_ = (int)faces.size();
+    for (unsigned int i = 0; i < faces.size(); i++) {
+        // each face has a different number of vertices
+        XYZ_[i] = new GLfloat*[faces[i].size()];
+        faceVertexCounts_.push_back((int)faces[i].size());
+        
+        // iterate over all this face's vertices and add them to my shape
+        for (unsigned int j = 0; j < faces[i].size(); j++) {
+            XYZ_[i][j] = new GLfloat[3];
+            
+            XYZ_[i][j][0] = vertices[faces[i][j] - 1][0];
+            XYZ_[i][j][1] = vertices[faces[i][j] - 1][1];
+            XYZ_[i][j][2] = vertices[faces[i][j] - 1][2];
+            // when faces are listed in obj files they index starting at 1, but vectors are indexed starting at 0
+            // so we need to subtract 1 to access the desired index
+        }
+    }
+}
+
 
 void House3D::initFromFile_(const char* filepath) {
     // load from an obj file
@@ -101,9 +158,7 @@ void House3D::initFromFile_(const char* filepath) {
                     try {
                         // if this value is a valid int, take it as a value
                         
-                        thisFace.push_back(stoi(tempVal) - 1);
-                        // when faces are listed in obj files they index starting at 1
-                        // but vectors are indexed starting at 0
+                        thisFace.push_back(stoi(tempVal));
                     } catch (const std::invalid_argument& ia) {}
                     tempVal = "";
                 } else {
@@ -124,9 +179,7 @@ void House3D::initFromFile_(const char* filepath) {
             if (thisFace.size() > 0) {
                 try {
                     // add final face value
-                    thisFace.push_back(stoi(tempVal) - 1);
-                    // when faces are listed in obj files they index starting at 1
-                    // but vectors are indexed starting at 0
+                    thisFace.push_back(stoi(tempVal));
                 } catch (const std::invalid_argument& ia) {}
                 faces.push_back(thisFace);
                 thisFace.clear();
@@ -138,24 +191,7 @@ void House3D::initFromFile_(const char* filepath) {
     }
     
     // finally, translate the vectors we parsed from the obj file into our actual shape
-    XYZ_ = new GLfloat**[faces.size()];
-    numFaces_ = (int)faces.size();
-    for (unsigned int i = 0; i < faces.size(); i++) {
-        // each face has a different number of vertices
-        XYZ_[i] = new GLfloat*[faces[i].size()];
-        faceVertexCounts_.push_back((int)faces[i].size());
-        
-        // iterate over all this face's vertices and add them to my shape
-        for (unsigned int j = 0; j < faces[i].size(); j++) {
-            XYZ_[i][j] = new GLfloat[3];
-            
-        //    std::cout << "(" << vertices[faces[i][j]][0] << ", " << vertices[faces[i][j]][1] << ", " << vertices[faces[i][j]][2] << ") ";
-            XYZ_[i][j][0] = vertices[faces[i][j]][0];
-            XYZ_[i][j][1] = vertices[faces[i][j]][1];
-            XYZ_[i][j][2] = vertices[faces[i][j]][2];
-        }
-     //   std :: cout << std::endl;
-    }
+    initFromVectors_(vertices, faces);
 }
 
 
