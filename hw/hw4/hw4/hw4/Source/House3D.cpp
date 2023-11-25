@@ -135,12 +135,12 @@ void House3D::initFromFile_(const char* filepath) {
         for (unsigned int j = 0; j < faces[i].size(); j++) {
             XYZ_[i][j] = new GLfloat[3];
             
-            std::cout << "(" << vertices[faces[i][j]][0] << ", " << vertices[faces[i][j]][1] << ", " << vertices[faces[i][j]][2] << ") ";
+        //    std::cout << "(" << vertices[faces[i][j]][0] << ", " << vertices[faces[i][j]][1] << ", " << vertices[faces[i][j]][2] << ") ";
             XYZ_[i][j][0] = vertices[faces[i][j]][0];
             XYZ_[i][j][1] = vertices[faces[i][j]][1];
             XYZ_[i][j][2] = vertices[faces[i][j]][2];
         }
-        std :: cout << std::endl;
+     //   std :: cout << std::endl;
     }
 }
 
@@ -167,7 +167,7 @@ void House3D::draw() const
 
     for (unsigned int i=0; i < numFaces_; i++)
     {
-        glBegin(GL_TRIANGLE_STRIP);
+        glBegin(GL_POLYGON);
             for (unsigned int j = 0; j < faceVertexCounts_[i]; j++)
             {
                 glVertex3fv(XYZ_[i][j]);
