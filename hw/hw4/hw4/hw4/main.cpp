@@ -16,6 +16,8 @@
 #include "Quad3D.h"
 #include "QuadMesh3D.h"
 #include "Cylinder3D.h"
+#include "Cone3D.h"
+#include "House3D.h"
 
 using namespace std;
 using namespace graphics3d;
@@ -71,6 +73,11 @@ Material specRed1{0.9f, 0.1f, 0.1f, 1.f, 0.4f, 0.05f, 0.05f, 1.f, 0.9f, 0.2f, 0.
 vector<shared_ptr<GraphicObject3D> > objList;
 
 
+bool displayHouse = true;
+bool displayCone = false;
+shared_ptr<House3D> houseObj;
+shared_ptr<Cone3D> coneObj;
+
 //    Move from the camera to the world reference frame:  Start from the camera and apply
 //    a series of transformations to end up in the world reference frame, where the drawing
 //    will take place
@@ -103,7 +110,13 @@ void myDisplayFunc(void)
     
     for (auto obj : objList)
         obj->draw();
-        
+    
+    if (displayCone)
+        coneObj->draw();
+    
+    if (displayHouse)
+        houseObj->draw();
+    
     //    back to camera reference frame
     glPopMatrix();
 
@@ -192,6 +205,15 @@ void myKeyboardFunc(unsigned char c, int x, int y)
             glutPostRedisplay();
             break;
             
+        case 'h':
+        case 'H':
+            displayHouse = !displayHouse;
+            break;
+            
+        case 'c':
+        case 'C':
+            displayCone = !displayCone;
+            break;
 
         //    Toggles on/off the Flat shading model
         case 'f':
@@ -233,36 +255,6 @@ void myKeyboardFunc(unsigned char c, int x, int y)
             }
             updateRenderingMode(renderingMode);
             glutPostRedisplay();
-            break;
-    
-
-            
-        case 'y':
-        case 'Y':
-            gNearZ *= 0.9f;
-            setupCamera();
-            cout << "nearZ = " << gNearZ << endl;
-            break;
-
-        case 'h':
-        case 'H':
-            gNearZ *= 1.1f;
-            setupCamera();
-            cout << "nearZ = " << gNearZ << endl;
-            break;
-            
-        case 'u':
-        case 'U':
-            gFarZ *= 0.9f;
-            setupCamera();
-            cout << "nearZ = " << gFarZ << endl;
-            break;
-
-        case 'j':
-        case 'J':
-            gFarZ *= 1.1f;
-            setupCamera();
-            cout << "nearZ = " << gFarZ << endl;
             break;
             
         default:
@@ -311,12 +303,12 @@ void myInit(void)
     //     replaces the gluOrtho2D call.
     setupCamera();
     
-    //    create a quad object
-//    objList.push_back(make_shared<Quad3D>(1.f, 1.5f, Pose{-1.f, 0.f, 0.f, 15.f, 0.f, -15.f}));
-//    objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
-    objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, 0.10f, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
-//    objList.push_back(make_shared<Cylinder3D>(0.5f, 0.5f, 1.f, 12, 8, true, Pose{0.f, 2.f, -0.5f, 45.f, 45.f, 0.f}));
-    objList.back()->setMaterial(specRed1);
+    houseObj = make_shared<House3D>("/Users/michaelfelix/Documents/GitHub/csc406/hw/hw4/hw4/hw4/assets/house.obj", 1.f, 1.f, Pose{0.f, 4.f, -1.5f, 0.f, 0.f, 0.f});
+    coneObj = make_shared<Cone3D>(0.5f, 0.25f, 1.f, 24, 8, false, Pose{0.f, 2.f, -0.5f, 0.f, 40.f, -10.f});
+    
+    houseObj->setMaterial(gray1);
+    coneObj->setMaterial(specRed1);
+    
 }
 
 void setupCamera(void)
