@@ -303,19 +303,12 @@ void myInit(void)
     //     replaces the gluOrtho2D call.
     setupCamera();
     
-    //    create a quad object
-//    objList.push_back(make_shared<Quad3D>(1.f, 1.5f, Pose{-1.f, 0.f, 0.f, 15.f, 0.f, -15.f}));
-//    objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
-   // objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, 0.10f, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
-    
-   // houseObj = make_shared<House3D>(1.f, 1.f, Pose{0.f, 4.f, -1.5f, 0.f, 0.f, 0.f});
     houseObj = make_shared<House3D>("/Users/michaelfelix/Documents/GitHub/csc406/hw/hw4/hw4/hw4/assets/house.obj", 1.f, 1.f, Pose{0.f, 4.f, -1.5f, 0.f, 0.f, 0.f});
     coneObj = make_shared<Cone3D>(0.5f, 0.25f, 1.f, 24, 8, false, Pose{0.f, 2.f, -0.5f, 0.f, 40.f, -10.f});
     
     houseObj->setMaterial(gray1);
     coneObj->setMaterial(specRed1);
     
-//    objList.back()->setMaterial(specRed1);
 }
 
 void setupCamera(void)
