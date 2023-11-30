@@ -206,9 +206,9 @@
 			isa = PBXGroup;
 			children = (
 				161D3AC52B190EBC00BBCFC5 /* KeyframeAnimator.h */,
+				161D3AC62B190EBC00BBCFC5 /* KeyframeAnimator.cpp */,
 				AA87BF1C2B1949A9003CE2F0 /* LinearInterpolationKeyframeAnimator.cpp */,
 				AA87BF1B2B1949A9003CE2F0 /* LinearInterpolationKeyframeAnimator.h */,
-				161D3AC62B190EBC00BBCFC5 /* KeyframeAnimator.cpp */,
 			);
 			path = "Keyframe Animators";
 			sourceTree = "<group>";
