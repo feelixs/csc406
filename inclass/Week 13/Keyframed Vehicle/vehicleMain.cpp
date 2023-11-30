@@ -104,6 +104,7 @@ void myKeyboard(unsigned char c, int x, int y)
 	switch (c)
 	{
 		case 27:
+        case 'q':
 			exit(0);
 			break;
 			
