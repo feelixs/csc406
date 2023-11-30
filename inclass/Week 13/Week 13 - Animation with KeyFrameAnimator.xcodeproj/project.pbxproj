@@ -12,7 +12,6 @@
 		161D3ABA2B18026100BBCFC5 /* Vehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 161D3AB52B18026100BBCFC5 /* Vehicle.cpp */; };
 		161D3AC32B190EA600BBCFC5 /* vehicleMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 161D3AC22B190EA600BBCFC5 /* vehicleMain.cpp */; };
 		161D3AC92B190EBC00BBCFC5 /* KeyframeAnimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 161D3AC62B190EBC00BBCFC5 /* KeyframeAnimator.cpp */; };
-		161D3ACA2B190EBC00BBCFC5 /* LinearInterpolator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 161D3AC72B190EBC00BBCFC5 /* LinearInterpolator.cpp */; };
 		162E9A590F7AB81D00514CB7 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162E9A430F7AB81C00514CB7 /* GLUT.framework */; };
 		162E9A5A0F7AB81D00514CB7 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162E9A440F7AB81C00514CB7 /* OpenGL.framework */; };
 		162E9A5B0F7AB81D00514CB7 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 162E9A430F7AB81C00514CB7 /* GLUT.framework */; };
@@ -27,6 +26,8 @@
 		162E9BC60F7B501400514CB7 /* Vehicle5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 162E99830F7AB69100514CB7 /* Vehicle5.cpp */; };
 		162E9BC80F7B505200514CB7 /* parabolicConnections.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 162E99740F7AB69100514CB7 /* parabolicConnections.cpp */; };
 		162E9BC90F7B505200514CB7 /* Vehicle6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 162E99840F7AB69100514CB7 /* Vehicle6.cpp */; };
+		AA9DD9512B194B7000A97A6E /* LinearInterpolationKeyframeAnimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA9DD94B2B194AFF00A97A6E /* LinearInterpolationKeyframeAnimator.cpp */; };
+		AA9DD9522B194B7A00A97A6E /* ColoredVehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA9DD94E2B194B1600A97A6E /* ColoredVehicle.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -85,8 +86,6 @@
 		161D3AC22B190EA600BBCFC5 /* vehicleMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vehicleMain.cpp; sourceTree = "<group>"; };
 		161D3AC52B190EBC00BBCFC5 /* KeyframeAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyframeAnimator.h; sourceTree = "<group>"; };
 		161D3AC62B190EBC00BBCFC5 /* KeyframeAnimator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KeyframeAnimator.cpp; sourceTree = "<group>"; };
-		161D3AC72B190EBC00BBCFC5 /* LinearInterpolator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LinearInterpolator.cpp; sourceTree = "<group>"; };
-		161D3AC82B190EBC00BBCFC5 /* LinearInterpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinearInterpolator.h; sourceTree = "<group>"; };
 		162E99700F7AB69100514CB7 /* cubicSplines.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cubicSplines.cpp; sourceTree = "<group>"; };
 		162E99740F7AB69100514CB7 /* parabolicConnections.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parabolicConnections.cpp; sourceTree = "<group>"; };
 		162E99770F7AB69100514CB7 /* polynomialFit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = polynomialFit.cpp; sourceTree = "<group>"; };
@@ -128,6 +127,10 @@
 		162E9ABC0F7ABAB400514CB7 /* tnt_subscript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_subscript.h; sourceTree = "<group>"; };
 		162E9ABD0F7ABAB400514CB7 /* tnt_vec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_vec.h; sourceTree = "<group>"; };
 		162E9ABE0F7ABAB400514CB7 /* tnt_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_version.h; sourceTree = "<group>"; };
+		AA9DD94B2B194AFF00A97A6E /* LinearInterpolationKeyframeAnimator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LinearInterpolationKeyframeAnimator.cpp; sourceTree = "<group>"; };
+		AA9DD94C2B194AFF00A97A6E /* LinearInterpolationKeyframeAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinearInterpolationKeyframeAnimator.h; sourceTree = "<group>"; };
+		AA9DD94E2B194B1600A97A6E /* ColoredVehicle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColoredVehicle.cpp; sourceTree = "<group>"; };
+		AA9DD94F2B194B1600A97A6E /* ColoredVehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColoredVehicle.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,8 +210,8 @@
 			children = (
 				161D3AC52B190EBC00BBCFC5 /* KeyframeAnimator.h */,
 				161D3AC62B190EBC00BBCFC5 /* KeyframeAnimator.cpp */,
-				161D3AC72B190EBC00BBCFC5 /* LinearInterpolator.cpp */,
-				161D3AC82B190EBC00BBCFC5 /* LinearInterpolator.h */,
+				AA9DD94B2B194AFF00A97A6E /* LinearInterpolationKeyframeAnimator.cpp */,
+				AA9DD94C2B194AFF00A97A6E /* LinearInterpolationKeyframeAnimator.h */,
 			);
 			path = "Keyframe Animators";
 			sourceTree = "<group>";
@@ -279,8 +282,10 @@
 		930D8FCB2715EE74004A753B /* Keyframed Vehicle */ = {
 			isa = PBXGroup;
 			children = (
-				161D3AB42B18026100BBCFC5 /* Vehicle.h */,
+				AA9DD94E2B194B1600A97A6E /* ColoredVehicle.cpp */,
+				AA9DD94F2B194B1600A97A6E /* ColoredVehicle.h */,
 				161D3AB52B18026100BBCFC5 /* Vehicle.cpp */,
+				161D3AB42B18026100BBCFC5 /* Vehicle.h */,
 				161D3AC22B190EA600BBCFC5 /* vehicleMain.cpp */,
 			);
 			path = "Keyframed Vehicle";
@@ -447,9 +452,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				161D3ACA2B190EBC00BBCFC5 /* LinearInterpolator.cpp in Sources */,
 				161D3ABA2B18026100BBCFC5 /* Vehicle.cpp in Sources */,
 				161D3AC92B190EBC00BBCFC5 /* KeyframeAnimator.cpp in Sources */,
+				AA9DD9512B194B7000A97A6E /* LinearInterpolationKeyframeAnimator.cpp in Sources */,
+				AA9DD9522B194B7A00A97A6E /* ColoredVehicle.cpp in Sources */,
 				161D3AC32B190EA600BBCFC5 /* vehicleMain.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

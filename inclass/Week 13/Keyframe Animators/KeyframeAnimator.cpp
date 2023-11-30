@@ -11,12 +11,12 @@ using namespace std;
 
 KeyframeAnimator::KeyframeAnimator(const vector<vector<float> > frameList)
 	try	:	numFrames_(static_cast<unsigned int>(frameList.size())),
-			dimStateVect_(static_cast<unsigned int>(frameList[0].size())),
+			dimStateVect_(static_cast<unsigned int>(frameList[0].size()-1)),
 			frameList_(frameList)
 {
 	for (size_t i=1; i<numFrames_; i++)
 	{
-		if (frameList_[i].size() != dimStateVect_)
+		if (frameList_[i].size() != dimStateVect_+1)
 		{
 			cout << "Improperly sized keyframe " << i << endl;
 			exit(4);

@@ -16,8 +16,9 @@
 #include <cstdio>
 //
 #include "glPlatform.h"
-#include "LinearInterpolator.h"
+#include "LinearInterpolationKeyframeAnimator.h"
 #include "Vehicle.h"
+#include "ColoredVehicle.h"
 
 using namespace std;
 
@@ -28,12 +29,17 @@ void myKeyboard(unsigned char c, int x, int y);
 void myTimeOut(int id);
 void myInit(void);
 vector<vector<float> > initKeyframes();
+vector<vector<float> > initKeyColoredframes();
 
-const vector<vector<float> > WAY_POINT_LIST = initKeyframes();
+//const vector<vector<float> > WAY_POINT_LIST = initKeyframes();
+const vector<vector<float> > WAY_POINT_LIST = initKeyColoredframes();
 const unsigned int NB_WAY_PTS = static_cast<unsigned int>(WAY_POINT_LIST.size());
 const unsigned int DIM_STATE_VECT = static_cast<unsigned int>(WAY_POINT_LIST[0].size());
 
-Vehicle* myVehicle = nullptr;
+#define LONG_PATH	1
+
+//Vehicle* myVehicle = nullptr;
+ColoredVehicle* myVehicle = nullptr;
 bool gAnimate = false;
 const float gTimeIncr = 0.001f;
 const int   msecs = 10;
@@ -133,8 +139,10 @@ void myInit(void)
 	gluOrtho2D(0.0, 1.0, 0.0, 1.0);
 	glMatrixMode(GL_MODELVIEW);
 	
-	shared_ptr<KeyframeAnimator> anim = make_shared<LinearInterpolator>(WAY_POINT_LIST);
-	myVehicle = new Vehicle(anim, true, true);
+	shared_ptr<KeyframeAnimator> anim = make_shared<LinearInterpolationKeyframeAnimator>(WAY_POINT_LIST);
+//	myVehicle = new Vehicle(anim, true, true);
+	myVehicle = new ColoredVehicle(anim, true, true);
+	
 }
 
 vector<vector<float> > initKeyframes()
@@ -146,7 +154,7 @@ vector<vector<float> > initKeyframes()
 	frames.push_back(f0);
 
 	#if LONG_PATH
-		vector<float> f1{.2f, .7f, 0.f, 2.f}
+		vector<float> f1{.2f, .7f, 0.f, 2.f};
 		frames.push_back(f1);
 	#endif
 
@@ -154,7 +162,7 @@ vector<vector<float> > initKeyframes()
 	frames.push_back(f2);
 
 	#if LONG_PATH
-		vector<float> f3{.5f, .9f, 90.f, 4.f}
+		vector<float> f3{.5f, .9f, 90.f, 4.f};
 		frames.push_back(f3);
 	#endif
 
@@ -170,6 +178,53 @@ vector<vector<float> > initKeyframes()
 	
 	vector<float> f7{0.2f, 0.3f, 270.f, 10.f};
 	frames.push_back(f7);
+
+	for (size_t k=0; k<frames.size(); k++) {
+		cout << "Keyframe "  << k << "t = " << frames[k][3] << endl;
+	
+	}
+
+	return frames;
+}
+
+vector<vector<float> > initKeyColoredframes()
+{
+	vector<vector<float> > frames;
+
+//					  x_i  y_i  θ_i scale r_i   g_i    b_i    t_i
+	vector<float> f0{.1f, .1f, 90.f, 1.f, 1.f, 0.f, 0.f, 0.f};
+	frames.push_back(f0);
+
+	#if LONG_PATH
+		vector<float> f1{.2f, .7f, 1.f, 0.f, 0.f, 1.f, 0.f, 2.f};
+		frames.push_back(f1);
+	#endif
+
+	vector<float> f2{.5f, .3f, 0.f, 0.3f, 0.f, 0.f, 1.f, 3.f};
+	frames.push_back(f2);
+
+	#if LONG_PATH
+		vector<float> f3{.5f, .9f, 90.f, 0.3f, 0.f, 1.f, 0.f, 4.f};
+		frames.push_back(f3);
+	#endif
+
+	vector<float> f4{0.7f, 0.5f, 60.f, 2.f, 1.f, 1.f, 1.f, 6.f};
+	frames.push_back(f4);
+	vector<float> f5{0.8f, 0.9f, 170.f, 3.f, 0.f, 1.f, 1.f, 8.f};
+	frames.push_back(f5);
+
+	#if LONG_PATH
+		vector<float> f6{0.9f, 0.1f, 270.f, 1.f, 1.f, 1.f, 0.f, 9.f};
+		frames.push_back(f6);
+	#endif
+	
+	vector<float> f7{0.2f, 0.3f, 270.f, 1.f, 1.f, 0.f, 0.f, 10.f};
+	frames.push_back(f7);
+
+	for (size_t k=0; k<frames.size(); k++) {
+		cout << "Keyframe "  << k << "t = " << frames[k][3] << endl;
+	
+	}
 
 	return frames;
 }
