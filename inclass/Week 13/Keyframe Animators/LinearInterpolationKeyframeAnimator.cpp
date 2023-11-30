@@ -5,20 +5,20 @@
 //  Created by Jean-Yves Hervé on 2023-11-30.
 //
 
-#include "LinearInterpolator.h"
+#include "LinearInterpolationKeyframeAnimator.h"
 
 using namespace std;
 
-LinearInterpolator::LinearInterpolator(const std::vector<std::vector<float> > frameList)
+LinearInterpolationKeyframeAnimator::LinearInterpolationKeyframeAnimator(const std::vector<std::vector<float> > frameList)
 	:	KeyframeAnimator(frameList)
 {
 }
-LinearInterpolator::LinearInterpolator(unsigned int numFrames, unsigned int dimStateVect, const float** frameList)
+LinearInterpolationKeyframeAnimator::LinearInterpolationKeyframeAnimator(unsigned int numFrames, unsigned int dimStateVect, const float** frameList)
 	:	KeyframeAnimator(numFrames, dimStateVect, frameList)
 {
 }
 
-vector<float> LinearInterpolator::getStateVector(float t)
+vector<float> LinearInterpolationKeyframeAnimator::getStateVector(float t)
 {
 	vector<float> stateVect(getStateVectorDim());
 	
@@ -32,14 +32,20 @@ vector<float> LinearInterpolator::getStateVector(float t)
 				//we fall in the interval [i-1, i]
 				
 				//  compute interpolation factor
-				float tau = (t - getkeyframeTime(i-1)) / (getkeyframeTime(i) - getkeyframeTime(i-1));
-                float tPrev = getkeyframeTime(i-1), tNext = getkeyframeTime(i);
+				float tau = (t - getkeyframeTime(i-1)) /
+								(getkeyframeTime(i) - getkeyframeTime(i-1));
+
 				for (unsigned int k=0; k<getStateVectorDim(); k++)
 				{
+					float sp = getKeyframeElement(i-1, k);
+					float sn = getKeyframeElement(i, k);
+					float su = sp + tau*(sn-sp);
+					
 					stateVect[k] = getKeyframeElement(i-1, k) +
 									tau * ( getKeyframeElement(i, k) -
 											getKeyframeElement(i-1, k));
 				}
+				break;
 			}
 		}
 	}
