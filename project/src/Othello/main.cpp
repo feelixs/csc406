@@ -171,7 +171,8 @@ void myKeyboardFunc(unsigned char c, int x, int y)
         case 27:
             exit(0);
             break;
-
+        
+        /*
         //    Toggles on/off rendering the reference frames
         case 'r':
         case 'R':
@@ -240,8 +241,6 @@ void myKeyboardFunc(unsigned char c, int x, int y)
             glutPostRedisplay();
             break;
     
-
-            
         case 'y':
         case 'Y':
             gNearZ *= 0.9f;
@@ -269,43 +268,43 @@ void myKeyboardFunc(unsigned char c, int x, int y)
             setupCamera();
             cout << "nearZ = " << gFarZ << endl;
             break;
+       */
             
-            
-            // move the camera forward
-            case 'w':
-            case 'W':
-                gTz += 0.1f; // Adjust the value as needed
-                break;
+        // move the camera forward
+        case 'w':
+        case 'W':
+            gTz += 0.1f; // Adjust the value as needed
+            break;
 
-            // move the camera back
-            case 's':
-            case 'S':
-                gTz -= 0.1f; // Adjust the value as needed
-                break;
+        // move the camera back
+        case 's':
+        case 'S':
+            gTz -= 0.1f; // Adjust the value as needed
+            break;
 
-            // move camera left
-            case 'a':
-            case 'A':
-                gTx += 0.1f; // Adjust the angle as needed
-                break;
+        // move camera left
+        case 'a':
+        case 'A':
+            gTx += 0.1f; // Adjust the angle as needed
+            break;
 
-            // move right
-            case 'd':
-            case 'D':
-                gTx -= 0.1f; // Adjust the angle as needed
-                break;
+        // move right
+        case 'd':
+        case 'D':
+            gTx -= 0.1f; // Adjust the angle as needed
+            break;
 
-            // move the camera up
-            case 'e':
-            case 'E':
-                gTy -= 0.1f; // Adjust the value as needed
-                break;
+        // move the camera up
+        case 'e':
+        case 'E':
+            gTy -= 0.1f; // Adjust the value as needed
+            break;
 
-            // move the camera down
-            case 'q':
-            case 'Q':
-                gTy += 0.1f; // Adjust the value as needed
-                break;
+        // move the camera down
+        case 'q':
+        case 'Q':
+            gTy += 0.1f; // Adjust the value as needed
+            break;
 
         default:
             break;
