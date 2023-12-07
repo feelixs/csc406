@@ -23,6 +23,7 @@ using namespace std;
 using namespace othello;
 using namespace graphics3d;
 
+
 void drawOrbit(void);
 void cameraToWorld(void);
 void setupCamera(void);
@@ -35,46 +36,44 @@ void myInit(void);
 
 
 //    Camera intrinsic parameters
-float        gFoV = 45.f,            //    vertical field of view in degree
-            gNearZ = 1.0f,            //    Position of the clipping planes along the camera's
-            gFarZ = 50.0f;            //        optical axis (Z axis)
+float gFoV = 45.f,            //    vertical field of view in degree
+      gNearZ = 1.0f,            //    Position of the clipping planes along the camera's
+      gFarZ = 50.0f;            //        optical axis (Z axis)
             
 //    Camera to world transformation (extrinsic parameters)
-float        gTx = 0.25f,
-            gTy = -0.2f,
-            gTz = -2.f,
-            gRoll = 0.0f,
-            gPitch =-60.f,
-            gYaw = 10.f;
+float gTx = 0.25f,
+      gTy = -0.2f,
+      gTz = -2.f,
+      gRoll = 0.0f,
+      gPitch =-60.f,
+      gYaw = 10.f;
                         
 RenderingMode renderingMode = RenderingMode::SmoothShadingRender;
 
-bool        drawReferenceFrames = false;
+bool drawReferenceFrames = false;
 
-int            winWidth = 1200, winHeight = 900;
+int winWidth = 1200, winHeight = 900;
 
-        GLfloat ambient[4];
-        GLfloat diffuse[4];
-        GLfloat specular[4];
-        GLfloat emission[4];
-        GLfloat shiny;
+GLfloat ambient[4];
+GLfloat diffuse[4];
+GLfloat specular[4];
+GLfloat emission[4];
+GLfloat shiny;
+
+
+//    ambient, diffuse, specular, emission
+Material gray1{0.7f, 0.7f, 0.7f, 1.f, 0.7f, 0.7f, 0.7f, 1.f, 0.7f, 0.7f, 0.7f, 1.f, 0.7f, 0.7f, 0.7f, 1.f, 0.3f};
+Material gray2{0.3f, 0.3f, 0.3f, 1.f, 0.3f, 0.3f, 0.3f, 1.f, 0.3f, 0.3f, 0.3f, 1.f, 0.2f, 0.2f, 0.2f, 1.f, 0.3f};
+                
+Material red1{0.9f, 0.1f, 0.1f, 1.f, 0.9f, 0.1f, 0.1f, 1.f, 0.9f, 0.1f, 0.1f, 1.f, 0.9f, 0.1f, 0.1f, 1.f, 0.3f};
+Material specRed1{0.9f, 0.1f, 0.1f, 1.f, 0.4f, 0.05f, 0.05f, 1.f, 0.9f, 0.2f, 0.2f, 1.f, 0.2f, 0.0f, 0.0f, 1.f, 0.6f};
 
 
 float Board::pixelToWorldRatio;
 float Board::worldToPixelRatio;
 float Board::drawInPixelScale;
 
-//    ambient, diffuse, specular, emission
 
-Material gray1{0.7f, 0.7f, 0.7f, 1.f, 0.7f, 0.7f, 0.7f, 1.f, 0.7f, 0.7f, 0.7f, 1.f,
-                0.7f, 0.7f, 0.7f, 1.f, 0.3f};
-Material gray2{0.3f, 0.3f, 0.3f, 1.f, 0.3f, 0.3f, 0.3f, 1.f, 0.3f, 0.3f, 0.3f, 1.f,
-                0.2f, 0.2f, 0.2f, 1.f, 0.3f};
-                
-Material red1{0.9f, 0.1f, 0.1f, 1.f, 0.9f, 0.1f, 0.1f, 1.f, 0.9f, 0.1f, 0.1f, 1.f,
-                0.9f, 0.1f, 0.1f, 1.f, 0.3f};
-Material specRed1{0.9f, 0.1f, 0.1f, 1.f, 0.4f, 0.05f, 0.05f, 1.f, 0.9f, 0.2f, 0.2f, 1.f,
-                0.2f, 0.0f, 0.0f, 1.f, 0.6f};
 vector<shared_ptr<GraphicObject3D> > objList;
 
 
@@ -106,7 +105,7 @@ void myDisplayFunc(void)
     //    Now I am in the world reference frame.
     //    I draw axes so that we can see what the local frame looks like.
 //    if (drawReferenceFrames)
-        drawReferenceFrame();
+    drawReferenceFrame();
     
     for (auto obj : objList)
         obj->draw();
@@ -293,12 +292,12 @@ void myTimerFunc(int dt)
 
 void myInit(void)
 {
-    GLfloat        ambientLight[] = {0.5, 0.5, 0.5, 1.0};
-    GLfloat        diffuseLight[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat        positionLight[] = {0.0, 3.0, 3.0, 0.0};
+    GLfloat ambientLight[] = {0.5, 0.5, 0.5, 1.0};
+    GLfloat diffuseLight[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat positionLight[] = {0.0, 3.0, 3.0, 0.0};
 
-    GLfloat        lmodel_ambientLight[] = {0.2, 0.2, 0.2, 1.0};
-    GLfloat        local_view[] = {0.0};
+    GLfloat lmodel_ambientLight[] = {0.2, 0.2, 0.2, 1.0};
+    GLfloat local_view[] = {0.0};
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
@@ -319,12 +318,12 @@ void myInit(void)
     //     replaces the gluOrtho2D call.
     setupCamera();
     
-    //    create a quad object
-//    objList.push_back(make_shared<Quad3D>(1.f, 1.5f, Pose{-1.f, 0.f, 0.f, 15.f, 0.f, -15.f}));
-//    objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
-    objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, 0.10f, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
-//    objList.push_back(make_shared<Cylinder3D>(0.5f, 0.5f, 1.f, 12, 8, true, Pose{0.f, 2.f, -0.5f, 45.f, 45.f, 0.f}));
-    objList.back()->setMaterial(specRed1);
+    objList.push_back(make_shared<Quad3D>(1.f, 1.5f, Pose{-1.f, 0.f, 0.f, 15.f, 0.f, -15.f}));
+    //objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
+    //objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, 0.10f, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
+    //objList.push_back(make_shared<Cylinder3D>(0.5f, 0.5f, 1.f, 12, 8, true, Pose{0.f, 2.f, -0.5f, 45.f, 45.f, 0.f}));
+    
+    objList.back()->setMaterial(gray1);
 }
 
 void setupCamera(void)
