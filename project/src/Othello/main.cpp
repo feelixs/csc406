@@ -169,8 +169,6 @@ void myKeyboardFunc(unsigned char c, int x, int y)
     switch (c)
     {
         case 27:
-        case 'q':
-        case 'Q':
             exit(0);
             break;
 
@@ -181,8 +179,8 @@ void myKeyboardFunc(unsigned char c, int x, int y)
             break;
             
         //    Toggles on/off wireframe mode
-        case 'w':
-        case 'W':
+        case 'x':
+        case 'X':
             switch(renderingMode)
             {
                 //    If we were in wireframe mode, we switch to flat shading
@@ -222,8 +220,8 @@ void myKeyboardFunc(unsigned char c, int x, int y)
             break;
 
         //    Toggles on/off the Smooth shading model
-        case 's':
-        case 'S':
+        case 'z':
+        case 'Z':
             switch(renderingMode)
             {
                 //    If we were in wireframe mode or flat shading mode,
@@ -272,6 +270,43 @@ void myKeyboardFunc(unsigned char c, int x, int y)
             cout << "nearZ = " << gFarZ << endl;
             break;
             
+            
+            // move the camera forward
+            case 'w':
+            case 'W':
+                gTz += 0.1f; // Adjust the value as needed
+                break;
+
+            // move the camera back
+            case 's':
+            case 'S':
+                gTz -= 0.1f; // Adjust the value as needed
+                break;
+
+            // move camera left
+            case 'a':
+            case 'A':
+                gTx += 0.1f; // Adjust the angle as needed
+                break;
+
+            // move right
+            case 'd':
+            case 'D':
+                gTx -= 0.1f; // Adjust the angle as needed
+                break;
+
+            // move the camera up
+            case 'e':
+            case 'E':
+                gTy -= 0.1f; // Adjust the value as needed
+                break;
+
+            // move the camera down
+            case 'q':
+            case 'Q':
+                gTy += 0.1f; // Adjust the value as needed
+                break;
+
         default:
             break;
     }
