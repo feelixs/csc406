@@ -19,6 +19,7 @@
 		AAD355982B2278C100C75778 /* drawingUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD355962B2278C100C75778 /* drawingUtilities.cpp */; };
 		AAD3559E2B22795A00C75778 /* QuadMesh3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD3559C2B22795A00C75778 /* QuadMesh3D.cpp */; };
 		AAD355A12B22798100C75778 /* Quad3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD3559F2B22798100C75778 /* Quad3D.cpp */; };
+		AAD355A42B227AD900C75778 /* Cylinder3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD355A22B227AD900C75778 /* Cylinder3D.cpp */; };
 		AAEAC7462B0281A800C4386C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEAC7452B0281A800C4386C /* main.cpp */; };
 		AAEAC74D2B0281F200C4386C /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEAC74C2B0281F200C4386C /* Board.cpp */; };
 		AAEAC7502B02820F00C4386C /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEAC74F2B02820F00C4386C /* Tile.cpp */; };
@@ -64,6 +65,8 @@
 		AAD3559D2B22795A00C75778 /* QuadMesh3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuadMesh3D.h; sourceTree = "<group>"; };
 		AAD3559F2B22798100C75778 /* Quad3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quad3D.cpp; sourceTree = "<group>"; };
 		AAD355A02B22798100C75778 /* Quad3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quad3D.h; sourceTree = "<group>"; };
+		AAD355A22B227AD900C75778 /* Cylinder3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cylinder3D.cpp; sourceTree = "<group>"; };
+		AAD355A32B227AD900C75778 /* Cylinder3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cylinder3D.h; sourceTree = "<group>"; };
 		AAEAC7422B0281A800C4386C /* Othello */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Othello; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAEAC7452B0281A800C4386C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AAEAC74C2B0281F200C4386C /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Board.cpp; sourceTree = "<group>"; };
@@ -119,6 +122,9 @@
 		AAEAC74E2B0281F600C4386C /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AAD355A22B227AD900C75778 /* Cylinder3D.cpp */,
+				AAD3559F2B22798100C75778 /* Quad3D.cpp */,
+				AAD3559C2B22795A00C75778 /* QuadMesh3D.cpp */,
 				AAD355962B2278C100C75778 /* drawingUtilities.cpp */,
 				AAD355932B22788600C75778 /* GraphicObject3D.cpp */,
 				AAAD488E2B1F81CB00B73099 /* AiMind.cpp */,
@@ -153,10 +159,9 @@
 				AAD355942B22788600C75778 /* GraphicObject3D.h */,
 				AAD355972B2278C100C75778 /* drawingUtilities.h */,
 				AAD3559A2B2278EC00C75778 /* common.h */,
-				AAD3559C2B22795A00C75778 /* QuadMesh3D.cpp */,
 				AAD3559D2B22795A00C75778 /* QuadMesh3D.h */,
-				AAD3559F2B22798100C75778 /* Quad3D.cpp */,
 				AAD355A02B22798100C75778 /* Quad3D.h */,
+				AAD355A32B227AD900C75778 /* Cylinder3D.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -227,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAD355A42B227AD900C75778 /* Cylinder3D.cpp in Sources */,
 				AAEAC7502B02820F00C4386C /* Tile.cpp in Sources */,
 				AACA75C22B02897700EB7A6A /* AnimatedObject.cpp in Sources */,
 				AAD355A12B22798100C75778 /* Quad3D.cpp in Sources */,
