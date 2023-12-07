@@ -22,9 +22,17 @@
 #include "GameState.hpp"
 #include "Player.hpp"
 #include "AiMind.hpp"
+#include "drawingUtilities.h"
+#include "common.h"
+#include "Quad3D.h"
+#include "QuadMesh3D.h"
+
 
 using namespace std;
 using namespace othello;
+using namespace graphics3d;
+
+bool drawReferenceFrames = false;
 
 bool showingWhiteMoves = false;
 bool showingBlackMoves = false;

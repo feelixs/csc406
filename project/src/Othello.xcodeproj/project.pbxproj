@@ -15,6 +15,10 @@
 		AACA75BC2B02876C00EB7A6A /* GraphicObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AACA75BB2B02876C00EB7A6A /* GraphicObject.cpp */; };
 		AACA75C22B02897700EB7A6A /* AnimatedObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AACA75C12B02897700EB7A6A /* AnimatedObject.cpp */; };
 		AACA75C62B0289B000EB7A6A /* ComplexGraphicObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AACA75C52B0289B000EB7A6A /* ComplexGraphicObject.cpp */; };
+		AAD355952B22788600C75778 /* GraphicObject3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD355932B22788600C75778 /* GraphicObject3D.cpp */; };
+		AAD355982B2278C100C75778 /* drawingUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD355962B2278C100C75778 /* drawingUtilities.cpp */; };
+		AAD3559E2B22795A00C75778 /* QuadMesh3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD3559C2B22795A00C75778 /* QuadMesh3D.cpp */; };
+		AAD355A12B22798100C75778 /* Quad3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD3559F2B22798100C75778 /* Quad3D.cpp */; };
 		AAEAC7462B0281A800C4386C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEAC7452B0281A800C4386C /* main.cpp */; };
 		AAEAC74D2B0281F200C4386C /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEAC74C2B0281F200C4386C /* Board.cpp */; };
 		AAEAC7502B02820F00C4386C /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEAC74F2B02820F00C4386C /* Tile.cpp */; };
@@ -51,6 +55,15 @@
 		AACA75C32B02898200EB7A6A /* AnimatedObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnimatedObject.h; sourceTree = "<group>"; };
 		AACA75C42B0289AA00EB7A6A /* ComplexGraphicObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComplexGraphicObject.h; sourceTree = "<group>"; };
 		AACA75C52B0289B000EB7A6A /* ComplexGraphicObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComplexGraphicObject.cpp; sourceTree = "<group>"; };
+		AAD355932B22788600C75778 /* GraphicObject3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicObject3D.cpp; sourceTree = "<group>"; };
+		AAD355942B22788600C75778 /* GraphicObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GraphicObject3D.h; sourceTree = "<group>"; };
+		AAD355962B2278C100C75778 /* drawingUtilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = drawingUtilities.cpp; sourceTree = "<group>"; };
+		AAD355972B2278C100C75778 /* drawingUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = drawingUtilities.h; sourceTree = "<group>"; };
+		AAD3559A2B2278EC00C75778 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		AAD3559C2B22795A00C75778 /* QuadMesh3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QuadMesh3D.cpp; sourceTree = "<group>"; };
+		AAD3559D2B22795A00C75778 /* QuadMesh3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuadMesh3D.h; sourceTree = "<group>"; };
+		AAD3559F2B22798100C75778 /* Quad3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Quad3D.cpp; sourceTree = "<group>"; };
+		AAD355A02B22798100C75778 /* Quad3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quad3D.h; sourceTree = "<group>"; };
 		AAEAC7422B0281A800C4386C /* Othello */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Othello; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAEAC7452B0281A800C4386C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AAEAC74C2B0281F200C4386C /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Board.cpp; sourceTree = "<group>"; };
@@ -106,6 +119,8 @@
 		AAEAC74E2B0281F600C4386C /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AAD355962B2278C100C75778 /* drawingUtilities.cpp */,
+				AAD355932B22788600C75778 /* GraphicObject3D.cpp */,
 				AAAD488E2B1F81CB00B73099 /* AiMind.cpp */,
 				AA7D4A802B06CCD6005436B8 /* Player.cpp */,
 				AA7D4A7D2B06C9D4005436B8 /* GameState.cpp */,
@@ -135,6 +150,13 @@
 				AA7D4A7E2B06C9D4005436B8 /* GameState.hpp */,
 				AA7D4A812B06CCD6005436B8 /* Player.hpp */,
 				AAAD488F2B1F81CB00B73099 /* AiMind.hpp */,
+				AAD355942B22788600C75778 /* GraphicObject3D.h */,
+				AAD355972B2278C100C75778 /* drawingUtilities.h */,
+				AAD3559A2B2278EC00C75778 /* common.h */,
+				AAD3559C2B22795A00C75778 /* QuadMesh3D.cpp */,
+				AAD3559D2B22795A00C75778 /* QuadMesh3D.h */,
+				AAD3559F2B22798100C75778 /* Quad3D.cpp */,
+				AAD355A02B22798100C75778 /* Quad3D.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -207,8 +229,12 @@
 			files = (
 				AAEAC7502B02820F00C4386C /* Tile.cpp in Sources */,
 				AACA75C22B02897700EB7A6A /* AnimatedObject.cpp in Sources */,
+				AAD355A12B22798100C75778 /* Quad3D.cpp in Sources */,
+				AAD355982B2278C100C75778 /* drawingUtilities.cpp in Sources */,
 				AAEAC74D2B0281F200C4386C /* Board.cpp in Sources */,
+				AAD3559E2B22795A00C75778 /* QuadMesh3D.cpp in Sources */,
 				AA6C28F02B0285FD00EC93F7 /* Object.cpp in Sources */,
+				AAD355952B22788600C75778 /* GraphicObject3D.cpp in Sources */,
 				AA7D4A822B06CCD6005436B8 /* Player.cpp in Sources */,
 				AA56D1F02B02A56E006651D1 /* Disc.cpp in Sources */,
 				AAAD48902B1F81CB00B73099 /* AiMind.cpp in Sources */,
