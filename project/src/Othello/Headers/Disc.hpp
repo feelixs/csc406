@@ -10,10 +10,20 @@
 
 #include "GraphicObject.h"
 #include "AnimatedObject.h"
+#include <math.h>
+#include <fstream>
+#include <iostream>
+#include <vector>
+
 
 namespace othello {
     class Disc: public GraphicObject, public AnimatedObject {
         private:
+            
+            static std::vector<unsigned int> faceVertexCounts_;
+            static unsigned int numFaces_;
+            GLfloat*** XYZ_;
+            
             /// Stores the points relative to the disc's center that constitute its circular shape.
             static float** _circlePoints;
         
@@ -29,6 +39,9 @@ namespace othello {
             /// Variables used to time the disc's animation color change after being flipped.
             float switchColorAfter_, curSwitchTimer_;
             RGBColor colorToSwitchTo_;
+        
+            void initFromVectors_(std::vector<std::vector<float>>& vertices, std::vector<std::vector<int>>& faces);
+            void initFromFile_(const char* filepath);
         
         public:
             /// Creates a new Game Piece (Disc).

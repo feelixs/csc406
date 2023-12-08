@@ -17,6 +17,7 @@
 #include "QuadMesh3D.h"
 #include "Cylinder3D.h"
 #include "Board.hpp"
+#include "Disc3D.h"
 
 
 using namespace std;
@@ -306,6 +307,18 @@ void myKeyboardFunc(unsigned char c, int x, int y)
             gTy += 0.1f; // Adjust the value as needed
             break;
 
+        // Tilt the camera up (increase pitch)
+        case 'r':
+        case 'R':
+            gPitch += 5.0f; // Adjust the angle as needed
+            break;
+
+        // Tilt the camera down (decrease pitch)
+        case 'f':
+        case 'F':
+            gPitch -= 5.0f; // Adjust the angle as needed
+            break;
+
         default:
             break;
     }
@@ -352,11 +365,14 @@ void myInit(void)
     //     replaces the gluOrtho2D call.
     setupCamera();
     
-    objList.push_back(make_shared<Quad3D>(1.f, 1.5f, Pose{-1.f, 0.f, 0.f, 15.f, 0.f, -15.f}));
+ //   objList.push_back(make_shared<Quad3D>(1.f, 1.5f, Pose{-1.f, 0.f, 0.f, 15.f, 0.f, -15.f}));
     //objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
     //objList.push_back(make_shared<QuadMesh3D>(1.f, 1.5f, 6, 8, 0.10f, Pose{-0.25f, 0.2f, 0.f, -15.f, 0.f, 15.f}));
     //objList.push_back(make_shared<Cylinder3D>(0.5f, 0.5f, 1.f, 12, 8, true, Pose{0.f, 2.f, -0.5f, 45.f, 45.f, 0.f}));
     
+    
+    
+    objList.push_back(make_shared<Disc3D>("/Users/michaelfelix/Documents/GitHub/csc406/project/piece.obj", 1.0, 1.0, Pose{-1.f, 0.f, 0.f, 15.f, 0.f, -15.f}));
     objList.back()->setMaterial(gray1);
 }
 

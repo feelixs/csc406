@@ -20,6 +20,7 @@
 		AAD3559E2B22795A00C75778 /* QuadMesh3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD3559C2B22795A00C75778 /* QuadMesh3D.cpp */; };
 		AAD355A12B22798100C75778 /* Quad3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD3559F2B22798100C75778 /* Quad3D.cpp */; };
 		AAD355A42B227AD900C75778 /* Cylinder3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD355A22B227AD900C75778 /* Cylinder3D.cpp */; };
+		AAD355C42B22864F00C75778 /* Disc3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAD355C22B22864F00C75778 /* Disc3D.cpp */; };
 		AAEAC7462B0281A800C4386C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEAC7452B0281A800C4386C /* main.cpp */; };
 		AAEAC74D2B0281F200C4386C /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEAC74C2B0281F200C4386C /* Board.cpp */; };
 		AAEAC7502B02820F00C4386C /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAEAC74F2B02820F00C4386C /* Tile.cpp */; };
@@ -67,6 +68,8 @@
 		AAD355A02B22798100C75778 /* Quad3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quad3D.h; sourceTree = "<group>"; };
 		AAD355A22B227AD900C75778 /* Cylinder3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cylinder3D.cpp; sourceTree = "<group>"; };
 		AAD355A32B227AD900C75778 /* Cylinder3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cylinder3D.h; sourceTree = "<group>"; };
+		AAD355C22B22864F00C75778 /* Disc3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Disc3D.cpp; sourceTree = "<group>"; };
+		AAD355C32B22864F00C75778 /* Disc3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Disc3D.h; sourceTree = "<group>"; };
 		AAEAC7422B0281A800C4386C /* Othello */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Othello; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAEAC7452B0281A800C4386C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AAEAC74C2B0281F200C4386C /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Board.cpp; sourceTree = "<group>"; };
@@ -122,6 +125,7 @@
 		AAEAC74E2B0281F600C4386C /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				AAD355C22B22864F00C75778 /* Disc3D.cpp */,
 				AAD355A22B227AD900C75778 /* Cylinder3D.cpp */,
 				AAD3559F2B22798100C75778 /* Quad3D.cpp */,
 				AAD3559C2B22795A00C75778 /* QuadMesh3D.cpp */,
@@ -162,6 +166,7 @@
 				AAD3559D2B22795A00C75778 /* QuadMesh3D.h */,
 				AAD355A02B22798100C75778 /* Quad3D.h */,
 				AAD355A32B227AD900C75778 /* Cylinder3D.h */,
+				AAD355C32B22864F00C75778 /* Disc3D.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -242,6 +247,7 @@
 				AA6C28F02B0285FD00EC93F7 /* Object.cpp in Sources */,
 				AAD355952B22788600C75778 /* GraphicObject3D.cpp in Sources */,
 				AA7D4A822B06CCD6005436B8 /* Player.cpp in Sources */,
+				AAD355C42B22864F00C75778 /* Disc3D.cpp in Sources */,
 				AA56D1F02B02A56E006651D1 /* Disc.cpp in Sources */,
 				AAAD48902B1F81CB00B73099 /* AiMind.cpp in Sources */,
 				AACA75C62B0289B000EB7A6A /* ComplexGraphicObject.cpp in Sources */,
